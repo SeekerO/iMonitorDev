@@ -700,7 +700,7 @@ const Message = ({ beneemail }) => {
                       {file
                         .sort((a, b) => (a.created_at <= b.created_at ? 1 : -1))
                         .map((e) => (
-                          <div className="bg-gray-300 mt-0.5 rounded-md">
+                          <div className="bg-gray-300  mt-0.5 rounded-md">
                             {checker(e.name) === true && (
                               <Image
                                 e={e}

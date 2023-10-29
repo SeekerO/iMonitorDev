@@ -15,14 +15,14 @@ function Image({ e, userInfo, ID, name, receivedmessages }) {
             {mess.name === userInfo.beneName && filename === mess.message && (
               <img
                 onClick={() => url1()}
-                className="w-[220px] h-[200px]"
+                className="w-[240px] h-[200px]"
                 src={`https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${ID}_${userInfo.id}/${userInfo.id}/${filename}`}
               ></img>
             )}
             {mess.name === name && filename === mess.message && (
               <img
                 onClick={() => url2()}
-                className="w-[220px] h-[200px] bg-gray-500"
+                className="w-[240px] h-[200px] bg-gray-500"
                 src={`https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${ID}_${userInfo.id}/${ID}/${filename}`}
               ></img>
             )}
@@ -47,7 +47,7 @@ function Image({ e, userInfo, ID, name, receivedmessages }) {
   }
 
   return (
-    <div className="w-[300px]">
+    <div className="">
       <div>{imageRender(e.name)}</div>
       <ViewImage imgsrc={url} name={e.name} onClose={setView} visible={view} />
     </div>

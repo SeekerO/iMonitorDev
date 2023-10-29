@@ -476,14 +476,18 @@ function Navbar({ instance }) {
                       className="cursor-pointer w-[100%]"
                     >
                       <div className="flex items-center gap-2">
-                        <label className=" text-white font-semibold">
-                          {dataBene &&
-                            `${dataBene.beneName} ${
+                        {dataBene && (
+                          <div className="flex items-center gap-1 opacity-90">
+                            <label className=" text-white">
+                              {dataBene && `${dataBene.beneName} `}
+                            </label>
+                            <label className=" text-white font-light">{`${
                               dataBene.position === "ALUMNI OFFICER"
                                 ? "(OFFICER)"
                                 : "(ADVISER)"
-                            }`}
-                        </label>
+                            }`}</label>
+                          </div>
+                        )}
 
                         {profileheader ? (
                           <img
@@ -517,23 +521,26 @@ function Navbar({ instance }) {
                 </div>
               )}
               {studentchecker && (
-                <div ref={divRef} className="flex">
+                <div ref={divRef} className="flex group">
                   <div
                     onClick={() => toggleDiv()}
                     className="cursor-pointer w-[100%]"
                   >
-                    <div className="flex items-center gap-2">
-                      <label className=" text-white font-semibold">
-                        {dataStud && `${dataStud.studname} (Student)`}
-                      </label>
+                    <div className="flex items-center gap-2 ">
+                      <div className="flex items-center gap-1 opacity-90">
+                        <label className=" text-white ">
+                          {dataStud && `${dataStud.studname} `}
+                        </label>
+                        <label className="font-light text-white">{`(STUDENT)`}</label>
+                      </div>
                       {profileheader ? (
                         <img
-                          className="md:h-10 md:w-10 h-8 w-8 rounded-full text-sm hover:ring-2 hover:ring-white"
+                          className="md:h-10 md:w-10 h-8 w-8 rounded-full text-sm hover:ring-2 hover:ring-white "
                           src={profile}
                         />
                       ) : (
                         <img
-                          className="md:h-10 md:w-10 h-8 w-8 rounded-full text-sm hover:ring-2 hover:ring-white"
+                          className="md:h-10 md:w-10 h-8 w-8 rounded-full text-sm hover:ring-2 hover:ring-white "
                           src={profileheader}
                         />
                       )}
