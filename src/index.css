@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  /* background-image: url("./components/images/bgsti.jpg"); */
+  background-image: url("./components/images/sti_background.jpg");
+  min-height: 100vh;
+  background-size: cover;
+  background-color: lightgoldenrodyellow;
+}
+/* background image for login */
+#welcome {
+  /* background-image: url("./images/omnibus.jpg"); */
+  background-image: url("./components/images/internship-jobs.jpg");
+  min-height: 100vh;
+  background-size: cover;
+  background-color: lightgoldenrodyellow;
+}
+/*search bar */
+
+#sidebar {
+  position: relative;
+}
+
+#searchicon {
+  position: relative;
+}
+
+#absolute {
+  position: absolute;
+}
+
+
