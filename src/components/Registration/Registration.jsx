@@ -376,7 +376,7 @@ function Registration() {
             </div>
             {/* Line 4 */}
             <div className="grid md:flex grid-cols-1 w-[100%]  gap-4 pt-4">
-              <label className="font-semibold text-[19px] w-[5%]">GMAIL</label>
+              <label className="font-semibold text-[19px] w-[5%]">O365</label>
               <input
                 type="text"
                 className="rounded-md p-1 w-[100%]  text-black"

@@ -11,14 +11,14 @@ export default async function Auth(
   setUserName,
   greetings,
   beneInfoGetter,
-  studInfoGetter
+  studInfoGetter,
+  setEmail
 ) {
   const { data: bene } = await supabase.from("BeneAccount").select();
   var check = false;
-
   if (bene) {
     for (let index = 0; index < bene.length; index++) {
-      if (user.email === bene[index].beneEmail) {
+      if (user.username === bene[index].beneEmail) {
         if (bene[index].status === "active") {
           if (
             window.localStorage.getItem("token") === bene[index].accessToken
@@ -27,7 +27,6 @@ export default async function Auth(
             beneChecker(true);
             remove();
             profile(user.picture);
-
             check = true;
             setUserName(bene[index].beneName);
           } else {
@@ -58,7 +57,7 @@ export default async function Auth(
   const { data: stud } = await supabase.from("StudentInformation").select();
   if (stud) {
     for (let index = 0; index < stud.length; index++) {
-      if (user.email === stud[index].studemail) {
+      if (user.username === stud[index].studemail) {
         if (window.localStorage.getItem("token") === stud[index].accessToken) {
           passTokenStud();
           studChecker(true);
@@ -93,13 +92,13 @@ export default async function Auth(
     const { data: update } = await supabase
       .from("BeneAccount")
       .update({ accessToken: token })
-      .eq("beneEmail", user.email)
+      .eq("beneEmail", user.username)
       .select();
 
     const { data: name } = await supabase
       .from("BeneAccount")
       .select()
-      .eq("beneEmail", user.email)
+      .eq("beneEmail", user.username)
       .single();
 
     window.localStorage.setItem("token", token);
@@ -111,13 +110,13 @@ export default async function Auth(
     const { data: update } = await supabase
       .from("StudentInformation")
       .update({ accessToken: token })
-      .eq("studemail", user.email)
+      .eq("studemail", user.username)
       .select();
 
     const { data: name } = await supabase
       .from("StudentInformation")
       .select()
-      .eq("studemail", user.email)
+      .eq("studemail", user.username)
       .single();
 
     window.localStorage.setItem("token", token);

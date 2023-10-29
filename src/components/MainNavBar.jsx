@@ -2,8 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 //Picture
 import stilogo from "./images/STILOGO4.png";
-import stilogo2 from "./images/STIbackground2.jpg";
-import easteregg from "./images/EasterEgg.png";
+import profile from "./images/profile.png";
 import profileDisplay from "./images/profile.png";
 //Components
 import jwt_decode from "jwt-decode";
@@ -23,58 +22,90 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import moment from "moment";
 import { FcGoogle } from "react-icons/fc";
+import { BsMicrosoft } from "react-icons/bs";
+
 import { AiOutlineClose, AiOutlineGoogle } from "react-icons/ai";
 import { useGoogleLogin } from "@react-oauth/google";
 import { Test, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import iMonitorLogo from "../components/images/iMonitor.png";
+// AZURE
+import { useMsal, AuthenticationResult } from "@azure/msal-react";
+import { msalConfig, loginRequest } from "./Testing/authHere";
+// Loading
+import { Backdrop } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
 
-function Navbar() {
+function Navbar({ instance }) {
   // AOS ANIMATION
   useEffect(() => {
     AOS.init();
   }, []);
-
   // Checker
   const [studentchecker, setStudentChecker] = useState(false);
   const [benechecker, setBeneChecker] = useState(false);
-
   //Header
   var [email, setEmail] = useState();
-  const [profileheader, setProfileHeader] = useState();
-
+  const [profileheader, setProfileHeader] = useState(null);
   // Currently Logged In holder
   const [user, setUser] = useState({});
-
   // Login modal design
   const [openLogin, setOpenLogin] = useState(false);
   const handleLogin = () => setOpenLogin(false);
   const [openadmin, setOpenAdmin] = useState(false);
   const handleopenadmin = () => setOpenAdmin(true);
   const handleopenadmin1 = () => setOpenAdmin(false);
-
   // Admin checker
   const [adminusername, setAdminUsername] = useState();
   const [adminpassword, setAdminPassword] = useState();
   const [adminverify, setAdminVerify] = useState(false);
-
   // Nav
   const navigate = useNavigate();
-
   // Change LOGO
   const [apple, setApple] = useState(false);
-
   //open profile
   const [openprofile, setOpenProfile] = useState(false);
-
   // User Name
   const [username, setUserName] = useState();
-
   // Bene Data Holder
   const [dataBene, setDataBene] = useState();
-
   // Stud Data Holder
-  const [dataStud, setDataStud] = useState([]);
+  const [dataStud, setDataStud] = useState();
+  // Loading
+  const [load, setLoad] = useState(false);
+  const [res, setRes] = useState();
+
+  // Create a request object
+
+  async function handleCallbackResponse(response) {
+    const generatedToken = uuidv4();
+    setEmail(response.username);
+    setRes(response);
+    Auth(
+      generatedToken,
+      response,
+      setBeneChecker,
+      setStudentChecker,
+      remove,
+      setProfileHeader,
+      setUserName,
+      greetings,
+      studInfoGetter,
+      beneInfoGetter,
+      setEmail
+    );
+  }
+
+  var loginResponse;
+  const loginAZURE = async () => {
+    try {
+      loginResponse = await instance.loginPopup(loginRequest);
+
+      handleCallbackResponse(loginResponse.account);
+    } catch (error) {
+      console.error("Authentication error", error);
+    }
+  };
 
   useEffect(() => {
     if (window.localStorage.getItem("token")) {
@@ -109,45 +140,6 @@ function Navbar() {
       .subscribe();
   }, [window.localStorage.getItem("token")]);
 
-  const login = useGoogleLogin({
-    onSuccess: async (response) => {
-      try {
-        const data = await axios.get(
-          "https://www.googleapis.com/oauth2/v3/userinfo",
-          {
-            headers: {
-              Authorization: `Bearer ${response.access_token}`,
-            },
-          }
-        );
-
-        handleCallbackResponse(data.data);
-      } catch (error) {}
-    },
-  });
-
-  // Authentication if account is active
-  async function handleCallbackResponse(response) {
-    console.log(response);
-    var userToken = response;
-    setUser(userToken);
-    setEmail(userToken.email);
-    const generatedToken = uuidv4();
-
-    Auth(
-      generatedToken,
-      userToken,
-      setBeneChecker,
-      setStudentChecker,
-      remove,
-      setProfileHeader,
-      setUserName,
-      greetings,
-      studInfoGetter,
-      beneInfoGetter
-    );
-  }
-
   async function greetings(check) {
     if (!check) {
       toast.error("Your account is not registered", {
@@ -177,6 +169,23 @@ function Navbar() {
       theme: "light",
     });
   }
+
+  // const login = useGoogleLogin({
+  //   onSuccess: async (response) => {
+  //     try {
+  //       const data = await axios.get(
+  //         "https://www.googleapis.com/oauth2/v3/userinfo",
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${response.access_token}`,
+  //           },
+  //         }
+  //       );
+
+  //       handleCallbackResponse(data.data);
+  //     } catch (error) {}
+  //   },
+  // });
 
   useEffect(() => {
     supabase.channel("public-db-changes").on(
@@ -209,13 +218,13 @@ function Navbar() {
 
   async function studInfoGetter() {
     try {
-      const { data: beneInfo } = await supabase
+      const { data: studinfo } = await supabase
         .from("StudentInformation")
         .select()
         .eq("accessToken", window.localStorage.getItem("token"))
         .single();
 
-      setDataStud(beneInfo);
+      setDataStud(studinfo);
 
       return;
     } catch (error) {}
@@ -244,7 +253,7 @@ function Navbar() {
             window.localStorage.getItem("token") === stud[index].accessToken
           ) {
             getdataUserStud(stud[index].accessToken);
-
+            studInfoGetter();
             return;
           }
         }
@@ -326,6 +335,7 @@ function Navbar() {
 
       window.localStorage.removeItem("token");
       window.localStorage.removeItem("profile");
+      window.sessionStorage.clear();
       document.getElementById("loginbutton").hidden = false;
       document.getElementById("welcome").hidden = false;
       setUser({});
@@ -339,6 +349,7 @@ function Navbar() {
     } catch (error) {
       window.localStorage.removeItem("token");
       window.localStorage.removeItem("profile");
+      window.sessionStorage.clear();
       document.getElementById("loginbutton").hidden = false;
       document.getElementById("welcome").hidden = false;
       setUser({});
@@ -464,10 +475,29 @@ function Navbar() {
                       onClick={() => toggleDiv()}
                       className="cursor-pointer w-[100%]"
                     >
-                      <img
-                        className="md:h-10 md:w-10 h-8 w-8 rounded-full text-sm hover:ring-2 hover:ring-white"
-                        src={profileheader}
-                      />
+                      <div className="flex items-center gap-2">
+                        <label className=" text-white font-semibold">
+                          {dataBene &&
+                            `${dataBene.beneName} ${
+                              dataBene.position === "ALUMNI OFFICER"
+                                ? "(OFFICER)"
+                                : "(ADVISER)"
+                            }`}
+                        </label>
+
+                        {profileheader ? (
+                          <img
+                            className="md:h-10 md:w-10 h-8 w-8 rounded-full text-sm hover:ring-2 hover:ring-white"
+                            src={profile}
+                          />
+                        ) : (
+                          <img
+                            className="md:h-10 md:w-10 h-8 w-8 rounded-full text-sm hover:ring-2 hover:ring-white"
+                            src={profileheader}
+                          />
+                        )}
+                      </div>
+
                       <div
                         className={`${
                           openprofile
@@ -492,10 +522,23 @@ function Navbar() {
                     onClick={() => toggleDiv()}
                     className="cursor-pointer w-[100%]"
                   >
-                    <img
-                      className="md:h-10 md:w-10 h-8 w-8 rounded-full text-sm hover:ring-2 hover:ring-white"
-                      src={profileheader}
-                    />
+                    <div className="flex items-center gap-2">
+                      <label className=" text-white font-semibold">
+                        {dataStud && `${dataStud.studname} (Student)`}
+                      </label>
+                      {profileheader ? (
+                        <img
+                          className="md:h-10 md:w-10 h-8 w-8 rounded-full text-sm hover:ring-2 hover:ring-white"
+                          src={profile}
+                        />
+                      ) : (
+                        <img
+                          className="md:h-10 md:w-10 h-8 w-8 rounded-full text-sm hover:ring-2 hover:ring-white"
+                          src={profileheader}
+                        />
+                      )}
+                    </div>
+
                     <div
                       className={`${
                         openprofile
@@ -580,11 +623,11 @@ function Navbar() {
               >
                 <div>
                   <button
-                    onClick={() => login()}
+                    onClick={loginAZURE}
                     className={`flex bg-[#274472] p-2 rounded-md text-white font-sans font-semibold hover:bg-opacity-60 hover:text-slate-300`}
                   >
-                    <FcGoogle className="text-[25px] mr-1" />
-                    SIGN IN USING GOOGLE
+                    <BsMicrosoft className="text-[25px] mr-1" />
+                    LOGIN WITH OFFICE 365
                   </button>
                 </div>
               </div>
@@ -641,6 +684,14 @@ function Navbar() {
           </div>
         </div>
         <div>
+          {load && (
+            <Backdrop
+              sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+              open
+            >
+              <CircularProgress color="inherit" />
+            </Backdrop>
+          )}
           {benechecker && (
             <div className="relative left-0">
               <BeneNavbar email={email} Data={dataBene} />

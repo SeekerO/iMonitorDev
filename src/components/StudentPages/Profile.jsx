@@ -88,57 +88,56 @@ const Profile = ({ studemail }) => {
               </div>
             </div>
             <div className="h-[85%]  overflow-y-auto">
-               <div className="grid md:grid-cols-2 grid-cols-1 gap-x-10 mb-3 p-2">
-              <label className=" mt-4 md:text-lg text-base font-semibold">
-                FULLNAME: {studfullname}
+              <div className="grid md:grid-cols-2 grid-cols-1 gap-x-10 mb-3 p-2">
+                <label className=" mt-4 md:text-lg text-base font-semibold">
+                  FULLNAME: {studfullname}
+                </label>
+                <label className=" mt-4 md:text-lg text-base font-semibold">
+                  PROGRAM: {studprogram}
+                </label>
+                <label className=" mt-4 md:text-lg text-base font-semibold">
+                  O365: {studemail}
+                </label>
+                <label className=" mt-4 md:text-lg text-base font-semibold">
+                  SECTION: {studsection}
+                </label>
+                <label className=" mt-4 md:text-lg text-base font-semibold">
+                  OJT START: {ojtstart}
+                </label>
+                <label className=" mt-4 md:text-lg text-base font-semibold">
+                  OJT END: {ojtend}
+                </label>
+              </div>
+              <label className=" pt-6 md:text-lg text-base font-semibold p-2">
+                REMARKS: <p className="text-base p-2">{studremarks}</p>
               </label>
-              <label className=" mt-4 md:text-lg text-base font-semibold">
-                PROGRAM: {studprogram}
-              </label>
-              <label className=" mt-4 md:text-lg text-base font-semibold">
-                EMAIL: {studemail}
-              </label>
-              <label className=" mt-4 md:text-lg text-base font-semibold">
-                SECTION: {studsection}
-              </label>
-              <label className=" mt-4 md:text-lg text-base font-semibold">
-                OJT START: {ojtstart}
-              </label>
-              <label className=" mt-4 md:text-lg text-base font-semibold">
-                OJT END: {ojtend}
-              </label>
+              <p className="font-bold md:text-xl text-lg mt-7 p-2">
+                COMPANY INFROMATION
+              </p>
+              <div className="grid md:grid-cols-2 grid-cols-1 gap-x-5 p-2">
+                <label className=" mt-4 md:text-lg text-base font-semibold">
+                  COMPANY NAME: {companyname}
+                </label>
+                <label className=" mt-4 md:text-lg text-base font-semibold">
+                  COMPANY ADDRESS: {companyaddress}
+                </label>
+                <label className=" mt-4 md:text-lg text-base font-semibold">
+                  SUPERVISOR NAME: {supervisorname}
+                </label>
+                <label className=" mt-4 md:text-lg text-base font-semibold">
+                  SUPERVISOR CONTACT #: {supervisorcontactnumber}
+                </label>
+                <label className=" mt-4 md:text-lg text-base font-semibold">
+                  SUPERVISOR OFFICER #: {supervisorofficenumber}
+                </label>
+                <label className=" mt-4 md:text-lg text-base font-semibold">
+                  COMPANY DESIGNATION: {designation}
+                </label>
+                <label className=" mt-4 md:text-lg text-base font-semibold">
+                  COMPANY EMAIL: {companyemail}
+                </label>
+              </div>
             </div>
-            <label className=" pt-6 md:text-lg text-base font-semibold p-2">
-              REMARKS: <p className="text-base p-2">{studremarks}</p>
-            </label>
-            <p className="font-bold md:text-xl text-lg mt-7 p-2">
-              COMPANY INFROMATION
-            </p>
-            <div className="grid md:grid-cols-2 grid-cols-1 gap-x-5 p-2">
-              <label className=" mt-4 md:text-lg text-base font-semibold">
-                COMPANY NAME: {companyname}
-              </label>
-              <label className=" mt-4 md:text-lg text-base font-semibold">
-                COMPANY ADDRESS: {companyaddress}
-              </label>
-              <label className=" mt-4 md:text-lg text-base font-semibold">
-                SUPERVISOR NAME: {supervisorname}
-              </label>
-              <label className=" mt-4 md:text-lg text-base font-semibold">
-                SUPERVISOR CONTACT #: {supervisorcontactnumber}
-              </label>
-              <label className=" mt-4 md:text-lg text-base font-semibold">
-                SUPERVISOR OFFICER #: {supervisorofficenumber}
-              </label>
-              <label className=" mt-4 md:text-lg text-base font-semibold">
-                COMPANY DESIGNATION: {designation}
-              </label>
-              <label className=" mt-4 md:text-lg text-base font-semibold">
-                COMPANY EMAIL: {companyemail}
-              </label>
-            </div>
-            </div>
-           
           </div>
         </div>
       </div>

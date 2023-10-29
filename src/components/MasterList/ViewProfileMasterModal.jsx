@@ -72,7 +72,7 @@ export default function ViewProfileMasterModal({
                   PROGRAM: {studinfos.studprogram}
                 </label>
                 <label className=" mt-4 md:text-lg text-base font-semibold">
-                  EMAIL: {studinfos.studemail}
+                  O365: {studinfos.studemail}
                 </label>
                 <label className=" mt-4 md:text-lg text-base font-semibold">
                   SECTION: {studinfos.studsection}
