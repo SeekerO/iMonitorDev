@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/iMonitorDev/static/css/main.fafcf758.css",
-    "main.js": "/iMonitorDev/static/js/main.31a3b954.js",
+    "main.css": "/iMonitorDev/static/css/main.5a035549.css",
+    "main.js": "/iMonitorDev/static/js/main.f5cbae11.js",
+    "static/js/839.b0c9ef90.chunk.js": "/iMonitorDev/static/js/839.b0c9ef90.chunk.js",
     "static/media/iMonitor.png": "/iMonitorDev/static/media/iMonitor.72b0bbe1dd123be29a7a.png",
-    "static/media/STIbackground2.jpg": "/iMonitorDev/static/media/STIbackground2.90596e548ea93a54d0c3.jpg",
     "static/media/internship-jobs.jpg": "/iMonitorDev/static/media/internship-jobs.ff283c47a55387cece2b.jpg",
     "static/media/sti_background.jpg": "/iMonitorDev/static/media/sti_background.2bf86f0960bb0c84812f.jpg",
-    "static/media/EasterEgg.png": "/iMonitorDev/static/media/EasterEgg.7ed85d72077f9d8d6f95.png",
     "static/media/profile.png": "/iMonitorDev/static/media/profile.7a6a6c54279a54d1977c.png",
     "static/media/STILOGO4.png": "/iMonitorDev/static/media/STILOGO4.45a8f8159ed63917a766.png",
     "index.html": "/iMonitorDev/index.html",
-    "main.fafcf758.css.map": "/iMonitorDev/static/css/main.fafcf758.css.map",
-    "main.31a3b954.js.map": "/iMonitorDev/static/js/main.31a3b954.js.map"
+    "main.5a035549.css.map": "/iMonitorDev/static/css/main.5a035549.css.map",
+    "main.f5cbae11.js.map": "/iMonitorDev/static/js/main.f5cbae11.js.map",
+    "839.b0c9ef90.chunk.js.map": "/iMonitorDev/static/js/839.b0c9ef90.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.fafcf758.css",
-    "static/js/main.31a3b954.js"
+    "static/css/main.5a035549.css",
+    "static/js/main.f5cbae11.js"
   ]
 }
