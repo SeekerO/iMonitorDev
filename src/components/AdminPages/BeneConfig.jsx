@@ -31,7 +31,7 @@ function BeneConfig({ data }) {
         {data.status.toUpperCase()}{" "}
       </div>
       <p> {data.beneName} </p>
-      <p> {data.beneEmail} </p>
+      <p className="truncate w-[220px] "> {data.beneEmail} </p>
       <p>{data.filterby}</p>
       <p>{data.position.toLowerCase()}</p>
       <a
