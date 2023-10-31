@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Component } from "react";
 import moment from "moment";
 import supabase from "../iMonitorDBconfig";
 import { ToastContainer, toast } from "react-toastify";
 import { BeatLoader } from "react-spinners";
+
 const AttendanceSelectImageModal = ({
   visible,
   attendanceinfo,
@@ -10,8 +11,6 @@ const AttendanceSelectImageModal = ({
   uuid,
 }) => {
   const [file, setFile] = useState([]);
-  const [id, setID] = useState(attendanceinfo.id);
-  const [performerror, setPerformError] = useState("");
   const [uploading, setUploading] = useState(false);
 
   let IN;
@@ -29,10 +28,7 @@ const AttendanceSelectImageModal = ({
       } else {
         setIsEmpty(false);
       }
-    } catch (error) {
-      
-    }
-
+    } catch (error) {}
   };
 
   const Run = async () => {
@@ -50,7 +46,7 @@ const AttendanceSelectImageModal = ({
     } else {
       setUploading(true);
       document.getElementById("xButton").hidden = true;
-      
+
       const { data } = await supabase.storage
         .from("StudentUploadedImages")
         .upload(attendanceinfo.studemail + "/" + uuid, file);

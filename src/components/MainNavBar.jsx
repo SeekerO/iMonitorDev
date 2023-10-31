@@ -88,7 +88,6 @@ function Navbar({ instance }) {
       setBeneChecker,
       setStudentChecker,
       remove,
-      setProfileHeader,
       setUserName,
       greetings,
       studInfoGetter,
@@ -103,12 +102,35 @@ function Navbar({ instance }) {
       loginResponse = await instance.loginPopup(loginRequest);
 
       handleCallbackResponse(loginResponse.account);
+      getUserProfile(loginResponse);
     } catch (error) {
       console.error("Authentication error", error);
     }
   };
 
+  const getUserProfile = async (a) => {
+    try {
+      const accessToken = a.accessToken;
+
+      const response = await axios.get(
+        "https://graph.microsoft.com/v1.0/me/photo/$value",
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+          responseType: "blob",
+        }
+      );
+      const profileHolder = URL.createObjectURL(response.data);
+      window.localStorage.setItem("profile", profileHolder);
+      setProfileHeader(window.localStorage.getItem("profile"));
+    } catch (error) {
+      console.error("Error fetching user avatar:", error);
+    }
+  };
+
   useEffect(() => {
+    setProfileHeader(window.localStorage.getItem("profile"));
     if (window.localStorage.getItem("token")) {
       checkToken();
       return;
@@ -412,8 +434,6 @@ function Navbar({ instance }) {
     setOpenProfile(!openprofile);
   };
 
-
-
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
 
@@ -492,7 +512,7 @@ function Navbar({ instance }) {
                           </div>
                         )}
 
-                        {profileheader ? (
+                        {!profileheader ? (
                           <img
                             className="md:h-10 md:w-10 h-8 w-8 rounded-full text-sm hover:ring-2 hover:ring-white"
                             src={profile}
@@ -500,7 +520,7 @@ function Navbar({ instance }) {
                         ) : (
                           <img
                             className="md:h-10 md:w-10 h-8 w-8 rounded-full text-sm hover:ring-2 hover:ring-white"
-                            src={profileheader}
+                            src={window.localStorage.getItem("profile")}
                           />
                         )}
                       </div>
@@ -536,17 +556,21 @@ function Navbar({ instance }) {
                         </label>
                         <label className="font-light text-white  md:flex hidden">{`(STUDENT)`}</label>
                       </div>
-                      {profileheader ? (
+                      {profileheader && (
+                        <img
+                          src={window.localStorage.getItem("profile")}
+                          className="md:h-10 md:w-10 h-8 w-8 rounded-full text-sm hover:ring-2 hover:ring-white "
+                          alt="User Avatar"
+                        />
+                      )}
+                      {/* {profileheader ? (
                         <img
                           className="md:h-10 md:w-10 h-8 w-8 rounded-full text-sm hover:ring-2 hover:ring-white "
                           src={profile}
                         />
                       ) : (
-                        <img
-                          className="md:h-10 md:w-10 h-8 w-8 rounded-full text-sm hover:ring-2 hover:ring-white "
-                          src={profileheader}
-                        />
-                      )}
+                  
+                      )} */}
                     </div>
 
                     <div

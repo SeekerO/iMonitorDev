@@ -7,7 +7,6 @@ export default async function Auth(
   beneChecker,
   studChecker,
   remove,
-  profile,
   setUserName,
   greetings,
   beneInfoGetter,
@@ -26,14 +25,13 @@ export default async function Auth(
             passTokenBene();
             beneChecker(true);
             remove();
-            profile(user.picture);
+
             check = true;
             setUserName(bene[index].beneName);
           } else {
             passTokenBene();
             beneChecker(true);
             remove();
-            profile(user.picture);
 
             check = true;
             setUserName(bene[index].beneName);
@@ -62,7 +60,6 @@ export default async function Auth(
           passTokenStud();
           studChecker(true);
           remove();
-          profile(user.picture);
 
           check = true;
           setUserName(stud[index].studname);
@@ -102,8 +99,6 @@ export default async function Auth(
       .single();
 
     window.localStorage.setItem("token", token);
-    window.localStorage.setItem("profile", user.picture);
-    profile(window.localStorage.getItem("profile"));
   }
 
   async function passTokenStud() {
@@ -120,8 +115,6 @@ export default async function Auth(
       .single();
 
     window.localStorage.setItem("token", token);
-    window.localStorage.setItem("profile", user.picture);
-    profile(window.localStorage.getItem("profile"));
   }
 
   if (check === true) {
