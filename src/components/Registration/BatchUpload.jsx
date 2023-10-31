@@ -20,11 +20,9 @@ function BatchUpload({ visible, close, sy }) {
   const [succes, setSucces] = useState(false);
 
   const [openNote, setOpenNote] = useState(false);
-  const [isPrevFile, setIsPrevFile] = useState();
 
   const readExcel = async (e) => {
     setSelectedFile(e.target.files[0]);
-    
   };
 
   const handleUpload = () => {
@@ -39,7 +37,7 @@ function BatchUpload({ visible, close, sy }) {
 
         // Now you have the Excel data in `jsonData`.
         setDataHolder(jsonData);
-        setDisplayData(!displayData);
+        setDisplayData(true);
         setButtonUpload(true);
       };
       reader.readAsArrayBuffer(selectedFile);
@@ -206,6 +204,11 @@ function BatchUpload({ visible, close, sy }) {
       seconds
     );
   }
+  function OpenDisplay() {
+    if (displayData) {
+      setDisplayData(false);
+    }
+  }
 
   if (!visible) return null;
   return (
@@ -254,6 +257,7 @@ function BatchUpload({ visible, close, sy }) {
                   Upload Excel File Here:
                 </label>
                 <input
+                  onClick={() => OpenDisplay()}
                   onChange={readExcel}
                   type="file"
                   accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
@@ -289,16 +293,19 @@ function BatchUpload({ visible, close, sy }) {
                   </div>
                 )}
               </div>
-              <button
-                onClick={() => handleUpload()}
-                className="bg-[#274472] text-white hover:bg-opacity-[80%]  h-fit p-2 mt-2 rounded-sm "
-              >
-                Check File
-              </button>
+              {!displayData && (
+                <button
+                  onClick={() => handleUpload()}
+                  className="bg-[#274472] text-white hover:bg-opacity-[80%]  h-fit p-2 mt-2 rounded-sm "
+                >
+                  Check File
+                </button>
+              )}
+
               {displayData && (
                 <button
                   onClick={() => UploadDataExcel()}
-                  className="bg-[#274472] text-white hover:bg-opacity-[80%]  h-fit p-2 mt-1 rounded-sm"
+                  className="bg-[#274472] text-white hover:bg-green-600  h-fit p-2 mt-1 rounded-sm"
                 >
                   Register
                 </button>
