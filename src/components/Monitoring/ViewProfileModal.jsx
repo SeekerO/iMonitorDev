@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import supabase from "../iMonitorDBconfig";
-
-import { AiOutlineClose } from "react-icons/ai";
 import StudentUploadedImage from "./StudentUploadedImage";
+import { AiOutlineClose } from "react-icons/ai";
+import { BsPencilSquare } from "react-icons/bs";
 
 import { ToastContainer, toast } from "react-toastify";
 
@@ -92,10 +92,10 @@ export default function ViewProfileModal({
                 className={`${
                   beneData.filterby !== "ALL"
                     ? "hidden"
-                    : " mb-7 pt-[0.5%] text-center text-blue-100 hover:underline hover:text-red-500 font-semibold pl-2"
+                    : " mb-7 pt-[0.5%] text-center w-fit  text-blue-100 hover:underline hover:text-red-500 font-semibold pl-2 flex items-center gap-1 "
                 }`}
               >
-                EDIT
+                <BsPencilSquare /> EDIT
               </Link>
               <div className="grid md:grid-cols-2 grid-cols-1 gap-x-10  mb-3 pl-2 text-white">
                 <label className=" mt-4 md:text-lg text-base font-semibold ">

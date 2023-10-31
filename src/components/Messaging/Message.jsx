@@ -563,7 +563,6 @@ const Message = ({ beneemail }) => {
                             X
                           </a>
                           <label className="flex items-center">
-                            {" "}
                             {filename}
                           </label>
                           <button

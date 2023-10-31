@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as XLSX from "xlsx";
 import DataExcelConfig from "./DataExcelConfig";
 import supabase from "../iMonitorDBconfig";
@@ -20,12 +20,13 @@ function BatchUpload({ visible, close, sy }) {
   const [succes, setSucces] = useState(false);
 
   const [openNote, setOpenNote] = useState(false);
+  const [isPrevFile, setIsPrevFile] = useState();
+
   const readExcel = async (e) => {
     setSelectedFile(e.target.files[0]);
+    
   };
-  var a = "   Space   Space  ";
-  console.log(a.trim());
-  console.log(a);
+
   const handleUpload = () => {
     if (selectedFile) {
       const reader = new FileReader();
@@ -237,7 +238,7 @@ function BatchUpload({ visible, close, sy }) {
             )}
           </div>
         ) : (
-          <div className="bg-[#84b7e7] h-[650px] w-[800px] rounded-md text-black flex-col flex place-content-center">
+          <div className="bg-slate-200 h-[650px] w-[800px] rounded-md text-black flex-col flex place-content-center">
             <div className="flex justify-end ">
               <button
                 onClick={() => closemodal()}
@@ -251,7 +252,7 @@ function BatchUpload({ visible, close, sy }) {
               <div className="flex gap-2 mt-2 items-center">
                 <label className="font-bold text-[18px]">
                   Upload Excel File Here:
-                </label>{" "}
+                </label>
                 <input
                   onChange={readExcel}
                   type="file"
@@ -277,10 +278,9 @@ function BatchUpload({ visible, close, sy }) {
                     >
                       Get Template
                     </a>
-                    ){" "}
+                    )
                   </div>
                 )}
-                {console.log(dataHolder)}
                 {displayData && (
                   <div className="h-[420px] overflow-y-auto md:text-base text-sm">
                     {dataHolder.map((data, index) => (
@@ -291,14 +291,14 @@ function BatchUpload({ visible, close, sy }) {
               </div>
               <button
                 onClick={() => handleUpload()}
-                className="bg-[#274472] text-white hover:bg-opacity-[80%]  h-fit p-2 mt-2 "
+                className="bg-[#274472] text-white hover:bg-opacity-[80%]  h-fit p-2 mt-2 rounded-sm "
               >
                 Check File
               </button>
               {displayData && (
                 <button
                   onClick={() => UploadDataExcel()}
-                  className="bg-[#274472] text-white hover:bg-opacity-[80%]  h-fit p-2 "
+                  className="bg-[#274472] text-white hover:bg-opacity-[80%]  h-fit p-2 mt-1 rounded-sm"
                 >
                   Register
                 </button>

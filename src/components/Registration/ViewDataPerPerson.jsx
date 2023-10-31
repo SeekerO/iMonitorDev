@@ -1,7 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 
 function ViewDataPerPerson({ open, close, data }) {
+  const ExcelDateToJSDate = (serial) => {
+    var utc_days = Math.floor(serial - 25569);
+    var utc_value = utc_days * 86400;
+    var date_info = new Date(utc_value * 1000);
+
+    var fractional_day = serial - Math.floor(serial) + 0.0000001;
+
+    var total_seconds = Math.floor(86400 * fractional_day);
+
+    var seconds = total_seconds % 60;
+
+    total_seconds -= seconds;
+
+    var hours = Math.floor(total_seconds / (60 * 60));
+    var minutes = Math.floor(total_seconds / 60) % 60;
+    console.log(
+      date_info.getFullYear(),
+      date_info.getMonth(),
+      date_info.getDate()
+    );
+    return (
+      <label>{`${
+        date_info.getDate() +
+        "/" +
+        date_info.getMonth() +
+        "/" +
+        date_info.getFullYear()
+      }`}</label>
+    );
+  };
+
   if (!open) return null;
   return (
     <div className="fixed inset-0 flex justify-center items-center ">
@@ -36,11 +67,11 @@ function ViewDataPerPerson({ open, close, data }) {
               </div>
               <div>
                 <label className="font-semibold text-lg">OJT START: </label>
-                <label>{data.ojtStarting}</label>
+                <label>{ExcelDateToJSDate(data.ojtStarting)}</label>
               </div>
               <div>
                 <label className="font-semibold text-lg">OJT END: </label>
-                <label>{data.ojtEnd}</label>
+                <label>{ExcelDateToJSDate(data.ojtEnd)}</label>
               </div>
               <div>
                 <label className="font-semibold text-lg">Gmail: </label>

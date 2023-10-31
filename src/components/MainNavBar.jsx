@@ -409,7 +409,7 @@ function Navbar({ instance }) {
   };
 
   const toggleDiv = () => {
-    setOpenProfile(true);
+    setOpenProfile(!openprofile);
   };
 
 
@@ -431,7 +431,7 @@ function Navbar({ instance }) {
     <>
       <div className="flex flex-col absolute">
         {/* Navbar */}
-        <header className="inset-auto w-screen top-0 bg-black h-[60px]">
+        <header className="inset-auto w-screen top-0 bg-black h-[60px] flex items-center">
           <div className=" flex justify-between items-center bg-[#274472] w-[100%] h-[60px] p-4">
             {/* Logo */}
             <div className="flex ">
@@ -453,7 +453,7 @@ function Navbar({ instance }) {
                 </div>
               )}
 
-              <h1 className="ml-2 font-bold text-white text-3xl flex cursor-default">
+              <h1 className="ml-2 font-bold text-white md:text-3xl flex cursor-default text-2xl items-center">
                 <p onClick={() => handlechange()} className="hover:cursor-help">
                   i
                 </p>
@@ -473,18 +473,18 @@ function Navbar({ instance }) {
               {/* Circle Profile */}
               {benechecker && (
                 <div>
-                  <div ref={divRef} className="flex">
+                  <div ref={divRef} className="flex items-center">
                     <div
                       onClick={() => toggleDiv()}
-                      className="cursor-pointer w-[100%]"
+                      className="cursor-pointer w-[100%] flex-col items-center"
                     >
                       <div className="flex items-center gap-2">
                         {dataBene && (
-                          <div className="flex items-center gap-1 opacity-90">
+                          <div className="flex items-center gap-1 opacity-90 md:text-base text-[11px]">
                             <label className=" text-white">
                               {dataBene && `${dataBene.beneName} `}
                             </label>
-                            <label className=" text-white font-light">{`${
+                            <label className=" text-white font-light md:flex hidden">{`${
                               dataBene.position === "ALUMNI OFFICER"
                                 ? "(OFFICER)"
                                 : "(ADVISER)"
@@ -531,10 +531,10 @@ function Navbar({ instance }) {
                   >
                     <div className="flex items-center gap-2 ">
                       <div className="flex items-center gap-1 opacity-90">
-                        <label className=" text-white ">
+                        <label className=" text-white md:text-base  text-[11px]">
                           {dataStud && `${dataStud.studname} `}
                         </label>
-                        <label className="font-light text-white">{`(STUDENT)`}</label>
+                        <label className="font-light text-white  md:flex hidden">{`(STUDENT)`}</label>
                       </div>
                       {profileheader ? (
                         <img
