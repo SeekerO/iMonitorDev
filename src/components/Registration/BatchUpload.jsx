@@ -23,7 +23,9 @@ function BatchUpload({ visible, close, sy }) {
   const readExcel = async (e) => {
     setSelectedFile(e.target.files[0]);
   };
-
+  var a = "   Space   Space  ";
+  console.log(a.trim());
+  console.log(a);
   const handleUpload = () => {
     if (selectedFile) {
       const reader = new FileReader();

@@ -178,46 +178,35 @@ const Message = ({ beneemail }) => {
     }
   }
 
-  // Check if textbox is not empty
-  function handlemessage(e) {
-    if (e.target.value.length >= 0) {
-      setMessage(e.target.value);
-      setHaveMessage(false);
-    }
-    if (e.target.value.length <= 1) {
-      setHaveMessage(true);
-    }
-  }
-
   // Allows user to press enter when sending
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
-      if (message.split("\n")[message.split("\n").length - 1].length > 0) {
-        handlesendmessage();
-      }
+      handlesendmessage();
     }
   };
 
   // Sending Message
   async function handlesendmessage() {
-    const { data, error } = await supabase.from("Messaging").insert([
-      {
-        name: beneName,
-        message: message,
-        contactwith: getstudname,
+    if (message.trim() !== "") {
+      const { data, error } = await supabase.from("Messaging").insert([
+        {
+          name: beneName,
+          message: message.trim(),
+          contactwith: getstudname,
 
-        userID: beneinfo.id,
-      },
-    ]);
+          userID: beneinfo.id,
+        },
+      ]);
 
-    const { data: modif } = await supabase
-      .from("BeneAccount")
-      .update({ last_Modif: moment().format("MMMM Do YYYY, h:mm:ss a") })
-      .eq("beneName", beneName);
+      const { data: modif } = await supabase
+        .from("BeneAccount")
+        .update({ last_Modif: moment().format("MMMM Do YYYY, h:mm:ss a") })
+        .eq("beneName", beneName);
 
-    setSeen(false);
-    setMessage("");
-    setHaveMessage(true);
+      setSeen(false);
+      setMessage("");
+      setHaveMessage(true);
+    }
   }
 
   // Update to all messages to read of this current user
@@ -595,7 +584,7 @@ const Message = ({ beneemail }) => {
                       <textarea
                         onKeyDown={handleKeyDown}
                         value={message}
-                        onChange={handlemessage}
+                        onChange={(e) => setMessage(e.target.value)}
                         onClick={() => readmess()}
                         rows="3"
                         className="mt-2 ml-1 p-1 w-[100%]  h-[20%] text-sm text-gray-900  rounded-md resize-none"
@@ -613,12 +602,13 @@ const Message = ({ beneemail }) => {
                       ) : (
                         <button
                           onClick={() => handlesendmessage()}
-                          disabled={havemessage}
-                          className={`${
-                            havemessage
-                              ? " bg-[#60A3D9] group  h-[50px] w-[55px] rounded-full flex items-center justify-center ml-[10px] mr-[10px] mt-[8px] hover:ring-1 hover:ring-white"
-                              : "bg-[#60A3D9] group  h-[50px] w-[55px] rounded-full flex items-center justify-center ml-[10px] mr-[10px] mt-[8px] hover:ring-1 hover:ring-white"
-                          }`}
+                          // disabled={havemessage}
+                          className=" bg-[#60A3D9] group  h-[50px] w-[55px] rounded-full flex items-center justify-center ml-[10px] mr-[10px] mt-[8px] hover:ring-1 hover:ring-white"
+                          // className={`${
+                          //   havemessage
+                          //     ? " bg-[#60A3D9] group  h-[50px] w-[55px] rounded-full flex items-center justify-center ml-[10px] mr-[10px] mt-[8px] hover:ring-1 hover:ring-white"
+                          //     : "bg-[#60A3D9] group  h-[50px] w-[55px] rounded-full flex items-center justify-center ml-[10px] mr-[10px] mt-[8px] hover:ring-1 hover:ring-white"
+                          // }`}
                         >
                           <IoSend
                             className={`${
@@ -688,7 +678,12 @@ const Message = ({ beneemail }) => {
                       {file.map((e) => (
                         <div>
                           {checker(e.name) === false && (
-                            <DownloadFIle e={e} userInfo={beneinfo} ID={getID} receivedmessages={receivedmessages} />
+                            <DownloadFIle
+                              e={e}
+                              userInfo={beneinfo}
+                              ID={getID}
+                              receivedmessages={receivedmessages}
+                            />
                           )}
                         </div>
                       ))}

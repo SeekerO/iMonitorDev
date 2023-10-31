@@ -401,15 +401,17 @@ function Navbar({ instance }) {
 
   const divRef = useRef(null);
 
-  const toggleDiv = () => {
-    setOpenProfile(true);
-  };
-
   const handleClickOutside = (event) => {
     if (divRef.current && !divRef.current.contains(event.target)) {
       setOpenProfile(false);
     }
   };
+
+  const toggleDiv = () => {
+    setOpenProfile(true);
+  };
+
+
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
