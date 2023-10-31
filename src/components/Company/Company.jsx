@@ -124,7 +124,7 @@ const Company = ({ Data }) => {
 
                 {analytics.length <= 2 && (
                   <label className="text-black font-bold mt-10 text-[20px] -ml-14">
-                    The Analytics will be shown when there is 3 or more
+                    The analytics will show when there are three or more
                     companies registered.
                   </label>
                 )}
