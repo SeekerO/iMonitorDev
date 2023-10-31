@@ -73,7 +73,7 @@ function ActivityLog() {
                       }
                     } catch (error) {}
                   })
-                  .slice(filter ? "" : pageVisited, pageVisited + userPerPage )
+                  .slice(filter ? "" : pageVisited, pageVisited + userPerPage)
                   .map((log) => (
                     <div
                       key={log.id}
@@ -106,11 +106,11 @@ function ActivityLog() {
                   nextLabel={"Next"}
                   pageCount={pageCount}
                   onPageChange={changePage}
-                  containerClassName="flex gap-2 justify-center flex items-center"
-                  previousLinkClassName="bg-[#5885AF] p-1 rounded-md flex items-center"
-                  nextLinkClassName="bg-[#5885AF] p-1 rounded-md flex items-center"
-                  disabledLinkClassName="bg-[#5885AF] p-1 rounded-md"
-                  activeLinkClassName="bg-[#5885AF] p-1 rounded-md"
+                  containerClassName="flex gap-2 justify-center flex items-center text-white cursor-default"
+                  previousLinkClassName="bg-[#274472] p-1 rounded-md flex items-center"
+                  nextLinkClassName="bg-[#274472] p-1 rounded-md flex items-center"
+                  disabledLinkClassName=" bg-[#274472] p-1 rounded-md"
+                  activeLinkClassName=" bg-[#274472] p-1 rounded-md"
                 />
               </div>
             </>

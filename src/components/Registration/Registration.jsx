@@ -263,7 +263,6 @@ function Registration() {
   const [region, setregion] = useState();
   const [country, setcountry] = useState();
 
-
   return (
     <>
       <div className="overflow-hidden md:pt-[2%] pt-[5%]">
@@ -302,6 +301,7 @@ function Registration() {
               </label>
               <div className=" md:flex flex-grow grid gap-y-5 gap-2 w-fill">
                 <input
+                  required
                   type="text"
                   className="rounded-md p-1 w-[100%]  text-black"
                   placeholder="First Name"
@@ -310,6 +310,7 @@ function Registration() {
                   onChange={(e) => setStudFName(e.target.value)}
                 ></input>
                 <input
+                  required
                   type="text"
                   className="rounded-md p-1 md:w-[10%] w-[100%]  text-black"
                   placeholder="M.I"
@@ -318,6 +319,7 @@ function Registration() {
                   onChange={(e) => setStudMName(e.target.value)}
                 ></input>
                 <input
+                  required
                   type="text"
                   className="rounded-md p-1 w-[100%] text-black"
                   placeholder="Last Name"
@@ -333,6 +335,7 @@ function Registration() {
 
               <div className="w-[100%]">
                 <select
+                  required
                   value={studprogram}
                   className="w-full text-black rounded-md pl-2 text-justify p-1"
                   onChange={(e) => setStudProgram(e.target.value)}
@@ -346,6 +349,7 @@ function Registration() {
               </div>
               <label className="font-semibold text-[19px]">SECTION</label>
               <input
+                required
                 value={studsection}
                 onChange={(e) => setStudSection(e.target.value)}
                 type="text"
@@ -359,6 +363,7 @@ function Registration() {
                 OJT STARTING
               </label>
               <input
+                required
                 value={ojtstart}
                 type="date"
                 className="rounded-md md:w-[100%] min-w-[395px] h-[32px] text-black pl-2"
@@ -368,6 +373,7 @@ function Registration() {
                 OJT END
               </label>
               <input
+                required
                 value={ojtend}
                 type="date"
                 className="rounded-md md:w-[100%] min-w-[395px] text-black pl-2"
@@ -378,6 +384,7 @@ function Registration() {
             <div className="grid md:flex grid-cols-1 w-[100%]  gap-4 pt-4">
               <label className="font-semibold text-[19px] w-[5%]">O365</label>
               <input
+                required
                 type="text"
                 className="rounded-md p-1 w-[100%]  text-black"
                 value={studemail}
@@ -410,6 +417,7 @@ function Registration() {
 
               <div className=" w-[100%] text-black  ">
                 <input
+                  required
                   value={value}
                   onChange={onChange}
                   type="text"
@@ -466,6 +474,7 @@ function Registration() {
                 COMPANY ADDRESS
               </label>
               <input
+                required
                 value={companyaddress}
                 onChange={(e) => setCompanyaddress(e.target.value)}
                 type="text"
@@ -478,6 +487,7 @@ function Registration() {
                 SUPERVISOR NAME
               </label>
               <input
+                required
                 value={supervisorname}
                 onChange={(e) => setSupervisorname(e.target.value)}
                 type="text"
@@ -487,6 +497,7 @@ function Registration() {
                 DESIGNATION
               </label>
               <input
+                required
                 value={designation}
                 onChange={(e) => setDesignation(e.target.value)}
                 type="text"
@@ -499,6 +510,7 @@ function Registration() {
                 SUPERVISOR CONTACT #
               </label>
               <input
+                required
                 value={supervisorcontactnumber}
                 onChange={(e) => setSupervisorcontactnumber(e.target.value)}
                 type="text"
@@ -508,6 +520,7 @@ function Registration() {
                 OFFICE EMAIL
               </label>
               <input
+                required
                 value={companyemail}
                 onChange={(e) => setCompanyemail(e.target.value)}
                 type="text"
@@ -522,6 +535,7 @@ function Registration() {
               </label>
 
               <input
+                required
                 value={supervisorofficenumber}
                 onChange={(e) => setSupervisorofficenumber(e.target.value)}
                 type="text"
@@ -529,7 +543,7 @@ function Registration() {
               ></input>
             </div>
 
-            {formError && (
+            {/* {formError && (
               <p className="text-red-400 mb-1 font-bold w-[25%] text-center">
                 {formError}
               </p>
@@ -538,7 +552,7 @@ function Registration() {
               <p className="text-green-500 mb-1 font-bold w-[25%] text-center">
                 {formSuccess}
               </p>
-            )}
+            )} */}
             <button className=" bg-[#145DA0] w-[99.9%] h-[40px] rounded-md font-bold hover:bg-blue-400 mb-10 mt-2">
               REGISTER
             </button>

@@ -46,7 +46,7 @@ function CreateAnnouncement({ Data }) {
       }
     } catch (error) {}
   };
-console.log(Data)
+  console.log(Data);
   function handlePostAnnouncement() {
     if (!title || !endDate || !message) {
       setPerformError("Please fill all fields");
@@ -64,8 +64,7 @@ console.log(Data)
               announcementStartDate: currDate,
               announcementEndDate: endDate,
               announcementMessage: message,
-              PostedBy: Data.beneName
-
+              PostedBy: Data.beneName,
             },
           ]);
         if (data) {
@@ -141,8 +140,8 @@ console.log(Data)
   return (
     <>
       <ToastContainer />
-      <div className=" h-screen  w-[100%] text-white overflow-hidden">
-        <div
+      <div className=" h-screen  w-[100%] text-white  justify-center place-content-center flex">
+        <form
           className="flex-col w-[100%] md:h-[89%] h-[82%] md:mt-0 mt-14 overflow-y-auto p-2 "
           data-aos="fade-left"
         >
@@ -152,6 +151,7 @@ console.log(Data)
               TITLE OF ANNOUNCEMENT:
             </label>
             <input
+              required
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               type="text"
@@ -163,6 +163,7 @@ console.log(Data)
               ANNOUNCEMENT DURATION:
             </label>
             <input
+              required
               value={endDate}
               onChange={(e) => setendDate(e.target.value)}
               type="date"
@@ -197,6 +198,7 @@ console.log(Data)
           <div className="pt-6">
             <label className="pr-5 text-[20px] font-semibold ">MESSSAGE:</label>
             <textarea
+              required
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               rows="10"
@@ -205,9 +207,6 @@ console.log(Data)
             ></textarea>
           </div>
           <div>
-            {performerror && (
-              <div className="text-red-600 font-semibold">{performerror}</div>
-            )}
             <button
               onClick={() => handlePostAnnouncement()}
               className="md:w-[97%] w-[100%] h-[35px] mb-[100px] bg-[#0074B7]  rounded-md hover:bg-[#3282b5]"
@@ -215,7 +214,7 @@ console.log(Data)
               SEND
             </button>
           </div>
-        </div>
+        </form>
       </div>
     </>
   );

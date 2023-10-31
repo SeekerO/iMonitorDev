@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 //Picture
+
 import stilogo from "./images/STILOGO4.png";
 import profile from "./images/profile.png";
 import profileDisplay from "./images/profile.png";
@@ -439,7 +440,7 @@ function Navbar({ instance }) {
                   <img
                     src={iMonitorLogo}
                     alt="IMONITOR LOGO"
-                    className="   md:h-8 h-9 w-14 "
+                    className="md:h-8 h-9 w-14 rounded-sm "
                   />
                 </div>
               ) : (
@@ -447,7 +448,7 @@ function Navbar({ instance }) {
                   <img
                     src={stilogo}
                     alt="STI LOGO"
-                    className="   md:h-8 h-9 w-14 "
+                    className="md:h-8 h-9 w-14 rounded-sm"
                   />
                 </div>
               )}

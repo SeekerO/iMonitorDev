@@ -80,7 +80,7 @@ const UpdateProfile = () => {
       setStudCompanyInfos(data);
     }
   };
- 
+
   const handlesubmit = async (e) => {
     e.preventDefault();
     if (
@@ -294,6 +294,7 @@ const UpdateProfile = () => {
             </label>
             <div className=" md:flex flex-grow grid gap-y-5 gap-2 w-fill">
               <input
+                required
                 type="text"
                 className="rounded-md p-1 w-[100%] 0 text-black"
                 placeholder="First Name"
@@ -334,6 +335,7 @@ const UpdateProfile = () => {
             </div>
             <label className="font-semibold text-[19px]">SECTION</label>
             <input
+              required
               value={studsection}
               onChange={(e) => setStudSection(e.target.value)}
               type="text"
@@ -347,6 +349,7 @@ const UpdateProfile = () => {
               OJT STARTING
             </label>
             <input
+              required
               value={ojtstart}
               type="date"
               className="rounded-md md:w-[100%] min-w-[405px] h-[32px] text-black pl-2"
@@ -354,6 +357,7 @@ const UpdateProfile = () => {
             />
             <label className="font-semibold text-[19px] w-[20%]">OJT END</label>
             <input
+              required
               value={ojtend}
               type="date"
               className="rounded-md md:w-[100%] min-w-[405px] text-black pl-2"
@@ -364,6 +368,7 @@ const UpdateProfile = () => {
           <div className="grid md:flex grid-cols-1 w-[100%]  gap-4 pt-4">
             <label className="font-semibold text-[19px] w-[5%]">O365</label>
             <input
+              required
               type="text"
               className="rounded-md p-1 md:w-[65%] w-[100%]  text-black"
               value={studemail}
@@ -374,6 +379,7 @@ const UpdateProfile = () => {
               STUDENT PROGRESS
             </label>
             <input
+              required
               type="text"
               className="rounded-md p-1 md:w-[12%] w-[100%]  text-black"
               value={studHours}
@@ -403,6 +409,7 @@ const UpdateProfile = () => {
 
             <div id="compRelative" className=" w-[100%] text-black  ">
               <input
+                required
                 value={value}
                 onChange={onChange}
                 type="text"
@@ -462,6 +469,7 @@ const UpdateProfile = () => {
               COMPANY ADDRESS
             </label>
             <input
+              required
               value={companyaddress}
               onChange={(e) => setCompanyaddress(e.target.value)}
               type="text"
@@ -474,6 +482,7 @@ const UpdateProfile = () => {
               SUPERVISOR NAME
             </label>
             <input
+              required
               value={supervisorname}
               onChange={(e) => setSupervisorname(e.target.value)}
               type="text"
@@ -483,6 +492,7 @@ const UpdateProfile = () => {
               DESIGNATION
             </label>
             <input
+              required
               value={designation}
               onChange={(e) => setDesignation(e.target.value)}
               type="text"
@@ -495,6 +505,7 @@ const UpdateProfile = () => {
               SUPERVISOR CONTACT #
             </label>
             <input
+              required
               value={supervisorcontactnumber}
               onChange={(e) => setSupervisorcontactnumber(e.target.value)}
               type="text"
@@ -504,6 +515,7 @@ const UpdateProfile = () => {
               OFFICE EMAIL
             </label>
             <input
+              required
               value={companyemail}
               onChange={(e) => setCompanyemail(e.target.value)}
               type="text"
@@ -518,6 +530,7 @@ const UpdateProfile = () => {
             </label>
 
             <input
+              required
               value={supervisorofficenumber}
               onChange={(e) => setSupervisorofficenumber(e.target.value)}
               type="text"
