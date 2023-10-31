@@ -512,7 +512,7 @@ function Navbar({ instance }) {
                           </div>
                         )}
 
-                        {!profileheader && (
+                        {profileheader && (
                           <img
                             className="md:h-10 md:w-10 h-8 w-8 rounded-full text-sm hover:ring-2 hover:ring-white"
                             src={window.localStorage.getItem("profile")}
