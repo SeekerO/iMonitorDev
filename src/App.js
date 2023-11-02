@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import MainNavBar from "./components/MainNavBar";
-import TestingAzure from "./components/TestingAzure";
-import { MsalProvider } from "@azure/msal-react";
 
 function App({ instance }) {
   return (

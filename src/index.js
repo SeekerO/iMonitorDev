@@ -5,7 +5,7 @@ import App from "./App";
 import { HashRouter } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { PublicClientApplication } from "@azure/msal-browser";
-import { msalConfig } from "./components/Testing/authHere";
+import { msalConfig } from "./components/authHere";
 import { MsalProvider } from "@azure/msal-react";
 const msalinstance = new PublicClientApplication(msalConfig);
 

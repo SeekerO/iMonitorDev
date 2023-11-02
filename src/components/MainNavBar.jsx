@@ -31,8 +31,8 @@ import { Test, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import iMonitorLogo from "../components/images/iMonitor.png";
 // AZURE
-import { useMsal, AuthenticationResult } from "@azure/msal-react";
-import { msalConfig, loginRequest } from "./Testing/authHere";
+import { loginRequest } from "./authHere";
+
 // Loading
 import { Backdrop } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
