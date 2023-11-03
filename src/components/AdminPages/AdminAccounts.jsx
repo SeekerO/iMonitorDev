@@ -11,6 +11,7 @@ function AdminAccounts() {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
   const [confirmpassword, setConfirmPassword] = useState();
+  const [usernameExist, setUsernameExist] = useState();
 
   useEffect(() => {
     FetchAdminData();
@@ -50,7 +51,7 @@ function AdminAccounts() {
     }
     for (let index = 0; index < AdminData.length; index++) {
       if (AdminData[index].username === username) {
-        alert("Please use another username");
+        setUsernameExist("Please use another username");
         return;
       }
     }
@@ -75,6 +76,10 @@ function AdminAccounts() {
     setPassword("");
     setConfirmPassword("");
   }
+  const TypeUserName = (e) => {
+    setUsername(e.target.value);
+    setUsernameExist("");
+  };
 
   return (
     <>
@@ -86,11 +91,16 @@ function AdminAccounts() {
             </div>
             <form className="p-2 h-[75.5%] pt-[1%] ">
               <div className="flex-col gap-2 mb-2">
-                <label className="text-[18px] font-semibold">UserName: </label>
+                <label className="text-[18px] font-semibold">
+                  UserName:{" "}
+                  <label className="text-[14px] text-red-500">
+                    {usernameExist}
+                  </label>
+                </label>
                 <input
                   required
                   value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  onChange={(e) => TypeUserName(e)}
                   placeholder="Enter UserName"
                   className="bg-slate-200 w-[100%] p-1 rounded-md"
                 ></input>
