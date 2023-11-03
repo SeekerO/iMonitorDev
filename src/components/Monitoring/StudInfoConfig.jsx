@@ -6,7 +6,8 @@ import { useState, useEffect } from "react";
 import moment from "moment";
 import AOS from "aos";
 import "aos/dist/aos.css";
-
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
 const StudInfoConfig = ({ studinfos, BeneData, course, sy, handleCheck }) => {
   // AOS ANIMATION
   useEffect(() => {
@@ -57,29 +58,20 @@ const StudInfoConfig = ({ studinfos, BeneData, course, sy, handleCheck }) => {
           >
             <div
               data-tip="View Information"
-              className=" pl-[2%] w-[29%] hover:underline hover:text-blue-600  
-            md:text-[16px] text-[10px]
-            before:content-[attr(data-tip)]
-            before:absolute
-            before:p-1
-            before:mt-1
-            before:text-[12px]
-            before:-translate-x-[40px] before:-translate-y-full
-            before:bg-gray-400 before:text-white
-            before:rounded-sm before:opacity-0
-            before:transition-all
-            hover:before:opacity-100 
-            hover:cursor-pointer
-          "
-              onClick={() => setShowModalProfile(true)}
+              className=" pl-[2%] w-[29%] hover:underline hover:text-blue-600 cursor-default "
             >
               {/* <input
                 type="checkbox"
                 value={`${[studinfos]}`}
                 onChange={handleCheck}
               ></input> */}
-              <p className="">{studinfos.studname}</p>
+              <Tooltip title="View Profile" arrow placement="left-start">
+                <a onClick={() => setShowModalProfile(true)} className="">
+                  {studinfos.studname}
+                </a>
+              </Tooltip>
             </div>
+
             <div className="w-[46%] pl-[10%] md:text-[16px] text-[10px] cursor-default">
               {studinfos.studsection}
             </div>
@@ -104,36 +96,21 @@ const StudInfoConfig = ({ studinfos, BeneData, course, sy, handleCheck }) => {
                 </div>
               </div>
             </div>
-            <div
-              id="menu"
-              data-tip="Archive"
-              className="
-            pt-1
-            before:content-[attr(data-tip)]
-            before:absolute
-            before:left/12 before: top-3
-            before:w-max before:max-w-xs
-            before:-translate-x-1/2 before:-translate-y-full
-            before:bg-gray-400 before:text-white
-            before:rounded-sm before:opacity-0
-            before:transition-all
-            before:p-0.5
-            hover:before:opacity-100 
-
-          "
-            >
-              <button
-                className="bg-slate-200 hover:cursor-pointer"
-                onClick={() => setShowModalArchive(true)}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 fill-current hover:text-blue-400"
-                  viewBox="0 0 512 512"
+            <div id="menu" data-tip="Archive" className="pt-1 ">
+              <Tooltip title="Archive" arrow placement="right-start">
+                <button
+                  className="bg-slate-200 hover:cursor-pointer"
+                  onClick={() => setShowModalArchive(true)}
                 >
-                  <path d="M32 32H480c17.7 0 32 14.3 32 32V96c0 17.7-14.3 32-32 32H32C14.3 128 0 113.7 0 96V64C0 46.3 14.3 32 32 32zm0 128H480V416c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V160zm128 80c0 8.8 7.2 16 16 16H336c8.8 0 16-7.2 16-16s-7.2-16-16-16H176c-8.8 0-16 7.2-16 16z" />
-                </svg>
-              </button>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 fill-current hover:text-blue-400"
+                    viewBox="0 0 512 512"
+                  >
+                    <path d="M32 32H480c17.7 0 32 14.3 32 32V96c0 17.7-14.3 32-32 32H32C14.3 128 0 113.7 0 96V64C0 46.3 14.3 32 32 32zm0 128H480V416c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V160zm128 80c0 8.8 7.2 16 16 16H336c8.8 0 16-7.2 16-16s-7.2-16-16-16H176c-8.8 0-16 7.2-16 16z" />
+                  </svg>
+                </button>
+              </Tooltip>
             </div>
           </div>
         </div>

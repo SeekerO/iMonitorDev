@@ -367,8 +367,8 @@ const MessageStudent = ({ studemail }) => {
   const [showFile, setShowFile] = useState(false);
   return (
     <>
-      <div className="w-[100%] h-screen md:pt-[2%] pt-[12%] md:p-5 p-1 flex justify-center bg-[#90bbdf] bg-opacity-40  ">
-        <div className="  h-[87%] w-[100%] md:p-5 p-0 flex md:gap-3 gap-1 rounded-md ">
+      <div className="w-[100%] h-screen md:pt-[2%] pt-[12%] p-10 flex justify-center ">
+        <div className="  h-[87%] w-[100%] md:p-5 p-0 flex md:gap-3 gap-1 rounded-md  bg-[#90bbdf] bg-opacity-20">
           <div
             id="contact"
             className={`${
@@ -376,9 +376,9 @@ const MessageStudent = ({ studemail }) => {
                 ? `  ${
                     showMessage
                       ? "hidden"
-                      : "md:w-[250px] w-[100%] md:h-[100%] h-[90%] md:flex-col bg-slate-100 rounded-l-md"
+                      : "md:w-[250px] w-[100%] md:h-[100%] h-[90%] md:flex-col bg-slate-100 rounded-l-md shadow-md shadow-black"
                   }`
-                : "md:w-[250px] w-[100%] md:h-[100%] h-[90%] md:flex-col bg-slate-100 rounded-l-md"
+                : "md:w-[250px] w-[100%] md:h-[100%] h-[90%] md:flex-col bg-slate-100 rounded-l-md shadow-md shadow-black"
             }`}
           >
             <p className="font-bold text-[25px] h-[51px] text-center pt-1 text-white rounded-tl-md bg-[#274472] flex items-center justify-center ">
@@ -386,7 +386,7 @@ const MessageStudent = ({ studemail }) => {
               Contacts
             </p>
             <center>
-              <div className="bg-slate-300 flex w-[96%] rounded-md place-content-center mt-2 mb-2">
+              <div className="bg-slate-300 flex w-[96%] rounded-md place-content-center mt-2 mb-2 ">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 512 512"
@@ -451,10 +451,10 @@ const MessageStudent = ({ studemail }) => {
               window.innerWidth <= 768
                 ? `  ${
                     showMessage || openfile
-                      ? "w-[100%] md:h-[100%] h-[90%] bg-[#274472] rounded-r-md"
+                      ? "w-[100%] md:h-[100%] h-[90%] bg-[#274472] rounded-r-md shadow-md shadow-black"
                       : "hidden"
                   }`
-                : "w-[100%] md:h-[100%] h-[90%] bg-[#274472] rounded-r-md"
+                : "w-[100%] md:h-[100%] h-[90%] bg-[#274472] rounded-r-md shadow-md shadow-black"
             }`}
           >
             {getbeneName && (

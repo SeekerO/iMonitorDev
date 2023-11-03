@@ -159,9 +159,7 @@ function CreateAnnouncement({ Data }) {
             />
           </div>
           <div className="pt-6 flex ">
-            <label className="pr-5 text-[20px] font-semibold ">
-              ANNOUNCEMENT DURATION:
-            </label>
+            <label className="pr-5 text-[20px] font-semibold ">DURATION:</label>
             <input
               required
               value={endDate}

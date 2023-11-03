@@ -18,6 +18,8 @@ function AnnouncementStudent({ studemail }) {
   const [getDate, setGetDate] = useState("");
   const [getEndDate, setGetEndDate] = useState("");
   const [getAllow, setGetAllow] = useState("");
+  const [getPostedBy, setGetPostedBy] = useState("");
+
   const [getFiles, setGetFiles] = useState([]);
   const [getFileName, setGetFileName] = useState();
 
@@ -28,15 +30,20 @@ function AnnouncementStudent({ studemail }) {
   const [opensubmit, setOpenSubmit] = useState(false);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      handlefetchinfo();
-    }, 1000 * 10);
     handlefetchinfo();
     fetchstudinfo();
 
-    return () => {
-      clearInterval(interval);
-    };
+    const AnnouncementTable = supabase
+      .channel("custom-all-channel")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "AnnouncementTable" },
+        (payload) => {
+          handlefetchinfo();
+          fetchstudinfo();
+        }
+      )
+      .subscribe();
   }, []);
 
   const [isEmpty, setIsEmpty] = useState(false);
@@ -114,25 +121,19 @@ function AnnouncementStudent({ studemail }) {
     });
   }
 
-  function handlefetchinfo() {
+  async function handlefetchinfo() {
     try {
-      const fetchannouncement = async () => {
-        const { data, error } = await supabase
-          .from("AnnouncementTable")
-          .select();
+      const { data, error } = await supabase.from("AnnouncementTable").select();
 
-        if (data) {
-          setAnnouncementInfo(data);
-          setTitle(data.announcementTitle);
-          if (data < 1) {
-            setAnnouncementInfoState(false);
-            return;
-          }
-          setAnnouncementInfoState(true);
+      if (data) {
+        setAnnouncementInfo(data);
+        setTitle(data.announcementTitle);
+        if (data < 1) {
+          setAnnouncementInfoState(false);
+          return;
         }
-      };
-
-      fetchannouncement();
+        setAnnouncementInfoState(true);
+      }
     } catch (error) {}
   }
 
@@ -177,6 +178,7 @@ function AnnouncementStudent({ studemail }) {
                           setGetAllow={setGetAllow}
                           setGetFiles={setGetFiles}
                           setGetFileName={setGetFileName}
+                          setGetPostedBy={setGetPostedBy}
                           studemail={studemail}
                         />
                       </div>
@@ -202,7 +204,10 @@ function AnnouncementStudent({ studemail }) {
                 <div className="font-bold text-[20px]  overflow-x-auto md:h-20 h-[10%] ">
                   {getTitle}
                 </div>
-                <div className="font-medium text-[15px] mb-10">
+                <div className="font-semibold text-[13px]">
+                  Posted By: {getPostedBy}
+                </div>
+                <div className="font-medium text-[10px] mb-10">
                   Posted on {getDate} | Until {moment(getEndDate).format("LL")}
                 </div>
                 <div className="p-2 font-sans font-medium text-[15px] pl-2 md:h-[50%] h-[50%] mb-2 text-start overflow-y-auto ">

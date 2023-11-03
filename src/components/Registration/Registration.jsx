@@ -389,7 +389,7 @@ function Registration() {
                 className="rounded-md p-1 w-[100%]  text-black"
                 value={studemail}
                 onChange={(e) => setStudemail(e.target.value)}
-                placeholder="GMAIL"
+                placeholder="example123456@stamaria.sti.edu.ph"
               ></input>
             </div>
             {/* Line 5 */}

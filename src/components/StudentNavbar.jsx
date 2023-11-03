@@ -4,6 +4,7 @@ import supabase from "./iMonitorDBconfig";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { IoMdNotifications } from "react-icons/io";
+
 import moment from "moment";
 
 function Navbar({ email }) {
@@ -16,11 +17,13 @@ function Navbar({ email }) {
   const [drop, dropopen] = useState(true);
   const [notif, setNotif] = useState(false);
   const [message, setMessage] = useState();
+  const [announcement_NOTIF, setAnnouncement_NOTIF] = useState(false);
 
   useEffect(() => {
     checkmessage();
+    fetchAnnouncemnt_INFO();
 
-    const Messaging = supabase
+    supabase
       .channel("custom-filter-channel")
       .on(
         "postgres_changes",
@@ -33,8 +36,20 @@ function Navbar({ email }) {
           checkmessage();
         }
       )
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "AnnouncementTable",
+        },
+        (payload) => {
+          fetchAnnouncemnt_INFO();
+          console.log(true);
+        }
+      )
       .subscribe();
-  }, []);
+  }, [announcement_NOTIF]);
 
   async function checkmessage() {
     const { data: studdata } = await supabase
@@ -98,6 +113,28 @@ function Navbar({ email }) {
     }
   }
 
+  async function fetchAnnouncemnt_INFO() {
+    const { data } = await supabase.from("AnnouncementTable").select();
+
+    for (let index = 0; index < data.length; index++) {
+      var holderReadsBy = data[index].readsBy;
+
+      for (let index = 0; index < holderReadsBy.length; index++) {
+        if (holderReadsBy[index] !== email) {
+          setAnnouncement_NOTIF(true);
+          break;
+        } else {
+          setAnnouncement_NOTIF(false);
+        }
+      }
+    }
+  }
+
+  function handleAnnouncementButtonClicked() {
+    setOpen(!open);
+    setAnnouncement_NOTIF(false);
+  }
+
   return (
     <div className="flex flex-col relative z-99 ">
       {/* SIDE BAR */}
@@ -155,7 +192,7 @@ function Navbar({ email }) {
             {/*Announcement*/}
             <Link
               to="/announcementstudent"
-              onClick={() => setOpen(!open)}
+              onClick={() => handleAnnouncementButtonClicked()}
               className="flex items-center p-2 rounded-lg text-white hover:bg-[#274472] transform hover:translate-x-2 hover:shadow-md"
             >
               <svg
@@ -168,6 +205,9 @@ function Navbar({ email }) {
                 <path d="M64 0C28.7 0 0 28.7 0 64V352c0 35.3 28.7 64 64 64H240l-10.7 32H160c-17.7 0-32 14.3-32 32s14.3 32 32 32H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H346.7L336 416H512c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64zM512 64V288H64V64H512z" />
               </svg>
               <span className="ml-3">Announcement</span>
+              {announcement_NOTIF && (
+                <IoMdNotifications className="text-red-600 text-[20px] ml-1" />
+              )}
             </Link>
             {/*Message*/}
             <Link
@@ -187,7 +227,7 @@ function Navbar({ email }) {
               <span className="ml-3 flex">
                 Message{" "}
                 {notif ? (
-                  <IoMdNotifications className="text-red-600 ml-2 text-[20px]" />
+                  <IoMdNotifications className="text-red-600 ml-1 text-[20px]" />
                 ) : (
                   ""
                 )}

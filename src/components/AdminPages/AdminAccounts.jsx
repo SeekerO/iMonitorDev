@@ -31,16 +31,6 @@ function AdminAccounts() {
 
   async function CreateAdminAccount() {
     if (!username || !password || !confirmpassword) {
-      toast.warn("Please fill all the inputs", {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
       return;
     }
     if (password !== confirmpassword) {
@@ -56,7 +46,11 @@ function AdminAccounts() {
       });
       return;
     }
+    for (let index = 0; index < AdminData.length; index++) {
 
+      
+      
+    }
     const { data: create } = await supabase
       .from("AdminAccount")
       .insert([
@@ -82,15 +76,16 @@ function AdminAccounts() {
   return (
     <>
       <div className=" w-[100%] h-screen ">
-        <div className=" w-[100%] h-[90%] gap-2 gap-y-10 grid grid-cols-1 md:grid-cols-2 md:p-10 p-1 place-content-center items-center overflow-auto  pt-[23%]"   >
+        <div className=" w-[100%] h-[90%] gap-2 gap-y-10 grid grid-cols-1 md:grid-cols-2 md:p-10 p-1 place-content-center items-center overflow-auto  pt-[23%]">
           <div className="w-[100%]  h-[100%]  bg-[#94b8d8]  rounded-md">
             <div className="bg-[#5885AF] flex justify-center font-bold  text-[25px] p-1  rounded-t-md mb-2">
               CREATE ADMIN ACCOUNT
             </div>
-            <div className="p-2 h-[75.5%] pt-[1%] ">
+            <form className="p-2 h-[75.5%] pt-[1%] ">
               <div className="flex-col gap-2 mb-2">
                 <label className="text-[18px] font-semibold">UserName: </label>
                 <input
+                  required
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   placeholder="Enter UserName"
@@ -101,6 +96,7 @@ function AdminAccounts() {
               <div className="flex-col gap-2 mb-2 ">
                 <label className="text-[18px] font-semibold">Password: </label>
                 <input
+                  required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter Password"
@@ -112,13 +108,14 @@ function AdminAccounts() {
                   Confirm Password:
                 </label>
                 <input
+                  required
                   value={confirmpassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Re-Enter Password"
                   className="bg-slate-200 w-[100%] p-1 rounded-md"
                 ></input>
               </div>
-            </div>
+            </form>
             <button
               onClick={() => CreateAdminAccount()}
               className="bg-[#5885AF] hover:bg-[#5885afa8] hover:text-white w-[100%] p-2 bottom-0 rounded-b-md font-semibold"

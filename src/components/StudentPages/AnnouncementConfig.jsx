@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import moment from "moment";
 import supabase from "../iMonitorDBconfig";
+import { IoNotificationsCircleOutline } from "react-icons/io5";
 
 const AnnouncementConfig = ({
   announcementinfo,
@@ -12,10 +13,14 @@ const AnnouncementConfig = ({
   setGetAllow,
   setGetFiles,
   setGetFileName,
+  setGetPostedBy,
   studemail,
 }) => {
   const [Files, setFiles] = useState([]);
   const [state, setState] = useState(false);
+  const [readby, setReadBy] = useState();
+
+  const [Announcement_Notif, setAnnouncementNotif] = useState(false);
   var date = moment(new Date()).format("ll");
   var announceDate = moment(
     new Date(announcementinfo.announcementEndDate)
@@ -29,16 +34,20 @@ const AnnouncementConfig = ({
 
   function handleclick() {
     try {
+      InsertReadAnnouncement();
       setGetId(announcementinfo.id);
       setGetMessage(announcementinfo.announcementMessage);
       setGetTitle(announcementinfo.announcementTitle);
       setGetDate(announcementinfo.announcementStartDate);
       setGetEndDate(announcementinfo.announcementEndDate);
       setGetAllow(announcementinfo.announcementAllow);
+      setGetPostedBy(announcementinfo.PostedBy);
       fetchSpecificFile();
       logclick();
+      setAnnouncementNotif(false);
     } catch (error) {}
   }
+
   const fetchSpecificFile = async () => {
     try {
       var state = false;
@@ -90,6 +99,39 @@ const AnnouncementConfig = ({
     } catch (error) {}
   };
 
+  const InsertReadAnnouncement = async () => {
+    var prevArray = announcementinfo.readsBy;
+    var bool = false;
+    for (let index = 0; index < prevArray.length; index++) {
+      if (prevArray[index] === studemail) {
+        bool = true;
+      }
+    }
+    if (!bool) {
+      prevArray.push(studemail);
+      const { data } = await supabase
+        .from("AnnouncementTable")
+        .update({ readsBy: prevArray })
+        .eq("id", announcementinfo.id);
+    }
+  };
+
+  useEffect(() => {
+    handleNotificationForAnnouncement();
+  }, [announcementinfo]);
+
+  function handleNotificationForAnnouncement() {
+    var notif = true;
+    var currArray = announcementinfo.readsBy;
+    for (let index = 0; index < currArray.length; index++) {
+      if (currArray[index] === studemail) notif = false;
+    }
+
+    if (notif) {
+      setAnnouncementNotif(true);
+    }
+  }
+
   return (
     <>
       <div
@@ -102,9 +144,14 @@ const AnnouncementConfig = ({
           className={`${state ? "bg-black" : "bg-gray-200"}
        h-20 bg-gray-200 p-1 hover:bg-gray-300 rounded-md hover:shadow-md hover:shadow-black hover:translate-x-1 duration-300`}
         >
-          <p className="font-bold md:text-[20px] text-[10px] line-clamp-1">
-            {announcementinfo.announcementTitle}
-          </p>
+          <div className="flex items-center gap-0.5">
+            {Announcement_Notif ? (
+              <IoNotificationsCircleOutline className="text-red-600 text-[20px]" />
+            ) : null}
+            <p className="font-bold md:text-[20px] text-[10px] line-clamp-1">
+              {announcementinfo.announcementTitle}
+            </p>
+          </div>
           <p className="md:text-[15px] text-[10px]">
             {announcementinfo.announcementStartDate}
           </p>

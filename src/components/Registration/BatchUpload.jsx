@@ -129,7 +129,7 @@ function BatchUpload({ visible, close, sy }) {
               " " +
               dataHolder[index].Lastname,
             studprogram: course,
-            studemail: dataHolder[index].gmail,
+            studemail: dataHolder[index].o365,
             ojtstart: moment(ojtstart).format("l"),
             ojtend: moment(ojtend).format("l"),
             studsection: dataHolder[index].Section,

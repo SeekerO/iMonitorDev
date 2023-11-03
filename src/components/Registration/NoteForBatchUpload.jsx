@@ -14,7 +14,7 @@ function NoteForBatchUpload({ visible, close }) {
                 className="text-blue-600 hover:underline cursor-pointer"
                 onClick={() =>
                   window.open(
-                    "https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/Template/BatchFilingTemplate.xlsx"
+                    "https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/Template/BatchFilingTemplate%20(1).xlsx"
                   )
                 }
               >
