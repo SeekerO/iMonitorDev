@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import supabase from "../iMonitorDBconfig";
 import AdminConfig from "./AdminConfig";
 import { ToastContainer, toast } from "react-toastify";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
 
 function AdminAccounts() {
   const [AdminData, setAdminData] = useState();
@@ -47,9 +49,10 @@ function AdminAccounts() {
       return;
     }
     for (let index = 0; index < AdminData.length; index++) {
-
-      
-      
+      if (AdminData[index].username === username) {
+        alert("Please use another username");
+        return;
+      }
     }
     const { data: create } = await supabase
       .from("AdminAccount")
@@ -96,6 +99,7 @@ function AdminAccounts() {
               <div className="flex-col gap-2 mb-2 ">
                 <label className="text-[18px] font-semibold">Password: </label>
                 <input
+                  type="Password"
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -108,6 +112,7 @@ function AdminAccounts() {
                   Confirm Password:
                 </label>
                 <input
+                  type="Password"
                   required
                   value={confirmpassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}

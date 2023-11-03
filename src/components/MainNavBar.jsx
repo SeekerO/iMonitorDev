@@ -523,10 +523,16 @@ function Navbar({ instance }) {
                       <div
                         className={`${
                           openprofile
-                            ? "w-[120px] h-[50px] absolute  bg-white p-2 right-[1.5%] rounded-md mt-1.5 shadow-2xl"
+                            ? "w-[120px] h-[50px] absolute  bg-white p-2 right-[1.5%] rounded-md mt-2 shadow-2xl"
                             : "hidden"
                         }`}
                       >
+                        <div
+                          class="w-0 h-0 justify-end flex items-end absolute ml-[95px] -mt-[15px]
+                            border-l-[7px] border-l-transparent
+                            border-b-[10px] border-b-white
+                            border-r-[7px] border-r-transparent"
+                        />
                         <div
                           onClick={(e) => handleSignOut(e)}
                           className=" p-1 rounded hover:bg-slate-300 hover:shadow-xl"
@@ -571,10 +577,16 @@ function Navbar({ instance }) {
                     <div
                       className={`${
                         openprofile
-                          ? "w-[120px] h-[90px] absolute  bg-white p-2 right-[1.5%] rounded-md mt-1.5 shadow-2xl"
+                          ? "w-[120px] h-[90px] absolute  bg-white p-2 right-[1.5%] rounded-md mt-2 shadow-2xl"
                           : "hidden"
                       }`}
                     >
+                      <div
+                        class="w-0 h-0 justify-end flex items-end absolute ml-[95px] -mt-[15px]
+                            border-l-[7px] border-l-transparent
+                            border-b-[10px] border-b-white
+                            border-r-[7px] border-r-transparent"
+                      />
                       <Link to="/profile">
                         <p className=" p-1 rounded hover:bg-slate-300 hover:shadow-xl">
                           View Profile
@@ -603,10 +615,16 @@ function Navbar({ instance }) {
                     <div
                       className={`${
                         openprofile
-                          ? "w-[120px] h-[50px] absolute  bg-white p-2 right-[1.5%] rounded-md mt-1.5 shadow-2xl"
+                          ? "w-[120px] h-[50px] absolute  bg-white p-2 right-[1.5%] rounded-md mt-2 shadow-2xl"
                           : "hidden"
                       }`}
                     >
+                      <div
+                        class="w-0 h-0 justify-end flex items-end absolute ml-[95px] -mt-[15px]
+                            border-l-[7px] border-l-transparent
+                            border-b-[10px] border-b-white
+                            border-r-[7px] border-r-transparent"
+                      />
                       <div
                         onClick={(e) => handleSignOut(e)}
                         className=" p-1 rounded hover:bg-slate-300 hover:shadow-xl"
@@ -706,7 +724,7 @@ function Navbar({ instance }) {
                   />
                   <p className=" font-semibold mt-3 ml-5">Password</p>
                   <input
-                    type="password"
+                    type="Password"
                     onChange={(e) => setAdminPassword(e.target.value)}
                     className="bg-gray-400 mt-3 ml-5 mr-5 rounded-md p-2"
                   />
