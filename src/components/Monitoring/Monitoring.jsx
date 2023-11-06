@@ -125,6 +125,8 @@ const Monitoring = ({ Data }) => {
             <option>BSAIS</option>
             <option>BSTM</option>
             <option>BSHM</option>
+            <option>BSCPE</option>
+            <option>BSCS</option>
           </select>
 
           <select

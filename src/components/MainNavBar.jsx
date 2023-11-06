@@ -100,7 +100,7 @@ function Navbar({ instance }) {
   const loginAZURE = async () => {
     try {
       loginResponse = await instance.loginPopup(loginRequest);
-
+      console.log(loginResponse)
       handleCallbackResponse(loginResponse.account);
       getUserProfile(loginResponse);
     } catch (error) {

@@ -1,14 +1,13 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import ViewProfileMasterModal from "./ViewProfileMasterModal";
-
 import AOS from "aos";
 import "aos/dist/aos.css";
 
 const MasterListTableConfig = ({ studinfos, sy, course }) => {
   // AOS ANIMATION
   useEffect(() => {
-    DateCreated();
+
     AOS.init();
   }, [sy]);
 
@@ -17,33 +16,8 @@ const MasterListTableConfig = ({ studinfos, sy, course }) => {
   const [DateHolderSY, SetDateHolderSY] = useState();
   const [StudCreateDate, SetStudCreateDate] = useState();
 
-  function DateCreated() {
-    if (sy === "S.Y. 2023-2024") {
-      SetDateHolderSY(2023);
-      SetStudCreateDate(new Date(studinfos.created_at).getFullYear());
-    }
-    if (sy === "S.Y. 2024-2025") {
-      SetDateHolderSY(2025);
-      SetStudCreateDate(new Date(studinfos.created_at).getFullYear());
-    }
-    if (sy === "S.Y. 2025-2026") {
-      SetDateHolderSY(2026);
-      SetStudCreateDate(new Date(studinfos.created_at).getFullYear());
-    }
-    if (sy === "S.Y. 2026-2027") {
-      SetDateHolderSY(2027);
-      SetStudCreateDate(new Date(studinfos.created_at).getFullYear());
-    }
-    if (sy === "S.Y. 2027-2028") {
-      SetDateHolderSY(2028);
-      SetStudCreateDate(new Date(studinfos.created_at).getFullYear());
-    }
-  }
-
   return (
-    <div
-      className={``}
-    >
+    <>
       <div
         data-aos="fade-down"
         data-aos-duration="500"
@@ -93,7 +67,6 @@ const MasterListTableConfig = ({ studinfos, sy, course }) => {
                     width: `${100}%`,
                   }}
                 >
-                  {" "}
                   {studinfos.status == "complete" ? "COMPLETE" : "INCOMPLETE"}
                 </div>
               </div>
@@ -101,6 +74,7 @@ const MasterListTableConfig = ({ studinfos, sy, course }) => {
           </div>
         </div>
       </div>
+
       <ViewProfileMasterModal
         onClose={setShowModalProfile}
         visible={showmodalprofile}
@@ -108,7 +82,7 @@ const MasterListTableConfig = ({ studinfos, sy, course }) => {
         studname={studinfos.studname}
         studemail={studinfos.studemail}
       />
-    </div>
+    </>
   );
 };
 

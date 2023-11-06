@@ -100,7 +100,7 @@ function UploadLog() {
           open
             ? " bg-[#c8d7e5] md:h-[85%] h-[75%] items-center rounded-l-md mt-5   "
             : "w-[50px] bg-[#c8d7e5] md:h-[85%] h-[75%] rounded-l-md mt-5 md:ml-0 ml-2"
-        }`}
+        } shadow-black shadow-md`}
       >
         <div
           onClick={() => setOpen(!open)}
@@ -108,7 +108,7 @@ function UploadLog() {
             open
               ? " text-[25px] justify-center flex group"
               : "flex pl-[20px] z-10 text-[19px] text-blue-500"
-          }   font-bold pt-3 pb-3 rounded-tl-md duration-100 text-white bg-gradient-to-r p-2 to-slate-400 via-[#274472] from-[#274472]`}
+          }   font-bold pt-3 pb-3 rounded-tl-md duration-100`}
         >
           {open ? (
             <div className=" pr-2 ">Announcement</div>
@@ -169,7 +169,7 @@ function UploadLog() {
       </div>
 
       <div className="flex flex-col w-[100%] duration-500">
-        <div className="flex-col mt-5   bg-[#c8d7e5] md:h-[38%] h-[28%] p-3 rounded-tr-md overflow-y-auto w-[98%]">
+        <div className="flex-col mt-5   bg-[#c8d7e5] md:h-[38%] h-[28%] p-3 rounded-tr-md overflow-y-auto w-[98%] shadow-black shadow-md">
           <div className="">
             {getId ? (
               <div className=" overflow-y-auto  p-5">
@@ -204,7 +204,7 @@ function UploadLog() {
           </div>
         </div>
 
-        <div className="bg-[#c8d7e5] h-[46.5%]  overflow-y-auto w-[98%] mt-1 rounded-br-md">
+        <div className="bg-[#c8d7e5] h-[46.5%]  overflow-y-auto w-[98%] mt-1 rounded-br-md shadow-black shadow-md">
           <div className="bg-[#5885AF] text-center p-2 font-semibold text-[20px]">
             Student Submissions
           </div>

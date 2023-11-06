@@ -109,7 +109,7 @@ function AdminAccounts() {
               <div className="flex-col gap-2 mb-2 ">
                 <label className="text-[18px] font-semibold">Password: </label>
                 <input
-                  type="Password"
+                  type="password"
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}

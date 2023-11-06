@@ -90,6 +90,7 @@ const MasterList = ({ Data }) => {
 
   return (
     <div id="monitoring" className="overflow-hidden md:p-10 p-2">
+
       <div
         className=" text-white md:pt-[2%] pt-[10%] w-[100%] h-screen"
         data-aos="fade-up"
@@ -112,6 +113,8 @@ const MasterList = ({ Data }) => {
             <option>BSAIS</option>
             <option>BSTM</option>
             <option>BSHM</option>
+            <option>BSCPE</option>
+            <option>BSCS</option>
           </select>
           <select
             value={sy}
