@@ -502,7 +502,7 @@ const Message = ({ beneemail }) => {
                 {/* Message Container Design */}
                 {receivedmessages ? (
                   <div
-                    className={`w-[100%] bg-[#bfd7eddc] p-3 overflow-y-auto md:h-[78%] h-[80%]`}
+                    className={`w-[100%] bg-[#bfd7eddc] p-3 overflow-y-auto overflow-x-hidden md:h-[78%] h-[80%]`}
                   >
                     {receivedmessages
                       .sort((a, b) => (a.created_at < b.created_at ? -1 : 1))

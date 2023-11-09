@@ -8,6 +8,7 @@ import { Backdrop } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 
 const BeneficiaryCreator = () => {
+  const [studinfo, setStudinfo] = useState();
   const [beneinfo, setBeneinfo] = useState();
   const [createname, setCreateName] = useState("");
   const [createemail, setCreateEmail] = useState("");
@@ -33,14 +34,26 @@ const BeneficiaryCreator = () => {
           fetchbeneinfo();
         }
       )
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "StudentInformation" },
+        (payload) => {
+          fetchbeneinfo();
+        }
+      )
       .subscribe();
   }, []);
 
   const fetchbeneinfo = async () => {
-    const { data } = await supabase.from("BeneAccount").select();
+    const { data: bene } = await supabase.from("BeneAccount").select();
 
-    if (data) {
-      setBeneinfo(data);
+    if (bene) {
+      setBeneinfo(bene);
+    }
+
+    const { data: stud } = await supabase.from("StudentInformation").select();
+    if (stud) {
+      setStudinfo(stud);
     }
   };
 
@@ -69,6 +82,43 @@ const BeneficiaryCreator = () => {
     }
 
     if (emailchecker) {
+      for (let index = 0; index < studinfo.length; index++) {
+        if (studinfo[index].studemail === createemail) {
+          toast.warn(" The email is already registed in Student Accounts", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            limit: 1,
+            theme: "light",
+          });
+          return;
+        }
+      }
+
+      for (let index = 0; index < beneinfo.length; index++) {
+        if (beneinfo[index].beneEmail === createemail) {
+          toast.warn(
+            " The email is already registed in APO & ADVISER Accounts",
+            {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              limit: 1,
+              theme: "light",
+            }
+          );
+          return;
+        }
+      }
+
       var positionCHECKER;
 
       if (position === "ALUMNI OFFICER") {

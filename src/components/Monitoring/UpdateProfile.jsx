@@ -10,6 +10,8 @@ const UpdateProfile = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  const [studinfo, setStudinfo] = useState();
+  const [beneinfo, setBeneinfo] = useState();
   // Stud old name var
   const [oldstudname, setOldStudName] = useState("");
   // Student inf var
@@ -36,6 +38,23 @@ const UpdateProfile = () => {
   useEffect(() => {
     fetchcompanyinfo();
     fetchstudinfo();
+    supabase
+      .channel("custom-all-channel")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "BeneAccount" },
+        (payload) => {
+          fetchstudinfo();
+        }
+      )
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "StudentInformation" },
+        (payload) => {
+          fetchstudinfo();
+        }
+      )
+      .subscribe();
   }, [id, navigate]);
 
   const fetchstudinfo = async () => {
@@ -65,10 +84,14 @@ const UpdateProfile = () => {
       setSupervisorofficenumber(data.supervisorofficenumber);
       setDesignation(data.companydesignation);
       setCompanyemail(data.companyemail);
+      setStudinfo(data);
     }
     if (data.studremarks === null) {
       setStudRemarks("No Remarks");
     }
+
+    const { data: bene } = await supabase.from("BeneAccount").select();
+    setBeneinfo(bene);
   };
 
   const fetchcompanyinfo = async () => {
@@ -80,7 +103,9 @@ const UpdateProfile = () => {
       setStudCompanyInfos(data);
     }
   };
-
+  function isValidEmail(email) {
+    return /\S+@\S+\.\S+/.test(email);
+  }
   const handlesubmit = async (e) => {
     e.preventDefault();
     if (
@@ -98,7 +123,6 @@ const UpdateProfile = () => {
       !designation ||
       !companyemail
     ) {
-      console.log(studHours);
       toast.warn("Fill all the input", {
         position: "top-right",
         autoClose: 1000,
@@ -111,6 +135,54 @@ const UpdateProfile = () => {
       });
       return;
     }
+
+    if (!isValidEmail(studemail)) {
+      toast.warning("Invalid Email", {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return;
+    }
+
+    for (let index = 0; index < studinfo.length; index++) {
+      if (studinfo[index].studemail === studemail) {
+        toast.warn("The email is already registered", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          limit: 1,
+          theme: "light",
+        });
+        return;
+      }
+    }
+    for (let index = 0; index < beneinfo.length; index++) {
+      if (beneinfo[index].beneEmail === studemail) {
+        toast.warn("The email is already registered", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          limit: 1,
+          theme: "light",
+        });
+        return;
+      }
+    }
+
     if (studHours > studHoursLimit) {
       toast.warn("Invalid Progress", {
         position: "top-right",

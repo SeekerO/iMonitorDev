@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import supabase from "../iMonitorDBconfig";
 import { IoIosArrowBack } from "react-icons/io";
 
 import { ToastContainer, toast } from "react-toastify";
 
 function Update({ visible, close, data }) {
+  const [studinfo, setStudinfo] = useState();
+  const [beneinfo, setBeneinfo] = useState();
+
   const [oldname, setOldName] = useState(data.beneName);
   const [updatename, setupdatename] = useState(data.beneName);
   const [updateemail, setupdateemail] = useState(data.beneEmail);
@@ -16,6 +19,41 @@ function Update({ visible, close, data }) {
 
   const [positionupdate, setPositionUpdate] = useState(data.position);
   const [courseupdate, setCourseUpdate] = useState("BSIT");
+
+  useEffect(() => {
+    fetchbeneinfo();
+
+    supabase
+      .channel("custom-all-channel")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "BeneAccount" },
+        (payload) => {
+          fetchbeneinfo();
+        }
+      )
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "StudentInformation" },
+        (payload) => {
+          fetchbeneinfo();
+        }
+      )
+      .subscribe();
+  }, []);
+
+  const fetchbeneinfo = async () => {
+    const { data: bene } = await supabase.from("BeneAccount").select();
+
+    if (bene) {
+      setBeneinfo(bene);
+    }
+
+    const { data: stud } = await supabase.from("StudentInformation").select();
+    if (stud) {
+      setStudinfo(stud);
+    }
+  };
 
   function isValidEmail(email) {
     return /\S+@\S+\.\S+/.test(email);
@@ -48,6 +86,42 @@ function Update({ visible, close, data }) {
     }
     var run = false;
     if (emailchecker) {
+      for (let index = 0; index < studinfo.length; index++) {
+        if (studinfo[index].studemail === updateemail) {
+          toast.warn(" The email is already registed in Student Accounts", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            limit: 1,
+            theme: "light",
+          });
+          return;
+        }
+      }
+
+      for (let index = 0; index < beneinfo.length; index++) {
+        if (beneinfo[index].beneEmail === updateemail) {
+          toast.warn(
+            " The email is already registed in APO & ADVISER Accounts",
+            {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              limit: 1,
+              theme: "light",
+            }
+          );
+          return;
+        }
+      }
       run = true;
       if (run === true) {
         if (oldname !== updatename) {
@@ -120,7 +194,7 @@ function Update({ visible, close, data }) {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-20 backdrop-blur-sm flex justify-center items-center p-4 ">
       <div
-        className="bg-white rounded-md shadow-lg shadow-slate-600 w-[500px]" 
+        className="bg-white rounded-md shadow-lg shadow-slate-600 w-[500px]"
         data-aos="zoom-in"
         data-aos-duration="500"
       >

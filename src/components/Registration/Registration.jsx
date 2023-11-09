@@ -54,6 +54,9 @@ function Registration() {
   // Student Info
   const [studinfo, setStudinfo] = useState();
 
+  // Bene Info
+  const [beneinfo, setBeneInfo] = useState();
+
   // Open Batch Upload Modal
   const [batchupload, setBatchUpload] = useState(false);
 
@@ -62,8 +65,10 @@ function Registration() {
   }, [formSuccess]);
 
   async function getStudentInfo() {
-    const { data: info } = await supabase.from("StudentInformation").select();
-    setStudinfo(info);
+    const { data: stud } = await supabase.from("StudentInformation").select();
+    setStudinfo(stud);
+    const { data: bene } = await supabase.from("BeneAccount").select();
+    setBeneInfo(bene);
   }
 
   function clearfield() {
@@ -124,6 +129,10 @@ function Registration() {
     } catch (error) {}
   };
 
+  function isValidEmail(email) {
+    return /\S+@\S+\.\S+/.test(email);
+  }
+  var insert = false;
   // INSERT FUNCTION
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -147,6 +156,20 @@ function Registration() {
       return;
     }
 
+    if (!isValidEmail(studemail)) {
+      toast.warning("Invalid Email", {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return;
+    }
+
     if (studemail) {
       for (let index = 0; index < studinfo.length; index++) {
         if (studinfo[index].studemail === studemail) {
@@ -158,6 +181,23 @@ function Registration() {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
+            limit: 1,
+            theme: "light",
+          });
+          return;
+        }
+      }
+      for (let index = 0; index < beneinfo.length; index++) {
+        if (beneinfo[index].beneEmail === studemail) {
+          toast.warn("Please use different Email", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            limit: 1,
             theme: "light",
           });
           return;
@@ -267,11 +307,11 @@ function Registration() {
     <>
       <div className="overflow-hidden md:pt-[2%] pt-[5%]">
         <div
-          className="pt-8 md:p-5 p-1 text-white "
+          className="pt-8 text-white "
           data-aos="fade-down"
           data-aos-duration="1000"
         >
-          <div className="md:flex grid items-center ">
+          <div className="md:flex grid items-center p-4 ">
             <header className="font-bold md:text-4xl text-3xl mb-4 pl-1">
               REGISTRATION
             </header>
@@ -286,11 +326,9 @@ function Registration() {
             </div>
           </div>
 
-          {/*First line*/}
-          <div className="text-black"></div>
           <form
             onSubmit={handleSubmit}
-            className="grid  w-[100%] bg-black bg-opacity-[2%] p-1 overflow-y-auto  md:h-[540px] h-[520px]"
+            className="grid  w-[100%] bg-black bg-opacity-[2%] overflow-y-auto overflow-x-hidden  md:h-[540px] h-[520px] md:p-5 p-1"
             data-aos="fade-down"
             data-aos-duration="1000"
           >
@@ -310,7 +348,6 @@ function Registration() {
                   onChange={(e) => setStudFName(e.target.value)}
                 ></input>
                 <input
-                  required
                   type="text"
                   className="rounded-md p-1 md:w-[10%] w-[100%]  text-black"
                   placeholder="M.I"
