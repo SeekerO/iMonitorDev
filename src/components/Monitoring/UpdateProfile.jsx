@@ -65,6 +65,9 @@ const UpdateProfile = () => {
       .single();
 
     if (data) {
+      if (data.studremarks === null) {
+        setStudRemarks("No Remarks");
+      }
       //information
       setOldStudName(data.studname);
       setStudFullName(data.studname);
@@ -85,9 +88,6 @@ const UpdateProfile = () => {
       setDesignation(data.companydesignation);
       setCompanyemail(data.companyemail);
       setStudinfo(data);
-    }
-    if (data.studremarks === null) {
-      setStudRemarks("No Remarks");
     }
 
     const { data: bene } = await supabase.from("BeneAccount").select();

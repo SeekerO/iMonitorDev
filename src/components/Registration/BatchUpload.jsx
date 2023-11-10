@@ -23,10 +23,12 @@ function BatchUpload({ visible, close, sy }) {
 
   const readExcel = async (e) => {
     setSelectedFile(e.target.files[0]);
-  };
 
-  const handleUpload = () => {
-    if (selectedFile) {
+    if (e.target.files[0] === undefined) {
+      return;
+    }
+
+    if (e.target.files[0]) {
       const reader = new FileReader();
       reader.onload = (e) => {
         const data = new Uint8Array(e.target.result);
@@ -35,12 +37,28 @@ function BatchUpload({ visible, close, sy }) {
         const sheet = workbook.Sheets[sheetName];
         const jsonData = XLSX.utils.sheet_to_json(sheet);
 
-        // Now you have the Excel data in `jsonData`.
+        for (let index = 0; index < jsonData.length; index++) {
+          if (jsonData[index].o365) {
+            break;
+          } else {
+            toast.warn("Invalid File!", {
+              position: "top-right",
+              autoClose: 1000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              progress: undefined,
+              theme: "light",
+            });
+            return;
+          }
+        }
+
         setDataHolder(jsonData);
-        setDisplayData(true);
         setButtonUpload(true);
+        setDisplayData(true);
       };
-      reader.readAsArrayBuffer(selectedFile);
+      reader.readAsArrayBuffer(e.target.files[0]);
     }
   };
 
@@ -293,14 +311,6 @@ function BatchUpload({ visible, close, sy }) {
                   </div>
                 )}
               </div>
-              {!displayData && (
-                <button
-                  onClick={() => handleUpload()}
-                  className="bg-[#274472] text-white hover:bg-opacity-[80%]  h-fit p-2 mt-2 rounded-sm "
-                >
-                  Check File
-                </button>
-              )}
 
               {displayData && (
                 <button

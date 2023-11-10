@@ -67,7 +67,7 @@ export default function ViewProfileModal({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center z-50">
       <div
-        className="bg-gradient-to-r  to-slate-400 via-[#3a62a2] from-[#355b98]  h-[75%] mt-10 md:w-[70%]  rounded-xl shadow-black shadow-2xl "
+        className="bg-slate-200 h-[75%] mt-10 md:w-[70%]  rounded-xl shadow-black shadow-2xl "
         data-aos="zoom-in"
         data-aos-duration="500"
       >
@@ -83,7 +83,7 @@ export default function ViewProfileModal({
           <form className="p-2 z-50 grid overflow-y-auto h-[100%]  rounded-xl ">
             <div className="flex-col text-black">
               <div className="flex">
-                <span className="font-bold md:text-[25px] text-lg mb-3 rounded-md text-white w-[35%]  p-2">
+                <span className="font-bold md:text-[25px] text-lg mb-3 rounded-md text-black w-[35%]  p-2">
                   STUDENT INFORMATION
                 </span>
               </div>
@@ -92,12 +92,12 @@ export default function ViewProfileModal({
                 className={`${
                   beneData.filterby !== "ALL"
                     ? "hidden"
-                    : " mb-7 pt-[0.5%] text-center w-fit  text-blue-100 hover:underline hover:text-red-500 font-semibold pl-2 flex items-center gap-1 "
+                    : " mb-7 pt-[0.5%] text-center w-fit  text-black hover:underline hover:text-blue-500 font-semibold pl-2 flex items-center gap-1 "
                 }`}
               >
                 <BsPencilSquare /> EDIT
               </Link>
-              <div className="grid md:grid-cols-2 grid-cols-1 gap-x-10  mb-3 pl-2 text-white">
+              <div className="grid md:grid-cols-2 grid-cols-1 gap-x-10  mb-3 pl-2 text-black">
                 <label className=" mt-4 md:text-lg text-base font-semibold ">
                   FULLNAME: {studinfos.studname}
                 </label>
@@ -117,13 +117,14 @@ export default function ViewProfileModal({
                   OJT END: {studinfos.ojtend}
                 </label>
               </div>
-              <label className=" pt-6 md:text-lg text-base font-semibold pl-2 text-white">
+              <label className=" pt-6 md:text-lg text-base font-semibold pl-2 text-black">
                 REMARKS: <p className="text-base">{remarks}</p>
               </label>
-              <p className="font-bold md:text-[25px] text-lg mt-7 rounded-md text-white  p-2">
+              <div className="h-[1px] w-[100%] bg-yellow-500 mt-4" />
+              <p className="font-bold md:text-[25px] text-lg mt-7 rounded-md text-black  p-2">
                 COMPANY INFROMATION
               </p>
-              <div className="grid md:grid-cols-2 grid-cols-1 gap-x-5 pl-2 text-white">
+              <div className="grid md:grid-cols-2 grid-cols-1 gap-x-5 pl-2 text-black">
                 <label className=" mt-4 md:text-lg text-base font-semibold">
                   COMPANY NAME: {studinfos.companyname}
                 </label>
@@ -160,7 +161,7 @@ export default function ViewProfileModal({
               </div>
 
               <div className="mt-10">
-                <p className="font-bold md:text-lg text-base mb-2 rounded-md text-white p-2">
+                <p className="font-bold md:text-lg text-base mb-2 rounded-md text-black p-2">
                   Uploaded image in attendance
                 </p>
                 <div className="h-[300px]  bg-[#5f7caa] bg-opacity-[80%]  mr-[1%] rounded-md overflow-y-auto">

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-//Picture
 
+//Picture
 import stilogo from "./images/STILOGO4.png";
 import profile from "./images/profile.png";
 import profileDisplay from "./images/profile.png";
@@ -100,37 +100,68 @@ function Navbar({ instance }) {
   const loginAZURE = async () => {
     try {
       loginResponse = await instance.loginPopup(loginRequest);
-      console.log(loginResponse)
+
       handleCallbackResponse(loginResponse.account);
       getUserProfile(loginResponse);
     } catch (error) {
       console.error("Authentication error", error);
     }
+    console.log(loginResponse);
   };
 
   const getUserProfile = async (a) => {
     try {
-      const accessToken = a.accessToken;
-
+      getProfilePic(a.account.username);
       const response = await axios.get(
         "https://graph.microsoft.com/v1.0/me/photo/$value",
         {
+          method: "GET",
           headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${a.accessToken}`,
           },
-          responseType: "blob",
+          responseType: "arraybuffer",
         }
       );
-      const profileHolder = URL.createObjectURL(response.data);
-      window.localStorage.setItem("profile", profileHolder);
-      setProfileHeader(window.localStorage.getItem("profile"));
+
+      if (response.status === 200) {
+        const blob = new Blob([response.data], {
+          type: response.headers["content-type"],
+        });
+        const folderName = a.account.username;
+
+        const { data: existingFiles, error } = await supabase.storage
+          .from("ProfilePic")
+          .list(folderName);
+        getProfilePic(a.account.username);
+        if (error) {
+        } else if (existingFiles.length === 0) {
+          const fileName = uuidv4() + ".png";
+
+          const { data, error } = await supabase.storage
+            .from("ProfilePic")
+            .upload(folderName + "/" + fileName, blob, {
+              cacheControl: "3600",
+              upsert: false,
+            });
+
+          getProfilePic(a.account.username);
+        }
+      }
     } catch (error) {
       console.error("Error fetching user avatar:", error);
     }
   };
 
+  async function getProfilePic(email) {
+    const { data: profilePic } = await supabase.storage
+      .from("ProfilePic")
+      .list(email + "/", { limit: 1, offset: 0 });
+
+    var profileURL = `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/ProfilePic/${email}/${profilePic[0].name}`;
+    window.localStorage.setItem("profile", profileURL);
+  }
+
   useEffect(() => {
-    setProfileHeader(window.localStorage.getItem("profile"));
     if (window.localStorage.getItem("token")) {
       checkToken();
       return;
@@ -311,7 +342,7 @@ function Navbar({ instance }) {
     if (bene) {
       setBeneChecker(true);
       setEmail(bene.beneEmail);
-      setProfileHeader(window.localStorage.getItem("profile"));
+
       remove();
     }
   }
@@ -326,7 +357,7 @@ function Navbar({ instance }) {
     if (stud) {
       setStudentChecker(true);
       setEmail(stud.studemail);
-      setProfileHeader(window.localStorage.getItem("profile"));
+
       remove();
     }
   }
@@ -512,12 +543,10 @@ function Navbar({ instance }) {
                           </div>
                         )}
 
-                        {profileheader && (
-                          <img
-                            className="md:h-10 md:w-10 h-8 w-8 rounded-full text-sm hover:ring-2 hover:ring-white"
-                            src={window.localStorage.getItem("profile")}
-                          />
-                        )}
+                        <img
+                          className="md:h-10 md:w-10 h-8 w-8 rounded-full text-sm hover:ring-2 hover:ring-white"
+                          src={window.localStorage.getItem("profile")}
+                        />
                       </div>
 
                       <div
@@ -528,7 +557,7 @@ function Navbar({ instance }) {
                         }`}
                       >
                         <div
-                          class="w-0 h-0 justify-end flex items-end absolute ml-[95px] -mt-[15px]
+                          className="w-0 h-0 justify-end flex items-end absolute ml-[95px] -mt-[15px]
                             border-l-[7px] border-l-transparent
                             border-b-[10px] border-b-white
                             border-r-[7px] border-r-transparent"
@@ -557,13 +586,13 @@ function Navbar({ instance }) {
                         </label>
                         <label className="font-light text-white  md:flex hidden">{`(STUDENT)`}</label>
                       </div>
-                      {profileheader && (
-                        <img
-                          src={window.localStorage.getItem("profile")}
-                          className="md:h-10 md:w-10 h-8 w-8 rounded-full text-sm hover:ring-2 hover:ring-white "
-                          alt="User Avatar"
-                        />
-                      )}
+
+                      <img
+                        src={window.localStorage.getItem("profile")}
+                        className="md:h-10 md:w-10 h-8 w-8 rounded-full text-sm hover:ring-2 hover:ring-white "
+                        alt="User Avatar"
+                      />
+
                       {/* {profileheader ? (
                         <img
                           className="md:h-10 md:w-10 h-8 w-8 rounded-full text-sm hover:ring-2 hover:ring-white "
@@ -620,7 +649,7 @@ function Navbar({ instance }) {
                       }`}
                     >
                       <div
-                        class="w-0 h-0 justify-end flex items-end absolute ml-[95px] -mt-[15px]
+                        className="w-0 h-0 justify-end flex items-end absolute ml-[95px] -mt-[15px]
                             border-l-[7px] border-l-transparent
                             border-b-[10px] border-b-white
                             border-r-[7px] border-r-transparent"

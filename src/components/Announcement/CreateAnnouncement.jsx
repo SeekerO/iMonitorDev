@@ -46,7 +46,7 @@ function CreateAnnouncement({ Data }) {
       }
     } catch (error) {}
   };
-  console.log(Data);
+
   function handlePostAnnouncement() {
     if (!title || !endDate || !message) {
       setPerformError("Please fill all fields");

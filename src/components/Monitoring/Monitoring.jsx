@@ -9,6 +9,9 @@ import { Backdrop } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 
 import ReactPaginate from "react-paginate";
+import ArchiveAllCompleted from "./ArchiveAllCompleted";
+
+import Tooltip from "@mui/material/Tooltip";
 
 const Monitoring = ({ Data }) => {
   const [fetcherrror, setFetchError] = useState(null);
@@ -29,6 +32,7 @@ const Monitoring = ({ Data }) => {
   const [course, setCourse] = useState("ALL");
   const [sy, setSY] = useState("S.Y. 2023-2024");
 
+  const [archive_all_completed, setArchive_all_completed] = useState(false);
   useEffect(() => {
     fetchstudinfo();
     supabase
@@ -109,38 +113,50 @@ const Monitoring = ({ Data }) => {
         data-aos-duration="500"
       >
         <header className="font-bold  text-4xl mb-2">MONITORING</header>
+        <div className="flex w-full justify-between">
+          <div className={`flex gap-4 max-h-[50px]`}>
+            <select
+              value={course}
+              onChange={(e) => setCourse(e.target.value)}
+              className={`${
+                Data.filterby === "ALL"
+                  ? "h-[25px] rounded-md bg-[#5885AF] "
+                  : "hidden "
+              } `}
+            >
+              <option>ALL</option>
+              <option>BSIT</option>
+              <option>BSAIS</option>
+              <option>BSTM</option>
+              <option>BSHM</option>
+              <option>BSCPE</option>
+              <option>BSCS</option>
+            </select>
 
-        <div className={`flex gap-4 max-h-[50px]`}>
-          <select
-            value={course}
-            onChange={(e) => setCourse(e.target.value)}
-            className={`${
-              Data.filterby === "ALL"
-                ? "h-[25px] rounded-md bg-[#5885AF] "
-                : "hidden "
-            } `}
-          >
-            <option>ALL</option>
-            <option>BSIT</option>
-            <option>BSAIS</option>
-            <option>BSTM</option>
-            <option>BSHM</option>
-            <option>BSCPE</option>
-            <option>BSCS</option>
-          </select>
-
-          <select
-            value={sy}
-            onChange={(e) => setSY(e.target.value)}
-            className=" h-[25px] rounded-md bg-[#5885AF] overflow-auto "
-          >
-            <option className="text-[15px]">S.Y. 2023-2024</option>
-            <option className="text-[15px]">S.Y. 2024-2025</option>
-            <option className="text-[15px]">S.Y. 2025-2026</option>
-            <option className="text-[15px]">S.Y. 2026-2027</option>
-            <option className="text-[15px]">S.Y. 2027-2028</option>
-          </select>
+            <select
+              value={sy}
+              onChange={(e) => setSY(e.target.value)}
+              className=" h-[25px] rounded-md bg-[#5885AF] overflow-auto "
+            >
+              <option className="text-[15px]">S.Y. 2023-2024</option>
+              <option className="text-[15px]">S.Y. 2024-2025</option>
+              <option className="text-[15px]">S.Y. 2025-2026</option>
+              <option className="text-[15px]">S.Y. 2026-2027</option>
+              <option className="text-[15px]">S.Y. 2027-2028</option>
+            </select>
+          </div>
+          <div className="">
+            <Tooltip title="Archive all completed student" arrow placement="left-start">
+              <a
+                onClick={() => setArchive_all_completed(!archive_all_completed)}
+                className="bg-[#5885AF] hover:bg-[#5885af90] p-1 rounded-md cursor-default "
+              >
+                ARCHIVE COMPLETED
+              </a>
+            </Tooltip>
+          </div>
         </div>
+
         {studinfos === null ? (
           <Backdrop
             sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -264,6 +280,11 @@ const Monitoring = ({ Data }) => {
           />
         </div>
       </div>
+      <ArchiveAllCompleted
+        visible={archive_all_completed}
+        onClose={setArchive_all_completed}
+        studinfos={studinfos}
+      />
     </div>
   );
 };

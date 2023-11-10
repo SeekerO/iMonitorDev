@@ -6,7 +6,6 @@ import { useState, useEffect } from "react";
 import moment from "moment";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 const StudInfoConfig = ({ studinfos, BeneData, course, sy, handleCheck }) => {
   // AOS ANIMATION

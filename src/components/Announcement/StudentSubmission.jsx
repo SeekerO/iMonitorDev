@@ -10,7 +10,7 @@ function StudentSubmission({ getTitle, counter, getFileSubmit }) {
           Student Submissions
         </div>
         <div className="p-2 h-[250px] bg-white">
-          <p className="flex">Number of Submissions: {counter} </p>
+          <div className="flex">Number of Submissions: {counter} </div>
 
           <div className=" h-[200px] w-full overflow-y-auto">
             {getFileSubmit.map((folder, index) => (

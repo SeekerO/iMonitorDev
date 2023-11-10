@@ -57,7 +57,7 @@ export default function ViewStudData({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center ">
       <div
-        className="bg-gradient-to-r  to-slate-400 via-[#3a62a2] from-[#355b98] h-[100%] w-[100%]  rounded-xl shadow-black shadow-2xl "
+        className="bg-slate-200 h-[100%] w-[100%]  rounded-xl shadow-black shadow-2xl "
         data-aos="zoom-in"
         data-aos-duration="500"
       >
@@ -69,7 +69,7 @@ export default function ViewStudData({
             <AiOutlineClose />
           </button>
         </div>
-        <div className=" rounded-xl m-[1%] h-[90%] text-white">
+        <div className=" rounded-xl m-[1%] h-[90%] text-black">
           <form className=" p-2 z-50 h-[98%]  rounded-xl overflow-y-scroll ">
             <div className="flex-col  ">
               <div className="font-bold md:text-[25px] text-lg mb-3 flex gap-6">
@@ -104,6 +104,7 @@ export default function ViewStudData({
                   REMARKS: <p className="text-base">{remarks}</p>
                 </label>
               </div>
+              <div className="h-[1px] w-[100%] bg-yellow-500 mt-4" />
               <p className="font-bold md:text-[25px] text-lg mt-7">
                 COMPANY INFROMATION
               </p>

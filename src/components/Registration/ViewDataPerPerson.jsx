@@ -17,11 +17,7 @@ function ViewDataPerPerson({ open, close, data }) {
 
     var hours = Math.floor(total_seconds / (60 * 60));
     var minutes = Math.floor(total_seconds / 60) % 60;
-    console.log(
-      date_info.getFullYear(),
-      date_info.getMonth(),
-      date_info.getDate()
-    );
+
     return (
       <label>{`${
         date_info.getDate() +
@@ -75,7 +71,7 @@ function ViewDataPerPerson({ open, close, data }) {
               </div>
               <div>
                 <label className="font-semibold text-lg">Gmail: </label>
-                <label>{data.gmail}</label>
+                <label>{data.o365}</label>
               </div>
               <div>
                 <label className="font-semibold text-lg">Remarks: </label>

@@ -7,7 +7,7 @@ function StudentData({ studinfo }) {
     <>
       <div
         onClick={() => setOpen(!open)}
-        className="grid grid-cols-2 cursor-pointer hover:bg-[#5885AF] hover:bg-opacity-[70%]  hover:text-blue-300 p-1 rounded-md text-white"
+        className="grid grid-cols-2 cursor-pointer hover:bg-[#5885AF] hover:bg-opacity-[80%]  hover:text-blue-100 p-1 rounded-md "
       >
         <p>{studinfo.studname}</p>
         <p>{studinfo.studsection}</p>

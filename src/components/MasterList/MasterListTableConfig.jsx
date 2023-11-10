@@ -7,7 +7,6 @@ import "aos/dist/aos.css";
 const MasterListTableConfig = ({ studinfos, sy, course }) => {
   // AOS ANIMATION
   useEffect(() => {
-
     AOS.init();
   }, [sy]);
 
@@ -18,11 +17,7 @@ const MasterListTableConfig = ({ studinfos, sy, course }) => {
 
   return (
     <>
-      <div
-        data-aos="fade-down"
-        data-aos-duration="500"
-        className="grid grid-cols bg-slate-200 rounded-md mt-[0.5%] hover:p-1 hover:translate-x-2 duration-100 hover:shadow-lg "
-      >
+      <div className="grid grid-cols bg-slate-200 rounded-md mt-[0.5%] hover:p-1 hover:translate-x-2 duration-100 hover:shadow-lg ">
         <div className={`${studinfos.studSY !== sy && "hidden"} `}>
           <div className="md:h-[50px] h-[70px]  text-black flex  pt-2  font-medium rounded">
             <div
