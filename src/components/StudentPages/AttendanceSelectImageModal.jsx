@@ -16,6 +16,7 @@ const AttendanceSelectImageModal = ({
   let IN;
 
   const [isEmpty, setIsEmpty] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState();
 
   const handleFileInputChange = (event) => {
     try {
@@ -24,7 +25,6 @@ const AttendanceSelectImageModal = ({
       if (files.length > 0) {
         setIsEmpty(true);
         setFile(datafile);
-        console.log(file);
       } else {
         setIsEmpty(false);
       }
@@ -96,7 +96,7 @@ const AttendanceSelectImageModal = ({
       setUploading(false);
       document.getElementById("xButton").hidden = false;
       onClose();
-      window.location.reload();
+      // window.location.reload();
     }, 900);
   };
 

@@ -86,7 +86,7 @@ function AdminAccounts() {
       <div className=" w-[100%] h-screen ">
         <div className=" w-[100%] h-[90%] gap-2 gap-y-10 grid grid-cols-1 md:grid-cols-2 md:p-10 p-1 place-content-center items-center overflow-auto  pt-[23%]">
           <div className="w-[100%]  h-[100%]  bg-[#94b8d8]  rounded-md">
-            <div className="bg-[#5885AF] flex justify-center font-bold  text-[25px] p-1  rounded-t-md mb-2">
+            <div className="bg-[#274472] flex justify-center font-bold  text-[25px] p-1  rounded-t-md mb-2 text-white">
               CREATE ADMIN ACCOUNT
             </div>
             <form className="p-2 h-[75.5%] pt-[1%] ">
@@ -133,13 +133,13 @@ function AdminAccounts() {
             </form>
             <button
               onClick={() => CreateAdminAccount()}
-              className="bg-[#5885AF] hover:bg-[#5885afa8] hover:text-white w-[100%] p-2 bottom-0 rounded-b-md font-semibold"
+              className="bg-[#274472] hover:bg-[#3971a5] hover:text-white w-[100%] p-2 bottom-0 rounded-b-md font-semibold"
             >
               CREATE
             </button>
           </div>
           <div className="w-[100%] h-[100%] bg-[#94b8d8] rounded-md flex-col ">
-            <div className=" bg-[#5885AF] flex justify-center font-bold  text-[25px] p-1  rounded-t-md mb-2">
+            <div className=" bg-[#274472] text-white flex justify-center font-bold  text-[25px] p-1  rounded-t-md mb-2">
               CREATED ADMIN ACCOUNT'S
             </div>
             <div className="grid grid-cols-4 p-1 font-semibold text-[17px] ">

@@ -611,7 +611,7 @@ function Navbar({ instance }) {
                       }`}
                     >
                       <div
-                        class="w-0 h-0 justify-end flex items-end absolute ml-[95px] -mt-[15px]
+                        className="w-0 h-0 justify-end flex items-end absolute ml-[95px] -mt-[15px]
                             border-l-[7px] border-l-transparent
                             border-b-[10px] border-b-white
                             border-r-[7px] border-r-transparent"

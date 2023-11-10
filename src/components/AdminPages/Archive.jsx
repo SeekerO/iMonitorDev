@@ -59,11 +59,11 @@ function Archive({ visible, close, data }) {
     <div className="fixed inset-0 bg-black bg-opacity-20 backdrop-blur-sm flex justify-center items-center p-4 ">
       <div className="w-[500px]" data-aos="zoom-in" data-aos-duration="500">
         {/* Archive */}
-        <div className="bg-white w-[100%] h-[270px] rounded-md shadow-lg shadow-slate-600">
-          <div className="flex text-center font-bold text-[30px] bg-blue-900 rounded-t-sm font-mono text-white">
+        <div className="bg-white w-[100%] md:h-[270px] h-[320px]  rounded-md shadow-lg shadow-slate-600">
+          <div className="flex md:text-center text-start font-bold text-[30px] bg-blue-900 rounded-t-sm font-mono text-white">
             <a
               onClick={() => close()}
-              className="justify-start ml-2 mr-[110px] flex items-center cursor-pointer"
+              className="justify-start ml-2 md:mr-[110px] mr-[10px] flex items-center cursor-pointer"
             >
               <IoIosArrowBack />
             </a>
@@ -78,14 +78,14 @@ function Archive({ visible, close, data }) {
                 value={archivename}
                 onChange={(e) => setArchiveName(e.target.value)}
                 placeholder="Update name here"
-                className="bg-gray-200 w-[80%] ml-5 mb-2 pl-2 p-1 rounded-sm"
+                className="bg-gray-200 md:w-[80%] w-[280px] ml-5 mb-2 pl-2 p-1 rounded-sm"
               ></input>
             </p>
             <p className=" font-semibold mt-7">
               STATUS
               <select
                 value={archivestatus}
-                className="ml-5 w-[78%] bg-gray-200 p-1"
+                className="ml-5 bg-gray-200 p-1 md:w-[78%] w-[280px]"
                 onChange={(e) => setArchiveStatus(e.target.value)}
               >
                 <option>active</option>
@@ -98,7 +98,7 @@ function Archive({ visible, close, data }) {
                   status === "active"
                     ? "ml-5 text-[14px] text-green-600 mt-2"
                     : "ml-5 text-[14px] text-red-600 mt-2"
-                }`}
+                } `}
               >
                 The current status of this account is {status}
               </div>

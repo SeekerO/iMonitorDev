@@ -199,11 +199,11 @@ function Update({ visible, close, data }) {
         data-aos-duration="500"
       >
         {/* Update */}
-        <div className="bg-white h-[290px] w-[100%] rounded-md  ">
-          <div className="flex text-center font-bold text-[30px] bg-amber-700 rounded-t-sm font-mono text-white">
+        <div className="bg-white md:h-[270px] h-[320px] w-[100%] rounded-md  ">
+          <div className="flex md:text-center text-start font-bold text-[30px] bg-amber-700 rounded-t-sm font-mono text-white">
             <a
               onClick={() => close1()}
-              className="justify-start ml-2 mr-[110px] flex items-center cursor-pointer"
+              className="justify-start ml-2 md:mr-[110px] mr-[10px] flex items-center cursor-pointer"
             >
               <IoIosArrowBack />
             </a>
@@ -211,29 +211,28 @@ function Update({ visible, close, data }) {
           </div>
 
           <div className="">
-            <p className="ml-1 font-semibold mt-4">
-              NAME
+            <div className="md:flex grid items-center gap-1 mt-4 justify-center">
+              <p className="ml-1 font-semibold">NAME</p>{" "}
               <input
                 type="text"
                 value={updatename}
                 onChange={(e) => setupdatename(e.target.value)}
                 placeholder="Update name here"
-                className="bg-gray-200 w-[80%] ml-5 mb-5 pl-2 p-1 rounded-sm"
+                className="bg-gray-200 md:w-[80%] w-[280px] pl-2 p-1 rounded-sm"
               ></input>
-            </p>
-
-            <p className="ml-1 font-semibold mt-4">
-              EMAIL
+            </div>
+            <div className="md:flex grid items-center gap-1 mt-4 justify-center">
+              <p className="ml-1 font-semibold ">EMAIL</p>
               <input
                 type="text"
                 value={updateemail}
                 onChange={(e) => setupdateemail(e.target.value)}
                 placeholder="Update email here"
-                className="bg-gray-200 w-[80%] ml-5 mb-4 pl-2 p-1 rounded-sm"
+                className="bg-gray-200 md:w-[80%] w-[280px]  pl-2 p-1 rounded-sm"
               ></input>
-            </p>
+            </div>
 
-            <div className="flex mb-4">
+            <div className="flex mb-4 mt-2">
               <select
                 className="ml-6 mb-2 border-2 border-slate-400"
                 value={positionupdate}

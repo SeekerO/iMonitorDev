@@ -39,16 +39,20 @@ function AdminConfig({ admin }) {
       >
         {admin.status.toUpperCase()}
       </label>
-      <a
-        onClick={() => ChangeStatus()}
-        className="cursor-pointer flex items-center justify-center"
-      >
-        {admin.status === "active" ? (
-          <AiOutlineStop className="hover:text-red-500 text-red-500 bg-white rounded-full hover:shadow-md hover:shadow-black" />
-        ) : (
-          <AiFillCheckCircle className="hover:text-green-100 text-white bg-green-500 rounded-full hover:shadow-md hover:shadow-black" />
-        )}
-      </a>
+      {admin.username === "admin" ? (
+        ""
+      ) : (
+        <a
+          onClick={() => ChangeStatus()}
+          className="cursor-pointer flex items-center justify-center"
+        >
+          {admin.status === "active" ? (
+            <AiOutlineStop className="hover:text-red-500 text-red-500 bg-white rounded-full hover:shadow-md hover:shadow-black" />
+          ) : (
+            <AiFillCheckCircle className="hover:text-green-100 text-white bg-green-500 rounded-full hover:shadow-md hover:shadow-black" />
+          )}
+        </a>
+      )}
     </div>
   );
 }

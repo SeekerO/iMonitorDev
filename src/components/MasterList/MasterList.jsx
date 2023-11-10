@@ -4,7 +4,7 @@ import MasterListTableConfig from "./MasterListTableConfig";
 
 import AOS from "aos";
 import "aos/dist/aos.css";
-
+import { BiFilterAlt } from "react-icons/bi";
 import { Backdrop } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 
@@ -90,7 +90,6 @@ const MasterList = ({ Data }) => {
 
   return (
     <div id="monitoring" className="overflow-hidden md:p-10 p-2">
-
       <div
         className=" text-white md:pt-[2%] pt-[10%] w-[100%] h-screen"
         data-aos="fade-up"
@@ -99,34 +98,40 @@ const MasterList = ({ Data }) => {
         <header className="font-bold text-4xl mb-2">MASTER LIST</header>
 
         <div className="flex gap-4 max-h-[50px]">
-          <select
-            value={course}
-            onChange={(e) => setCourse(e.target.value)}
-            className={`${
-              Data.filterby === "ALL"
-                ? "h-[25px] rounded-md bg-[#5885AF] "
-                : "hidden "
-            } `}
-          >
-            <option>ALL</option>
-            <option>BSIT</option>
-            <option>BSAIS</option>
-            <option>BSTM</option>
-            <option>BSHM</option>
-            <option>BSCPE</option>
-            <option>BSCS</option>
-          </select>
-          <select
-            value={sy}
-            onChange={(e) => setSY(e.target.value)}
-            className=" h-[25px] rounded-md bg-[#5885AF] overflow-auto "
-          >
-            <option className="text-[15px]">S.Y. 2023-2024</option>
-            <option className="text-[15px]">S.Y. 2024-2025</option>
-            <option className="text-[15px]">S.Y. 2026-2027</option>
-            <option className="text-[15px]">S.Y. 2027-2028</option>
-            <option className="text-[15px]">S.Y. 2028-2029</option>
-          </select>
+          <div className="flex max-h-[50px] items-center rounded-md bg-[#5885AF]  ">
+            <BiFilterAlt className="text-[20px]" />
+            <select
+              value={course}
+              onChange={(e) => setCourse(e.target.value)}
+              className={`${
+                Data.filterby === "ALL"
+                  ? "h-[25px] rounded-md bg-[#5885AF] outline-none "
+                  : "hidden "
+              } `}
+            >
+              <option>ALL</option>
+              <option>BSIT</option>
+              <option>BSAIS</option>
+              <option>BSTM</option>
+              <option>BSHM</option>
+              <option>BSCPE</option>
+              <option>BSCS</option>
+            </select>
+          </div>
+          <div className="flex max-h-[50px] items-center rounded-md bg-[#5885AF] ">
+            <BiFilterAlt className="text-[20px]" />
+            <select
+              value={sy}
+              onChange={(e) => setSY(e.target.value)}
+              className=" h-[25px] rounded-md bg-[#5885AF] overflow-auto  outline-none "
+            >
+              <option className="text-[15px]">S.Y. 2023-2024</option>
+              <option className="text-[15px]">S.Y. 2024-2025</option>
+              <option className="text-[15px]">S.Y. 2026-2027</option>
+              <option className="text-[15px]">S.Y. 2027-2028</option>
+              <option className="text-[15px]">S.Y. 2028-2029</option>
+            </select>
+          </div>
         </div>
 
         {studinfos === null ? (

@@ -21,10 +21,8 @@ const AnnouncementConfig = ({
   const [readby, setReadBy] = useState();
 
   const [Announcement_Notif, setAnnouncementNotif] = useState(false);
-  var date = moment(new Date()).format("ll");
-  var announceDate = moment(
-    new Date(announcementinfo.announcementEndDate)
-  ).format("ll");
+  var date = new Date();
+  var announceDate = new Date(announcementinfo.announcementEndDate);
 
   function DateByDay(a) {
     const today = new Date(a);
@@ -131,14 +129,11 @@ const AnnouncementConfig = ({
       setAnnouncementNotif(true);
     }
   }
+  const showDate = date >= announceDate;
 
   return (
     <>
-      <div
-        className={`${
-          DateByDay(date) >= DateByDay(announceDate) ? "hidden" : ""
-        }`}
-      >
+      <div className={`${showDate && "hidden"}`}>
         <div
           onClick={() => handleclick()}
           className={`${state ? "bg-black" : "bg-gray-200"}
