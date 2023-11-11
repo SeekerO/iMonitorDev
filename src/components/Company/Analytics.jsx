@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { PieChart } from "react-minimal-pie-chart";
+
 import { BarChart, Bar } from "@mui/x-charts/BarChart";
 import supabase from "../iMonitorDBconfig";
 import { MoonLoader } from "react-spinners";
-function Analytics({ data, masterlistinfos }) {
+function Analytics({ data }) {
   const [analytics, setAnalytics] = useState([]);
   const [showdata, setShowData] = useState(false);
   var array;
@@ -17,7 +18,7 @@ function Analytics({ data, masterlistinfos }) {
       var array = await data.sort((a, b) =>
         a.companyOJT < b.companyOJT ? 1 : -1
       );
-      const colors = ["#efcc00", "#5885AF", "#3962a3"];
+      const colors = ["#efcc00", "#5885AF", "#0080FE"];
       var holder = [];
       for (let index = 0; index < 3; index++) {
         holder = holder.concat([
@@ -34,7 +35,6 @@ function Analytics({ data, masterlistinfos }) {
       }
 
       await setAnalytics(holder);
-
       setShowData(true);
     } catch (error) {}
   }
@@ -134,15 +134,16 @@ function Analytics({ data, masterlistinfos }) {
         </p>
 
         <p className="md:flex grid gap-1 text-[15px] ">
-          The average number of student who didn't complete their OJT in this company is:
-          <p className="text-red-700 font-bold italic" >{avgINCOM}%</p>
+          The average number of student who didn't complete their OJT in this
+          company is:
+          <p className="text-red-700 font-bold italic">{avgINCOM}%</p>
         </p>
       </div>
     );
   };
   return (
     <>
-      {analytics ? (
+      {data ? (
         <>
           {analytics.length < 2 ? (
             <label className="text-white font-bold text-[20px]  flex justify-center place-content-center items-center mt-[10%]">
@@ -251,7 +252,7 @@ function Analytics({ data, masterlistinfos }) {
                               xAxis={[
                                 {
                                   scaleType: "band",
-                                  data: ["Comp", "Incom"],
+                                  data: ["Complete", "Incomplete"],
                                 },
                               ]}
                               series={[
@@ -263,8 +264,8 @@ function Analytics({ data, masterlistinfos }) {
                                   color: [data.color],
                                 },
                               ]}
-                              width={210}
-                              height={250}
+                              width={240}
+                              height={260}
                             />
                           </div>
                           {/* TM */}
@@ -274,7 +275,7 @@ function Analytics({ data, masterlistinfos }) {
                               xAxis={[
                                 {
                                   scaleType: "band",
-                                  data: ["Comp", "Incom"],
+                                  data: ["Complete", "Incomplete"],
                                 },
                               ]}
                               series={[
@@ -286,8 +287,8 @@ function Analytics({ data, masterlistinfos }) {
                                   color: [data.color],
                                 },
                               ]}
-                              width={200}
-                              height={250}
+                              width={240}
+                              height={260}
                             />
                           </div>
                           {/* HM */}
@@ -297,7 +298,7 @@ function Analytics({ data, masterlistinfos }) {
                               xAxis={[
                                 {
                                   scaleType: "band",
-                                  data: ["Comp", "Incom"],
+                                  data: ["Complete", "Incomplete"],
                                 },
                               ]}
                               series={[
@@ -309,8 +310,8 @@ function Analytics({ data, masterlistinfos }) {
                                   color: [data.color],
                                 },
                               ]}
-                              width={200}
-                              height={250}
+                              width={240}
+                              height={260}
                             />
                           </div>
                           {/* AIS */}
@@ -320,7 +321,7 @@ function Analytics({ data, masterlistinfos }) {
                               xAxis={[
                                 {
                                   scaleType: "band",
-                                  data: ["Comp", "Incom"],
+                                  data: ["Complete", "Incomplete"],
                                 },
                               ]}
                               series={[
@@ -332,8 +333,8 @@ function Analytics({ data, masterlistinfos }) {
                                   color: [data.color],
                                 },
                               ]}
-                              width={200}
-                              height={250}
+                              width={240}
+                              height={260}
                             />
                           </div>
                           {/* CPE */}
@@ -343,7 +344,7 @@ function Analytics({ data, masterlistinfos }) {
                               xAxis={[
                                 {
                                   scaleType: "band",
-                                  data: ["Comp", "Incom"],
+                                  data: ["Complete", "Incomplete"],
                                 },
                               ]}
                               series={[
@@ -355,8 +356,8 @@ function Analytics({ data, masterlistinfos }) {
                                   color: [data.color],
                                 },
                               ]}
-                              width={200}
-                              height={250}
+                              width={240}
+                              height={260}
                             />
                           </div>
                           {/* CS */}
@@ -366,7 +367,7 @@ function Analytics({ data, masterlistinfos }) {
                               xAxis={[
                                 {
                                   scaleType: "band",
-                                  data: ["Comp", "Incom"],
+                                  data: ["Complete", "Incomplete"],
                                 },
                               ]}
                               series={[
@@ -378,8 +379,8 @@ function Analytics({ data, masterlistinfos }) {
                                   color: [data.color],
                                 },
                               ]}
-                              width={200}
-                              height={250}
+                              width={240}
+                              height={260}
                             />
                           </div>
                         </div>
@@ -404,7 +405,9 @@ function Analytics({ data, masterlistinfos }) {
           )}
         </>
       ) : (
-        <div>Fetching Data</div>
+        <div className="flex place-content-center items-center h-[300px] bg-[#5885AF] bg-opacity-20 mt-2 rounded-md shadow-black shadow-md">
+          <MoonLoader color="#131f2a" speedMultiplier={0.5} />
+        </div>
       )}
     </>
   );
