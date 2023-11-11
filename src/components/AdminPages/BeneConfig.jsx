@@ -4,7 +4,7 @@ import { MdOutlineBrowserUpdated } from "react-icons/md";
 import Update from "./Update";
 import Archive from "./Archive";
 
-function BeneConfig({ data }) {
+function BeneConfig({ data, studinfo, beneinfo }) {
   const [openUpdate, setOpenUpdate] = useState(false);
   const [openarchive, setOpenArchive] = useState(false);
   return (
@@ -12,8 +12,20 @@ function BeneConfig({ data }) {
       key={data.id}
       className=" md:grid-cols-7 grid-cols-1 justify-start  grid mb-1 bg-slate-300 rounded-md p-3 w-[100%] cursor-default"
     >
-      <Update visible={openUpdate} data={data} close={setOpenUpdate} />
-      <Archive visible={openarchive} data={data} close={setOpenArchive} />
+      <Update
+        visible={openUpdate}
+        data={data}
+        close={setOpenUpdate}
+        beneinfo={beneinfo}
+        studinfo={studinfo}
+      />
+      <Archive
+        visible={openarchive}
+        data={data}
+        close={setOpenArchive}
+        beneinfo={beneinfo}
+        studinfo={studinfo}
+      />
       <div
         className={`${
           data.status === "active"

@@ -25,18 +25,11 @@ const BeneficiaryCreator = () => {
   useEffect(() => {
     fetchbeneinfo();
 
-    supabase
+    const channels = supabase
       .channel("custom-all-channel")
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "BeneAccount" },
-        (payload) => {
-          fetchbeneinfo();
-        }
-      )
-      .on(
-        "postgres_changes",
-        { event: "*", schema: "public", table: "StudentInformation" },
         (payload) => {
           fetchbeneinfo();
         }
@@ -86,7 +79,7 @@ const BeneficiaryCreator = () => {
         if (studinfo[index].studemail === createemail) {
           toast.warn(" The email is already registed in Student Accounts", {
             position: "top-right",
-            autoClose: 5000,
+            autoClose: 1000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -105,7 +98,7 @@ const BeneficiaryCreator = () => {
             " The email is already registed in APO & ADVISER Accounts",
             {
               position: "top-right",
-              autoClose: 5000,
+              autoClose: 1000,
               hideProgressBar: false,
               closeOnClick: true,
               pauseOnHover: true,
@@ -269,6 +262,7 @@ const BeneficiaryCreator = () => {
         visible={viewAccounts}
         setViewAccounts={setViewAccounts}
         beneinfo={beneinfo}
+        studinfo={studinfo}
       />
     </>
   );

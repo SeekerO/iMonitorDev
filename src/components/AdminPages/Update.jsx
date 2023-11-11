@@ -4,10 +4,7 @@ import { IoIosArrowBack } from "react-icons/io";
 
 import { ToastContainer, toast } from "react-toastify";
 
-function Update({ visible, close, data }) {
-  const [studinfo, setStudinfo] = useState();
-  const [beneinfo, setBeneinfo] = useState();
-
+function Update({ visible, close, data, beneinfo, studinfo }) {
   const [oldname, setOldName] = useState(data.beneName);
   const [updatename, setupdatename] = useState(data.beneName);
   const [updateemail, setupdateemail] = useState(data.beneEmail);
@@ -19,41 +16,6 @@ function Update({ visible, close, data }) {
 
   const [positionupdate, setPositionUpdate] = useState(data.position);
   const [courseupdate, setCourseUpdate] = useState("BSIT");
-
-  useEffect(() => {
-    fetchbeneinfo();
-
-    supabase
-      .channel("custom-all-channel")
-      .on(
-        "postgres_changes",
-        { event: "*", schema: "public", table: "BeneAccount" },
-        (payload) => {
-          fetchbeneinfo();
-        }
-      )
-      .on(
-        "postgres_changes",
-        { event: "*", schema: "public", table: "StudentInformation" },
-        (payload) => {
-          fetchbeneinfo();
-        }
-      )
-      .subscribe();
-  }, []);
-
-  const fetchbeneinfo = async () => {
-    const { data: bene } = await supabase.from("BeneAccount").select();
-
-    if (bene) {
-      setBeneinfo(bene);
-    }
-
-    const { data: stud } = await supabase.from("StudentInformation").select();
-    if (stud) {
-      setStudinfo(stud);
-    }
-  };
 
   function isValidEmail(email) {
     return /\S+@\S+\.\S+/.test(email);
@@ -85,31 +47,14 @@ function Update({ visible, close, data }) {
       emailchecker = true;
     }
     var run = false;
+    var oldEmail_holder = data.beneEmail;
     if (emailchecker) {
-      for (let index = 0; index < studinfo.length; index++) {
-        if (studinfo[index].studemail === updateemail) {
-          toast.warn(" The email is already registed in Student Accounts", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            limit: 1,
-            theme: "light",
-          });
-          return;
-        }
-      }
-
-      for (let index = 0; index < beneinfo.length; index++) {
-        if (beneinfo[index].beneEmail === updateemail) {
-          toast.warn(
-            " The email is already registed in APO & ADVISER Accounts",
-            {
+      if (oldEmail_holder !== updateemail) {
+        for (let index = 0; index < studinfo.length; index++) {
+          if (studinfo[index].studemail === updateemail) {
+            toast.warn(" The email is already registed in Student Accounts", {
               position: "top-right",
-              autoClose: 5000,
+              autoClose: 1000,
               hideProgressBar: false,
               closeOnClick: true,
               pauseOnHover: true,
@@ -117,9 +62,29 @@ function Update({ visible, close, data }) {
               progress: undefined,
               limit: 1,
               theme: "light",
-            }
-          );
-          return;
+            });
+            return;
+          }
+        }
+
+        for (let index = 0; index < beneinfo.length; index++) {
+          if (beneinfo[index].beneEmail === updateemail) {
+            toast.warn(
+              " The email is already registed in APO & ADVISER Accounts",
+              {
+                position: "top-right",
+                autoClose: 1000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                limit: 1,
+                theme: "light",
+              }
+            );
+            return;
+          }
         }
       }
       run = true;
@@ -218,7 +183,7 @@ function Update({ visible, close, data }) {
                 value={updatename}
                 onChange={(e) => setupdatename(e.target.value)}
                 placeholder="Update name here"
-                className="bg-gray-200 md:w-[80%] w-[280px] pl-2 p-1 rounded-sm"
+                className="bg-gray-200 md:w-[80%] w-[20px] pl-2 p-1 rounded-sm"
               ></input>
             </div>
             <div className="md:flex grid items-center gap-1 mt-4 justify-center">
@@ -228,7 +193,7 @@ function Update({ visible, close, data }) {
                 value={updateemail}
                 onChange={(e) => setupdateemail(e.target.value)}
                 placeholder="Update email here"
-                className="bg-gray-200 md:w-[80%] w-[280px]  pl-2 p-1 rounded-sm"
+                className="bg-gray-200 md:w-[80%] w-[20px]  pl-2 p-1 rounded-sm"
               ></input>
             </div>
 

@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import BeneConfig from "./BeneConfig";
 
-function ModalAccounts({ visible, beneinfo, setViewAccounts }) {
-
+function ModalAccounts({ visible, beneinfo, studinfo, setViewAccounts }) {
   if (!visible) return null;
   return (
     <>
@@ -26,7 +25,12 @@ function ModalAccounts({ visible, beneinfo, setViewAccounts }) {
               {beneinfo
                 .sort((a, b) => (a.status < b.status ? -1 : 1))
                 .map((data) => (
-                  <BeneConfig data={data} key={data.id} />
+                  <BeneConfig
+                    data={data}
+                    key={data.id}
+                    studinfo={studinfo}
+                    beneinfo={beneinfo}
+                  />
                 ))}
             </div>
 
