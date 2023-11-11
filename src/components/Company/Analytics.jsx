@@ -193,7 +193,7 @@ function Analytics({ data, masterlistinfos }) {
                 <div className="md:flex grid justify-between ">
                   {analytics.map((data) => (
                     <div key={data.id}>
-                      <div className=" bg-slate-100 p-3 w-fit mt-4 rounded shadow-black shadow-lg">
+                      <div className=" bg-slate-200 p-3 w-fit mt-4 rounded shadow-black shadow-lg">
                         <label className="text-xl font-bold flex items-center gap-1">
                           <span
                             style={{ background: data.color }}
@@ -235,7 +235,7 @@ function Analytics({ data, masterlistinfos }) {
                 <div className=" grid justify-between w-[100%]">
                   {analytics.map((data) => (
                     <div key={data.id}>
-                      <div className=" bg-slate-100 p-3 mt-4 rounded shadow-black shadow-lg w-[100%]">
+                      <div className=" bg-slate-200 p-3 mt-4 rounded shadow-black shadow-lg w-[100%]">
                         <label className="text-xl font-bold flex items-center gap-1">
                           <span
                             style={{ background: data.color }}

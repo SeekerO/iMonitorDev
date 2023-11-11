@@ -98,13 +98,21 @@ const Company = ({ Data }) => {
           <div className="mt-1 w-full flex">
             <button
               onClick={() => setOpenTable(true)}
-              className="bg-[#5885AF] mr-2 p-1 rounded-md text-white flex items-center gap-1"
+              className={`${
+                openTable
+                  ? "bg-[#80c2ff] text-black p-1 rounded-md flex items-center gap-1 mr-2 shadow-md shadow-black duration-300 "
+                  : "bg-[#5885AF] text-white p-1 rounded-md flex items-center gap-1 mr-2 hover:shadow-md hover:shadow-black hover:bg-[#80c2ff] hover:text-black"
+              } `}
             >
               <BsFileEarmarkPostFill /> Table
             </button>
             <button
               onClick={() => setOpenTable(false)}
-              className="bg-[#5885AF] p-1 rounded-md text-white flex items-center gap-1"
+              className={`${
+                !openTable
+                  ? "bg-[#80c2ff] text-black p-1 rounded-md flex items-center gap-1 shadow-md shadow-black duration-300"
+                  : "bg-[#5885AF] text-white p-1 rounded-md flex items-center gap-1 hover:shadow-md hover:shadow-black hover:bg-[#80c2ff] hover:text-blacK"
+              } `}
             >
               <BsFillFileBarGraphFill /> Analytics
             </button>
