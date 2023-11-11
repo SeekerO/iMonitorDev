@@ -25,11 +25,11 @@ const CompanyConfig = ({ companyinfos, Data }) => {
             arrow
             placement="left"
             className="w-[30%]"
-          >
+          >  
             <div className="pl-[2%]  w-[100%] hover:underline hover:text-blue-600 md:text-base text-smhover:before:opacity-100 hover:cursor-pointer">
               {companyinfos.companyname}{" "}
             </div>{" "}
-          </Tooltip>
+        </Tooltip>
           <div className="pl-[2%]  w-[39%]  md:text-base text-sm">
             {companyinfos.companyaddress}
           </div>
