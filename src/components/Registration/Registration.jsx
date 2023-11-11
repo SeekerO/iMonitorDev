@@ -579,17 +579,6 @@ function Registration() {
                 className="rounded-md w-[100%] text-black pl-2 h-[32px]"
               ></input>
             </div>
-
-            {/* {formError && (
-              <p className="text-red-400 mb-1 font-bold w-[25%] text-center">
-                {formError}
-              </p>
-            )}
-            {formSuccess && (
-              <p className="text-green-500 mb-1 font-bold w-[25%] text-center">
-                {formSuccess}
-              </p>
-            )} */}
             <button className=" bg-[#145DA0] w-[99.9%] h-[40px] rounded-md font-bold hover:bg-blue-400 mb-10 mt-2">
               REGISTER
             </button>

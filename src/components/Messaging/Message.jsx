@@ -357,7 +357,7 @@ const Message = ({ beneemail }) => {
         ) : (
           ""
         )}
-        <div className="  h-[87%] w-[100%] md:p-5 p-0 flex md:gap-3 gap-1 rounded-md bg-[#90bbdf] bg-opacity-40 shadow-2xl">
+        <div className="  h-[87%] w-[100%] md:p-5 p-0 flex md:gap-3 gap-1 rounded-md bg-[#90bbdf] bg-opacity-40 shadow-2xl items-center">
           {/* Contact */}
           <div
             id="contact"
@@ -601,13 +601,7 @@ const Message = ({ beneemail }) => {
                       ) : (
                         <button
                           onClick={() => handlesendmessage()}
-                          // disabled={havemessage}
                           className=" bg-[#60A3D9] group  h-[50px] w-[55px] rounded-full flex items-center justify-center ml-[10px] mr-[10px] mt-[8px] hover:ring-1 hover:ring-white"
-                          // className={`${
-                          //   havemessage
-                          //     ? " bg-[#60A3D9] group  h-[50px] w-[55px] rounded-full flex items-center justify-center ml-[10px] mr-[10px] mt-[8px] hover:ring-1 hover:ring-white"
-                          //     : "bg-[#60A3D9] group  h-[50px] w-[55px] rounded-full flex items-center justify-center ml-[10px] mr-[10px] mt-[8px] hover:ring-1 hover:ring-white"
-                          // }`}
                         >
                           <IoSend
                             className={`${

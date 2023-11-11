@@ -15,6 +15,7 @@ import Analytics from "./Analytics";
 const Company = ({ Data }) => {
   const [fetcherrror, setFetchError] = useState(null);
   const [companyinfos, setStudCompanyInfos] = useState(null);
+  const [masterlistinfos, setMasterListInfos] = useState();
   const [searchTerm, setSearchTerm] = useState("");
   const [count, setCount] = useState(0);
 
@@ -22,6 +23,7 @@ const Company = ({ Data }) => {
 
   useEffect(() => {
     fetchcompanyinfo();
+    fetchMasterList();
 
     supabase
       .channel("custom-all-channel")
@@ -30,6 +32,7 @@ const Company = ({ Data }) => {
         { event: "*", schema: "public", table: "CompanyTable" },
         (payload) => {
           fetchcompanyinfo();
+          fetchMasterList();
         }
       )
       .subscribe();
@@ -52,6 +55,14 @@ const Company = ({ Data }) => {
     setFetchError(null);
   };
 
+  async function fetchMasterList() {
+    const { data: masterInfo } = await supabase
+      .from("MasterListTable1")
+      .select("*", { count: "exact" });
+
+    setMasterListInfos(masterInfo);
+  }
+
   const [pageNumber, setPageNumber] = useState(0);
   const userPerPage = 20;
   const pageVisited = pageNumber * userPerPage;
@@ -63,7 +74,7 @@ const Company = ({ Data }) => {
   };
 
   return (
-    <div className="overflow-hidden h-screen w-[100%] md:p-10 p-2">
+    <div className="overflow-auto h-screen w-[100%] ">
       {companyinfos === null ? (
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -74,7 +85,7 @@ const Company = ({ Data }) => {
       ) : (
         ""
       )}
-      <div className="h-[100%] overflow-auto">
+      <div className="h-[100%] md:p-10 p-2">
         <div
           data-aos="fade-up"
           data-aos-duration="500"
@@ -225,7 +236,7 @@ const Company = ({ Data }) => {
               </div>
             </div>
           ) : (
-            <Analytics data={companyinfos} />
+            <Analytics data={companyinfos} masterlistinfos={masterlistinfos} />
           )}
         </div>
       </div>

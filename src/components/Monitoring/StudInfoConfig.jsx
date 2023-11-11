@@ -65,7 +65,10 @@ const StudInfoConfig = ({ studinfos, BeneData, course, sy, handleCheck }) => {
                 onChange={handleCheck}
               ></input> */}
               <Tooltip title="View Profile" arrow placement="left-start">
-                <a onClick={() => setShowModalProfile(true)} className="">
+                <a
+                  onClick={() => setShowModalProfile(true)}
+                  className=" md:text-[16px] text-[10px]"
+                >
                   {studinfos.studname}
                 </a>
               </Tooltip>

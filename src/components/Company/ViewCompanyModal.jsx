@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import supabase from "../iMonitorDBconfig";
 import StudentData from "./StudentData";
 import { AiOutlineClose } from "react-icons/ai";
+import Tooltip from "@mui/material/Tooltip";
 export default function ViewProfileModal({
   visible,
   onClose,
@@ -76,12 +77,14 @@ export default function ViewProfileModal({
               COMPANY EMAIL: {companyinfos.companyemail}
             </label>
           </form>
-          <a
-            onClick={() => setOpenStudInfo(!openstudinfo)}
-            className="font-bold text-black hover:text-blue-500 rounded-md w-[300px] mb-2 underline text-[20px] cursor-pointer"
-          >
-            STUDENT INFORMATION
-          </a>
+          <Tooltip title="Expand" arrow placement="right">
+            <a
+              onClick={() => setOpenStudInfo(!openstudinfo)}
+              className="font-bold text-black hover:text-blue-500 hover:underline rounded-md w-[300px] mb-2 text-[20px] cursor-pointer"
+            >
+              STUDENT INFORMATION {`(Current enrolled)`}
+            </a>
+          </Tooltip>
           {/* Student name display in div */}
           {studinfo && (
             <div

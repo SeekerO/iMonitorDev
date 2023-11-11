@@ -186,6 +186,7 @@ const MasterList = ({ Data }) => {
             <>
               <div className="overflow-auto overflow-x-hidden h-[85%]">
                 {studinfos
+                  .sort((a, b) => (a.status < b.status ? -1 : 1))
                   .filter((val) => {
                     try {
                       if (searchTerm === "") {

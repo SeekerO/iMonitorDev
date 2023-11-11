@@ -117,17 +117,15 @@ const Monitoring = ({ Data }) => {
         <div className="flex w-full justify-between">
           <div className={`flex gap-4 max-h-[50px] items-center`}>
             <div
-              className={`flex max-h-[50px] items-center rounded-md bg-[#5885AF] `}
+              className={`${
+                Data.filterby !== "ALL" && "hidden"
+              } flex max-h-[50px] items-center rounded-md bg-[#5885AF] `}
             >
               <BiFilterAlt className="text-[20px]" />
               <select
                 value={course}
                 onChange={(e) => setCourse(e.target.value)}
-                className={`${
-                  Data.filterby === "ALL"
-                    ? "h-[25px] rounded-md bg-[#5885AF] outline-none  "
-                    : "hidden "
-                } `}
+                className={`h-[25px] rounded-md bg-[#5885AF] outline-none`}
               >
                 <option>ALL</option>
                 <option>BSIT</option>
@@ -161,7 +159,7 @@ const Monitoring = ({ Data }) => {
             >
               <a
                 onClick={() => setArchive_all_completed(!archive_all_completed)}
-                className="bg-[#5885AF] hover:bg-[#5885af90] p-1 rounded-md cursor-default "
+                className="bg-[#5885AF] hover:bg-[#5885af90] p-1 rounded-md cursor-default md:text-base text-[13px]"
               >
                 ARCHIVE COMPLETED
               </a>
