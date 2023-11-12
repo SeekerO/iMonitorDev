@@ -93,42 +93,20 @@ function Analytics({ data }) {
     let CScom = 0;
     let CSincom = 0;
     for (let index = 0; index < masterlistcom.length; index++) {
-      switch (masterlistcom[index].filterby) {
-        case "BSIT":
-          ITcom++;
-        case "BSHM ":
-          HMcom++;
-        case "BSTM ":
-          TMcom++;
-        case "BSCPE ":
-          CPEcom++;
-        case "BSAIS ":
-          AIScom++;
-        case "BSCS ":
-          CScom++;
-
-        default:
-          break;
-      }
+      if (masterlistincom[index].filterby === "BSIT") ITcom++;
+      if (masterlistincom[index].filterby === "BSHM") HMcom++;
+      if (masterlistincom[index].filterby === "BSTM") TMcom++;
+      if (masterlistincom[index].filterby === "BSCPE") CPEcom++;
+      if (masterlistincom[index].filterby === "BSAIS") AIScom++;
+      if (masterlistincom[index].filterby === "BSCS") CScom++;
     }
     for (let index = 0; index < masterlistincom.length; index++) {
-      switch (masterlistincom[index].filterby) {
-        case "BSIT":
-          ITcom++;
-        case "BSHM ":
-          HMcom++;
-        case "BSTM ":
-          TMcom++;
-        case "BSCPE ":
-          CPEcom++;
-        case "BSAIS ":
-          AIScom++;
-        case "BSCS ":
-          CScom++;
-
-        default:
-          break;
-      }
+      if (masterlistincom[index].filterby === "BSIT") ITcom++;
+      if (masterlistincom[index].filterby === "BSHM") HMcom++;
+      if (masterlistincom[index].filterby === "BSTM") TMcom++;
+      if (masterlistincom[index].filterby === "BSCPE") CPEcom++;
+      if (masterlistincom[index].filterby === "BSAIS") AIScom++;
+      if (masterlistincom[index].filterby === "BSCS") CScom++;
     }
 
     array = [
@@ -168,21 +146,21 @@ function Analytics({ data }) {
     let avgINCOM = Math.round((InCompleteValue / overallValue) * 100);
     return (
       <div className="flex text-start gap-2 justify-center w-[100%]">
-        <p className="md:flex grid gap-1 text-[15px] ">
+        <div className="md:flex grid gap-1 text-[15px] ">
           The average number of student who completed their OJT in this company
           is{" "}
-          <p className="text-green-500 font-bold  italic">{`${
+          <div className="text-green-500 font-bold  italic">{`${
             avgCOM >= -0 ? `${avgCOM}%` : "No Data"
-          }`}</p>
-        </p>
-        <p className="md:flex grid gap-1 text-[15px] ">
+          }`}</div>
+        </div>
+        <div className="md:flex grid gap-1 text-[15px] ">
           The average number of student who didn't complete their OJT in this
           company is
           {console.log(avgINCOM)}
-          <p className="text-red-500 font-bold italic">{`${
+          <div className="text-red-500 font-bold italic">{`${
             avgINCOM >= -0 ? `${avgINCOM}%` : "No Data"
-          }`}</p>
-        </p>
+          }`}</div>
+        </div>
         .
       </div>
     );
@@ -304,6 +282,7 @@ function Analytics({ data }) {
                       TOP 3 MOST OJT ENROLLED AT THAT COMPANY
                     </label>
                   </div>
+                  {console.log(analytics)}
                   {showdata ? (
                     <div className=" grid justify-between md:w-[100%]  w-[95%]">
                       {analytics.map((data) => (
