@@ -149,14 +149,15 @@ function Analytics({ data }) {
       <div className="flex text-start gap-2 justify-center w-[100%]">
         <p className="md:flex grid gap-1 text-[15px] ">
           The average number of student who completed their OJT in this company
-          is <p className="text-green-500 font-bold  italic">{avgCOM}%</p>
+          is <p className="text-green-500 font-bold  italic">{`${avgCOM >= -0 ? `${avgCOM}%` : "No Data"}`}</p>
         </p>
 
         <p className="md:flex grid gap-1 text-[15px] ">
           The average number of student who didn't complete their OJT in this
           company is
-          <p className="text-red-500 font-bold italic">{avgINCOM}%</p>
-        </p>
+          {console.log(avgINCOM)}
+          <p className="text-red-500 font-bold italic">{`${avgINCOM >= -0 ? `${avgINCOM}%` : "No Data"}`}</p>
+        </p>.
       </div>
     );
   };
