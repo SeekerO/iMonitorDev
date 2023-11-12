@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/iMonitorDev/static/css/main.1aef8a9e.css",
-    "main.js": "/iMonitorDev/static/js/main.3a64e713.js",
+    "main.js": "/iMonitorDev/static/js/main.c1f4ed89.js",
     "static/js/839.b0c9ef90.chunk.js": "/iMonitorDev/static/js/839.b0c9ef90.chunk.js",
     "static/media/iMonitor.png": "/iMonitorDev/static/media/iMonitor.72b0bbe1dd123be29a7a.png",
     "static/media/internship-jobs.jpg": "/iMonitorDev/static/media/internship-jobs.ff283c47a55387cece2b.jpg",
@@ -10,11 +10,11 @@
     "static/media/profile.png": "/iMonitorDev/static/media/profile.7a6a6c54279a54d1977c.png",
     "index.html": "/iMonitorDev/index.html",
     "main.1aef8a9e.css.map": "/iMonitorDev/static/css/main.1aef8a9e.css.map",
-    "main.3a64e713.js.map": "/iMonitorDev/static/js/main.3a64e713.js.map",
+    "main.c1f4ed89.js.map": "/iMonitorDev/static/js/main.c1f4ed89.js.map",
     "839.b0c9ef90.chunk.js.map": "/iMonitorDev/static/js/839.b0c9ef90.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.1aef8a9e.css",
-    "static/js/main.3a64e713.js"
+    "static/js/main.c1f4ed89.js"
   ]
 }
