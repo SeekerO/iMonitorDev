@@ -4,10 +4,14 @@ import { Link } from "react-router-dom";
 import { RiInformationFill } from "react-icons/ri";
 import { ToastContainer, toast } from "react-toastify";
 
-export default function ArchiveAllCompleted({ visible, onClose, studinfos }) {
+export default function ArchiveAllCompleted({ visible, onClose }) {
   if (!visible) return null;
 
   async function handleArchiveCompleted() {
+    const { data: studinfos } = await supabase
+      .from("StudentInformation")
+      .select();
+      
     let count = 0;
     let studentcount = studinfos.length;
     for (let index = 0; index < studinfos.length; index++) {

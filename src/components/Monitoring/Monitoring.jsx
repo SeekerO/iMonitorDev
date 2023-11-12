@@ -293,7 +293,6 @@ const Monitoring = ({ Data }) => {
       <ArchiveAllCompleted
         visible={archive_all_completed}
         onClose={setArchive_all_completed}
-        studinfos={studinfos}
       />
     </div>
   );
