@@ -777,7 +777,7 @@ function Navbar({ instance }) {
             WELCOME to iMonitor
           </div>
         </div>
-        <div>
+        <div className="">
           {load && (
             <Backdrop
               sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -797,16 +797,11 @@ function Navbar({ instance }) {
             </div>
           )}
           {adminverify && <AdminPage />}
-          <main className="flex-grow md:pl-52 bg-[#1e455d] bg-opacity-[60%] h-screen  ">
+          <main className="flex-grow md:pl-52 bg-[#1e455d] bg-opacity-[60%] h-screen">
             {/* content here */}
             {benechecker && <BeneRoutes beneemail={email} data={dataBene} />}
             {studentchecker && <StudentRoutes studemail={email} />}
-            {adminverify && (
-              <AdminRoutes studemail={email} />
-              // <main className="flex-grow -ml-52 h-screen  ">
-              //
-              // </main>
-            )}
+            {adminverify && <AdminRoutes studemail={email} />}
           </main>
         </div>
         {/* Main Div End*/}

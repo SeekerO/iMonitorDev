@@ -50,7 +50,7 @@ const StudInfoConfig = ({ studinfos, BeneData, course, sy, handleCheck }) => {
   return (
     <>
       <div className={``}>
-        <div className={`${studinfos.studSY !== sy && "hidden"}`}>
+        <div className={`${studinfos.studSY !== sy && "hidden"}`} >
           <div
             className="bg-slate-200 text-black flex font-medium rounded mt-1.5 
             hover:shadow-sm hover:shadow-black duration-300 p-2 hover:p-3"
