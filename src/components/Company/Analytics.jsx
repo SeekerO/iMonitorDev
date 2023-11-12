@@ -190,7 +190,7 @@ function Analytics({ data }) {
                       />
                     </div>
 
-                    <div className=" ml-10 gap-10  text-white justify-start md:flex grid items-center ">
+                    <div className=" ml-10 md:gap-10 gap-5  text-white justify-start md:flex grid items-center ">
                       {analytics.map((data) => (
                         <div
                           key={data.id}
@@ -226,7 +226,7 @@ function Analytics({ data }) {
                 <div ref={divRef}>
                   <div
                     onClick={() => setMoreInformation(!moreinformaiton)}
-                    className="bg-[#6f97bcb3] hover:bg-[#48a7ffb3]  p-1 mt-4 rounded shadow-black shadow-lg  md:w-[100%]  w-[95%] text-white justify-center flex "
+                    className="bg-[#58abf8b3] hover:bg-[#48a7ff60]  p-1 mt-4 rounded shadow-black shadow-lg md:w-[100%]  w-[99%] text-white justify-center flex "
                   >
                     <label className="font-bold text-md ">
                       HIDE INFORMATION
@@ -236,7 +236,7 @@ function Analytics({ data }) {
                     <div className="md:flex grid justify-between ">
                       {analytics.map((data) => (
                         <div key={data.id}>
-                          <div className=" bg-[#6f97bcb3] p-3 mt-4 rounded shadow-black shadow-lg text-white w-[100%] ">
+                          <div className=" bg-[#6f97bcb3] p-3 mt-4 rounded shadow-black shadow-lg text-white md:w-[100%] w-[102%]">
                             <label className="text-xl font-bold flex items-center gap-1">
                               <span
                                 style={{ background: data.color }}
@@ -283,7 +283,7 @@ function Analytics({ data }) {
                     <div className=" grid justify-between md:w-[100%]  w-[95%]">
                       {analytics.map((data) => (
                         <div key={data.id}>
-                          <div className=" bg-[#6f97bcb3] p-3 mt-4 rounded shadow-black shadow-lg w-[100%] text-white ">
+                          <div className=" bg-[#6f97bcb3] p-3 mt-4 rounded shadow-black shadow-lg md:w-[100%] w-[105%] text-white ">
                             <label className="text-xl font-bold flex items-center gap-1">
                               <span
                                 style={{ background: data.color }}
@@ -292,7 +292,7 @@ function Analytics({ data }) {
                               {data.companyname}
                             </label>
 
-                            <div className="grid md:grid-cols-6 grid-cols-2 w-[100%] z-50 ">
+                            <div className="grid md:grid-cols-6 grid-cols-2 md:w-[100%] ">
                               {/* IT */}
                               <div>
                                 BSIT
@@ -453,9 +453,9 @@ function Analytics({ data }) {
               ) : (
                 <div
                   onClick={() => setMoreInformation(!moreinformaiton)}
-                  className="bg-[#6f97bcb3] p-1 mt-4 rounded shadow-black shadow-lg  md:w-[100%]  w-[99%] text-white justify-center flex "
+                  className="bg-[#4778a6b3] cursor-pointer hover:bg-[#48a7ff60] p-1 mt-4 rounded shadow-black shadow-lg  md:w-[100%]  w-[99%] text-white justify-center flex "
                 >
-                  <label className="font-bold text-md ">
+                  <label className="font-bold text-md cursor-pointer">
                     VIEW MORE INFORMATION
                   </label>
                 </div>
