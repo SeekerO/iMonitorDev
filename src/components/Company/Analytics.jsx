@@ -16,6 +16,9 @@ function Analytics({ data }) {
       setMoreInformation(false);
     }
   };
+  useEffect(() => {
+    Analytics(data);
+  }, [data]);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -25,11 +28,7 @@ function Analytics({ data }) {
     };
   }, []);
 
-
   var array;
-  useEffect(() => {
-    Analytics(data);
-  }, [data]);
 
   async function Analytics(data) {
     try {
@@ -39,6 +38,7 @@ function Analytics({ data }) {
       );
       const colors = ["#efcc00", "#6693F5", "#0080FE"];
       var holder = [];
+
       for (let index = 0; index < 3; index++) {
         holder = holder.concat([
           {
@@ -57,7 +57,7 @@ function Analytics({ data }) {
       setShowData(true);
     } catch (error) {}
   }
-  console.log(analytics);
+
   async function DataTop1(compname) {
     const { data: masterlistcom, count: complete } = await supabase
       .from("MasterListTable1")
@@ -93,21 +93,42 @@ function Analytics({ data }) {
     let CScom = 0;
     let CSincom = 0;
     for (let index = 0; index < masterlistcom.length; index++) {
-      if (masterlistcom[index].filterby === "BSIT") ITcom++;
-      if (masterlistcom[index].filterby === "BSHM") HMcom++;
-      if (masterlistcom[index].filterby === "BSTM") TMcom++;
-      if (masterlistcom[index].filterby === "BSCPE") CPEcom++;
-      if (masterlistcom[index].filterby === "BSAIS") AIScom++;
-      if (masterlistcom[index].filterby === "BSCS") CScom++;
-    }
+      switch (masterlistcom[index].filterby) {
+        case "BSIT":
+          ITcom++;
+        case "BSHM ":
+          HMcom++;
+        case "BSTM ":
+          TMcom++;
+        case "BSCPE ":
+          CPEcom++;
+        case "BSAIS ":
+          AIScom++;
+        case "BSCS ":
+          CScom++;
 
+        default:
+          break;
+      }
+    }
     for (let index = 0; index < masterlistincom.length; index++) {
-      if (masterlistcom[index].filterby === "BSIT") ITincom++;
-      if (masterlistcom[index].filterby === "BSHM") HMincom++;
-      if (masterlistcom[index].filterby === "BSTM") TMincom++;
-      if (masterlistcom[index].filterby === "BSCPE") CPEincom++;
-      if (masterlistcom[index].filterby === "BSAIS") AISincom++;
-      if (masterlistcom[index].filterby === "BSCS") CSincom++;
+      switch (masterlistincom[index].filterby) {
+        case "BSIT":
+          ITcom++;
+        case "BSHM ":
+          HMcom++;
+        case "BSTM ":
+          TMcom++;
+        case "BSCPE ":
+          CPEcom++;
+        case "BSAIS ":
+          AIScom++;
+        case "BSCS ":
+          CScom++;
+
+        default:
+          break;
+      }
     }
 
     array = [
@@ -134,7 +155,7 @@ function Analytics({ data }) {
         BSCSInCom: CSincom,
       },
     ];
-
+    console.log(array);
     return { array };
   }
 
@@ -149,21 +170,26 @@ function Analytics({ data }) {
       <div className="flex text-start gap-2 justify-center w-[100%]">
         <p className="md:flex grid gap-1 text-[15px] ">
           The average number of student who completed their OJT in this company
-          is <p className="text-green-500 font-bold  italic">{`${avgCOM >= -0 ? `${avgCOM}%` : "No Data"}`}</p>
+          is{" "}
+          <p className="text-green-500 font-bold  italic">{`${
+            avgCOM >= -0 ? `${avgCOM}%` : "No Data"
+          }`}</p>
         </p>
-
         <p className="md:flex grid gap-1 text-[15px] ">
           The average number of student who didn't complete their OJT in this
           company is
           {console.log(avgINCOM)}
-          <p className="text-red-500 font-bold italic">{`${avgINCOM >= -0 ? `${avgINCOM}%` : "No Data"}`}</p>
-        </p>.
+          <p className="text-red-500 font-bold italic">{`${
+            avgINCOM >= -0 ? `${avgINCOM}%` : "No Data"
+          }`}</p>
+        </p>
+        .
       </div>
     );
   };
   return (
     <>
-      {data ? (
+      {analytics ? (
         <>
           {analytics.length < 2 ? (
             <label className="text-white font-bold text-[20px]  flex justify-center place-content-center items-center mt-[10%]">
@@ -221,7 +247,6 @@ function Analytics({ data }) {
                   </div>
                 </div>
               )}
-
               {moreinformaiton ? (
                 <div ref={divRef}>
                   <div
