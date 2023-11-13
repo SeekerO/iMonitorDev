@@ -119,7 +119,7 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo }) => {
     if (error) {
       console.log(error);
     }
-    window.location.reload();
+    // window.location.reload();
   };
   // add the date to the current in studentinforamtion studprgoress + hours
   function toHoursAndMinutes() {

@@ -96,7 +96,7 @@ const AttendanceSelectImageModal = ({
       setUploading(false);
       document.getElementById("xButton").hidden = false;
       onClose();
-      window.location.reload();
+      // window.location.reload();
     }, 900);
   };
 
