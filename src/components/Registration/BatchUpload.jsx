@@ -70,6 +70,14 @@ function BatchUpload({ visible, close, sy }) {
     close(!visible);
   }
 
+  function ExcelTimeReder(time) {
+    const startCompTime = time * 24 * 60 * 60 * 1000;
+    const date = new Date(startCompTime);
+    const formattedTime = moment(date).format("LTS");
+
+    return formattedTime;
+  }
+
   async function UploadDataExcel() {
     let count = 0;
 
@@ -116,6 +124,9 @@ function BatchUpload({ visible, close, sy }) {
           }
         }
 
+        var comptimeSTART = ExcelTimeReder(dataHolder[index].startingtime);
+        var comptimeEND = ExcelTimeReder(dataHolder[index].endingtime);
+
         if (c !== dataHolder[index].companyname) {
           const { data1 } = await supabase.from("CompanyTable").insert({
             companyname: dataHolder[index].companyname,
@@ -125,6 +136,8 @@ function BatchUpload({ visible, close, sy }) {
             supervisorofficenumber: dataHolder[index].officeNumber,
             companydesignation: dataHolder[index].designation,
             companyemail: dataHolder[index].officeEmail,
+            startingtime: comptimeSTART,
+            endingtime: comptimeEND,
             companyOJT: 1,
           });
         }

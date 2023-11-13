@@ -445,7 +445,7 @@ const UpdateProfile = () => {
               className="rounded-md p-1 md:w-[65%] w-[100%]  text-black"
               value={studemail}
               onChange={(e) => setStudemail(e.target.value)}
-              placeholder="GMAIL"
+              placeholder="example123456@stamaria.sti.edu.ph"
             ></input>
             <label className="font-semibold text-[19px] w-[16%]">
               STUDENT PROGRESS

@@ -12,6 +12,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import BatchUpload from "./BatchUpload";
 import { BsFiles } from "react-icons/bs";
+import moment from "moment";
 
 function Registration() {
   useEffect(() => {
@@ -39,7 +40,8 @@ function Registration() {
   // //Company name var
   const [value, setValue] = useState("");
   const [companyinfos, setStudCompanyInfos] = useState("");
-
+  const [startTime, setStartTime] = useState();
+  const [endTime, setEndTime] = useState();
   const [companyaddress, setCompanyaddress] = useState("");
   const [supervisorname, setSupervisorname] = useState("");
   const [supervisorcontactnumber, setSupervisorcontactnumber] = useState("");
@@ -90,6 +92,8 @@ function Registration() {
     setSupervisorofficenumber("");
     setDesignation("");
     setCompanyemail("");
+    setStartTime();
+    setEndTime();
   }
 
   const FilterCompany = async () => {
@@ -99,17 +103,16 @@ function Registration() {
       var c;
       const { data } = await supabase.from("CompanyTable").select();
 
-      for (let index = 0; index < data.length; index++) {
-        if (value === data[index].companyname) {
-          a = data[index].id;
-          b = parseInt(data[index].companyOJT) + 1;
-          c = data[index].companyname;
+      for (let index1 = 0; index1 < data.length; index1++) {
+        if (value === data[index1].companyname) {
+          a = data[index1].id;
+          b = parseInt(data[index1].companyOJT) + 1;
+          c = data[index1].companyname;
 
           const { data1 } = await supabase
             .from("CompanyTable")
             .update({ companyOJT: b })
             .eq("id", a);
-
           break;
         }
       }
@@ -124,6 +127,8 @@ function Registration() {
           companydesignation: designation,
           companyemail: companyemail,
           companyOJT: 1,
+          startingtime: startTime,
+          endingtime: endTime,
         });
       }
     } catch (error) {}
@@ -213,6 +218,8 @@ function Registration() {
       setStudRemarks(null);
     }
 
+    FilterCompany();
+
     var studfullname = studfname + " " + studmname + " " + studlname;
     var program = studprogram.toString();
     var studcourse;
@@ -245,7 +252,6 @@ function Registration() {
       studmaxduration = 300;
       studcourse = "BSCS";
     }
-    FilterCompany();
 
     const { data, error } = await supabase.from("StudentInformation").insert([
       {
@@ -447,6 +453,28 @@ function Registration() {
               COMPANY INFROMATION
             </label>
             {/* Line 7 */}
+            <div className="flex  gap-5 pt-2">
+              <label className="gap-3 flex font-semibold text-[19px] ">
+                START TIME
+                <input
+                  value={startTime}
+                  onChange={(e) => setStartTime(e.target.value)}
+                  required
+                  type="time"
+                  className="rounded-md text-black pl-2"
+                />
+              </label>
+              <label className="gap-3 flex font-semibold text-[19px]">
+                END TIME
+                <input
+                  value={endTime}
+                  onChange={(e) => setEndTime(e.target.value)}
+                  required
+                  type="time"
+                  className="rounded-md text-black pl-2"
+                />
+              </label>
+            </div>
             <div className="grid md:flex grid-cols-1 w-[100%]  gap-4 pt-4">
               <label className="font-semibold text-[19px] md:w-[15%] w-[100%]">
                 COMPANY NAME

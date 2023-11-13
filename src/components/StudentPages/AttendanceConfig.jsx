@@ -3,7 +3,7 @@ import moment from "moment";
 import AttendanceSelectImageModal from "./AttendanceSelectImageModal";
 import supabase from "../iMonitorDBconfig";
 
-const AttendanceConfig = ({ attendanceinfo }) => {
+const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo }) => {
   const [showmodaluploadimage, setShowModalUploadImage] = useState(false);
   const handlecloseuploadimage = () => setShowModalUploadImage(false);
 
@@ -11,25 +11,86 @@ const AttendanceConfig = ({ attendanceinfo }) => {
   const [Out, setOut] = useState(true);
 
   var currDateFull = moment().format("l");
+  var currTime = moment().format("LTS");
+  var start;
+  var adjustedStart;
+  var end;
   let [uuid, setUuid] = useState();
-  
-  useEffect(() => {
-    datechecker();
-  }, []);
 
+  useEffect(() => {
+    timeChecker();
+
+    const intervalId = setInterval(timeChecker, 60000);
+    return () => clearInterval(intervalId);
+  }, [attendanceinfo]);
+
+  function timeChecker() {
+    for (let index = 0; index < companyinfo.length; index++) {
+      if (studinfo.companyname === companyinfo[index].companyname) {
+        start = new Date(
+          "1970-01-01T" + companyinfo[index].startingtime + "Z"
+        ).toLocaleTimeString("en-US", {
+          timeZone: "UTC",
+          hour12: true,
+          hour: "numeric",
+          minute: "numeric",
+          second: "numeric",
+        });
+
+        // Convert start to a Date object to perform arithmetic operations
+        const startDateObject = new Date(
+          "1970-01-01T" + companyinfo[index].startingtime + "Z"
+        );
+
+        // Subtract 1 hour from startDateObject
+        startDateObject.setHours(startDateObject.getHours() - 1);
+
+        // Format the adjustedStartDate as a string in the desired format
+        const adjustedStartDate = startDateObject.toLocaleTimeString("en-US", {
+          timeZone: "UTC",
+          hour12: true,
+          hour: "numeric",
+          minute: "numeric",
+          second: "numeric",
+        });
+
+        adjustedStart = adjustedStartDate; // Adjusted start date with 1 hour less
+
+        end = new Date(
+          "1970-01-01T" + companyinfo[index].endingtime + "Z"
+        ).toLocaleTimeString("en-US", {
+          timeZone: "UTC",
+          hour12: true,
+          hour: "numeric",
+          minute: "numeric",
+          second: "numeric",
+        });
+
+        datechecker();
+
+        break;
+      }
+    }
+  }
 
   function datechecker() {
     if (currDateFull === attendanceinfo.studDate) {
-      if (attendanceinfo.studin === null) {
-        setIn(false);
-        setOut(true);
-      } else {
-        setIn(true);
-        if (attendanceinfo.studout === null) {
-          setOut(false);
-        } else {
+      if (currTime <= start && currTime >= adjustedStart) {
+        if (attendanceinfo.studin === null) {
+          setIn(false);
           setOut(true);
+        } else {
+          setIn(true);
+          if (attendanceinfo.studout === null) {
+            setOut(false);
+          } else {
+            setOut(true);
+          }
         }
+      }
+      if (currTime >= end) {
+        setIn(true);
+        setOut(true);
       }
     }
     setUuid(Math.ceil(Math.random() * 99999999));
