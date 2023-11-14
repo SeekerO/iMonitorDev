@@ -133,13 +133,6 @@ const Message = ({ beneemail }) => {
 
   // Data Getter In SupaBase
   async function DataGetter() {
-    const { data: studinfo, count } = await supabase
-      .from("StudentInformation")
-      .select("*", { count: "exact" });
-
-    setStudInfo(studinfo);
-    setCount(count);
-
     const { data: beneinfo } = await supabase
       .from("BeneAccount")
       .select()
@@ -148,6 +141,23 @@ const Message = ({ beneemail }) => {
     if (beneinfo) {
       setBeneName(beneinfo.beneName);
       setBeneInfo(beneinfo);
+
+      if (beneinfo.filterby === "ALL") {
+        const { data: studinfo, count } = await supabase
+          .from("StudentInformation")
+          .select("*", { count: "exact" });
+
+        setStudInfo(studinfo);
+        setCount(count);
+      } else {
+        const { data: studinfo, count } = await supabase
+          .from("StudentInformation")
+          .select("*", { count: "exact" })
+          .match({ studcourse: beneinfo.filterby });
+
+        setStudInfo(studinfo);
+        setCount(count);
+      }
     }
   }
 

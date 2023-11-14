@@ -15,7 +15,7 @@ import Analytics from "./Analytics";
 const Company = ({ Data }) => {
   const [fetcherrror, setFetchError] = useState(null);
   const [companyinfos, setStudCompanyInfos] = useState(null);
-  const [masterlistinfos, setMasterListInfos] = useState();
+
   const [searchTerm, setSearchTerm] = useState("");
   const [count, setCount] = useState(0);
 
@@ -23,7 +23,6 @@ const Company = ({ Data }) => {
 
   useEffect(() => {
     fetchcompanyinfo();
-    fetchMasterList();
 
     supabase
       .channel("custom-all-channel")
@@ -32,7 +31,6 @@ const Company = ({ Data }) => {
         { event: "*", schema: "public", table: "CompanyTable" },
         (payload) => {
           fetchcompanyinfo();
-          fetchMasterList();
         }
       )
       .subscribe();
@@ -54,14 +52,6 @@ const Company = ({ Data }) => {
 
     setFetchError(null);
   };
-
-  async function fetchMasterList() {
-    const { data: masterInfo } = await supabase
-      .from("MasterListTable1")
-      .select("*", { count: "exact" });
-
-    setMasterListInfos(masterInfo);
-  }
 
   const [pageNumber, setPageNumber] = useState(0);
   const userPerPage = 20;
@@ -150,7 +140,7 @@ const Company = ({ Data }) => {
               <div
                 data-aos="fade-up"
                 data-aos-duration="500"
-                className=" mt-1 md:h-[340px] h-[380px] overflow-y-auto overflow-x-hidden"
+                className=" mt-1  h-[300px] overflow-y-auto overflow-x-hidden"
               >
                 {companyinfos ? (
                   <>
@@ -244,7 +234,7 @@ const Company = ({ Data }) => {
               </div>
             </div>
           ) : (
-            <Analytics data={companyinfos} masterlistinfos={masterlistinfos} />
+            <Analytics data={companyinfos} />
           )}
         </div>
       </div>

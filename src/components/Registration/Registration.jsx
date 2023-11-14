@@ -334,7 +334,7 @@ function Registration() {
 
           <form
             onSubmit={handleSubmit}
-            className="grid  w-[100%] bg-black bg-opacity-[2%] overflow-y-auto overflow-x-hidden  md:h-[540px] h-[520px] md:p-5 p-1"
+            className="grid  w-[100%] bg-black bg-opacity-[2%] overflow-y-auto overflow-x-hidden  h-[510px] md:p-5 p-1"
             data-aos="fade-down"
             data-aos-duration="1000"
           >

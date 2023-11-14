@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import supabase from "../iMonitorDBconfig";
 import MasterListTableConfig from "./MasterListTableConfig";
 
-
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { BiFilterAlt } from "react-icons/bi";
@@ -99,16 +98,18 @@ const MasterList = ({ Data }) => {
         <header className="font-bold text-4xl mb-2">MASTER LIST</header>
 
         <div className="flex gap-4 max-h-[50px]">
-          <div className="flex max-h-[50px] items-center rounded-md bg-[#5885AF]  ">
+          <div
+            className={`${
+              Data.filterby === "ALL"
+                ? "flex max-h-[50px] items-center rounded-md bg-[#5885AF] "
+                : "hidden"
+            }`}
+          >
             <BiFilterAlt className="text-[20px]" />
             <select
               value={course}
               onChange={(e) => setCourse(e.target.value)}
-              className={`${
-                Data.filterby === "ALL"
-                  ? "h-[25px] rounded-md bg-[#5885AF] outline-none "
-                  : "hidden "
-              } `}
+              className={` h-[25px] rounded-md bg-[#5885AF] outline-none `}
             >
               <option>ALL</option>
               <option>BSIT</option>
@@ -234,7 +235,6 @@ const MasterList = ({ Data }) => {
           />
         </div>
       </div>
-
     </div>
   );
 };
