@@ -450,7 +450,7 @@ function Registration() {
             </div>
             {/* Line 6  */}
             <label className="font-semibold text-[25px] underline ">
-              COMPANY INFROMATION
+              COMPANY INFORMATION
             </label>
             {/* Line 7 */}
             <div className="flex  gap-5 pt-2">

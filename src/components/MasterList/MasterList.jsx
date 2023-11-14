@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import supabase from "../iMonitorDBconfig";
 import MasterListTableConfig from "./MasterListTableConfig";
 
+
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { BiFilterAlt } from "react-icons/bi";
@@ -233,6 +234,7 @@ const MasterList = ({ Data }) => {
           />
         </div>
       </div>
+
     </div>
   );
 };

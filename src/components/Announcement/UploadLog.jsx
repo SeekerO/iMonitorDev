@@ -198,7 +198,7 @@ function UploadLog() {
               </div>
             ) : (
               <div className="text-center  font-bold text-[25px]">
-                Announcement Information will be dispalyed here
+                Announcement Information will be dispaly here
               </div>
             )}
           </div>

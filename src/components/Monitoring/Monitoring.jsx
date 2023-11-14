@@ -8,11 +8,9 @@ import { BiFilterAlt } from "react-icons/bi";
 
 import { Backdrop } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
-
+import { Tooltip as ReactTooltip } from "react-tooltip";
 import ReactPaginate from "react-paginate";
 import ArchiveAllCompleted from "./ArchiveAllCompleted";
-
-import Tooltip from "@mui/material/Tooltip";
 
 const Monitoring = ({ Data }) => {
   const [fetcherrror, setFetchError] = useState(null);
@@ -152,18 +150,13 @@ const Monitoring = ({ Data }) => {
             </div>
           </div>
           <div className="">
-            <Tooltip
-              title="Archive all completed student"
-              arrow
-              placement="left-start"
+            <a
+              data-tooltip-id="ArchiveAll"
+              onClick={() => setArchive_all_completed(!archive_all_completed)}
+              className="bg-[#5885AF] hover:bg-[#5885af90] p-1 rounded-md cursor-default md:text-base text-[13px]"
             >
-              <a
-                onClick={() => setArchive_all_completed(!archive_all_completed)}
-                className="bg-[#5885AF] hover:bg-[#5885af90] p-1 rounded-md cursor-default md:text-base text-[13px]"
-              >
-                ARCHIVE COMPLETED
-              </a>
-            </Tooltip>
+              ARCHIVE COMPLETED
+            </a>
           </div>
         </div>
 
@@ -293,6 +286,12 @@ const Monitoring = ({ Data }) => {
       <ArchiveAllCompleted
         visible={archive_all_completed}
         onClose={setArchive_all_completed}
+      />
+      <ReactTooltip
+        id="ArchiveAll"
+        place="bottom"
+        variant="info"
+        content="Archive all completed"
       />
     </div>
   );

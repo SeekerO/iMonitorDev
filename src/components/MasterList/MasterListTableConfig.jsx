@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import ViewProfileMasterModal from "./ViewProfileMasterModal";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import Tooltip from "@mui/material/Tooltip";
+import { Tooltip as ReactTooltip } from "react-tooltip";
 const MasterListTableConfig = ({ studinfos, sy, course }) => {
   // AOS ANIMATION
   useEffect(() => {
@@ -25,9 +25,7 @@ const MasterListTableConfig = ({ studinfos, sy, course }) => {
             hover:cursor-pointer md:text-[16px] text-[10px]"
               onClick={() => setShowModalProfile(true)}
             >
-              <Tooltip title="View Profile" arrow placement="left-start">
-                {studinfos.studname}
-              </Tooltip>
+              <a data-tooltip-id="View"> {studinfos.studname}</a>
             </div>
             <div className="w-[46%] ml-[15%]  md:text-[16px] text-[10px]">
               {studinfos.studsection}
@@ -57,7 +55,12 @@ const MasterListTableConfig = ({ studinfos, sy, course }) => {
           </div>
         </div>
       </div>
-
+      <ReactTooltip
+        id="View"
+        place="bottom"
+        variant="info"
+        content="View Profile"
+      />
       <ViewProfileMasterModal
         onClose={setShowModalProfile}
         visible={showmodalprofile}

@@ -472,7 +472,7 @@ const UpdateProfile = () => {
           </div>
           {/* Line 6  */}
           <label className="font-semibold text-[25px] underline ">
-            COMPANY INFROMATION
+            COMPANY INFORMATION
           </label>
           <div className="grid md:flex grid-cols-1 w-[100%]  gap-4 pt-4">
             <label className="font-semibold text-[19px] md:w-[15%] w-[100%]">

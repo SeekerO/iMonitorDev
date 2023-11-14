@@ -3,10 +3,9 @@ import supabase from "../iMonitorDBconfig";
 import ArchiveModal from "./ArchiveModal";
 import ViewProfileModal from "./ViewProfileModal";
 import { useState, useEffect } from "react";
-import moment from "moment";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import Tooltip from "@mui/material/Tooltip";
+import { Tooltip as ReactTooltip } from "react-tooltip";
 const StudInfoConfig = ({ studinfos, BeneData, course, sy, handleCheck }) => {
   // AOS ANIMATION
   useEffect(() => {
@@ -50,7 +49,7 @@ const StudInfoConfig = ({ studinfos, BeneData, course, sy, handleCheck }) => {
   return (
     <>
       <div className={``}>
-        <div className={`${studinfos.studSY !== sy && "hidden"}`} >
+        <div className={`${studinfos.studSY !== sy && "hidden"}`}>
           <div
             className="bg-slate-200 text-black flex font-medium rounded mt-1.5 
             hover:shadow-sm hover:shadow-black duration-300 p-2 hover:p-3"
@@ -64,14 +63,14 @@ const StudInfoConfig = ({ studinfos, BeneData, course, sy, handleCheck }) => {
                 value={`${[studinfos]}`}
                 onChange={handleCheck}
               ></input> */}
-              <Tooltip title="View Profile" arrow placement="left-start">
-                <a
-                  onClick={() => setShowModalProfile(true)}
-                  className=" md:text-[16px] text-[10px]"
-                >
-                  {studinfos.studname}
-                </a>
-              </Tooltip>
+
+              <a
+                data-tooltip-id="View"
+                onClick={() => setShowModalProfile(true)}
+                className=" md:text-[16px] text-[10px]"
+              >
+                {studinfos.studname}
+              </a>
             </div>
 
             <div className="w-[46%] pl-[10%] md:text-[16px] text-[10px] cursor-default">
@@ -99,20 +98,19 @@ const StudInfoConfig = ({ studinfos, BeneData, course, sy, handleCheck }) => {
               </div>
             </div>
             <div id="menu" data-tip="Archive" className="pt-1 ">
-              <Tooltip title="Archive" arrow placement="right-start">
-                <button
-                  className="bg-slate-200 hover:cursor-pointer"
-                  onClick={() => setShowModalArchive(true)}
+              <button
+                data-tooltip-id="Archive"
+                className="bg-slate-200 hover:cursor-pointer"
+                onClick={() => setShowModalArchive(true)}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 fill-current hover:text-blue-400"
+                  viewBox="0 0 512 512"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 fill-current hover:text-blue-400"
-                    viewBox="0 0 512 512"
-                  >
-                    <path d="M32 32H480c17.7 0 32 14.3 32 32V96c0 17.7-14.3 32-32 32H32C14.3 128 0 113.7 0 96V64C0 46.3 14.3 32 32 32zm0 128H480V416c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V160zm128 80c0 8.8 7.2 16 16 16H336c8.8 0 16-7.2 16-16s-7.2-16-16-16H176c-8.8 0-16 7.2-16 16z" />
-                  </svg>
-                </button>
-              </Tooltip>
+                  <path d="M32 32H480c17.7 0 32 14.3 32 32V96c0 17.7-14.3 32-32 32H32C14.3 128 0 113.7 0 96V64C0 46.3 14.3 32 32 32zm0 128H480V416c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V160zm128 80c0 8.8 7.2 16 16 16H336c8.8 0 16-7.2 16-16s-7.2-16-16-16H176c-8.8 0-16 7.2-16 16z" />
+                </svg>
+              </button>
             </div>
           </div>
         </div>
@@ -128,6 +126,18 @@ const StudInfoConfig = ({ studinfos, BeneData, course, sy, handleCheck }) => {
           visible={showmodalprofile}
           studinfos={studinfos}
           studemail={studinfos.studemail}
+        />
+        <ReactTooltip
+          id="View"
+          place="bottom"
+          variant="info"
+          content="View Profile"
+        />
+        <ReactTooltip
+          id="Archive"
+          place="bottom"
+          variant="info"
+          content="Archive"
         />
       </div>
     </>

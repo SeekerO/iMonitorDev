@@ -7,6 +7,7 @@ import { MoonLoader } from "react-spinners";
 function Analytics({ data }) {
   const [analytics, setAnalytics] = useState([]);
   const [showdata, setShowData] = useState(false);
+  const [avg, setAvg] = useState([]);
   const [moreinformaiton, setMoreInformation] = useState(false);
 
   const divRef = useRef(null);
@@ -32,7 +33,6 @@ function Analytics({ data }) {
 
   async function Analytics(data) {
     try {
-      var count = 0;
       var array = await data.sort((a, b) =>
         a.companyOJT < b.companyOJT ? 1 : -1
       );
@@ -46,19 +46,22 @@ function Analytics({ data }) {
             id: array[index].id,
             companyname: array[index].companyname,
             companyOJT: array[index].companyOJT,
-            data: await DataTop1(array[index].companyname),
           },
         ]);
-
-        count++;
       }
 
-      await setAnalytics(holder);
+      setAnalytics(holder);
+      var store = [];
+      for (let index = 0; index < holder.length; index++) {
+        store = store.concat(await DataTop1(holder[index].companyname));
+      }
+      setAvg(store);
       setShowData(true);
     } catch (error) {}
   }
+  console.log(avg);
 
-  async function DataTop1(compname) {
+  const DataTop1 = async (compname) => {
     const { data: masterlistcom, count: complete } = await supabase
       .from("MasterListTable1")
       .select("*", { count: "exact" })
@@ -74,6 +77,9 @@ function Analytics({ data }) {
         companyname: compname,
         status: "incomplete",
       });
+
+    var incom = masterlistincom;
+    var com = masterlistcom;
 
     let ITcom = 0;
     let ITincom = 0;
@@ -92,21 +98,22 @@ function Analytics({ data }) {
 
     let CScom = 0;
     let CSincom = 0;
-    for (let index = 0; index < masterlistcom.length; index++) {
-      if (masterlistincom[index].filterby === "BSIT") ITcom++;
-      if (masterlistincom[index].filterby === "BSHM") HMcom++;
-      if (masterlistincom[index].filterby === "BSTM") TMcom++;
-      if (masterlistincom[index].filterby === "BSCPE") CPEcom++;
-      if (masterlistincom[index].filterby === "BSAIS") AIScom++;
-      if (masterlistincom[index].filterby === "BSCS") CScom++;
-    }
-    for (let index = 0; index < masterlistincom.length; index++) {
-      if (masterlistincom[index].filterby === "BSIT") ITcom++;
-      if (masterlistincom[index].filterby === "BSHM") HMcom++;
-      if (masterlistincom[index].filterby === "BSTM") TMcom++;
-      if (masterlistincom[index].filterby === "BSCPE") CPEcom++;
-      if (masterlistincom[index].filterby === "BSAIS") AIScom++;
-      if (masterlistincom[index].filterby === "BSCS") CScom++;
+    if (masterlistcom)
+      for (let index = 0; index < com.length; index++) {
+        if (com[index].filterby === "BSIT") ITcom++;
+        if (com[index].filterby === "BSHM") HMcom++;
+        if (com[index].filterby === "BSTM") TMcom++;
+        if (com[index].filterby === "BSCPE") CPEcom++;
+        if (com[index].filterby === "BSAIS") AIScom++;
+        if (com[index].filterby === "BSCS") CScom++;
+      }
+    for (let index = 0; index < incom.length; index++) {
+      if (incom[index].filterby === "BSIT") ITcom++;
+      if (incom[index].filterby === "BSHM") HMcom++;
+      if (incom[index].filterby === "BSTM") TMcom++;
+      if (incom[index].filterby === "BSCPE") CPEcom++;
+      if (incom[index].filterby === "BSAIS") AIScom++;
+      if (incom[index].filterby === "BSCS") CScom++;
     }
 
     array = [
@@ -133,9 +140,8 @@ function Analytics({ data }) {
         BSCSInCom: CSincom,
       },
     ];
-    console.log(array);
-    return { array };
-  }
+    return array;
+  };
 
   const calculateAverateCompleted = (
     overallValue,
@@ -195,7 +201,7 @@ function Analytics({ data }) {
                     </div>
 
                     <div className=" ml-10 md:gap-10 gap-5  text-white justify-start md:flex grid items-center ">
-                      {analytics.map((data) => (
+                      {analytics.map((data, index) => (
                         <div
                           key={data.id}
                           className="font-semibold text-sm  items-center  justify-center gap-1 cursor-default grid"
@@ -211,12 +217,17 @@ function Analytics({ data }) {
                           <label className="text-[14px] flex font-thin">
                             Number of Students Enrolled: {data.companyOJT}
                           </label>
+
                           <div className="flex gap-2">
                             <label className="text-[14px] flex font-thin">
-                              Completed: {data.data.array[0].completed}
+                              {avg
+                                ? `Completed: ${avg[index].completed}`
+                                : "Loading"}
                             </label>
                             <label className="text-[14px] flex font-thin">
-                              Incompleted: {data.data.array[0].incomplete}
+                              {avg
+                                ? `Incompleted: ${avg[index].incomplete}`
+                                : "Loading"}
                             </label>
                           </div>
                         </div>
@@ -225,244 +236,253 @@ function Analytics({ data }) {
                   </div>
                 </div>
               )}
-              {moreinformaiton ? (
-                <div ref={divRef}>
-                  <div
-                    onClick={() => setMoreInformation(!moreinformaiton)}
-                    className="bg-[#58abf8b3] hover:bg-[#48a7ff60]  p-1 mt-4 rounded shadow-black shadow-lg md:w-[100%]  w-[99%] text-white justify-center flex "
-                  >
-                    <label className="font-bold text-md ">
-                      HIDE INFORMATION
-                    </label>
-                  </div>
-                  {showdata ? (
-                    <div className="md:flex grid justify-between ">
-                      {analytics.map((data) => (
-                        <div key={data.id}>
-                          <div className=" bg-[#6f97bcb3] p-3 mt-4 rounded shadow-black shadow-lg text-white md:w-[100%] w-[102%]">
-                            <label className="text-xl font-bold flex items-center gap-1">
-                              <span
-                                style={{ background: data.color }}
-                                className="h-[15px] w-[15px] rounded-full items-center"
-                              />
-                              {data.companyname}
-                            </label>
-                            <BarChart
-                              xAxis={[
-                                {
-                                  scaleType: "band",
-                                  data: ["Enrolled", "Completed", "Incomplete"],
-                                },
-                              ]}
-                              series={[
-                                {
-                                  data: [
-                                    data.companyOJT,
-                                    data.data.array[0].completed,
-                                    data.data.array[0].incomplete,
-                                  ],
-                                  color: [data.color],
-                                },
-                              ]}
-                              width={370}
-                              height={340}
-                            />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="flex place-content-center items-center h-[300px] bg-[#6f97bcb3] mt-2 rounded-md shadow-black shadow-md">
-                      <MoonLoader color="#131f2a" speedMultiplier={0.5} />
-                    </div>
-                  )}
-                  <div className="bg-[#6f97bcb3] p-3 mt-4 rounded shadow-black shadow-lg  md:w-[100%]  w-[99%] text-white justify-center flex ">
-                    <label className="font-thin text-lg">
-                      OVERALL COMPLETED AND INCOMPLETE IN EACH COURSE FOR THE
-                      TOP 3 MOST OJT ENROLLED AT THAT COMPANY
-                    </label>
-                  </div>
-                  {console.log(analytics)}
-                  {showdata ? (
-                    <div className=" grid justify-between md:w-[100%]  w-[95%]">
-                      {analytics.map((data) => (
-                        <div key={data.id}>
-                          <div className=" bg-[#6f97bcb3] p-3 mt-4 rounded shadow-black shadow-lg md:w-[100%] w-[105%] text-white ">
-                            <label className="text-xl font-bold flex items-center gap-1">
-                              <span
-                                style={{ background: data.color }}
-                                className="h-[15px] w-[15px] rounded-full items-center"
-                              />
-                              {data.companyname}
-                            </label>
 
-                            <div className="grid md:grid-cols-6 grid-cols-2 md:w-[100%] ">
-                              {/* IT */}
-                              <div>
-                                BSIT
+              {showdata && (
+                <>
+                  {" "}
+                  {moreinformaiton ? (
+                    <div ref={divRef}>
+                      <div
+                        onClick={() => setMoreInformation(!moreinformaiton)}
+                        className="bg-[#58abf8b3] hover:bg-[#48a7ff60]  p-1 mt-4 rounded shadow-black shadow-lg md:w-[100%]  w-[99%] text-white justify-center flex "
+                      >
+                        <label className="font-bold text-md ">
+                          HIDE INFORMATION
+                        </label>
+                      </div>
+                      {showdata ? (
+                        <div className="md:flex grid justify-between ">
+                          {analytics.map((data, index) => (
+                            <div key={data.id}>
+                              <div className=" bg-[#6f97bcb3] p-3 mt-4 rounded shadow-black shadow-lg text-white md:w-[100%] w-[102%]">
+                                <label className="text-xl font-bold flex items-center gap-1">
+                                  <span
+                                    style={{ background: data.color }}
+                                    className="h-[15px] w-[15px] rounded-full items-center"
+                                  />
+                                  {data.companyname}
+                                </label>
                                 <BarChart
                                   xAxis={[
                                     {
                                       scaleType: "band",
-                                      data: ["Complete", "Incomplete"],
+                                      data: [
+                                        "Enrolled",
+                                        "Completed",
+                                        "Incomplete",
+                                      ],
                                     },
                                   ]}
                                   series={[
                                     {
                                       data: [
-                                        data.data.array[0].BSITCom,
-                                        data.data.array[0].BSITInCom,
+                                        data.companyOJT,
+                                        avg[index].completed,
+                                        avg[index].incomplete,
                                       ],
                                       color: [data.color],
                                     },
                                   ]}
-                                  width={240}
-                                  height={260}
-                                />
-                              </div>
-                              {/* TM */}
-                              <div>
-                                BSTM
-                                <BarChart
-                                  xAxis={[
-                                    {
-                                      scaleType: "band",
-                                      data: ["Complete", "Incomplete"],
-                                    },
-                                  ]}
-                                  series={[
-                                    {
-                                      data: [
-                                        data.data.array[0].BSTMCom,
-                                        data.data.array[0].BSTMInCom,
-                                      ],
-                                      color: [data.color],
-                                    },
-                                  ]}
-                                  width={240}
-                                  height={260}
-                                />
-                              </div>
-                              {/* HM */}
-                              <div>
-                                BSHM
-                                <BarChart
-                                  xAxis={[
-                                    {
-                                      scaleType: "band",
-                                      data: ["Complete", "Incomplete"],
-                                    },
-                                  ]}
-                                  series={[
-                                    {
-                                      data: [
-                                        data.data.array[0].BSHMCom,
-                                        data.data.array[0].BSHMInCom,
-                                      ],
-                                      color: [data.color],
-                                    },
-                                  ]}
-                                  width={240}
-                                  height={260}
-                                />
-                              </div>
-                              {/* AIS */}
-                              <div>
-                                BSAIS
-                                <BarChart
-                                  xAxis={[
-                                    {
-                                      scaleType: "band",
-                                      data: ["Complete", "Incomplete"],
-                                    },
-                                  ]}
-                                  series={[
-                                    {
-                                      data: [
-                                        data.data.array[0].BSAISCom,
-                                        data.data.array[0].BSAISInCom,
-                                      ],
-                                      color: [data.color],
-                                    },
-                                  ]}
-                                  width={240}
-                                  height={260}
-                                />
-                              </div>
-                              {/* CPE */}
-                              <div>
-                                BSCPE
-                                <BarChart
-                                  xAxis={[
-                                    {
-                                      scaleType: "band",
-                                      data: ["Complete", "Incomplete"],
-                                    },
-                                  ]}
-                                  series={[
-                                    {
-                                      data: [
-                                        data.data.array[0].BSCPECom,
-                                        data.data.array[0].BSCPEInCom,
-                                      ],
-                                      color: [data.color],
-                                    },
-                                  ]}
-                                  width={240}
-                                  height={260}
-                                />
-                              </div>
-                              {/* CS */}
-                              <div>
-                                BSCS
-                                <BarChart
-                                  xAxis={[
-                                    {
-                                      scaleType: "band",
-                                      data: ["Complete", "Incomplete"],
-                                    },
-                                  ]}
-                                  series={[
-                                    {
-                                      data: [
-                                        data.data.array[0].BSCSCom,
-                                        data.data.array[0].BSCSInCom,
-                                      ],
-                                      color: [data.color],
-                                    },
-                                  ]}
-                                  width={240}
-                                  height={260}
+                                  width={370}
+                                  height={340}
                                 />
                               </div>
                             </div>
-                            <div className="items-center flex font-light w-[100%]">
-                              {calculateAverateCompleted(
-                                data.companyOJT,
-                                data.data.array[0].completed,
-                                data.data.array[0].incomplete
-                              )}
-                            </div>
-                          </div>
+                          ))}
                         </div>
-                      ))}
+                      ) : (
+                        <div className="flex place-content-center items-center h-[300px] bg-[#6f97bcb3] mt-2 rounded-md shadow-black shadow-md">
+                          <MoonLoader color="#131f2a" speedMultiplier={0.5} />
+                        </div>
+                      )}
+                      <div className="bg-[#6f97bcb3] p-3 mt-4 rounded shadow-black shadow-lg  md:w-[100%]  w-[99%] text-white justify-center flex ">
+                        <label className="font-thin text-lg">
+                          OVERALL COMPLETED AND INCOMPLETE IN EACH COURSE FOR
+                          THE TOP 3 MOST OJT ENROLLED AT THAT COMPANY
+                        </label>
+                      </div>
+                      {showdata ? (
+                        <div className=" grid justify-between md:w-[100%]  w-[95%]">
+                          {analytics.map((data, index) => (
+                            <div key={data.id}>
+                              <div className=" bg-[#6f97bcb3] p-3 mt-4 rounded shadow-black shadow-lg md:w-[100%] w-[105%] text-white ">
+                                <label className="text-xl font-bold flex items-center gap-1">
+                                  <span
+                                    style={{ background: data.color }}
+                                    className="h-[15px] w-[15px] rounded-full items-center"
+                                  />
+                                  {data.companyname}
+                                </label>
+
+                                <div className="grid md:grid-cols-6 grid-cols-2 md:w-[100%] ">
+                                  {/* IT */}
+                                  <div>
+                                    BSIT
+                                    <BarChart
+                                      xAxis={[
+                                        {
+                                          scaleType: "band",
+                                          data: ["Complete", "Incomplete"],
+                                        },
+                                      ]}
+                                      series={[
+                                        {
+                                          data: [
+                                            avg[index].BSITCom,
+                                            avg[index].BSITInCom,
+                                          ],
+                                          color: [data.color],
+                                        },
+                                      ]}
+                                      width={240}
+                                      height={260}
+                                    />
+                                  </div>
+                                  {/* TM */}
+                                  <div>
+                                    BSTM
+                                    <BarChart
+                                      xAxis={[
+                                        {
+                                          scaleType: "band",
+                                          data: ["Complete", "Incomplete"],
+                                        },
+                                      ]}
+                                      series={[
+                                        {
+                                          data: [
+                                            avg[index].BSTMCom,
+                                            avg[index].BSTMInCom,
+                                          ],
+                                          color: [data.color],
+                                        },
+                                      ]}
+                                      width={240}
+                                      height={260}
+                                    />
+                                  </div>
+                                  {/* HM */}
+                                  <div>
+                                    BSHM
+                                    <BarChart
+                                      xAxis={[
+                                        {
+                                          scaleType: "band",
+                                          data: ["Complete", "Incomplete"],
+                                        },
+                                      ]}
+                                      series={[
+                                        {
+                                          data: [
+                                            avg[index].BSHMCom,
+                                            avg[index].BSHMInCom,
+                                          ],
+                                          color: [data.color],
+                                        },
+                                      ]}
+                                      width={240}
+                                      height={260}
+                                    />
+                                  </div>
+                                  {/* AIS */}
+                                  <div>
+                                    BSAIS
+                                    <BarChart
+                                      xAxis={[
+                                        {
+                                          scaleType: "band",
+                                          data: ["Complete", "Incomplete"],
+                                        },
+                                      ]}
+                                      series={[
+                                        {
+                                          data: [
+                                            avg[index].BSAISCom,
+                                            avg[index].BSAISInCom,
+                                          ],
+                                          color: [data.color],
+                                        },
+                                      ]}
+                                      width={240}
+                                      height={260}
+                                    />
+                                  </div>
+                                  {/* CPE */}
+                                  <div>
+                                    BSCPE
+                                    <BarChart
+                                      xAxis={[
+                                        {
+                                          scaleType: "band",
+                                          data: ["Complete", "Incomplete"],
+                                        },
+                                      ]}
+                                      series={[
+                                        {
+                                          data: [
+                                            avg[index].BSCPECom,
+                                            avg[index].BSCPEInCom,
+                                          ],
+                                          color: [data.color],
+                                        },
+                                      ]}
+                                      width={240}
+                                      height={260}
+                                    />
+                                  </div>
+                                  {/* CS */}
+                                  <div>
+                                    BSCS
+                                    <BarChart
+                                      xAxis={[
+                                        {
+                                          scaleType: "band",
+                                          data: ["Complete", "Incomplete"],
+                                        },
+                                      ]}
+                                      series={[
+                                        {
+                                          data: [
+                                            avg[index].BSCSCom,
+                                            avg[index].BSCSInCom,
+                                          ],
+                                          color: [data.color],
+                                        },
+                                      ]}
+                                      width={240}
+                                      height={260}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="items-center flex font-light w-[100%]">
+                                  {calculateAverateCompleted(
+                                    data.companyOJT,
+                                    avg[index].completed,
+                                    avg[index].incomplete
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="flex place-content-center items-center h-[300px] bg-[#5885AF] bg-opacity-20 mt-2 rounded-md shadow-black shadow-md">
+                          <MoonLoader color="#131f2a" speedMultiplier={0.5} />
+                        </div>
+                      )}
+                      <div className="h-[100px]" />
                     </div>
                   ) : (
-                    <div className="flex place-content-center items-center h-[300px] bg-[#5885AF] bg-opacity-20 mt-2 rounded-md shadow-black shadow-md">
-                      <MoonLoader color="#131f2a" speedMultiplier={0.5} />
+                    <div
+                      onClick={() => setMoreInformation(!moreinformaiton)}
+                      className="bg-[#4778a6b3] cursor-pointer hover:bg-[#48a7ff60] p-1 mt-4 rounded shadow-black shadow-lg  md:w-[100%]  w-[99%] text-white justify-center flex "
+                    >
+                      <label className="font-bold text-md cursor-pointer">
+                        VIEW MORE INFORMATION
+                      </label>
                     </div>
                   )}
-                  <div className="h-[100px]" />
-                </div>
-              ) : (
-                <div
-                  onClick={() => setMoreInformation(!moreinformaiton)}
-                  className="bg-[#4778a6b3] cursor-pointer hover:bg-[#48a7ff60] p-1 mt-4 rounded shadow-black shadow-lg  md:w-[100%]  w-[99%] text-white justify-center flex "
-                >
-                  <label className="font-bold text-md cursor-pointer">
-                    VIEW MORE INFORMATION
-                  </label>
-                </div>
+                </>
               )}
             </div>
           )}
