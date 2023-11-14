@@ -57,7 +57,7 @@ const MasterListTableConfig = ({ studinfos, sy, course }) => {
       </div>
       <ReactTooltip
         id="View"
-        place="bottom"
+        place="right"
         variant="info"
         content="View Profile"
       />

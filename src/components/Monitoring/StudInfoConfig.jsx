@@ -129,13 +129,13 @@ const StudInfoConfig = ({ studinfos, BeneData, course, sy, handleCheck }) => {
         />
         <ReactTooltip
           id="View"
-          place="bottom"
+          place="right"
           variant="info"
           content="View Profile"
         />
         <ReactTooltip
           id="Archive"
-          place="bottom"
+          place="left"
           variant="info"
           content="Archive"
         />

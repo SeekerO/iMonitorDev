@@ -289,7 +289,7 @@ const Monitoring = ({ Data }) => {
       />
       <ReactTooltip
         id="ArchiveAll"
-        place="bottom"
+        place="left"
         variant="info"
         content="Archive all completed"
       />

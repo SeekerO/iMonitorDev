@@ -92,8 +92,8 @@ function Registration() {
     setSupervisorofficenumber("");
     setDesignation("");
     setCompanyemail("");
-    setStartTime();
-    setEndTime();
+    setStartTime("");
+    setEndTime("");
   }
 
   const FilterCompany = async () => {
@@ -313,7 +313,7 @@ function Registration() {
     <>
       <div className="overflow-hidden md:pt-[2%] pt-[5%]">
         <div
-          className="pt-8 text-white "
+          className="pt-5 text-white "
           data-aos="fade-down"
           data-aos-duration="1000"
         >
@@ -334,12 +334,12 @@ function Registration() {
 
           <form
             onSubmit={handleSubmit}
-            className="grid  w-[100%] bg-black bg-opacity-[2%] overflow-y-auto overflow-x-hidden  h-[510px] md:p-5 p-1"
+            className="grid  w-[100%] bg-black bg-opacity-[2%] overflow-y-auto overflow-x-hidden h-[510px] md:pl-5 pl-1 md:pr-5 pr-1"
             data-aos="fade-down"
             data-aos-duration="1000"
           >
             {/* Line 1 */}
-            <div className="w-[100%] md:flex grid  gap-1 h-fit">
+            <div className="w-[100%] md:flex grid  gap-1 h-fit mt-1">
               <label className="font-semibold text-[20px] md:w-[10%] w-[100%]">
                 FULL NAME:
               </label>
@@ -461,7 +461,7 @@ function Registration() {
                   onChange={(e) => setStartTime(e.target.value)}
                   required
                   type="time"
-                  className="rounded-md text-black pl-2"
+                  className="rounded-md text-black pl-1 h-[30px] "
                 />
               </label>
               <label className="gap-3 flex font-semibold text-[19px]">
@@ -471,7 +471,7 @@ function Registration() {
                   onChange={(e) => setEndTime(e.target.value)}
                   required
                   type="time"
-                  className="rounded-md text-black pl-2"
+                  className="rounded-md text-black pl-1 h-[30px] "
                 />
               </label>
             </div>
@@ -520,7 +520,9 @@ function Registration() {
                                 companyinfos.supervisorofficenumber
                               ) ||
                               setDesignation(companyinfos.companydesignation) ||
-                              setCompanyemail(companyinfos.companyemail)
+                              setCompanyemail(companyinfos.companyemail) ||
+                              setStartTime(companyinfos.startingtime) ||
+                              setEndTime(companyinfos.endingtime)
                             }
                             className="hover:bg-blue-400  rounded-md w-[100%]"
                           >

@@ -44,7 +44,7 @@ const CompanyConfig = ({ companyinfos, Data }) => {
       />
       <ReactTooltip
         id="View"
-        place="bottom"
+        place="right"
         variant="info"
         content="View Information"
       />
