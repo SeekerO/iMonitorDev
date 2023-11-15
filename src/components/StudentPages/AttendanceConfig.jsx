@@ -128,6 +128,10 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo }) => {
       let hours = Math.floor(a / 3600);
       let minutes = (a % 3600) / 60;
 
+      if (hours < 9) {
+        hours = 9;
+      }
+
       const studinfo = async () => {
         const { data, error } = await supabase
           .from("StudentInformation")
