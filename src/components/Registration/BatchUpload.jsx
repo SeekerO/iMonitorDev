@@ -152,13 +152,11 @@ function BatchUpload({ visible, close, sy }) {
           {
             studname:
               dataHolder[index].Firstname +
-              " " +
-              `  ${
+              `${
                 dataHolder[index].MiddleInitial
-                  ? dataHolder[index].MiddleInitial
-                  : ""
+                  ? ` ${dataHolder[index].MiddleInitial} `
+                  : " "
               }` +
-              " " +
               dataHolder[index].Lastname,
             studprogram: course,
             studemail: dataHolder[index].o365,
@@ -251,7 +249,7 @@ function BatchUpload({ visible, close, sy }) {
             {succes ? (
               <div className=" font-semibold h-[200px] w-[400px] text-white bg-[#5885AF] rounded p-2 flex flex-col place-content-center justify-center items-center">
                 <label className="text-[20px] text-center mb-2 ">
-                  Uploaded is Successfully
+                  Uploaded Successfully
                 </label>
                 <BsFillCloudCheckFill className="text-[60px] " />
               </div>

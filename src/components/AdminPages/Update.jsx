@@ -165,7 +165,7 @@ function Update({ visible, close, data, beneinfo, studinfo }) {
       >
         {/* Update */}
         <div className="bg-white md:h-[270px] h-[320px] w-[100%] rounded-md  ">
-          <div className="flex md:text-center text-start font-bold text-[30px] bg-amber-700 rounded-t-sm font-mono text-white">
+          <div className="flex md:text-center text-start font-bold text-[30px] bg-amber-700 rounded-t-sm font-mono text-white ">
             <a
               onClick={() => close1()}
               className="justify-start ml-2 md:mr-[110px] mr-[10px] flex items-center cursor-pointer"
@@ -176,14 +176,14 @@ function Update({ visible, close, data, beneinfo, studinfo }) {
           </div>
 
           <div className="">
-            <div className="md:flex grid items-center gap-1 mt-4 justify-center">
+            <div className="md:flex grid items-center gap-1 mt-4 justify-center w-[100%]">
               <p className="ml-1 font-semibold">NAME</p>{" "}
               <input
                 type="text"
                 value={updatename}
                 onChange={(e) => setupdatename(e.target.value)}
                 placeholder="Update name here"
-                className="bg-gray-200 md:w-[80%] w-[20px] pl-2 p-1 rounded-sm"
+                className="bg-gray-200 md:w-[80%] w-[280px] pl-2 p-1 rounded-sm"
               ></input>
             </div>
             <div className="md:flex grid items-center gap-1 mt-4 justify-center">
@@ -193,7 +193,7 @@ function Update({ visible, close, data, beneinfo, studinfo }) {
                 value={updateemail}
                 onChange={(e) => setupdateemail(e.target.value)}
                 placeholder="Update email here"
-                className="bg-gray-200 md:w-[80%] w-[20px]  pl-2 p-1 rounded-sm"
+                className="bg-gray-200 md:w-[80%] w-[280px]  pl-2 p-1 rounded-sm"
               ></input>
             </div>
 

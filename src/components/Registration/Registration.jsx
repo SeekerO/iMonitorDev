@@ -306,8 +306,13 @@ function Registration() {
     setValue(searchTerm);
   };
 
-  const [region, setregion] = useState();
-  const [country, setcountry] = useState();
+  const disablePastDate = () => {
+    const today = new Date();
+    const dd = String(today.getDate() + 1).padStart(2, "0");
+    const mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+    const yyyy = today.getFullYear();
+    return yyyy + "-" + mm + "-" + dd;
+  };
 
   return (
     <>
@@ -406,6 +411,7 @@ function Registration() {
                 OJT STARTING
               </label>
               <input
+                min={disablePastDate()}
                 required
                 value={ojtstart}
                 type="date"
@@ -416,6 +422,7 @@ function Registration() {
                 OJT END
               </label>
               <input
+                min={disablePastDate()}
                 required
                 value={ojtend}
                 type="date"

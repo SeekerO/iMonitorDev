@@ -137,6 +137,14 @@ function CreateAnnouncement({ Data }) {
     });
   }
 
+  const disablePastDate = () => {
+    const today = new Date();
+    const dd = String(today.getDate() + 1).padStart(2, "0");
+    const mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+    const yyyy = today.getFullYear();
+    return yyyy + "-" + mm + "-" + dd;
+  };
+
   return (
     <>
       <ToastContainer />
@@ -161,6 +169,7 @@ function CreateAnnouncement({ Data }) {
           <div className="pt-6 flex ">
             <label className="pr-5 text-[20px] font-semibold ">DURATION:</label>
             <input
+              min={disablePastDate()}
               required
               value={endDate}
               onChange={(e) => setendDate(e.target.value)}

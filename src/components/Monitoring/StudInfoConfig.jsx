@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { Tooltip as ReactTooltip } from "react-tooltip";
+import Avatar from "@mui/material/Avatar";
 const StudInfoConfig = ({ studinfos, BeneData, course, sy, handleCheck }) => {
   // AOS ANIMATION
   useEffect(() => {
@@ -45,6 +46,52 @@ const StudInfoConfig = ({ studinfos, BeneData, course, sy, handleCheck }) => {
       SetStudCreateDate(new Date(studinfos.created_at).getFullYear());
     }
   }
+  function stringToColor(string) {
+    let hash = 0;
+    let i;
+
+    /* eslint-disable no-bitwise */
+    for (i = 0; i < string.length; i += 1) {
+      hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    let color = "#";
+
+    for (i = 0; i < 3; i += 1) {
+      const value = (hash >> (i * 8)) & 0xff;
+      color += `00${value.toString(16)}`.slice(-2);
+    }
+    /* eslint-enable no-bitwise */
+
+    return color;
+  }
+
+  function stringAvatar(name) {
+    return {
+      sx: {
+        bgcolor: stringToColor(name),
+        width: 35,
+        height: 35,
+      },
+      children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]} `,
+    };
+  }
+
+  const [avatar, setAvatar] = useState(false);
+  async function displayAvatar(email) {
+    try {
+      const { data: profilePic } = await supabase.storage
+        .from("ProfilePic")
+        .list(email + "/", { limit: 1, offset: 0 });
+
+      if (profilePic) {
+        setAvatar(true);
+        return `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/ProfilePic/${email}/${profilePic[0].name}`;
+      }
+    } catch (error) {
+      setAvatar(false);
+    }
+  }
 
   return (
     <>
@@ -54,16 +101,16 @@ const StudInfoConfig = ({ studinfos, BeneData, course, sy, handleCheck }) => {
             className="bg-slate-200 text-black flex font-medium rounded mt-1.5 
             hover:shadow-sm hover:shadow-black duration-300 p-2 hover:p-3"
           >
+            {avatar ? (
+              <img src={displayAvatar(studinfos.studemail)}></img>
+            ) : (
+              <Avatar {...stringAvatar(studinfos.studname)} />
+            )}
+
             <div
               data-tip="View Information"
-              className=" pl-[2%] w-[29%] hover:underline hover:text-blue-600 cursor-default "
+              className=" pl-[2%] w-[29%] hover:underline hover:text-blue-600 cursor-default  items-center flex"
             >
-              {/* <input
-                type="checkbox"
-                value={`${[studinfos]}`}
-                onChange={handleCheck}
-              ></input> */}
-
               <a
                 data-tooltip-id="View"
                 onClick={() => setShowModalProfile(true)}
@@ -73,12 +120,12 @@ const StudInfoConfig = ({ studinfos, BeneData, course, sy, handleCheck }) => {
               </a>
             </div>
 
-            <div className="w-[46%] pl-[10%] md:text-[16px] text-[10px] cursor-default">
+            <div className="w-[46%] pl-[10%] md:text-[16px] text-[10px] cursor-default items-center flex">
               {studinfos.studsection}
             </div>
-            <div className="md:h-6 h-8 w-[20%] bg-[#4d8092a7] mr-6 rounded-md  md:mt-1.5 mt-0 cursor-default">
+            <div className="md:h-6 h-8 w-[20%] bg-[#4d8092a7] mr-6 rounded-md  md:mt-1.5 mt-0 cursor-default items-center flex">
               <div
-                className="md:h-6 h-8 bg-[#78D0F4]  rounded-l rounded-r "
+                className="md:h-6 h-8 bg-[#78D0F4]  rounded-l rounded-r items-center flex"
                 style={{
                   width: `${
                     (studinfos.studprogress / studinfos.studmaxprogress) * 100
@@ -90,14 +137,18 @@ const StudInfoConfig = ({ studinfos, BeneData, course, sy, handleCheck }) => {
                     studinfos.studprogress > 0
                       ? "md:pl-[60px] pl-[4px] md:pt-0 pt-2.5"
                       : "md:pl-[70px] pl-[10px] md:pt-0 pt-2.5"
-                  } whitespace-nowrap z-0 md:text-[15px] text-[9px] font-mono   font-semibold mr-3 `}
+                  } whitespace-nowrap z-0 md:text-[15px] text-[9px] font-mono   font-semibold mr-3  items-center flex`}
                 >
                   {studinfos.studprogress}hrs/
                   {studinfos.studmaxprogress}hrs
                 </div>
               </div>
             </div>
-            <div id="menu" data-tip="Archive" className="pt-1 ">
+            <div
+              id="menu"
+              data-tip="Archive"
+              className="pt-1  items-center flex"
+            >
               <button
                 data-tooltip-id="Archive"
                 className="bg-slate-200 hover:cursor-pointer"

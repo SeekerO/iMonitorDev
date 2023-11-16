@@ -4,6 +4,9 @@ import { LineChart } from "@mui/x-charts/LineChart";
 import { BarChart, Bar } from "@mui/x-charts/BarChart";
 import supabase from "../iMonitorDBconfig";
 import { MoonLoader } from "react-spinners";
+
+import AOS from "aos";
+import "aos/dist/aos.css";
 function Analytics({ data }) {
   const [analytics, setAnalytics] = useState([]);
   const [showdata, setShowData] = useState(false);
@@ -23,7 +26,7 @@ function Analytics({ data }) {
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
-
+    AOS.init({ duration: 1000 });
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -239,7 +242,6 @@ function Analytics({ data }) {
 
               {showdata && (
                 <>
-                  {" "}
                   {moreinformaiton ? (
                     <div ref={divRef}>
                       <div
@@ -316,7 +318,7 @@ function Analytics({ data }) {
 
                                 <div className="grid md:grid-cols-6 grid-cols-2 md:w-[100%] ">
                                   {/* IT */}
-                                  <div>
+                                  <div >
                                     BSIT
                                     <BarChart
                                       xAxis={[

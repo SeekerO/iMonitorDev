@@ -111,7 +111,6 @@ function Navbar({ instance }) {
 
   const getUserProfile = async (a) => {
     try {
-      getProfilePic(a.account.username);
       const response = await axios.get(
         "https://graph.microsoft.com/v1.0/me/photo/$value",
         {
@@ -132,18 +131,21 @@ function Navbar({ instance }) {
         const { data: existingFiles, error } = await supabase.storage
           .from("ProfilePic")
           .list(folderName);
-        getProfilePic(a.account.username);
-        if (error) {
-        } else if (existingFiles.length === 0) {
+
+        if (existingFiles.length === 0) {
           const fileName = uuidv4() + ".png";
 
-          const { data, error } = await supabase.storage
+          const { data } = await supabase.storage
             .from("ProfilePic")
             .upload(folderName + "/" + fileName, blob, {
               cacheControl: "3600",
               upsert: false,
             });
 
+          if (data) {
+            getProfilePic(a.account.username);
+          }
+        } else {
           getProfilePic(a.account.username);
         }
       }
@@ -157,8 +159,10 @@ function Navbar({ instance }) {
       .from("ProfilePic")
       .list(email + "/", { limit: 1, offset: 0 });
 
-    var profileURL = `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/ProfilePic/${email}/${profilePic[0].name}`;
-    window.localStorage.setItem("profile", profileURL);
+    if (profilePic) {
+      var profileURL = `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/ProfilePic/${email}/${profilePic[0].name}`;
+      window.localStorage.setItem("profile", profileURL);
+    }
   }
 
   useEffect(() => {
@@ -194,7 +198,20 @@ function Navbar({ instance }) {
       .subscribe();
   }, [window.localStorage.getItem("token")]);
 
-  async function greetings(check) {
+  async function greetings(check, deactivated) {
+    if (deactivated) {
+      toast.error("Your account is deactivated", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+        theme: "light",
+      });
+      return;
+    }
     if (!check) {
       toast.error("Your account is not registered", {
         position: "top-center",
@@ -716,19 +733,7 @@ function Navbar({ instance }) {
         </footer>
         {/* Footer End*/}
       </div>
-      <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        limit={1}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss={false}
-        draggable
-        pauseOnHover
-        theme="light"
-      />
+      <ToastContainer limit={1} />
     </>
   );
 }

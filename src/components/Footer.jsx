@@ -24,22 +24,22 @@ const Footer = () => {
                   <p className="font-semibold mb-1 md:text-base text-sm">
                     The web application consist the following features:
                   </p>
-                  <p className="flex md:text-base text-sm">
+                  <p className="flex md:text-base text-sm items-center">
                     <BsFillBarChartFill className="text-[20px] mr-1" /> Progress
                     Tracker
                   </p>
-                  <p className="flex md:text-base text-sm">
+                  <p className="flex md:text-base text-sm items-center">
                     <BiSolidMessageCheck className="text-[20px] mr-1" />{" "}
                     Messaging System
                   </p>
-                  <p className="flex md:text-base text-sm">
+                  <p className="flex md:text-base text-sm items-center">
                     <AiFillFile className="text-[20px] mr-1" /> File Storing
                   </p>
-                  <p className="flex md:text-base text-sm">
+                  <p className="flex md:text-base text-sm items-center">
                     <MdOutlineManageSearch className="text-[20px] mr-1" />{" "}
                     Information Management
                   </p>
-                  <p className="flex md:text-base text-sm">
+                  <p className="flex md:text-base text-sm items-center">
                     <BiSolidUserAccount className="text-[20px] mr-1" />{" "}
                     Attendance System
                   </p>

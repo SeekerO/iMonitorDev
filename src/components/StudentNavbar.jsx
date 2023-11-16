@@ -179,7 +179,7 @@ function Navbar({ email }) {
             >
               <svg
                 aria-hidden="true"
-                className="w-6 h-6 text-gray-500 transition duration-75 dark:text-white dark:group-hover:text-white"
+                className="w-6 h-6 text-white"
                 fill="currentColor"
                 viewBox="0 0 576 512"
                 xmlns="http://www.w3.org/2000/svg"
@@ -197,7 +197,7 @@ function Navbar({ email }) {
             >
               <svg
                 aria-hidden="true"
-                className="w-6 h-6 text-gray-500 transition duration-75 dark:text-white dark:group-hover:text-white"
+                className="w-6 h-6 text-white"
                 fill="currentColor"
                 viewBox="0 0 576 512"
                 xmlns="http://www.w3.org/2000/svg"
@@ -217,7 +217,7 @@ function Navbar({ email }) {
             >
               <svg
                 aria-hidden="true"
-                className="w-6 h-6 text-gray-500 transition duration-75 dark:text-white dark:group-hover:text-white"
+                className="w-6 h-6 text-white"
                 fill="currentColor"
                 viewBox="0 0 512 512"
                 xmlns="http://www.w3.org/2000/svg"

@@ -111,7 +111,9 @@ const Monitoring = ({ Data }) => {
         data-aos="fade-up"
         data-aos-duration="500"
       >
-        <header className="font-bold  text-4xl mb-2">MONITORING</header>
+        <header className=" flex gap-1 items-center  font-bold  text-4xl mb-2">
+          MONITORING
+        </header>
         <div className="flex w-full justify-between">
           <div className={`flex gap-4 max-h-[50px] items-center`}>
             <div
@@ -119,11 +121,11 @@ const Monitoring = ({ Data }) => {
                 Data.filterby !== "ALL" && "hidden"
               } flex max-h-[50px] items-center rounded-md bg-[#5885AF] `}
             >
-              <BiFilterAlt className="text-[20px]" />
+              <BiFilterAlt className="md:text-[20px] text-[14px]" />
               <select
                 value={course}
                 onChange={(e) => setCourse(e.target.value)}
-                className={`h-[25px] rounded-md bg-[#5885AF] outline-none`}
+                className={`h-[25px] md:text-base text-sm rounded-md bg-[#5885AF] outline-none`}
               >
                 <option>ALL</option>
                 <option>BSIT</option>
@@ -135,11 +137,11 @@ const Monitoring = ({ Data }) => {
               </select>
             </div>
             <div className="flex max-h-[50px] items-center rounded-md bg-[#5885AF]">
-              <BiFilterAlt className="text-[20px]" />
+              <BiFilterAlt className="md:text-[20px] text-[14px]" />
               <select
                 value={sy}
                 onChange={(e) => setSY(e.target.value)}
-                className=" h-[25px] rounded-md bg-[#5885AF] overflow-auto outline-none "
+                className=" h-[25px] md:text-base text-sm rounded-md bg-[#5885AF] overflow-auto outline-none "
               >
                 <option className="text-[15px]">S.Y. 2023-2024</option>
                 <option className="text-[15px]">S.Y. 2024-2025</option>
@@ -148,16 +150,18 @@ const Monitoring = ({ Data }) => {
                 <option className="text-[15px]">S.Y. 2027-2028</option>
               </select>
             </div>
+            <label className="text-base font-thin">
+              Student that is currently enrolled: {count}
+            </label>
           </div>
-          <div className="">
-            <a
-              data-tooltip-id="ArchiveAll"
-              onClick={() => setArchive_all_completed(!archive_all_completed)}
-              className="bg-[#5885AF] hover:bg-[#5885af90] p-1 rounded-md cursor-default md:text-base text-[13px]"
-            >
-              ARCHIVE COMPLETED
-            </a>
-          </div>
+
+          <a
+            data-tooltip-id="ArchiveAll"
+            onClick={() => setArchive_all_completed(!archive_all_completed)}
+            className="bg-[#5885AF] hover:bg-[#5885af90] p-1 rounded-md cursor-default md:text-base text-[12px]"
+          >
+            ARCHIVE COMPLETED
+          </a>
         </div>
 
         {studinfos === null ? (
