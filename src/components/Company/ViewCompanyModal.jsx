@@ -26,6 +26,7 @@ export default function ViewProfileModal({
       .eq("companyname", compName);
     setStudInfo(studinfo);
   }
+  const [hideData, setHide] = useState(false);
 
   if (!visible) return null;
   return (
@@ -45,7 +46,7 @@ export default function ViewProfileModal({
           </button>
         </div>
         <div className=" rounded-xl m-[1%] p-2">
-          <div className="pt-1 md:text-[25px] text-base font-bold text-black w-[600px] rounded-md ">
+          <div className="pt-1 md:text-[25px] text-base font-semibold text-black w-[600px] rounded-md ">
             NUMBER OF STUDENT CURRENTLY IN OJT: {number}
           </div>
           <form
@@ -53,40 +54,40 @@ export default function ViewProfileModal({
               openstudinfo
                 ? "hidden"
                 : "gap-x-10  grid md:grid-cols-2 grid-cols-1 overflow-y-auto h-[270px] pt-5 slate-200 rounded-xl pl-2 text-black"
-            }`}
+            } font-thin`}
           >
-            <label className=" mt-2 md:text-lg text-base font-semibold">
+            <label className=" mt-2 md:text-lg text-base">
               COMPANY NAME: {companyinfos.companyname}
             </label>
-            <label className=" mt-2 md:text-lg text-base font-semibold">
+            <label className=" mt-2 md:text-lg text-base">
               COMPANY ADDRESS: {companyinfos.companyaddress}
             </label>
-            <label className=" mt-2 md:text-lg text-base font-semibold">
+            <label className=" mt-2 md:text-lg text-base">
               SUPERVISOR NAME: {companyinfos.supervisorname}
             </label>
-            <label className=" mt-2 md:text-lg text-base font-semibold">
+            <label className=" mt-2 md:text-lg text-base">
               SUPERVISOR CONTACT #: {companyinfos.supervisorcontactnumber}
             </label>
-            <label className=" mt-2 md:text-lg text-base font-semibold">
+            <label className=" mt-2 md:text-lg text-base">
               SUPERVISOR OFFICER #: {companyinfos.supervisorofficenumber}
             </label>
-            <label className=" mt-2 md:text-lg text-base font-semibold">
+            <label className=" mt-2 md:text-lg text-base">
               COMPANY DESIGNATION: {companyinfos.companydesignation}
             </label>
-            <label className=" mt-2 md:text-lg text-base font-semibold  mb-[20px]">
+            <label className=" mt-2 md:text-lg text-base  mb-[20px]">
               COMPANY EMAIL: {companyinfos.companyemail}
             </label>
           </form>
           <Tooltip title="Expand" arrow placement="right">
             <a
               onClick={() => setOpenStudInfo(!openstudinfo)}
-              className="font-bold text-black hover:text-blue-500 hover:underline rounded-md w-[300px] mb-2 text-[20px] cursor-pointer"
+              className="font-semibold text-black hover:text-blue-500 hover:underline rounded-md w-[300px] mb-2 text-[20px] cursor-pointer"
             >
-              STUDENT INFORMATION {`(Current enrolled)`}
+              STUDENT INFORMATION {`(Current Enrolled)`}
             </a>
           </Tooltip>
           {/* Student name display in div */}
-          {studinfo && (
+          {!hideData && (
             <div
               className={`${
                 openstudinfo
@@ -105,6 +106,7 @@ export default function ViewProfileModal({
                     key={studinfo.id}
                     studinfo={studinfo}
                     Data={Data}
+                    setHide={setHide}
                   />
                 ))}
               </div>

@@ -2,15 +2,19 @@ import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import supabase from "../iMonitorDBconfig";
 import DateConverter from "../Monitoring/DateConverter";
+import Avatar from "@mui/material/Avatar";
 import { AiOutlineClose } from "react-icons/ai";
 export default function ViewProfileMasterModal({
   visible,
   onClose,
   studinfos,
   studemail,
+  displayColor,
 }) {
   var remarks;
   const [files, setFiles] = useState([]);
+  const [avatar, setAvatar] = useState(false);
+  const [displayAvatarConfig, setDisplayAvatar] = useState();
 
   if (studinfos.studremarks === null) {
     remarks = "None";
@@ -38,6 +42,38 @@ export default function ViewProfileMasterModal({
       console.error("Error fetching files:", error.message);
     }
   };
+
+  function avatarComponent(name) {
+    return (
+      <div
+        style={{ background: displayColor }}
+        className={`flex text-white items-center justify-center h-[200px]  w-[200px] rounded-full font-thin`}
+      >{`${name.split(" ")[0][0]}${name.split(" ")[1][0]} `}</div>
+    );
+  }
+
+  async function displayAvatar(email) {
+    try {
+      const { data: profilePic } = await supabase.storage
+        .from("ProfilePic")
+        .list(email + "/", { limit: 1, offset: 0 });
+
+      if (profilePic) {
+        setAvatar(true);
+
+        setDisplayAvatar(
+          `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/ProfilePic/${email}/${profilePic[0].name}`
+        );
+      }
+    } catch (error) {
+      setAvatar(false);
+    }
+  }
+
+  function removeCourseAcro(course) {
+    const modifiedCourse = course.replace(/\([^()]*\)/g, "").trim();
+    return `(${studinfos.studsection}) ` + modifiedCourse;
+  }
   if (!visible) return null;
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center ">
@@ -56,63 +92,83 @@ export default function ViewProfileMasterModal({
         </div>
         <div className="text-black rounded-xl m-[1%] h-[90%]">
           <form className=" p-2 z-50 h-[98%]  rounded-xl overflow-y-scroll ">
+            <div className="flex flex-col justify-center place-content-center items-center mb-10 font-thin">
+              {avatar ? (
+                <img
+                  src={displayAvatarConfig}
+                  className="h-[200px] w-[200px] rounded-full"
+                ></img>
+              ) : (
+                avatarComponent(studinfos.studname)
+              )}
+              <label className=" mt-4 md:text-lg text-base text-center  text-black ">
+                {studinfos.studname}
+              </label>
+              <label className=" mt-2 md:text-lg text-base text-center  text-black ">
+                {removeCourseAcro(studinfos.studprogram)}
+              </label>
+              <label className=" mt-2 md:text-lg text-base text-center  text-black ">
+                {studinfos.studemail}
+              </label>
+            </div>
+            <div className="h-[1px] w-[100%] bg-yellow-500 mb-4" />
             <div className="flex-col text-black ">
               <div className="font-bold md:text-[25px] text-lg mb-3 flex gap-6 rounded-md text-black  p-2">
                 STUDENT INFORMATION
               </div>
-              <p className="font-semibold  md:text-lg text-base pl-2 text-black">
+              <p className="  md:text-lg text-base pl-2 text-black">
                 STUDENT PROGRESS: {studinfos.studprogress} /{" "}
                 {studinfos.studmaxprogress}
               </p>
-              <div className="grid md:grid-cols-2 grid-cols-1 pl-2 text-black">
-                <label className=" mt-4 md:text-lg text-base font-semibold">
+              <div className="grid md:grid-cols-2 grid-cols-1 pl-2 text-black font-thin">
+                <label className=" mt-4 md:text-lg text-base ">
                   FULLNAME: {studinfos.studname}
                 </label>
-                <label className=" mt-4 md:text-lg text-base font-semibold">
+                <label className=" mt-4 md:text-lg text-base ">
                   PROGRAM: {studinfos.studprogram}
                 </label>
-                <label className=" mt-4 md:text-lg text-base font-semibold">
+                <label className=" mt-4 md:text-lg text-base ">
                   O365: {studinfos.studemail}
                 </label>
-                <label className=" mt-4 md:text-lg text-base font-semibold">
+                <label className=" mt-4 md:text-lg text-base ">
                   SECTION: {studinfos.studsection}
                 </label>
-                <label className=" mt-4 md:text-lg text-base font-semibold">
+                <label className=" mt-4 md:text-lg text-base ">
                   OJT START: {studinfos.ojtstart}
                 </label>
-                <label className=" mt-4 md:text-lg text-base font-semibold">
+                <label className=" mt-4 md:text-lg text-base ">
                   OJT END: {studinfos.ojtend}
                 </label>
               </div>
-              <div className="mt-3 flex pl-2">
-                <label className="md:text-lg text-base font-semibold text-black">
+              <div className="mt-3 flex pl-2 font-thin">
+                <label className="md:text-lg text-base  text-black">
                   REMARKS: <p className="text-base">{remarks}</p>
                 </label>
               </div>
-              <div className="h-[1px] w-[100%] bg-yellow-500 mt-4" />
+
               <p className="font-bold md:text-[25px] text-lg mt-7 rounded-md text-black  p-2">
                 COMPANY INFROMATION
               </p>
-              <div className="grid md:grid-cols-2 grid-cols-1 pl-2 text-black ">
-                <label className=" mt-4 md:text-lg text-base font-semibold">
+              <div className="grid md:grid-cols-2 grid-cols-1 pl-2 text-black font-thin">
+                <label className=" mt-4 md:text-lg text-base ">
                   COMPANY NAME: {studinfos.companyname}
                 </label>
-                <label className=" mt-4 md:text-lg text-base font-semibold">
+                <label className=" mt-4 md:text-lg text-base ">
                   COMPANY ADDRESS: {studinfos.companyaddress}
                 </label>
-                <label className=" mt-4 md:text-lg text-base font-semibold">
+                <label className=" mt-4 md:text-lg text-base ">
                   SUPERVISOR NAME: {studinfos.supervisorname}
                 </label>
-                <label className=" mt-4 md:text-lg text-base font-semibold">
+                <label className=" mt-4 md:text-lg text-base ">
                   SUPERVISOR CONTACT #: {studinfos.supervisorcontactnumber}
                 </label>
-                <label className=" mt-4 md:text-lg text-base font-semibold">
+                <label className=" mt-4 md:text-lg text-base ">
                   SUPERVISOR OFFICER #: {studinfos.supervisorofficenumber}
                 </label>
-                <label className=" mt-4 md:text-lg text-base font-semibold">
+                <label className=" mt-4 md:text-lg text-base ">
                   COMPANY DESIGNATION: {studinfos.companydesignation}
                 </label>
-                <label className=" mt-4 md:text-lg text-base font-semibold  mb-[20px]">
+                <label className=" mt-4 md:text-lg text-base   mb-[20px]">
                   COMPANY EMAIL: {studinfos.companyemail}
                 </label>
               </div>

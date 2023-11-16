@@ -11,7 +11,7 @@ const StudInfoConfig = ({ studinfos, BeneData, course, sy, handleCheck }) => {
   // AOS ANIMATION
   useEffect(() => {
     DateCreated();
-
+    displayAvatar(studinfos.studemail);
     AOS.init({ duration: 1000 });
   }, [sy]);
 
@@ -23,6 +23,8 @@ const StudInfoConfig = ({ studinfos, BeneData, course, sy, handleCheck }) => {
 
   const [DateHolderSY, SetDateHolderSY] = useState("2023");
   const [StudCreateDate, SetStudCreateDate] = useState();
+
+  var displayColor = "";
 
   function DateCreated() {
     if (sy === "S.Y. 2023-2024") {
@@ -61,23 +63,23 @@ const StudInfoConfig = ({ studinfos, BeneData, course, sy, handleCheck }) => {
       const value = (hash >> (i * 8)) & 0xff;
       color += `00${value.toString(16)}`.slice(-2);
     }
+    displayColor = color;
     /* eslint-enable no-bitwise */
-
     return color;
   }
 
-  function stringAvatar(name) {
-    return {
-      sx: {
-        bgcolor: stringToColor(name),
-        width: 35,
-        height: 35,
-      },
-      children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]} `,
-    };
+  function avatarComponent(name) {
+    return (
+      <div
+        style={{ background: stringToColor(name) }}
+        className={`flex text-white items-center justify-center h-9  w-9 rounded-full font-thin`}
+      >{`${name.split(" ")[0][0]}${name.split(" ")[1][0]} `}</div>
+    );
   }
 
   const [avatar, setAvatar] = useState(false);
+  const [displayAvatarConfig, setDisplayAvatar] = useState();
+
   async function displayAvatar(email) {
     try {
       const { data: profilePic } = await supabase.storage
@@ -86,7 +88,10 @@ const StudInfoConfig = ({ studinfos, BeneData, course, sy, handleCheck }) => {
 
       if (profilePic) {
         setAvatar(true);
-        return `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/ProfilePic/${email}/${profilePic[0].name}`;
+
+        setDisplayAvatar(
+          `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/ProfilePic/${email}/${profilePic[0].name}`
+        );
       }
     } catch (error) {
       setAvatar(false);
@@ -101,21 +106,24 @@ const StudInfoConfig = ({ studinfos, BeneData, course, sy, handleCheck }) => {
             className="bg-slate-200 text-black flex font-medium rounded mt-1.5 
             hover:shadow-sm hover:shadow-black duration-300 p-2 hover:p-3"
           >
-            {avatar ? (
-              <img src={displayAvatar(studinfos.studemail)}></img>
-            ) : (
-              <Avatar {...stringAvatar(studinfos.studname)} />
-            )}
-
             <div
               data-tip="View Information"
-              className=" pl-[2%] w-[29%] hover:underline hover:text-blue-600 cursor-default  items-center flex"
+              className=" pl-[2%] w-[29%]  hover:text-blue-600 cursor-default  items-center flex"
             >
               <a
                 data-tooltip-id="View"
                 onClick={() => setShowModalProfile(true)}
-                className=" md:text-[16px] text-[10px]"
+                className=" md:text-[16px] text-[10px] flex gap-1 items-center "
               >
+                {avatar ? (
+                  <img
+                    src={displayAvatarConfig}
+                    className="h-9 w-9 rounded-full"
+                  ></img>
+                ) : (
+                  avatarComponent(studinfos.studname)
+                )}
+
                 {studinfos.studname}
               </a>
             </div>
@@ -177,6 +185,8 @@ const StudInfoConfig = ({ studinfos, BeneData, course, sy, handleCheck }) => {
           visible={showmodalprofile}
           studinfos={studinfos}
           studemail={studinfos.studemail}
+          displayAvatarConfig={displayAvatarConfig}
+          displayColor={displayColor}
         />
         <ReactTooltip
           id="View"

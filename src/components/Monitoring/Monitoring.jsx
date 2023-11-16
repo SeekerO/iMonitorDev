@@ -115,50 +115,51 @@ const Monitoring = ({ Data }) => {
           MONITORING
         </header>
         <div className="flex w-full justify-between">
-          <div className={`flex gap-4 max-h-[50px] items-center`}>
-            <div
-              className={`${
-                Data.filterby !== "ALL" && "hidden"
-              } flex max-h-[50px] items-center rounded-md bg-[#5885AF] `}
-            >
-              <BiFilterAlt className="md:text-[20px] text-[14px]" />
-              <select
-                value={course}
-                onChange={(e) => setCourse(e.target.value)}
-                className={`h-[25px] md:text-base text-sm rounded-md bg-[#5885AF] outline-none`}
+          <div className="md:flex  grid items-center gap-1 ">
+            <div className={`flex gap-4 max-h-[50px] items-center`}>
+              <div
+                className={`${
+                  Data.filterby !== "ALL" && "hidden"
+                } flex max-h-[50px] items-center rounded-md bg-[#5885AF] `}
               >
-                <option>ALL</option>
-                <option>BSIT</option>
-                <option>BSAIS</option>
-                <option>BSTM</option>
-                <option>BSHM</option>
-                <option>BSCPE</option>
-                <option>BSCS</option>
-              </select>
+                <BiFilterAlt className="md:text-[20px] text-[14px]" />
+                <select
+                  value={course}
+                  onChange={(e) => setCourse(e.target.value)}
+                  className={`h-[25px] md:text-base text-sm rounded-md bg-[#5885AF] outline-none`}
+                >
+                  <option>ALL</option>
+                  <option>BSIT</option>
+                  <option>BSAIS</option>
+                  <option>BSTM</option>
+                  <option>BSHM</option>
+                  <option>BSCPE</option>
+                  <option>BSCS</option>
+                </select>
+              </div>
+              <div className="flex max-h-[50px] items-center rounded-md bg-[#5885AF]">
+                <BiFilterAlt className="md:text-[20px] text-[14px]" />
+                <select
+                  value={sy}
+                  onChange={(e) => setSY(e.target.value)}
+                  className=" h-[25px] md:text-base text-sm rounded-md bg-[#5885AF] overflow-auto outline-none "
+                >
+                  <option className="text-[15px]">S.Y. 2023-2024</option>
+                  <option className="text-[15px]">S.Y. 2024-2025</option>
+                  <option className="text-[15px]">S.Y. 2025-2026</option>
+                  <option className="text-[15px]">S.Y. 2026-2027</option>
+                  <option className="text-[15px]">S.Y. 2027-2028</option>
+                </select>
+              </div>
             </div>
-            <div className="flex max-h-[50px] items-center rounded-md bg-[#5885AF]">
-              <BiFilterAlt className="md:text-[20px] text-[14px]" />
-              <select
-                value={sy}
-                onChange={(e) => setSY(e.target.value)}
-                className=" h-[25px] md:text-base text-sm rounded-md bg-[#5885AF] overflow-auto outline-none "
-              >
-                <option className="text-[15px]">S.Y. 2023-2024</option>
-                <option className="text-[15px]">S.Y. 2024-2025</option>
-                <option className="text-[15px]">S.Y. 2025-2026</option>
-                <option className="text-[15px]">S.Y. 2026-2027</option>
-                <option className="text-[15px]">S.Y. 2027-2028</option>
-              </select>
-            </div>
-            <label className="text-base font-thin">
-              Student that is currently enrolled: {count}
+            <label className="md:text-base text-sm font-thin md:mt-0 mt-2">
+              Currently Enrolled: {count}
             </label>
           </div>
-
           <a
             data-tooltip-id="ArchiveAll"
             onClick={() => setArchive_all_completed(!archive_all_completed)}
-            className="bg-[#5885AF] hover:bg-[#5885af90] p-1 rounded-md cursor-default md:text-base text-[12px]"
+            className="bg-[#5885AF] h-fit hover:bg-[#5885af90] p-1 rounded-md cursor-default md:text-base text-[12px]"
           >
             ARCHIVE COMPLETED
           </a>
