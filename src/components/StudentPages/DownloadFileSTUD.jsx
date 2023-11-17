@@ -1,7 +1,8 @@
 import React from "react";
 import { saveAs } from "file-saver";
 import axios from "axios";
-
+import { Tooltip as ReactTooltip } from "react-tooltip";
+import { AiFillFile } from "react-icons/ai";
 function DownloadFileSTUD({ e, userInfo, ID }) {
   async function SaveFile() {
     try {
@@ -21,12 +22,22 @@ function DownloadFileSTUD({ e, userInfo, ID }) {
     }
   }
   return (
-    <div
-      onClick={() => SaveFile()}
-      className="w-[100%] truncate bg-blue-900 text-white p-1 mt-1 rounded-md"
-    >
-      {e.name}
-    </div>
+    <>
+      <div
+        onClick={() => SaveFile()}
+        data-tooltip-id="Tip"
+        className="flex items-center mt-1 cursor-default"
+      >
+        <div className="h-[60px] w-[60px] p-2 bg-slate-400 flex place-content-center items-center rounded-l-md">
+          <AiFillFile className="text-slate-100" />
+        </div>
+
+        <div className="h-[60px] p-2  bg-blue-900 w-[100%] flex items-center rounded-r-md  text-white font-light  ">
+          <label className="w-[160px]  truncate"> {e.name}</label>
+        </div>
+      </div>
+      <ReactTooltip id="Tip" place="left" variant="info" content={e.name} />
+    </>
   );
 }
 

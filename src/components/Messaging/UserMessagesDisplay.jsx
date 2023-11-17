@@ -188,14 +188,14 @@ function UserMessagesDisplay({
               message.contactwith === beneName ? (
                 <div
                   onClick={() => handleUser("User")}
-                  className="text-left cursor-default  w-[100%] "
+                  className="text-left  w-[100%] hover:underline cursor-pointer"
                 >
                   {message.message}
                 </div>
               ) : (
                 <div
                   onClick={() => handleUser("Current")}
-                  className="text-right cursor-default  w-[100%] "
+                  className="text-right w-[100%] hover:underline cursor-pointer"
                 >
                   {message.message}
                 </div>

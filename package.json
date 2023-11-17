@@ -37,6 +37,7 @@
     "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.45.1",
     "react-icons": "^4.10.1",
+    "react-loader-spinner": "^5.4.5",
     "react-minimal-pie-chart": "^8.4.0",
     "react-native-screens": "^3.24.0",
     "react-paginate": "^8.2.0",

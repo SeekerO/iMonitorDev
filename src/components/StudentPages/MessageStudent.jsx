@@ -18,6 +18,8 @@ import { ToastContainer, toast } from "react-toastify";
 import ImageStud from "./ImageStud";
 import DownloadFileSTUD from "./DownloadFileSTUD";
 
+import { TailSpin } from "react-loader-spinner";
+
 const MessageStudent = ({ studemail }) => {
   // search name
   const [search, setSearch] = useState("");
@@ -62,6 +64,9 @@ const MessageStudent = ({ studemail }) => {
 
   // File Var
   const [file, setFile] = useState();
+
+  const [sendFile, setSendFile] = useState(false);
+  const [sendFileX, setSendFileX] = useState(true);
 
   // Resize
   useEffect(() => {
@@ -240,10 +245,13 @@ const MessageStudent = ({ studemail }) => {
 
   const handleChange = (event) => {
     const fileUploaded = event.target.files[0];
-    setFileHolder(fileUploaded);
-    setFileName(fileUploaded.name);
-    if (fileUploaded) {
-      setShowUpload(true);
+
+    if (fileUploaded !== undefined) {
+      setFileHolder(fileUploaded);
+      setFileName(fileUploaded.name);
+      if (fileUploaded) {
+        setShowUpload(true);
+      }
     }
   };
 
@@ -261,20 +269,8 @@ const MessageStudent = ({ studemail }) => {
     }
   }
   async function SendFile() {
-    const { data } = await supabase.from("Messaging").insert([
-      {
-        name: studName,
-        message: filename,
-        contactwith: getbeneName,
-        userID: studinfo.id,
-      },
-    ]);
-
-    const { data: modif } = await supabase
-      .from("StudentInformation")
-      .update({ last_Modif: moment().format("MMMM Do YYYY, h:mm:ss a") })
-      .eq("studname", studName);
-
+    setSendFile(true);
+    setSendFileX(true);
     setSeen(false);
     setMessage("");
     setHaveMessage(true);
@@ -283,11 +279,35 @@ const MessageStudent = ({ studemail }) => {
     const { data: file, error } = await supabase.storage
       .from("MessageFileUpload")
       .upload(
-        studinfo.id + "_" + getID + "/" + studinfo.id + "/" + filename,
+        studinfo.id +
+          "_" +
+          getID +
+          "/" +
+          studinfo.id +
+          "/" +
+          uuid +
+          "." +
+          filename,
         fileholder
       );
 
     if (file) {
+      const { data } = await supabase.from("Messaging").insert([
+        {
+          name: studName,
+          message: uuid + "." + filename,
+          contactwith: getbeneName,
+          userID: studinfo.id,
+        },
+      ]);
+
+      const { data: modif } = await supabase
+        .from("StudentInformation")
+        .update({ last_Modif: moment().format("MMMM Do YYYY, h:mm:ss a") })
+        .eq("studname", studName);
+
+      setSendFile(false);
+      setSendFileX(false);
       setFileHolder();
       setFileName();
       setShowUpload(false);
@@ -532,21 +552,46 @@ const MessageStudent = ({ studemail }) => {
                       <div className={`absolute -mt-[35px] ml-[2%] `}>
                         <div className="flex w-[100%] gap-2">
                           <a
+                            disabled={sendFileX}
                             onClick={() => removeImage()}
-                            className="rounded-full bg-slate-600 h-[20px] w-[20px] p-4 justify-center flex items-center hover:bg-red-400 cursor-pointer text-white hover:text-black"
+                            className={`${
+                              !sendFileX
+                                ? "hidden"
+                                : "rounded-full bg-slate-600 h-[20px] w-[20px] p-4 justify-center flex items-center hover:bg-red-400 cursor-pointer text-white hover:text-black"
+                            }`}
                           >
                             X
                           </a>
-                          <label className="flex items-center">
-                            {" "}
-                            {filename}
-                          </label>
-                          <button
-                            onClick={() => SendFile()}
-                            className="bg-[#60A3D9] h-[20px] p-4 flex text-slate-200 hover:bg-blue-500 hover:text-black hover:shadow-lg font-semibold justify-center items-center rounded-sm"
-                          >
-                            SEND
-                          </button>
+                          <div className="flex bg-[#5584ab] rounded-md">
+                            <label className="flex items-center pl-2 pr-2 text-white ">
+                              {filename}
+                            </label>
+                            <button
+                              onClick={() => SendFile()}
+                              className={`${
+                                sendFile
+                                  ? "bg-gray-500"
+                                  : "bg-[#60A3D9] hover:bg-blue-500 hover:shadow-lg"
+                              } h-[20px] p-4 flex text-slate-200  hover:text-black  font-semibold justify-center items-center rounded-sm`}
+                            >
+                              {sendFile ? (
+                                <div className="flex gap-1 text-white">
+                                  Sending
+                                  <TailSpin
+                                    height="25"
+                                    width="25"
+                                    color="#ffffff"
+                                    ariaLabel="tail-spin-loading"
+                                    radius="0"
+                                    wrapperStyle={{}}
+                                    visible={true}
+                                  />
+                                </div>
+                              ) : (
+                                "SEND"
+                              )}
+                            </button>
+                          </div>
                         </div>
                       </div>
                     ) : (

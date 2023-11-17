@@ -18,6 +18,8 @@ import { GrAttachment } from "react-icons/gr";
 import { FadeLoader } from "react-spinners";
 import { IoSend } from "react-icons/io5";
 import { Backdrop } from "@mui/material";
+import { TailSpin } from "react-loader-spinner";
+
 // Toastify
 import { ToastContainer, toast } from "react-toastify";
 
@@ -63,6 +65,9 @@ const Message = ({ beneemail }) => {
   const [run, SetRun] = useState();
 
   const [openfile, setOpenFile] = useState(false);
+
+  const [sendFile, setSendFile] = useState(false);
+  const [sendFileX, setSendFileX] = useState(false);
 
   // Pagination MessageContact
   const [pageNumber, setPageNumber] = useState(0);
@@ -256,10 +261,13 @@ const Message = ({ beneemail }) => {
   };
   const handleChange = (event) => {
     const fileUploaded = event.target.files[0];
-    setFileHolder(fileUploaded);
-    setFileName(fileUploaded.name);
-    if (fileUploaded) {
-      setShowUpload(true);
+    console.log(fileUploaded);
+    if (fileUploaded !== undefined) {
+      setFileHolder(fileUploaded);
+      setFileName(fileUploaded.name);
+      if (fileUploaded) {
+        setShowUpload(true);
+      }
     }
   };
 
@@ -284,20 +292,8 @@ const Message = ({ beneemail }) => {
   }
 
   async function SendFile() {
-    const { data } = await supabase.from("Messaging").insert([
-      {
-        name: beneName,
-        message: filename,
-        contactwith: getstudname,
-        userID: beneinfo.id,
-      },
-    ]);
-
-    const { data: modif } = await supabase
-      .from("BeneAccount")
-      .update({ last_Modif: moment().format("MMMM Do YYYY, h:mm:ss a") })
-      .eq("beneName", beneName);
-
+    setSendFile(true);
+    setSendFileX(true);
     setSeen(false);
     setMessage("");
     setHaveMessage(true);
@@ -306,14 +302,38 @@ const Message = ({ beneemail }) => {
     const { data: file, error } = await supabase.storage
       .from("MessageFileUpload")
       .upload(
-        getID + "_" + beneinfo.id + "/" + beneinfo.id + "/" + filename,
+        getID +
+          "_" +
+          beneinfo.id +
+          "/" +
+          beneinfo.id +
+          "/" +
+          uuid +
+          "." +
+          filename,
         fileholder
       );
 
     if (file) {
+      const { data: modif } = await supabase
+        .from("BeneAccount")
+        .update({ last_Modif: moment().format("MMMM Do YYYY, h:mm:ss a") })
+        .eq("beneName", beneName);
+
+      const { data } = await supabase.from("Messaging").insert([
+        {
+          name: beneName,
+          message: uuid + "." + filename,
+          contactwith: getstudname,
+          userID: beneinfo.id,
+        },
+      ]);
+
       setFileHolder();
       setFileName();
       setShowUpload(false);
+      setSendFile(false);
+      setSendFileX(false);
     }
     if (error) {
       toast.warn("Something went wrong please try again..", {
@@ -326,6 +346,8 @@ const Message = ({ beneemail }) => {
         progress: undefined,
         theme: "light",
       });
+      setSendFile(false);
+      setSendFileX(false);
     }
   }
 
@@ -565,22 +587,48 @@ const Message = ({ beneemail }) => {
                     </button>
                     {showUpload ? (
                       <div className={`absolute -mt-[35px] ml-[2%] `}>
-                        <div className="flex w-[100%] gap-2">
+                        <div className="flex w-[100%] gap-2 items-center">
                           <a
+                            disabled={sendFileX}
                             onClick={() => removeImage()}
-                            className="rounded-full bg-slate-600 h-[20px] w-[20px] p-4 justify-center flex items-center hover:bg-red-400 cursor-pointer text-white hover:text-black"
+                            className={`${
+                              sendFileX
+                                ? "hidden"
+                                : "rounded-full bg-slate-600 h-[20px] w-[20px] p-4 justify-center flex items-center hover:bg-red-400 cursor-pointer text-white hover:text-black"
+                            }`}
                           >
                             X
                           </a>
-                          <label className="flex items-center">
-                            {filename}
-                          </label>
-                          <button
-                            onClick={() => SendFile()}
-                            className="bg-[#60A3D9] h-[20px] p-4 flex text-slate-200 hover:bg-blue-500 hover:text-black hover:shadow-lg font-semibold justify-center items-center rounded-sm"
-                          >
-                            SEND
-                          </button>
+                          <div className="flex bg-[#5584ab] rounded-md ">
+                            <label className="flex items-center pl-2 pr-2 text-white min-w-[100px] max-w-[300px]  truncate overflow-hidden ">
+                              {filename}
+                            </label>
+                            <button
+                              onClick={() => SendFile()}
+                              className={`${
+                                sendFile
+                                  ? "bg-gray-500"
+                                  : "bg-[#60A3D9] hover:bg-blue-500 hover:shadow-lg"
+                              } h-[20px] p-4 flex text-slate-200  hover:text-black  font-semibold justify-center items-center rounded-sm ml-2`}
+                            >
+                              {sendFile ? (
+                                <div className="flex gap-1 text-white">
+                                  Sending
+                                  <TailSpin
+                                    height="25"
+                                    width="25"
+                                    color="#ffffff"
+                                    ariaLabel="tail-spin-loading"
+                                    radius="0"
+                                    wrapperStyle={{}}
+                                    visible={true}
+                                  />
+                                </div>
+                              ) : (
+                                "SEND"
+                              )}
+                            </button>
+                          </div>
                         </div>
                       </div>
                     ) : (
@@ -682,6 +730,7 @@ const Message = ({ beneemail }) => {
                         <div>
                           {checker(e.name) === false && (
                             <DownloadFIle
+                              key={e.id}
                               e={e}
                               userInfo={beneinfo}
                               ID={getID}
