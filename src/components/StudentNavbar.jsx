@@ -65,7 +65,7 @@ function Navbar({ email }) {
         studMess[index].readmessage === false
       ) {
         setNotif(true);
-        return;
+        break;
       } else {
         setNotif(false);
       }

@@ -40,10 +40,11 @@ function MessagingConfig({
             bene[index].contactwith === studName
           ) {
             setNotif(true);
-            await setLastMess(bene[index]);
-            return;
+            setLastMess(bene[index]);
+            break;
+          } else {
+            setNotif(false);
           }
-          setNotif(false);
         }
       }
     } catch (error) {}
