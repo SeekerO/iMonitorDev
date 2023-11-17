@@ -5,7 +5,7 @@ function ModalAccounts({ visible, beneinfo, studinfo, setViewAccounts }) {
   if (!visible) return null;
   return (
     <>
-      <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center p-4 ">
+    {beneinfo ?     <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center p-4 ">
         <div
           className="bg-white h-[500px] w-[1200px] rounded-md shadow-lg shadow-black"
           data-aos="zoom-in"
@@ -42,7 +42,8 @@ function ModalAccounts({ visible, beneinfo, studinfo, setViewAccounts }) {
             </button>
           </div>
         </div>
-      </div>
+      </div> : <div>Something Wrong with the connection</div>}
+  
     </>
   );
 }

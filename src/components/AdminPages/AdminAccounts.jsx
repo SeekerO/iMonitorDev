@@ -166,7 +166,7 @@ function AdminAccounts() {
                 )}
               </div>
             ) : (
-              <div className="flex place-content-center items-center h-[50%] font-bold underline">
+              <div className="flex place-content-center items-center h-[295px]  font-bold underline">
                 There is something wrong with the connection
               </div>
             )}
