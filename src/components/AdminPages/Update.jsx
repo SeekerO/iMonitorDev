@@ -216,6 +216,8 @@ function Update({ visible, close, data, beneinfo, studinfo }) {
                   <option value={"BSAIS"}>BSAIS</option>
                   <option value={"BSTM"}>BSTM</option>
                   <option value={"BSHM"}>BSHM</option>
+                  <option value={"BSCS"}>BSCS</option>
+                  <option value={"BSCPE"}>BSCPE</option>
                 </select>
               )}
             </div>

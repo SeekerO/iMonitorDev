@@ -119,20 +119,30 @@ const MessageStudent = ({ studemail }) => {
 
   // Data Getter In SupaBase
   async function DataGetter() {
-    const { data: beneInfo } = await supabase.from("BeneAccount").select();
-    if (beneInfo) setBeneInfo(beneInfo);
-
     const { data: studInfo } = await supabase
       .from("StudentInformation")
       .select()
       .eq("studemail", studemail)
       .single();
+
     if (studInfo) {
       setStudName(studInfo.studname);
       setStudinfo(studInfo);
+
+      const { data: beneInfo } = await supabase
+        .from("BeneAccount")
+        .select()
+        .match({ filterby: studInfo.studcourse });
+
+      const { data: beneInfoALL } = await supabase
+        .from("BeneAccount")
+        .select()
+        .match({ filterby: "ALL" });
+
+      if (beneInfo) setBeneInfo(beneInfo.concat(beneInfoALL));
     }
   }
-
+  console.log(studinfo);
   // Message Getter In SupaBase
   const MessageGetter = async () => {
     try {
