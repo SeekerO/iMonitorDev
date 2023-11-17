@@ -274,7 +274,7 @@ const Monitoring = ({ Data }) => {
             </div>
           )}
         </main>
-        <div className="mt-[5%]">
+        <div className="mt-[3%]">
           <ReactPaginate
             previousLabel={"Previous"}
             nextLabel={"Next"}
