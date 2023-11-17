@@ -631,7 +631,7 @@ const Message = ({ beneemail }) => {
 
           {/* File Uploaded */}
           {openfile ? (
-            <div className="">
+            <div className="h-[100%]">
               <div
                 className={`${
                   window.innerWidth <= 768

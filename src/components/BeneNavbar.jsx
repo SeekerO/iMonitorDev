@@ -139,7 +139,7 @@ function Navbar({ email, Data }) {
             <Link
               to="/"
               onClick={() => setOpen(!open)}
-              className="flex items-center p-2 rounded-lg text-white hover:bg-[#274472] transform hover:translate-x-2 hover:shadow-md  duration-500"
+              className="flex items-center p-2 rounded-lg text-white transform duration-500 hover:bg-[#274472] hover:translate-x-2 hover:shadow-md  focus:bg-[#274472] focus:translate-x-2 focus:shadow-md "
             >
               <svg
                 aria-hidden="true"
