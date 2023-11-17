@@ -1,17 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import supabase from "../iMonitorDBconfig";
 import { Link } from "react-router-dom";
 import { RiInformationFill } from "react-icons/ri";
 import { ToastContainer, toast } from "react-toastify";
 
 export default function ArchiveAllCompleted({ visible, onClose }) {
+  const [upload, setIsUploading] = useState(false);
   if (!visible) return null;
 
   async function handleArchiveCompleted() {
+    setIsUploading(true);
     const { data: studinfos } = await supabase
       .from("StudentInformation")
       .select();
-      
+
     let count = 0;
     let studentcount = studinfos.length;
     for (let index = 0; index < studinfos.length; index++) {
@@ -59,6 +61,7 @@ export default function ArchiveAllCompleted({ visible, onClose }) {
       count++;
     }
     if (studentcount === count) {
+      setIsUploading(false);
       toast.info("It appears that nobody is completed.", {
         position: "top-right",
         autoClose: 1000,
@@ -70,6 +73,7 @@ export default function ArchiveAllCompleted({ visible, onClose }) {
         theme: "light",
       });
     } else {
+      setIsUploading(false);
       toast.success("Successfully archived.", {
         position: "top-right",
         autoClose: 1000,
@@ -108,8 +112,13 @@ export default function ArchiveAllCompleted({ visible, onClose }) {
           </button>
 
           <button
+            disabled={upload}
             onClick={() => handleArchiveCompleted()}
-            className="bg-[#0074B7] hover:bg-[#0074B7] hover:bg-opacity-80 h-10 w-20 ml-[2%] rounded-md"
+            className={`${
+              upload
+                ? "bg-gray-500"
+                : " bg-[#0074B7] hover:bg-[#0074B7] hover:bg-opacity-80"
+            }  h-10 w-20 ml-[2%] rounded-md`}
           >
             Confirm
           </button>

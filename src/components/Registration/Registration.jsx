@@ -62,6 +62,8 @@ function Registration() {
   // Open Batch Upload Modal
   const [batchupload, setBatchUpload] = useState(false);
 
+  const [registring, setIsRegistring] = useState(false);
+
   useEffect(() => {
     fetchcompanyinfo();
   }, [formSuccess]);
@@ -209,7 +211,7 @@ function Registration() {
         }
       }
     }
-
+    setIsRegistring(true);
     if (studmname === null) {
       setStudMName("");
     }
@@ -285,6 +287,7 @@ function Registration() {
     setFormError(null);
     setShowModalRegis(true);
     clearfield();
+    setIsRegistring(false);
   };
 
   const fetchcompanyinfo = async () => {
@@ -616,7 +619,12 @@ function Registration() {
                 className="rounded-md w-[100%] text-black pl-2 h-[32px]"
               ></input>
             </div>
-            <button className=" bg-[#145DA0] w-[99.9%] h-[40px] rounded-md font-bold hover:bg-blue-400 mb-10 mt-2">
+            <button
+              disabled={registring}
+              className={`${
+                registring ? "bg-gray-500" : "bg-[#145DA0] hover:bg-blue-400"
+              }  w-[99.9%] h-[40px] rounded-md font-bold  mb-10 mt-2`}
+            >
               REGISTER
             </button>
           </form>

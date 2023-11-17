@@ -101,14 +101,11 @@ export default function ViewProfileMasterModal({
               ) : (
                 avatarComponent(studinfos.studname)
               )}
-              <label className=" mt-4 md:text-lg text-base text-center  text-black ">
+              <label className=" mt-4 text-sm text-center  text-black ">
                 {studinfos.studname}
               </label>
-              <label className=" mt-2 md:text-lg text-base text-center  text-black ">
+              <label className=" mt-2 text-sm text-center  text-black ">
                 {removeCourseAcro(studinfos.studprogram)}
-              </label>
-              <label className=" mt-2 md:text-lg text-base text-center  text-black ">
-                {studinfos.studemail}
               </label>
             </div>
             <div className="h-[1px] w-[100%] bg-yellow-500 mb-4" />
@@ -121,12 +118,6 @@ export default function ViewProfileMasterModal({
                 {studinfos.studmaxprogress}
               </p>
               <div className="grid md:grid-cols-2 grid-cols-1 pl-2 text-black font-thin">
-                <label className=" mt-4 md:text-lg text-base ">
-                  FULLNAME: {studinfos.studname}
-                </label>
-                <label className=" mt-4 md:text-lg text-base ">
-                  PROGRAM: {studinfos.studprogram}
-                </label>
                 <label className=" mt-4 md:text-lg text-base ">
                   O365: {studinfos.studemail}
                 </label>

@@ -49,7 +49,7 @@ export default async function Auth(
         } else {
           deactivated = true;
         }
-      }
+       }
     }
   }
 
@@ -57,7 +57,15 @@ export default async function Auth(
   if (stud) {
     for (let index = 0; index < stud.length; index++) {
       if (user.username === stud[index].studemail) {
+        studInfoGetter();
         if (window.localStorage.getItem("token") === stud[index].accessToken) {
+          passTokenStud();
+          studChecker(true);
+          remove();
+
+          check = true;
+          setUserName(stud[index].studname);
+        } else if (stud[index].accessToken === null) {
           passTokenStud();
           studChecker(true);
           remove();
@@ -72,16 +80,6 @@ export default async function Auth(
           check = true;
           setUserName(stud[index].studname);
         }
-
-        if (stud[index].accessToken === null) {
-          passTokenStud();
-          studChecker(true);
-          remove();
-
-          check = true;
-          setUserName(stud[index].studname);
-        }
-        studInfoGetter();
       }
     }
   }

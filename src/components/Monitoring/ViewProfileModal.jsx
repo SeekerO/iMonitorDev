@@ -68,7 +68,6 @@ export default function ViewProfileModal({
     remarks = "NONE";
   }
 
-
   function avatarComponent(name) {
     return (
       <div
@@ -126,14 +125,11 @@ export default function ViewProfileModal({
               ) : (
                 avatarComponent(studinfos.studname)
               )}
-              <label className=" mt-4 md:text-lg text-base text-center font-thin text-black ">
+              <label className=" mt-4  text-sm text-center font-thin text-black ">
                 {studinfos.studname}
               </label>
-              <label className=" mt-2 md:text-lg text-base text-center font-thin text-black ">
+              <label className=" mt-2  text-sm text-center font-thin text-black ">
                 {removeCourseAcro(studinfos.studprogram)}
-              </label>
-              <label className=" mt-2 md:text-lg text-base text-center font-thin text-black ">
-                {studinfos.studemail}
               </label>
             </div>
             <div className="h-[1px] w-[100%] bg-yellow-500 mb-4" />
@@ -155,14 +151,8 @@ export default function ViewProfileModal({
               </Link>
               <div className="grid md:grid-cols-2 grid-cols-1 gap-x-10  mb-3 pl-2 text-black font-thin">
                 <label className=" mt-4 md:text-lg text-base ">
-                  FULLE NAME: {studinfos.studname}
-                </label>
-                <label className=" mt-4 md:text-lg text-base ">
-                  PROGRAM: {studinfos.studprogram}
-                </label>
-                <label className=" mt-4 md:text-lg text-base ">
                   O365: {studinfos.studemail}
-                </label>
+                </label>{" "}
                 <label className=" mt-4 md:text-lg text-base ">
                   SECTION: {studinfos.studsection}
                 </label>

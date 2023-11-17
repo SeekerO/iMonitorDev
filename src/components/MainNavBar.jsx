@@ -78,6 +78,17 @@ function Navbar({ instance }) {
 
   // Create a request object
 
+  var loginResponse;
+  const loginAZURE = async () => {
+    try {
+      loginResponse = await instance.loginPopup(loginRequest);
+
+      handleCallbackResponse(loginResponse.account);
+    } catch (error) {
+      console.error("Authentication error", error);
+    }
+  };
+
   async function handleCallbackResponse(response) {
     const generatedToken = uuidv4();
     setEmail(response.username);
@@ -94,20 +105,8 @@ function Navbar({ instance }) {
       beneInfoGetter,
       setEmail
     );
+    await getUserProfile(loginResponse);
   }
-
-  var loginResponse;
-  const loginAZURE = async () => {
-    try {
-      loginResponse = await instance.loginPopup(loginRequest);
-
-      handleCallbackResponse(loginResponse.account);
-      getUserProfile(loginResponse);
-    } catch (error) {
-      console.error("Authentication error", error);
-    }
-    console.log(loginResponse);
-  };
 
   const getUserProfile = async (a) => {
     try {
@@ -132,6 +131,8 @@ function Navbar({ instance }) {
           .from("ProfilePic")
           .list(folderName);
 
+        if (error) console.log("Error", error);
+
         if (existingFiles.length === 0) {
           const fileName = uuidv4() + ".png";
 
@@ -155,7 +156,7 @@ function Navbar({ instance }) {
   };
 
   async function getProfilePic(email) {
-    const { data: profilePic } = await supabase.storage
+    const { data: profilePic, error } = await supabase.storage
       .from("ProfilePic")
       .list(email + "/", { limit: 1, offset: 0 });
 
@@ -295,9 +296,9 @@ function Navbar({ instance }) {
         .eq("accessToken", window.localStorage.getItem("token"))
         .single();
 
-      setDataStud(studinfo);
-
-      return;
+      if (studinfo) {
+        setDataStud(studinfo);
+      }
     } catch (error) {}
   }
 
@@ -546,8 +547,8 @@ function Navbar({ instance }) {
                       onClick={() => toggleDiv()}
                       className="cursor-pointer w-[100%] flex-col items-center"
                     >
-                      <div className="flex items-center gap-2">
-                        {dataBene && (
+                      {dataBene && (
+                        <div className="flex items-center gap-2">
                           <div className="flex items-center gap-1 opacity-90 md:text-base text-[11px]">
                             <label className=" text-white">
                               {dataBene && `${dataBene.beneName} `}
@@ -558,14 +559,13 @@ function Navbar({ instance }) {
                                 : "(ADVISER)"
                             }`}</label>
                           </div>
-                        )}
 
-                        <img
-                          className="md:h-10 md:w-10 h-8 w-8 rounded-full text-sm hover:ring-2 hover:ring-white"
-                          src={window.localStorage.getItem("profile")}
-                        />
-                      </div>
-
+                          <img
+                            className="md:h-10 md:w-10 h-8 w-8 rounded-full text-sm hover:ring-2 hover:ring-white"
+                            src={window.localStorage.getItem("profile")}
+                          />
+                        </div>
+                      )}
                       <div
                         className={`${
                           openprofile
@@ -598,12 +598,15 @@ function Navbar({ instance }) {
                   >
                     <div className="flex items-center gap-2 ">
                       <div className="flex items-center gap-1 opacity-90">
-                        <label className=" text-white md:text-base  text-[11px]">
-                          {dataStud && `${dataStud.studname} `}
-                        </label>
-                        <label className="font-light text-white  md:flex hidden">{`(STUDENT)`}</label>
+                        {dataStud && (
+                          <>
+                            <label className=" text-white md:text-base  text-[11px]">
+                              {dataStud && `${dataStud.studname}`}
+                            </label>
+                            <label className="font-light text-white  md:flex hidden">{`(STUDENT)`}</label>
+                          </>
+                        )}
                       </div>
-
                       <img
                         src={window.localStorage.getItem("profile")}
                         className="md:h-10 md:w-10 h-8 w-8 rounded-full text-sm hover:ring-2 hover:ring-white "

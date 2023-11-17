@@ -185,63 +185,60 @@ function Analytics({ data }) {
             </label>
           ) : (
             <div className="mt-2  h-screen ">
-              {showdata && (
-                <div className=" md:w-[100%]  w-[99%]  h-[33%] md:flex grid place-content-center items-center  inset-0 bg-[#6f97bcb3] text-black rounded-md shadow-md shadow-black">
-                  <div className=" h-[100%] flex items-center ">
-                    <div className="flex-col mb-2">
-                      <p className="flex-col flex text-center font-bold text-lg text-white">
-                        {analytics.length >= 2 && "Top 3 Companies"}
-                      </p>
+              {showdata ? (
+                <>
+                  <div className=" md:w-[100%]  w-[99%]  h-[33%] md:flex grid place-content-center items-center  inset-0 bg-[#6f97bcb3] text-black rounded-md shadow-md shadow-black">
+                    <div className=" h-[100%] flex items-center ">
+                      <div className="flex-col mb-2">
+                        <p className="flex-col flex text-center font-bold text-lg text-white">
+                          {analytics.length >= 2 && "Top 3 Companies"}
+                        </p>
 
-                      <PieChart
-                        data={analytics.map((file) => ({
-                          title: file.companyname,
-                          value: file.companyOJT,
-                          color: file.color,
-                        }))}
-                        className=" md:w-[200px] w-[150px] "
-                      />
-                    </div>
+                        <PieChart
+                          data={analytics.map((file) => ({
+                            title: file.companyname,
+                            value: file.companyOJT,
+                            color: file.color,
+                          }))}
+                          className=" md:w-[200px] w-[150px] "
+                        />
+                      </div>
 
-                    <div className=" ml-10 md:gap-10 gap-5  text-white justify-start md:flex grid items-center ">
-                      {analytics.map((data, index) => (
-                        <div
-                          key={data.id}
-                          className="font-semibold text-sm  items-center  justify-center gap-1 cursor-default grid"
-                        >
-                          <label className="flex items-center gap-1">
-                            <div
-                              style={{ background: data.color }}
-                              className="h-[15px] w-[15px] rounded-full items-center  gap-1 "
-                            />
-                            {data.companyname}
-                          </label>
-
-                          <label className="text-[14px] flex font-thin">
-                            Number of Students Enrolled: {data.companyOJT}
-                          </label>
-
-                          <div className="flex gap-2">
-                            <label className="text-[14px] flex font-thin">
-                              {avg
-                                ? `Completed: ${avg[index].completed}`
-                                : "Loading"}
+                      <div className=" ml-10 md:gap-10 gap-5  text-white justify-start md:flex grid items-center ">
+                        {analytics.map((data, index) => (
+                          <div
+                            key={data.id}
+                            className="font-semibold text-sm  items-center  justify-center gap-1 cursor-default grid"
+                          >
+                            <label className="flex items-center gap-1">
+                              <div
+                                style={{ background: data.color }}
+                                className="h-[15px] w-[15px] rounded-full items-center  gap-1 "
+                              />
+                              {data.companyname}
                             </label>
+
                             <label className="text-[14px] flex font-thin">
-                              {avg
-                                ? `Incompleted: ${avg[index].incomplete}`
-                                : "Loading"}
+                              Number of Students Enrolled: {data.companyOJT}
                             </label>
+
+                            <div className="flex gap-2">
+                              <label className="text-[14px] flex font-thin">
+                                {avg
+                                  ? `Completed: ${avg[index].completed}`
+                                  : "Loading"}
+                              </label>
+                              <label className="text-[14px] flex font-thin">
+                                {avg
+                                  ? `Incompleted: ${avg[index].incomplete}`
+                                  : "Loading"}
+                              </label>
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
                   </div>
-                </div>
-              )}
-
-              {showdata && (
-                <>
                   {moreinformaiton ? (
                     <div ref={divRef}>
                       <div
@@ -318,7 +315,7 @@ function Analytics({ data }) {
 
                                 <div className="grid md:grid-cols-6 grid-cols-2 md:w-[100%] ">
                                   {/* IT */}
-                                  <div >
+                                  <div>
                                     BSIT
                                     <BarChart
                                       xAxis={[
@@ -485,6 +482,10 @@ function Analytics({ data }) {
                     </div>
                   )}
                 </>
+              ) : (
+                <div className="flex place-content-center items-center h-[300px] bg-[#5885AF] bg-opacity-20 mt-2 rounded-md shadow-black shadow-md">
+                  <MoonLoader color="#131f2a" speedMultiplier={0.5} />
+                </div>
               )}
             </div>
           )}

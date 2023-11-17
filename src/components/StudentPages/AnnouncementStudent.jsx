@@ -185,7 +185,7 @@ function AnnouncementStudent({ studemail }) {
                     ))}
                 </div>
               ) : (
-                <div className="text-center mt-[70%] font-semibold text-[25px]">
+                <div className="text-center mt-[250px] font-semibold md:text-[25px] text-[15px]">
                   No Announcement
                 </div>
               )}

@@ -115,7 +115,7 @@ const Monitoring = ({ Data }) => {
           MONITORING
         </header>
         <div className="flex w-full justify-between">
-          <div className="md:flex  grid items-center gap-1 ">
+          <div className="  grid items-center gap-1 ">
             <div className={`flex gap-4 max-h-[50px] items-center`}>
               <div
                 className={`${

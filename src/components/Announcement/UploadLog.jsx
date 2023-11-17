@@ -29,6 +29,21 @@ function UploadLog() {
     AOS.init({ duration: 1000 });
   }, []);
 
+  useEffect(() => {
+    handleGetsubmitedAnnouncement();
+    setOpen(true);
+    const channels = supabase
+      .channel("custom-all-channel")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "AnnouncementTable" },
+        () => {
+          handleGetsubmitedAnnouncement();
+        }
+      )
+      .subscribe();
+  }, []);
+
   const handleGetsubmitedAnnouncement = async () => {
     const { data, error } = await supabase.from("AnnouncementTable").select();
     if (data) {
@@ -36,15 +51,6 @@ function UploadLog() {
     }
     if (error) console.log(error);
   };
-
-  function run() {
-    handleGetsubmitedAnnouncement();
-  }
-
-  useEffect(() => {
-    run();
-    setOpen(true);
-  }, []);
 
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768);
@@ -111,7 +117,7 @@ function UploadLog() {
           }   font-bold pt-3 pb-3 rounded-tl-md duration-100`}
         >
           {open ? (
-            <div className=" pr-2 ">Announcement</div>
+            <div className=" pr-2 pl-2 ">Announcement</div>
           ) : (
             <div className="  text-center font-mono -ml-1 mt-10">
               <div>A</div>
@@ -129,9 +135,9 @@ function UploadLog() {
             </div>
           )}
         </div>
-
+        {console.log(announceinfo)}
         <div className="h-screen">
-          {announceinfo ? (
+          {announceinfo.length !== 0 ? (
             <div
               className={`${
                 open ? "" : "hidden"
@@ -156,15 +162,19 @@ function UploadLog() {
                 ))}
             </div>
           ) : (
-            <div className="text-center mt-[70%] font-semibold text-[25px]">
+            <div
+              className={`${
+                !open && "hidden"
+              } text-center mt-[70%] font-semibold md:text-[25px] text-[15px]`}
+            >
               No Announcement
             </div>
           )}
-          {open && (
+          {/* {open && (
             <center>
               <MdOutlineArrowBackIos className="-rotate-90 text-[25px] mt-2 text-slate-400" />
             </center>
-          )}
+          )} */}
         </div>
       </div>
 

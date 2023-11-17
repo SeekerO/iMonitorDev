@@ -92,8 +92,10 @@ const Profile = ({ studemail }) => {
                         currprog > 0
                           ? "md:pl-[60px] pl-[4px] p-1"
                           : "md:pl-[70px] pl-[10px] p-1"
-                      } whitespace-nowrap z-0 md:text-[15px] text-[9px] font-mono   font-semibold mr-3 `}
-                    ></div>
+                      } whitespace-nowrap z-0 md:text-[15px] text-[9px] font-mono   font-semibold mr-3 text-black items-center `}
+                    >
+                      {currprog} / {maxprog}
+                    </div>
                   </div>
                 </div>
               </div>
