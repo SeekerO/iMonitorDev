@@ -22,6 +22,8 @@ const BeneficiaryCreator = () => {
 
   const [loadingcreate, setLoadingCreate] = useState(false);
 
+  const [creating, isCreating] = useState(false);
+
   useEffect(() => {
     fetchbeneinfo();
 
@@ -112,6 +114,8 @@ const BeneficiaryCreator = () => {
         }
       }
 
+      isCreating(true);
+
       var positionCHECKER;
 
       if (position === "ALUMNI OFFICER") {
@@ -150,6 +154,8 @@ const BeneficiaryCreator = () => {
       setCreateName("");
       setCreateEmail("");
       setPerformError("");
+
+      isCreating(false);
       toast.success("Account Created Successfully!", {
         position: "top-right",
         autoClose: 1000,
@@ -230,8 +236,13 @@ const BeneficiaryCreator = () => {
                     <p className="ml-[20px] text-red-600">{performerror}</p>
                   )}
                   <button
+                    disabled={creating}
                     onClick={() => createaccount()}
-                    className="bg-[#12557c] hover:bg-[#1b7fb9] text-white font-bold w-[90%] p-2 ml-5 "
+                    className={`${
+                      creating
+                        ? "bg-gray-500"
+                        : "bg-[#12557c] hover:bg-[#1b7fb9]"
+                    }  text-white font-bold w-[90%] p-2 ml-5 `}
                   >
                     CREATE
                   </button>

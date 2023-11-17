@@ -17,6 +17,8 @@ function Update({ visible, close, data, beneinfo, studinfo }) {
   const [positionupdate, setPositionUpdate] = useState(data.position);
   const [courseupdate, setCourseUpdate] = useState("BSIT");
 
+  const [uploading, isUploading] = useState(false);
+
   function isValidEmail(email) {
     return /\S+@\S+\.\S+/.test(email);
   }
@@ -89,6 +91,7 @@ function Update({ visible, close, data, beneinfo, studinfo }) {
       }
       run = true;
       if (run === true) {
+        isUploading(true);
         if (oldname !== updatename) {
           const { data: beneName } = await supabase
             .from("Messaging")
@@ -136,6 +139,7 @@ function Update({ visible, close, data, beneinfo, studinfo }) {
           progress: undefined,
           theme: "light",
         });
+        isUploading(false);
       } else {
         console.log(oldname);
         toast.warning("Account Not Detected", {
@@ -227,7 +231,10 @@ function Update({ visible, close, data, beneinfo, studinfo }) {
             )}
             <button
               onClick={() => updateaccount()}
-              className="bg-[#12557c] hover:bg-[#1b7fb9] text-white font-bold w-[93%] p-2"
+              disabled={uploading}
+              className={`${
+                uploading ? "bg-gray-500" : "bg-[#12557c] hover:bg-[#1b7fb9]"
+              }  text-white font-bold w-[90%] p-2 `}
             >
               UPDATE
             </button>

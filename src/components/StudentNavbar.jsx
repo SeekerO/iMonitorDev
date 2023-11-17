@@ -122,9 +122,9 @@ function Navbar({ email }) {
       for (let index = 0; index < holderReadsBy.length; index++) {
         if (holderReadsBy[index] !== email) {
           setAnnouncement_NOTIF(true);
-          break;
         } else {
           setAnnouncement_NOTIF(false);
+          break;
         }
       }
     }

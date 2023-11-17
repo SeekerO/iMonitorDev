@@ -9,6 +9,8 @@ function Archive({ visible, close, data }) {
   const [archivename, setArchiveName] = useState(data.beneName);
   const [archivestatus, setArchiveStatus] = useState(data.status);
   const [performerrorarchive, setPerformErrorArchive] = useState("");
+
+  const [archive, isArchive] = useState(false);
   useEffect(() => {
     setStatus(archivestatus);
   }, [data]);
@@ -24,6 +26,7 @@ function Archive({ visible, close, data }) {
 
     var run = true;
     if (run === true) {
+      isArchive(true);
       const { data: archive } = await supabase
         .from("BeneAccount")
         .update({ status: archivestatus })
@@ -39,7 +42,7 @@ function Archive({ visible, close, data }) {
         progress: undefined,
         theme: "light",
       });
-
+      isArchive(false);
       close();
     } else {
       toast.warning("Account Archive Not Successful!", {
@@ -110,7 +113,10 @@ function Archive({ visible, close, data }) {
             )}
             <button
               onClick={() => archiveaccount()}
-              className="bg-[#12557c] hover:bg-[#1b7fb9] text-white font-bold w-[95%] p-2  mt-5"
+              disabled={archive}
+              className={`${
+                archive ? "bg-gray-500" : "bg-[#12557c] hover:bg-[#1b7fb9]"
+              }  text-white font-bold w-[90%] p-2 ml-5 `}
             >
               ARCHIVE
             </button>
