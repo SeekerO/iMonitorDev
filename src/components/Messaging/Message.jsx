@@ -432,6 +432,7 @@ const Message = ({ beneemail }) => {
                   <>
                     {studinfo
                       .sort((a, b) => (a.last_Modif >= b.created_at ? -1 : 1))
+                      .sort((a, b) => (a.last_Modif >= b.created_at ? -1 : 1))
                       .filter((val) => {
                         try {
                           if (search === "") {
@@ -460,7 +461,7 @@ const Message = ({ beneemail }) => {
                           setShowMessage={setShowMessage}
                           setGetID={setGetID}
                           setSeen={setSeen}
-                          message={receivedmessages}
+                          message={havemessage}
                           beneName={beneName}
                           read={seen}
                           run={run}
