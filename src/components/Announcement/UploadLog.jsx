@@ -135,7 +135,6 @@ function UploadLog() {
             </div>
           )}
         </div>
-        {console.log(announceinfo)}
         <div className="h-screen">
           {announceinfo.length !== 0 ? (
             <div
@@ -208,7 +207,7 @@ function UploadLog() {
               </div>
             ) : (
               <div className="text-center  font-bold text-[25px]">
-                Announcement Information will dispaly here
+                Announcement Information will display here
               </div>
             )}
           </div>
