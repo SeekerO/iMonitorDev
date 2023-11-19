@@ -480,17 +480,23 @@ const Message = ({ beneemail }) => {
                       </>
                     ) : (
                       <div className="flex items-center justify-center place-content-center h-[100%]">
-                        <label className="font-bold text-[20px]">No user</label>
+                        <TailSpin
+                          height="80"
+                          width="80"
+                          color="#0074B7"
+                          ariaLabel="tail-spin-loading"
+                          radius="1"
+                          wrapperStyle={{}}
+                          wrapperClass=""
+                          visible={true}
+                        />
                       </div>
                     )}
                   </div>
                 </>
               ) : (
-                <div className=" mt-[50%] place-content-center flex justify-center">
-                  <FadeLoader
-                    color="#3658d6"
-                    className="justify-center text-center"
-                  />
+                <div className=" h-[77%]   place-content-center flex justify-center items-center">
+                  <label className="font-bold text-[20px]">No user</label>
                 </div>
               )}
               <div className=" bg-[#274472] w-[100%]  bottom-0">

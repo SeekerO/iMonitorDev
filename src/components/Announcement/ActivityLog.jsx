@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import supabase from "../iMonitorDBconfig";
 import ReactPaginate from "react-paginate";
-
+import { TailSpin } from "react-loader-spinner";
 function ActivityLog() {
   const [ActivityLog, setActivityLog] = useState([]);
   const [count, setCount] = useState();
@@ -55,9 +55,8 @@ function ActivityLog() {
             <p className="font-bold ">Time Clicked</p>
           </div>
           {/* test */}
-          {ActivityLog && (
+          {ActivityLog ? (
             <>
-              {" "}
               <div className="overflow-y-auto overflow-hidden w-[100%] md:h-[80%] h-[82%] ">
                 {ActivityLog.sort((a, b) =>
                   a.created_at < b.created_at ? 1 : -1
@@ -90,7 +89,7 @@ function ActivityLog() {
                       </p>
                     </div>
                   ))}
-              </div>{" "}
+              </div>
               <div className="mt-[1%] w-[100%] justify-between flex">
                 <div className="flex justify-center items-center  gap-2 ">
                   <label>Filter By Name</label>
@@ -114,6 +113,19 @@ function ActivityLog() {
                 />
               </div>
             </>
+          ) : (
+            <div className="flex h-[100%] items-center place-content-center">
+              <TailSpin
+                height="80"
+                width="80"
+                color="#0074B7"
+                ariaLabel="tail-spin-loading"
+                radius="0"
+                wrapperStyle={{}}
+                wrapperClass=""
+                visible={true}
+              />
+            </div>
           )}
         </div>
       </div>
