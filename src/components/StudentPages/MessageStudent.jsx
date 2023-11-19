@@ -4,7 +4,10 @@ import supabase from "../iMonitorDBconfig";
 import MessagingConfigStudent from "./MessagingConfigStudent";
 import DateConverter from "../StudentPages/DateConverter";
 import MessagingConfig from "./MessagingConfigStudent";
+import UserMessagesDisplay from "../Messaging/UserMessagesDisplay";
 import moment from "moment";
+import ImageStud from "./ImageStud";
+import DownloadFileSTUD from "./DownloadFileSTUD";
 // Icons
 import { MdArrowBackIos } from "react-icons/md";
 import { BsFillImageFill } from "react-icons/bs";
@@ -12,13 +15,10 @@ import { IoMdContacts, IoMdThumbsUp } from "react-icons/io";
 import { AiFillCheckCircle, AiFillFolderOpen } from "react-icons/ai";
 import { IoSend } from "react-icons/io5";
 import { GrAttachment } from "react-icons/gr";
-import UserMessagesDisplay from "../Messaging/UserMessagesDisplay";
-
-import { ToastContainer, toast } from "react-toastify";
-import ImageStud from "./ImageStud";
-import DownloadFileSTUD from "./DownloadFileSTUD";
-
+import { TbMessage2Share } from "react-icons/tb";
 import { TailSpin } from "react-loader-spinner";
+// Toast
+import { ToastContainer, toast } from "react-toastify";
 
 const MessageStudent = ({ studemail }) => {
   // search name
@@ -142,7 +142,7 @@ const MessageStudent = ({ studemail }) => {
       if (beneInfo) setBeneInfo(beneInfo.concat(beneInfoALL));
     }
   }
-  console.log(studinfo);
+
   // Message Getter In SupaBase
   const MessageGetter = async () => {
     try {
@@ -487,7 +487,7 @@ const MessageStudent = ({ studemail }) => {
                 : "w-[100%] md:h-[100%] h-[90%] bg-[#274472] rounded-r-md shadow-md shadow-black"
             }`}
           >
-            {getbeneName && (
+            {getbeneName ? (
               <>
                 <div className=" p-2 flex">
                   {/* Header Design */}
@@ -652,6 +652,13 @@ const MessageStudent = ({ studemail }) => {
                   </div>
                 </div>
               </>
+            ) : (
+              <div className="flex flex-col place-content-center items-center justify-center h-[100%] text-white">
+                <TbMessage2Share className="text-[200px]" />
+                <label className="text-[30px] font-bold">
+                  No chats selected
+                </label>
+              </div>
             )}
           </div>
           {/* File Uploaded */}

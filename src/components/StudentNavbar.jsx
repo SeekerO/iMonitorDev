@@ -8,21 +8,18 @@ import { IoMdNotifications } from "react-icons/io";
 import moment from "moment";
 
 function Navbar({ email }) {
+  const [open, setOpen] = useState(true);
+  const [notif, setNotif] = useState(false);
+  const [message, setMessage] = useState();
+  const [announcement_NOTIF, setAnnouncement_NOTIF] = useState(true);
   // AOS ANIMATION
   useEffect(() => {
     AOS.init();
   }, []);
 
-  const [open, setOpen] = useState(true);
-  const [drop, dropopen] = useState(true);
-  const [notif, setNotif] = useState(false);
-  const [message, setMessage] = useState();
-  const [announcement_NOTIF, setAnnouncement_NOTIF] = useState(false);
-
   useEffect(() => {
     checkmessage();
     fetchAnnouncemnt_INFO();
-
     supabase
       .channel("custom-filter-channel")
       .on(
@@ -45,11 +42,31 @@ function Navbar({ email }) {
         },
         (payload) => {
           fetchAnnouncemnt_INFO();
-          console.log(true);
         }
       )
       .subscribe();
-  }, [announcement_NOTIF]);
+  }, []);
+
+  async function fetchAnnouncemnt_INFO() {
+    const { data: announce } = await supabase
+      .from("AnnouncementTable")
+      .select();
+
+    for (let index = 0; index < announce.length; index++) {
+      test(announce[index].readsBy);
+    }
+  }
+
+  function test(data) {
+    for (let index = 0; index < data.length; index++) {
+      if (data[index] === email) {
+        setAnnouncement_NOTIF(false);
+      } else {
+        setAnnouncement_NOTIF(true);
+        break;
+      }
+    }
+  }
 
   async function checkmessage() {
     const { data: studdata } = await supabase
@@ -113,26 +130,8 @@ function Navbar({ email }) {
     }
   }
 
-  async function fetchAnnouncemnt_INFO() {
-    const { data } = await supabase.from("AnnouncementTable").select();
-
-    for (let index = 0; index < data.length; index++) {
-      var holderReadsBy = data[index].readsBy;
-
-      for (let index = 0; index < holderReadsBy.length; index++) {
-        if (holderReadsBy[index] !== email) {
-          setAnnouncement_NOTIF(true);
-        } else {
-          setAnnouncement_NOTIF(false);
-          break;
-        }
-      }
-    }
-  }
-
   function handleAnnouncementButtonClicked() {
     setOpen(!open);
-    setAnnouncement_NOTIF(false);
   }
 
   return (

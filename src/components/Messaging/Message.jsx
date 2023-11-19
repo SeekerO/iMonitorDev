@@ -432,7 +432,7 @@ const Message = ({ beneemail }) => {
               {studinfo ? (
                 <>
                   <div className="h-[79.3%]  rounded-bl-md overflow-y-auto scroll-smooth">
-                    {studinfo && (
+                    {studinfo.length > 0 ? (
                       <>
                         {studinfo
                           .sort((a, b) =>
@@ -478,6 +478,10 @@ const Message = ({ beneemail }) => {
                             />
                           ))}
                       </>
+                    ) : (
+                      <div className="flex items-center justify-center place-content-center h-[100%]">
+                        <label className="font-bold text-[20px]">No user</label>
+                      </div>
                     )}
                   </div>
                 </>

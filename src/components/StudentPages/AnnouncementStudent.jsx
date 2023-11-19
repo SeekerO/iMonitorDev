@@ -158,7 +158,7 @@ function AnnouncementStudent({ studemail }) {
         </div>
         <div className=" w-[90%] md:h-[75%] h-[60%]  gap-1 flex rounded-md">
           <div className="bg-slate-200 md:w-[25%] w-[30%] h-[100%]  rounded-l-md">
-            <div className="overflow-y-auto  rounded-md">
+            <div className="overflow-y-auto  rounded-md  h-[100%]">
               {announcementinfoState ? (
                 <div>
                   {announcementinfo
@@ -185,7 +185,7 @@ function AnnouncementStudent({ studemail }) {
                     ))}
                 </div>
               ) : (
-                <div className="text-center mt-[250px] font-semibold md:text-[25px] text-[15px]">
+                <div className="flex items-center justify-center place-content-center h-[100%] w-[100%] text-center font-semibold md:text-[25px] text-[15px]">
                   No Announcement
                 </div>
               )}
@@ -273,8 +273,8 @@ function AnnouncementStudent({ studemail }) {
                 )}
               </div>
             ) : (
-              <div className="justify-center text-center items-center flex h-full w-[100%] -font-semibold font-sans md:text-[30px] text-[20px]">
-                Announcement will be displayed here
+              <div className="justify-center text-center items-center flex h-[100%] w-[100%] font-semibold font-sans md:text-[30px] text-[20px]">
+                Announcement will display here
               </div>
             )}
           </div>

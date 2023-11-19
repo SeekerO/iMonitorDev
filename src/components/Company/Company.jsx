@@ -64,7 +64,7 @@ const Company = ({ Data }) => {
   };
 
   return (
-    <div className="overflow-auto h-screen w-[100%] ">
+    <div className="overflow-y-auto overflow-x-hidden h-screen w-[100%] ">
       {companyinfos === null ? (
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -142,7 +142,7 @@ const Company = ({ Data }) => {
                 data-aos-duration="500"
                 className=" mt-1  h-[300px] overflow-y-auto overflow-x-hidden"
               >
-                {companyinfos ? (
+                {companyinfos && companyinfos.length > 0 ? (
                   <>
                     {searchTerm ? (
                       <>
@@ -215,21 +215,25 @@ const Company = ({ Data }) => {
                     )}
                   </>
                 ) : (
-                  <div>{fetcherrror}</div>
+                  <div className="flex items-center justify-center place-content-center md:h-[90%] h-[80%]  ">
+                    <label className="font-bold text-[30px] text-white">No Data</label>
+                  </div>
                 )}
               </div>
               <div className="md:mt-[20px] mt-[10px] text-white">
-                <ReactPaginate
-                  previousLabel={"Previous"}
-                  nextLabel={"Next"}
-                  pageCount={pageCount}
-                  onPageChange={changePage}
-                  containerClassName="flex gap-2 justify-center flex items-center"
-                  previousLinkClassName="bg-[#5885AF] p-1 rounded-md flex items-center"
-                  nextLinkClassName="bg-[#5885AF] p-1 rounded-md flex items-center"
-                  disabledLinkClassName="bg-[#5885AF] p-1 rounded-md"
-                  activeLinkClassName="bg-[#5885AF] p-1 rounded-md"
-                />
+                {companyinfos && companyinfos.length > 0 && (
+                  <ReactPaginate
+                    previousLabel={"Previous"}
+                    nextLabel={"Next"}
+                    pageCount={pageCount}
+                    onPageChange={changePage}
+                    containerClassName="flex gap-2 justify-center flex items-center"
+                    previousLinkClassName="bg-[#5885AF] p-1 rounded-md flex items-center"
+                    nextLinkClassName="bg-[#5885AF] p-1 rounded-md flex items-center"
+                    disabledLinkClassName="bg-[#5885AF] p-1 rounded-md"
+                    activeLinkClassName="bg-[#5885AF] p-1 rounded-md"
+                  />
+                )}
                 <div className="md:mb-[0%] mb-[30%]" />
               </div>
             </div>

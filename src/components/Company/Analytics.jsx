@@ -282,7 +282,9 @@ function Analytics({ data }) {
                                       color: [data.color],
                                     },
                                   ]}
-                                  width={370}
+                                  width={`${
+                                    window.innerWidth <= 768 ? 440 : 370
+                                  }`}
                                   height={340}
                                 />
                               </div>

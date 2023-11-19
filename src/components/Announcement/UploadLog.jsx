@@ -206,7 +206,7 @@ function UploadLog() {
                 )}
               </div>
             ) : (
-              <div className="text-center  font-bold text-[25px]">
+              <div className="text-center  font-bold text-[25px] mt-[10%]">
                 Announcement Information will display here
               </div>
             )}
@@ -217,16 +217,28 @@ function UploadLog() {
           <div className="bg-[#5885AF] text-center p-2 font-semibold text-[20px]">
             Student Submissions
           </div>
-          {getId && (
-            <div className="p-2 ">
-              <div className="flex">Student Submitted: {counter} </div>
-              {getFileSubmit.map((folder, index) => (
-                <StudentUploadedFileConfig
-                  key={index}
-                  studname={folder}
-                  announcementTitle={getTitle}
-                />
-              ))}
+          {getId ? (
+            <div className="p-2 h-[100%]">
+              <div className="flex ">Student Submitted: {counter} </div>
+              {getFileSubmit && getFileSubmit.length > 0 ? (
+                <>
+                  {getFileSubmit.map((folder, index) => (
+                    <StudentUploadedFileConfig
+                      key={index}
+                      studname={folder}
+                      announcementTitle={getTitle}
+                    />
+                  ))}
+                </>
+              ) : (
+                <div className=" flex items-center justify-center place-content-center text-[20px] mt-[10%] font-semibold">
+                  No Submissions
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="text-center  font-semibold text-[20px] mt-[10%]">
+              Student submission will display here
             </div>
           )}
         </div>

@@ -235,57 +235,67 @@ const Monitoring = ({ Data }) => {
             </div>
           </div>
           {/* STUD INFO */}
-          {fetcherrror && <p>{fetcherrror}</p>}
-
           {studinfos && (
-            <div className="overflow-y-auto bg-black bg-opacity-[1%] md:h-[90%] h-[80%] overflow-hidden">
-              {studinfos
-                .sort((a, b) => (a.studprogress <= b.studprogress ? 1 : -1))
-                .filter((val) => {
-                  try {
-                    if (searchTerm === "") {
-                      return val;
-                    } else if (
-                      val.studname
-                        .toLowerCase()
-                        .includes(searchTerm.toLowerCase())
-                    ) {
-                      return val;
-                    } else if (
-                      val.studsection
-                        .toLowerCase()
-                        .includes(searchTerm.toLowerCase())
-                    ) {
-                      return val;
-                    }
-                  } catch (error) {}
-                })
-                .slice(pageVisited, pageVisited + userPerPage)
-                .map((studinfo) => (
-                  <StudInfoConfig
-                    key={studinfo.id}
-                    BeneData={Data}
-                    studinfos={studinfo}
-                    studemai={studinfo.studemail}
-                    course={course}
-                    sy={sy}
-                  />
-                ))}
-            </div>
+            <>
+              {" "}
+              {studinfos.length > 0 ? (
+                <div className="overflow-y-auto bg-black bg-opacity-[1%] md:h-[90%] h-[80%] overflow-hidden">
+                  {studinfos
+                    .sort((a, b) => (a.studprogress <= b.studprogress ? 1 : -1))
+                    .filter((val) => {
+                      try {
+                        if (searchTerm === "") {
+                          return val;
+                        } else if (
+                          val.studname
+                            .toLowerCase()
+                            .includes(searchTerm.toLowerCase())
+                        ) {
+                          return val;
+                        } else if (
+                          val.studsection
+                            .toLowerCase()
+                            .includes(searchTerm.toLowerCase())
+                        ) {
+                          return val;
+                        }
+                      } catch (error) {}
+                    })
+                    .slice(pageVisited, pageVisited + userPerPage)
+                    .map((studinfo) => (
+                      <StudInfoConfig
+                        key={studinfo.id}
+                        BeneData={Data}
+                        studinfos={studinfo}
+                        studemai={studinfo.studemail}
+                        course={course}
+                        sy={sy}
+                      />
+                    ))}
+                </div>
+              ) : (
+                <div className="flex items-center justify-center place-content-center md:h-[90%] h-[80%]  ">
+                  <label className="font-bold text-[30px]">No Data</label>
+                </div>
+              )}
+            </>
           )}
         </main>
         <div className="mt-[3%]">
-          <ReactPaginate
-            previousLabel={"Previous"}
-            nextLabel={"Next"}
-            pageCount={pageCount}
-            onPageChange={changePage}
-            containerClassName="flex gap-2 justify-center flex items-center"
-            previousLinkClassName="bg-[#5885AF] p-1 rounded-md flex items-center"
-            nextLinkClassName="bg-[#5885AF] p-1 rounded-md flex items-center"
-            disabledLinkClassName="bg-[#5885AF] p-1 rounded-md"
-            activeLinkClassName="bg-[#5885AF] p-1 rounded-md"
-          />
+          
+          {studinfos && studinfos.length > 0 && (
+            <ReactPaginate
+              previousLabel={"Previous"}
+              nextLabel={"Next"}
+              pageCount={pageCount}
+              onPageChange={changePage}
+              containerClassName="flex gap-2 justify-center flex items-center"
+              previousLinkClassName="bg-[#5885AF] p-1 rounded-md flex items-center"
+              nextLinkClassName="bg-[#5885AF] p-1 rounded-md flex items-center"
+              disabledLinkClassName="bg-[#5885AF] p-1 rounded-md"
+              activeLinkClassName="bg-[#5885AF] p-1 rounded-md"
+            />
+          )}
         </div>
       </div>
       <ArchiveAllCompleted

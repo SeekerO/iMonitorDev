@@ -5,6 +5,7 @@ import AOS, { refresh } from "aos";
 import "aos/dist/aos.css";
 import { GiDiploma } from "react-icons/gi";
 import AttendanceConfig from "./AttendanceConfig";
+import { TailSpin } from "react-loader-spinner";
 
 const Attendance = ({ studemail }) => {
   // CONDITIONAL VARIABLES
@@ -129,8 +130,8 @@ const Attendance = ({ studemail }) => {
   };
 
   return (
-    <>
-      {attendanceinfo && (
+    <div className="h-screen">
+      {attendanceinfo ? (
         <div className="">
           <div
             className="md:pt-[5%] pt-[10%]"
@@ -229,8 +230,21 @@ const Attendance = ({ studemail }) => {
             </div>
           </div>
         </div>
+      ) : (
+        <div className="flex flex-col items-center justify-center h-[90%]">
+          <TailSpin
+            height="80"
+            width="80"
+            color="#0074B7"
+            ariaLabel="tail-spin-loading"
+            radius="0"
+            wrapperStyle={{}}
+            wrapperClass=""
+            visible={true}
+          />
+        </div>
       )}
-    </>
+    </div>
   );
 };
 
