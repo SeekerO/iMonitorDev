@@ -19,6 +19,7 @@ import { FadeLoader } from "react-spinners";
 import { IoSend } from "react-icons/io5";
 import { Backdrop } from "@mui/material";
 import { TailSpin } from "react-loader-spinner";
+import { TbMessage2Share } from "react-icons/tb";
 
 // Toastify
 import { ToastContainer, toast } from "react-toastify";
@@ -409,7 +410,7 @@ const Message = ({ beneemail }) => {
               Contacts
             </p>
             <center>
-              <div className="bg-slate-300 flex w-[96%] rounded-md place-content-center mt-2 mb-2">
+              <div className="bg-slate-300 flex w-[96%] rounded-md place-content-center mt-2 mb-2 ">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 512 512"
@@ -426,76 +427,85 @@ const Message = ({ beneemail }) => {
                 ></input>
               </div>
             </center>
-            {studinfo ? (
-              <div className="h-[77%]  rounded-bl-md overflow-y-auto scroll-smooth">
-                {studinfo && (
-                  <>
-                    {studinfo
-                      .sort((a, b) => (a.last_Modif >= b.created_at ? -1 : 1))
-                      .sort((a, b) => (a.last_Modif >= b.created_at ? -1 : 1))
-                      .filter((val) => {
-                        try {
-                          if (search === "") {
-                            return val;
-                          } else if (
-                            val.studname
-                              .toLowerCase()
-                              .includes(search.toLowerCase())
-                          ) {
-                            return val;
-                          } else if (
-                            val.studsection
-                              .toLowerCase()
-                              .includes(search.toLowerCase())
-                          ) {
-                            return val;
-                          }
-                        } catch (error) {}
-                      })
-                      .slice(pageVisited, pageVisited + userPerPage)
-                      .map((studinfo, index) => (
-                        <MessagingConfig
-                          key={studinfo.id}
-                          studinfo={studinfo}
-                          setGetStudName={setGetStudName}
-                          setShowMessage={setShowMessage}
-                          setGetID={setGetID}
-                          setSeen={setSeen}
-                          message={havemessage}
-                          beneName={beneName}
-                          read={seen}
-                          run={run}
-                          getFile={getFile}
-                          index={index}
-                        />
-                      ))}
-                  </>
-                )}
-              </div>
-            ) : (
-              <div className=" mt-[50%] place-content-center flex justify-center">
-                <FadeLoader
-                  color="#3658d6"
-                  className="justify-center text-center"
+
+            <div className="h-[100%]">
+              {studinfo ? (
+                <>
+                  <div className="h-[79.3%]  rounded-bl-md overflow-y-auto scroll-smooth">
+                    {studinfo && (
+                      <>
+                        {studinfo
+                          .sort((a, b) =>
+                            a.last_Modif >= b.created_at ? -1 : 1
+                          )
+                          .sort((a, b) =>
+                            a.last_Modif >= b.created_at ? -1 : 1
+                          )
+                          .filter((val) => {
+                            try {
+                              if (search === "") {
+                                return val;
+                              } else if (
+                                val.studname
+                                  .toLowerCase()
+                                  .includes(search.toLowerCase())
+                              ) {
+                                return val;
+                              } else if (
+                                val.studsection
+                                  .toLowerCase()
+                                  .includes(search.toLowerCase())
+                              ) {
+                                return val;
+                              }
+                            } catch (error) {}
+                          })
+                          .slice(pageVisited, pageVisited + userPerPage)
+                          .map((studinfo, index) => (
+                            <MessagingConfig
+                              key={studinfo.id}
+                              studinfo={studinfo}
+                              setGetStudName={setGetStudName}
+                              setShowMessage={setShowMessage}
+                              setGetID={setGetID}
+                              setSeen={setSeen}
+                              message={havemessage}
+                              beneName={beneName}
+                              read={seen}
+                              run={run}
+                              getFile={getFile}
+                              index={index}
+                            />
+                          ))}
+                      </>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <div className=" mt-[50%] place-content-center flex justify-center">
+                  <FadeLoader
+                    color="#3658d6"
+                    className="justify-center text-center"
+                  />
+                </div>
+              )}
+              <div className=" bg-[#274472] w-[100%]  bottom-0">
+                <ReactPaginate
+                  previousLabel={"Previous"}
+                  nextLabel={"Next"}
+                  pageCount={pageCount}
+                  onPageChange={changePage}
+                  containerClassName={`${
+                    pageCount > 5
+                      ? "flex justify-center flex items-center font-semibold"
+                      : "flex justify-center flex items-center font-semibold gap-2"
+                  }`}
+                  previousLinkClassName="bg-[#274472] p-1 rounded-md flex items-center text-white"
+                  nextLinkClassName="bg-[#274472] p-1 rounded-md flex items-center text-white"
+                  disabledLinkClassName="bg-[#274472] p-1 rounded-md text-white"
+                  activeLinkClassName="bg-[#274472] p-1 rounded-md text-white "
                 />
               </div>
-            )}
-            <div className=" bg-[#274472] w-[100%]  ">
-              <ReactPaginate
-                previousLabel={"Previous"}
-                nextLabel={"Next"}
-                pageCount={pageCount}
-                onPageChange={changePage}
-                containerClassName={`${
-                  pageCount > 5
-                    ? "flex justify-center flex items-center font-semibold"
-                    : "flex justify-center flex items-center font-semibold gap-2"
-                }`}
-                previousLinkClassName="bg-[#274472] p-1 rounded-md flex items-center text-white"
-                nextLinkClassName="bg-[#274472] p-1 rounded-md flex items-center text-white"
-                disabledLinkClassName="bg-[#274472] p-1 rounded-md text-white"
-                activeLinkClassName="bg-[#274472] p-1 rounded-md text-white "
-              />
             </div>
           </div>
           {/* Message */}
@@ -511,7 +521,7 @@ const Message = ({ beneemail }) => {
                 : "w-[100%] md:h-[100%] h-[90%] bg-[#274472]   shadow-md shadow-black"
             }`}
           >
-            {getstudname && (
+            {getstudname ? (
               <>
                 <div className=" p-2 flex">
                   {/* Header Design */}
@@ -675,6 +685,13 @@ const Message = ({ beneemail }) => {
                   </div>
                 </div>
               </>
+            ) : (
+              <div className="flex flex-col place-content-center items-center justify-center h-[100%] text-white">
+                <TbMessage2Share className="text-[200px]" />
+                <label className="text-[30px] font-bold">
+                  No chats selected
+                </label>
+              </div>
             )}
           </div>
 

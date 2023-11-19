@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import supabase from "../iMonitorDBconfig";
 import { Link } from "react-router-dom";
 import { RiInformationFill } from "react-icons/ri";
+import { TailSpin } from "react-loader-spinner";
 
 export default function ArchiveModal({
   visible,
@@ -71,38 +72,55 @@ export default function ArchiveModal({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center p-4">
       <div
-        className="bg-white  w-[400px] rounded-md grid p-4 gap-5  shadow-black shadow-2xl "
+        className="bg-white  h-[220px] w-[400px] rounded-md grid p-4 gap-5  shadow-black shadow-2xl "
         data-aos="zoom-in"
         data-aos-duration="500"
       >
-        <div className="text-black text-center md:text-base text-[12px] font-semibold">
-          Confirming this will transfer the student information to the Master
-          List and will be mark as Complete or Incomplete.
-        </div>
-        <label className="md:text-base text-[12px] opacity-80 flex gap-0.5 place-content-center items-center text-blue-500">
-          <RiInformationFill className="text-blue-500 text-[25px] rounded-full bg-gray-200" />
-          Note: Confirming this cannot be undo.
-        </label>
-        <div className="flex justify-center ">
-          <button
-            onClick={onClose}
-            className="bg-[#0074B7] hover:bg-[#0074B7] hover:bg-opacity-80 h-10 w-20 mr-[2%] rounded-md"
-          >
-            Cancel
-          </button>
+        {!upload ? (
+          <>
+            <div className="text-black text-center md:text-base text-[12px] font-semibold">
+              Confirming this will transfer the student information to the
+              Master List and will be mark as Complete or Incomplete.
+            </div>
+            <label className="md:text-base text-[12px] opacity-80 flex gap-0.5 place-content-center items-center text-blue-500">
+              <RiInformationFill className="text-blue-500 text-[25px] rounded-full bg-gray-200" />
+              Note: Confirming this cannot be undo.
+            </label>
+            <div className="flex justify-center ">
+              <button
+                onClick={onClose}
+                className="bg-[#0074B7] hover:bg-[#0074B7] hover:bg-opacity-80 h-10 w-20 mr-[2%] rounded-md"
+              >
+                Cancel
+              </button>
 
-          <button
-            disabled={upload}
-            onClick={() => handlearchive()}
-            className={`${
-              upload
-                ? "bg-gray-500"
-                : " bg-[#0074B7] hover:bg-[#0074B7] hover:bg-opacity-80"
-            }  h-10 w-20 ml-[2%] rounded-md`}
-          >
-            Confirm
-          </button>
-        </div>
+              <button
+                disabled={upload}
+                onClick={() => handlearchive()}
+                className={`${
+                  upload
+                    ? "bg-gray-500"
+                    : " bg-[#0074B7] hover:bg-[#0074B7] hover:bg-opacity-80"
+                }  h-10 w-20 ml-[2%] rounded-md`}
+              >
+                Confirm
+              </button>
+            </div>
+          </>
+        ) : (
+          <div className="flex flex-col items-center justify-center">
+            <TailSpin
+              height="80"
+              width="80"
+              color="#0074B7"
+              ariaLabel="tail-spin-loading"
+              radius="1"
+              wrapperStyle={{}}
+              wrapperClass=""
+              visible={true}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

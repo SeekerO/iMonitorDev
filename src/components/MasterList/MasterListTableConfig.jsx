@@ -78,7 +78,7 @@ const MasterListTableConfig = ({ studinfos, sy, course }) => {
             hover:cursor-pointer md:text-[16px] text-[10px]"
               onClick={() => setShowModalProfile(true)}
             >
-              <p data-tooltip-id="View" className="flex items-center gap-2">
+              <div data-tooltip-id="View" className="flex items-center gap-2">
                 {avatar ? (
                   <img
                     src={displayAvatarConfig}
@@ -88,17 +88,17 @@ const MasterListTableConfig = ({ studinfos, sy, course }) => {
                   avatarComponent(studinfos.studname)
                 )}
                 {studinfos.studname}
-              </p>
+              </div>
             </div>
             <div className="w-[46%] ml-[15%]  md:text-[16px] text-[10px]">
               {studinfos.studsection}
             </div>
 
             <div className="grid md:grid-cols-2  w-[25%] md:mr-5 mr-2">
-              <p className="md:text-[16px] text-[10px] text-center">
+              <div className="md:text-[16px] text-[10px] text-center">
                 {studinfos.studprogress}hrs/
                 {studinfos.studmaxprogress}hrs
-              </p>
+              </div>
 
               <div className=" w-[100%] bg-gray-400 rounded-md md:h-6 h-5  rounded-r text-center">
                 <div
