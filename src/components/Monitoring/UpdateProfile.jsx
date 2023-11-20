@@ -25,6 +25,8 @@ const UpdateProfile = () => {
   const [studHours, setStudHours] = useState("");
   const [studHoursLimit, setStudHoursLimit] = useState("");
   // Companny var
+  const [startTime, setStartTime] = useState();
+  const [endTime, setEndTime] = useState();
   const [companyaddress, setCompanyaddress] = useState("");
   const [supervisorname, setSupervisorname] = useState("");
   const [supervisorcontactnumber, setSupervisorcontactnumber] = useState("");
@@ -88,21 +90,29 @@ const UpdateProfile = () => {
       setDesignation(data.companydesignation);
       setCompanyemail(data.companyemail);
       setStudinfo(data);
+
+      const { data: time } = await supabase
+        .from("CompanyTable")
+        .select()
+        .eq("companyname", data.companyname);
+
+      setStartTime(time[0].startingtime);
+      setEndTime(time[0].endingtime);
     }
 
     const { data: bene } = await supabase.from("BeneAccount").select();
     setBeneinfo(bene);
   };
 
+  async function time() {}
   const fetchcompanyinfo = async () => {
-    const { data, error } = await supabase.from("CompanyTable").select();
-    if (error) {
-      console.log(error);
-    }
+    const { data } = await supabase.from("CompanyTable").select();
+
     if (data) {
       setStudCompanyInfos(data);
     }
   };
+
   function isValidEmail(email) {
     return /\S+@\S+\.\S+/.test(email);
   }
@@ -344,6 +354,22 @@ const UpdateProfile = () => {
     });
   }
 
+  const optionDispaly = (opt, i) => {
+    if (opt.Hours < studHours) {
+      return (
+        <option key={i} disabled className="pt-4 text-black">
+          {opt.Program}
+        </option>
+      );
+    } else {
+      return (
+        <option key={i} className="pt-4 text-black">
+          {opt.Program}
+        </option>
+      );
+    }
+  };
+
   return (
     <div className="overflow-hidden">
       <div
@@ -386,23 +412,7 @@ const UpdateProfile = () => {
                 className="w-full text-black rounded-md pl-2 text-justify p-1"
                 onChange={(e) => setStudProgram(e.target.value)}
               >
-                {options.map((options) => (
-                  <>
-                    {options.Hours < studHours ? (
-                      <option
-                        disabled
-                        key={options.id}
-                        className="pt-4 text-black"
-                      >
-                        {options.Program}
-                      </option>
-                    ) : (
-                      <option key={options.id} className="pt-4 text-black">
-                        {options.Program}
-                      </option>
-                    )}
-                  </>
-                ))}
+                {options.map((options, index) => optionDispaly(options, index))}
               </select>
             </div>
             <label className="font-semibold text-[19px]">SECTION</label>
@@ -474,6 +484,28 @@ const UpdateProfile = () => {
           <label className="font-semibold text-[25px] underline ">
             COMPANY INFORMATION
           </label>
+          <div onLoad={() => time()} className="flex  gap-5 pt-2">
+            <label className="gap-3 flex font-semibold text-[19px] ">
+              START TIME
+              <input
+                value={startTime}
+                onChange={(e) => setStartTime(e.target.value)}
+                required
+                type="time"
+                className="rounded-md text-black pl-1 h-[30px] "
+              />
+            </label>
+            <label className="gap-3 flex font-semibold text-[19px]">
+              END TIME
+              <input
+                value={endTime}
+                onChange={(e) => setEndTime(e.target.value)}
+                required
+                type="time"
+                className="rounded-md text-black pl-1 h-[30px] "
+              />
+            </label>
+          </div>
           <div className="grid md:flex grid-cols-1 w-[100%]  gap-4 pt-4">
             <label className="font-semibold text-[19px] md:w-[15%] w-[100%]">
               COMPANY NAME
@@ -522,7 +554,9 @@ const UpdateProfile = () => {
                               companyinfos.supervisorofficenumber
                             ) ||
                             setDesignation(companyinfos.companydesignation) ||
-                            setCompanyemail(companyinfos.companyemail)
+                            setCompanyemail(companyinfos.companyemail) ||
+                            setStartTime(companyinfos.startingtime) ||
+                            setEndTime(companyinfos.endingtime)
                           }
                           className="hover:bg-blue-400  rounded-md w-[100%]"
                         >
