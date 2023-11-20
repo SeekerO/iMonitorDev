@@ -14,6 +14,7 @@ function UploadStudentConfig({
   setGetFileSubmit,
   setGetPostedBy,
   setCounter,
+  setGetReadsBy,
 }) {
   function handlePassDataToUploadLogProps() {
     setGetId(announceinfo.id);
@@ -21,7 +22,7 @@ function UploadStudentConfig({
     setGetTitle(announceinfo.announcementTitle);
     setGetDate(announceinfo.announcementStartDate);
     setGetPostedBy(announceinfo.PostedBy);
-
+    setGetReadsBy(announceinfo.readsBy);
     fetchSpecificFile();
     handleGetDataFromStorageStudentSubmit();
   }

@@ -5,6 +5,9 @@ import StudentUploadedFileConfig from "./StudentUploadedFileConfig";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { MdOutlineArrowBackIos } from "react-icons/md";
+import { MdRemoveRedEye } from "react-icons/md";
+import SeenAnnouncement from "./SeenAnnouncement";
+import { Tooltip as ReactTooltip } from "react-tooltip";
 
 function UploadLog() {
   const [studsubmitinfo, setStudSubmitInfo] = useState([]);
@@ -20,6 +23,9 @@ function UploadLog() {
   const [getFileName, setGetFileName] = useState();
   const [counter, setCounter] = useState();
   const [getFileSubmit, setGetFileSubmit] = useState([]);
+  const [getreadsBy, setGetReadsBy] = useState();
+
+  const [seen, setSeen] = useState(false);
 
   //design
   const [open, setOpen] = useState(false);
@@ -77,6 +83,14 @@ function UploadLog() {
     }
   }
 
+  const SeenRef = useRef(null);
+
+  const handleClickOutsideSeen = (event) => {
+    if (SeenRef.current && !SeenRef.current.contains(event.target)) {
+      setSeen(false);
+    }
+  };
+
   const divRef = useRef(null);
 
   const handleClickOutside = (event) => {
@@ -89,9 +103,11 @@ function UploadLog() {
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutsideSeen);
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutsideSeen);
     };
   }, []);
 
@@ -157,6 +173,7 @@ function UploadLog() {
                     setGetFileName={setGetFileName}
                     setGetFileSubmit={setGetFileSubmit}
                     setCounter={setCounter}
+                    setGetReadsBy={setGetReadsBy}
                   />
                 ))}
             </div>
@@ -182,7 +199,19 @@ function UploadLog() {
           <div className="">
             {getId ? (
               <div className=" overflow-y-auto  p-5">
-                <div className="font-bold text-[25px]">
+                <div className="font-bold text-[25px] md:flex grid items-center">
+                  <div className="relative ">
+                    <MdRemoveRedEye
+                      onClick={() => setSeen(true)}
+                      className="hover:text-blue-500 text-[20px] cursor-pointer"
+                    />
+                    <div
+                      ref={SeenRef}
+                      className="bg-[#5885afe2] max-h-[100px] w-[250px] text-sm absolute text-slate-100 overflow-x-auto  rounded-md"
+                    >
+                      <SeenAnnouncement seen={seen} getreadsBy={getreadsBy} />
+                    </div>
+                  </div>
                   Announcement Title: {getTitle}
                 </div>
                 <div className="font-semibold grid text-[12px] mb-10">
@@ -211,6 +240,8 @@ function UploadLog() {
               </div>
             )}
           </div>
+
+          {getId && <div className="flex gap-1 items-center"></div>}
         </div>
 
         <div className="bg-[#c8d7e5] h-[46.5%]  overflow-y-auto w-[98%] mt-1 rounded-br-md shadow-black shadow-md">
