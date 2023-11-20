@@ -37,6 +37,8 @@ const UpdateProfile = () => {
   const [value, setValue] = useState("");
   const [companyinfos, setStudCompanyInfos] = useState("");
 
+  const [disableTime, setDisableTime] = useState(true);
+
   useEffect(() => {
     fetchcompanyinfo();
     fetchstudinfo();
@@ -96,15 +98,16 @@ const UpdateProfile = () => {
         .select()
         .eq("companyname", data.companyname);
 
-      setStartTime(time[0].startingtime);
-      setEndTime(time[0].endingtime);
+      if (time) {
+        setStartTime(time[0].startingtime);
+        setEndTime(time[0].endingtime);
+      }
     }
 
     const { data: bene } = await supabase.from("BeneAccount").select();
     setBeneinfo(bene);
   };
 
-  async function time() {}
   const fetchcompanyinfo = async () => {
     const { data } = await supabase.from("CompanyTable").select();
 
@@ -116,6 +119,7 @@ const UpdateProfile = () => {
   function isValidEmail(email) {
     return /\S+@\S+\.\S+/.test(email);
   }
+
   const handlesubmit = async (e) => {
     e.preventDefault();
     if (
@@ -311,6 +315,8 @@ const UpdateProfile = () => {
           supervisorofficenumber: supervisorofficenumber,
           companydesignation: designation,
           companyemail: companyemail,
+          startingtime: startTime,
+          endingtime: endTime,
           companyOJT: 1,
         });
       }
@@ -322,6 +328,13 @@ const UpdateProfile = () => {
   //filter comapanyname
   const onChange = (event) => {
     setValue(event.target.value);
+    for (let index = 0; index < companyinfos.length; index++) {
+      if (companyinfos[index].companyname !== value) {
+        setDisableTime(false);
+      } else if (companyinfos[index].companyname === value) {
+        setDisableTime(true);
+      }
+    }
   };
 
   const onSearch = (searchTerm) => {
@@ -484,10 +497,11 @@ const UpdateProfile = () => {
           <label className="font-semibold text-[25px] underline ">
             COMPANY INFORMATION
           </label>
-          <div onLoad={() => time()} className="flex  gap-5 pt-2">
+          <div className="flex  gap-5 pt-2">
             <label className="gap-3 flex font-semibold text-[19px] ">
               START TIME
               <input
+                disabled={disableTime}
                 value={startTime}
                 onChange={(e) => setStartTime(e.target.value)}
                 required
@@ -498,6 +512,7 @@ const UpdateProfile = () => {
             <label className="gap-3 flex font-semibold text-[19px]">
               END TIME
               <input
+                disabled={disableTime}
                 value={endTime}
                 onChange={(e) => setEndTime(e.target.value)}
                 required
