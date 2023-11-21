@@ -38,10 +38,11 @@ const UpdateProfile = () => {
   const [companyinfos, setStudCompanyInfos] = useState("");
 
   const [disableTime, setDisableTime] = useState(true);
-
+  const nav = useNavigate();
   useEffect(() => {
     fetchcompanyinfo();
     fetchstudinfo();
+
     supabase
       .channel("custom-all-channel")
       .on(
@@ -62,7 +63,7 @@ const UpdateProfile = () => {
   }, [id, navigate]);
 
   const fetchstudinfo = async () => {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("StudentInformation")
       .select()
       .eq("id", id)
@@ -98,16 +99,16 @@ const UpdateProfile = () => {
         .select()
         .eq("companyname", data.companyname);
 
-      if (time) {
-        setStartTime(time[0].startingtime);
-        setEndTime(time[0].endingtime);
-      }
+      setStartTime(time[0].startingtime);
+      setEndTime(time[0].endingtime);
     }
+    if (error) nav("/");
 
     const { data: bene } = await supabase.from("BeneAccount").select();
     setBeneinfo(bene);
   };
 
+  async function time() {}
   const fetchcompanyinfo = async () => {
     const { data } = await supabase.from("CompanyTable").select();
 
@@ -119,23 +120,22 @@ const UpdateProfile = () => {
   function isValidEmail(email) {
     return /\S+@\S+\.\S+/.test(email);
   }
-
   const handlesubmit = async (e) => {
     e.preventDefault();
     if (
-      studfullname.trim().length === 0 ||
-      studprogram.trim().length === 0 ||
-      studemail.trim().length === 0 ||
-      ojtstart.trim().length === 0 ||
-      ojtend.trim().length === 0 ||
-      studsection.trim().length === 0 ||
-      value.trim().length === 0 ||
-      companyaddress.trim().length === 0 ||
-      supervisorname.trim().length === 0 ||
-      supervisorcontactnumber.trim().length === 0 ||
-      supervisorofficenumber.trim().length === 0 ||
-      designation.trim().length === 0 ||
-      companyemail.trim().length === 0
+      !studfullname ||
+      !studprogram ||
+      !studemail ||
+      !ojtstart ||
+      !ojtend ||
+      !studsection ||
+      !value ||
+      !companyaddress ||
+      !supervisorname ||
+      !supervisorcontactnumber ||
+      !supervisorofficenumber ||
+      !designation ||
+      !companyemail
     ) {
       toast.warn("Fill all the input", {
         position: "top-right",
@@ -315,8 +315,6 @@ const UpdateProfile = () => {
           supervisorofficenumber: supervisorofficenumber,
           companydesignation: designation,
           companyemail: companyemail,
-          startingtime: startTime,
-          endingtime: endTime,
           companyOJT: 1,
         });
       }
@@ -331,7 +329,7 @@ const UpdateProfile = () => {
     for (let index = 0; index < companyinfos.length; index++) {
       if (companyinfos[index].companyname !== value) {
         setDisableTime(false);
-      } else if (companyinfos[index].companyname === value) {
+      } else {
         setDisableTime(true);
       }
     }
@@ -386,7 +384,7 @@ const UpdateProfile = () => {
   return (
     <div className="overflow-hidden">
       <div
-        className="pt-8 md:p-5 p-1 text-white overflow-hidden h-screen"
+        className="pt-8 md:p-5 p-1 text-white overflow-hidden"
         data-aos="fade-down"
         data-aos-duration="1000"
       >
@@ -396,7 +394,7 @@ const UpdateProfile = () => {
         {/*First line*/}
         <form
           onSubmit={handlesubmit}
-          className="grid  w-[100%] bg-black bg-opacity-[1%] p-1 overflow-y-auto overflow-x-hidden   h-[80%]"
+          className="grid  w-[100%] bg-black bg-opacity-[1%] p-1 overflow-y-auto overflow-x-hidden  md:h-[530px] h-[540px]"
         >
           {/* Line 1 */}
           <div className="w-[100%] md:flex grid  gap-1 h-fit">
@@ -497,7 +495,7 @@ const UpdateProfile = () => {
           <label className="font-semibold text-[25px] underline ">
             COMPANY INFORMATION
           </label>
-          <div className="flex  gap-5 pt-2">
+          <div onLoad={() => time()} className="flex  gap-5 pt-2">
             <label className="gap-3 flex font-semibold text-[19px] ">
               START TIME
               <input

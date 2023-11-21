@@ -458,7 +458,7 @@ const Message = ({ beneemail }) => {
             </center>
 
             <div className="h-[100%]">
-              {studinfo ? (
+              {studinfo && allbeneinfo ? (
                 <>
                   <div className="h-[77%]  rounded-bl-md overflow-y-auto scroll-smooth">
                     {studinfo.length > 0 ? (
@@ -552,26 +552,23 @@ const Message = ({ beneemail }) => {
                           })
                           .slice(pageVisited, pageVisited + userPerPage)
                           .map((studinfo, index) => (
-                            <>
-                              <MessagingConfig
-                                key={studinfo.id}
-                                studinfo={studinfo}
-                                setGetStudName={setGetStudName}
-                                setShowMessage={setShowMessage}
-                                setGetID={setGetID}
-                                setSeen={setSeen}
-                                message={havemessage}
-                                beneName={beneName}
-                                read={seen}
-                                run={run}
-                                getFile={getFile}
-                                index={index}
-                                setGetEmail={setGetEmail}
-                                setAvatarColor={setAvatarColor}
-                                setAvatarURL={setAvatarURL}
-                              />
-                              {console.log(studinfo.last_Modif)}
-                            </>
+                            <MessagingConfig
+                              key={studinfo.id}
+                              studinfo={studinfo}
+                              setGetStudName={setGetStudName}
+                              setShowMessage={setShowMessage}
+                              setGetID={setGetID}
+                              setSeen={setSeen}
+                              message={havemessage}
+                              beneName={beneName}
+                              read={seen}
+                              run={run}
+                              getFile={getFile}
+                              index={index}
+                              setGetEmail={setGetEmail}
+                              setAvatarColor={setAvatarColor}
+                              setAvatarURL={setAvatarURL}
+                            />
                           ))}
                       </>
                     ) : (
@@ -878,8 +875,11 @@ const Message = ({ beneemail }) => {
                     <div className="w-[100%] p-1">
                       {file
                         .sort((a, b) => (a.created_at <= b.created_at ? 1 : -1))
-                        .map((e) => (
-                          <div className="bg-gray-300  mt-0.5 rounded-md">
+                        .map((e, index) => (
+                          <div
+                            key={index}
+                            className="bg-gray-300  mt-0.5 rounded-md"
+                          >
                             {checker(e.name) === true && (
                               <Image
                                 e={e}

@@ -17,10 +17,11 @@ function BeneRoutes({ beneemail, data }) {
         <div>
           {data.filterby === "ALL" ? (
             <Routes>
+              <Route path="/:id" element={<UpdateProfile />} />
               <Route path="/registration" element={<Registration />} />
-              <Route path="/*" element={<Monitoring Data={data} />} />
+
               <Route path="/masterlist" element={<MasterList Data={data} />} />
-              <Route path="/company" element={<Company Data={data}/>} />
+              <Route path="/*company" element={<Company Data={data} />} />
               <Route
                 path="/message"
                 element={<Message beneemail={beneemail} />}
@@ -31,7 +32,7 @@ function BeneRoutes({ beneemail, data }) {
               />
               <Route path="/uploadlog1" element={<UploadLog />} />
               <Route path="/activitylog" element={<ActivityLog />} />
-              <Route path="/:id" element={<UpdateProfile />} />
+              <Route path="/*" element={<Monitoring Data={data} />} />
             </Routes>
           ) : (
             <Routes>
