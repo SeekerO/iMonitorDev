@@ -627,7 +627,7 @@ const Message = ({ beneemail }) => {
                 : "w-[100%] md:h-[100%] h-[90%] bg-[#274472]   shadow-md shadow-black"
             }`}
           >
-            {getstudname ? (
+            {getstudname && receivedmessages ? (
               <>
                 <div className=" p-2 flex">
                   {/* Header Design */}
