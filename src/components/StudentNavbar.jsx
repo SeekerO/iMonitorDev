@@ -53,17 +53,16 @@ function Navbar({ email }) {
       .select();
 
     for (let index = 0; index < announce.length; index++) {
-      test(announce[index].readsBy);
+      checkAnnouncementView(announce[index].readsBy);
     }
   }
 
-  function test(data) {
+  function checkAnnouncementView(data) {
     for (let index = 0; index < data.length; index++) {
       if (data[index] === email) {
         setAnnouncement_NOTIF(false);
       } else {
         setAnnouncement_NOTIF(true);
-        break;
       }
     }
   }
