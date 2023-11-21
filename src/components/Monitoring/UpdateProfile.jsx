@@ -123,19 +123,19 @@ const UpdateProfile = () => {
   const handlesubmit = async (e) => {
     e.preventDefault();
     if (
-      !studfullname ||
-      !studprogram ||
-      !studemail ||
-      !ojtstart ||
-      !ojtend ||
-      !studsection ||
-      !value ||
-      !companyaddress ||
-      !supervisorname ||
-      !supervisorcontactnumber ||
-      !supervisorofficenumber ||
-      !designation ||
-      !companyemail
+      studfullname.trim().length === 0 ||
+      studprogram.trim().length === 0 ||
+      studemail.trim().length === 0 ||
+      ojtstart.trim().length === 0 ||
+      ojtend.trim().length === 0 ||
+      studsection.trim().length === 0 ||
+      value.trim().length === 0 ||
+      companyaddress.trim().length === 0 ||
+      supervisorname.trim().length === 0 ||
+      supervisorcontactnumber.trim().length === 0 ||
+      supervisorofficenumber.trim().length === 0 ||
+      designation.trim().length === 0 ||
+      companyemail.trim().length === 0
     ) {
       toast.warn("Fill all the input", {
         position: "top-right",
@@ -386,7 +386,7 @@ const UpdateProfile = () => {
   return (
     <div className="overflow-hidden">
       <div
-        className="pt-8 md:p-5 p-1 text-white overflow-hidden"
+        className="pt-8 md:p-5 p-1 text-white overflow-hidden h-screen"
         data-aos="fade-down"
         data-aos-duration="1000"
       >
@@ -396,7 +396,7 @@ const UpdateProfile = () => {
         {/*First line*/}
         <form
           onSubmit={handlesubmit}
-          className="grid  w-[100%] bg-black bg-opacity-[1%] p-1 overflow-y-auto overflow-x-hidden  md:h-[530px] h-[540px]"
+          className="grid  w-[100%] bg-black bg-opacity-[1%] p-1 overflow-y-auto overflow-x-hidden   h-[80%]"
         >
           {/* Line 1 */}
           <div className="w-[100%] md:flex grid  gap-1 h-fit">

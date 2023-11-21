@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import supabase from "../iMonitorDBconfig";
 import { FaBell } from "react-icons/fa";
 import { AiFillMessage } from "react-icons/ai";
-import Message from "./Message";
-function MessagingConfig({
+
+function MessageBeneContanct({
   studinfo,
   setGetStudName,
   message,
@@ -15,7 +15,8 @@ function MessagingConfig({
   run,
   getFile,
   setGetEmail,
-  displayAvatar,setAvatar
+  displayAvatar,
+  setAvatar,
 }) {
   const [notif, setNotif] = useState();
 
@@ -31,12 +32,12 @@ function MessagingConfig({
       const { data: bene } = await supabase
         .from("Messaging")
         .select()
-        .match({ name: studinfo.studname, contactwith: beneName });
+        .match({ name: studinfo.beneName, contactwith: beneName });
 
       if (bene) {
         for (let index = 0; index < bene.length; index++) {
           if (
-            bene[index].name === studinfo.studname &&
+            bene[index].name === studinfo.beneName &&
             bene[index].readmessage === false &&
             bene[index].contactwith === beneName
           ) {
@@ -50,15 +51,15 @@ function MessagingConfig({
   }
 
   function handleclickcontact() {
-    setGetStudName(studinfo.studname);
+    setGetStudName(studinfo.beneName);
     setGetID(studinfo.id);
     setShowMessage(true);
     CheckIfReadMessage();
     getFile(studinfo.id);
-    setGetEmail(studinfo.studemail);
-    readmessage();
-    displayAvatar(studinfo.studemail);
+    setGetEmail(studinfo.beneEmail);
+    readmessage(studinfo.beneEmail);
     setAvatar(false);
+    displayAvatar(studinfo.beneEmail);
   }
 
   // Mark the message as read
@@ -67,7 +68,7 @@ function MessagingConfig({
       const { data: stud } = await supabase
         .from("Messaging")
         .update({ readmessage: true })
-        .match({ name: studinfo.studname, contactwith: beneName })
+        .match({ name: studinfo.beneName, contactwith: beneName })
         .select();
 
       CheckNotification();
@@ -84,39 +85,43 @@ function MessagingConfig({
       var a = message1[message1.length - 1];
       if (
         a.name === beneName &&
-        a.contactwith === studinfo.studname &&
+        a.contactwith === studinfo.beneName &&
         a.readmessage === true
       ) {
         setSeen(false);
       }
     } catch (error) {}
   }
-
   return (
     <div>
-      <div
-        onClick={() => handleclickcontact()}
-        className="hover:bg-opacity-[60%] hover:shadow-2xl shadow-black bg-blue-900 bg-opacity-[15%] hover:text-white flex p-1 cursor-pointer hover:p-2 duration-300"
-      >
-        <div className="w-[100%]">
-          <p className=" text-[13px] font-sans font-semibold">
-            {studinfo.studname}
-          </p>
-          <p className=" text-[13px] font-sans font-semibold">
-            {studinfo.studsection}
-          </p>
+      {beneName !== studinfo.beneName && (
+        <div
+          onClick={() => handleclickcontact()}
+          className="hover:bg-opacity-[60%] hover:shadow-2xl shadow-black bg-blue-900 bg-opacity-[15%] hover:text-white flex p-1 cursor-pointer hover:p-2 duration-300"
+        >
+          <div className="w-[100%]">
+            <p className=" text-[13px] font-sans font-semibold">
+              {studinfo.beneName}
+            </p>
+            <p className=" text-[13px] font-sans font-semibold">
+              {studinfo.position}{" "}
+              {`${
+                studinfo.filterby !== "ALL" ? `| ${studinfo.filterby}` : ""
+              } `}
+            </p>
+          </div>
+          <div className="flex">
+            {notif && (
+              <div className=" text-red-600 font-bold flex">
+                <AiFillMessage className="text-red-600" />
+                <FaBell className="text-[10px] -mt-1" />
+              </div>
+            )}
+          </div>
         </div>
-        <div className="flex">
-          {notif && (
-            <div className=" text-red-600 font-bold flex">
-              <AiFillMessage className="text-red-600" />
-              <FaBell className="text-[10px] -mt-1" />
-            </div>
-          )}
-        </div>
-      </div>
+      )}
     </div>
   );
 }
 
-export default MessagingConfig;
+export default MessageBeneContanct;

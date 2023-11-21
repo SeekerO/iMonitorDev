@@ -23,6 +23,7 @@ import { TbMessage2Share } from "react-icons/tb";
 
 // Toastify
 import { ToastContainer, toast } from "react-toastify";
+import MessageBeneContanct from "./MessageBeneContanct";
 
 const Message = ({ beneemail }) => {
   // search name
@@ -35,6 +36,7 @@ const Message = ({ beneemail }) => {
   // bene information
   const [beneName, setBeneName] = useState([]);
   const [beneinfo, setBeneInfo] = useState([]);
+  const [allbeneinfo, setallbeneinfo] = useState([]);
   // message
   const [message, setMessage] = useState("");
   const [havemessage, setHaveMessage] = useState(true);
@@ -69,6 +71,8 @@ const Message = ({ beneemail }) => {
 
   const [sendFile, setSendFile] = useState(false);
   const [sendFileX, setSendFileX] = useState(false);
+
+  const [getemail, setGetEmail] = useState();
 
   // Pagination MessageContact
   const [pageNumber, setPageNumber] = useState(0);
@@ -139,6 +143,9 @@ const Message = ({ beneemail }) => {
 
   // Data Getter In SupaBase
   async function DataGetter() {
+    const { data: allBeneInfo } = await supabase.from("BeneAccount").select();
+
+    setallbeneinfo(allBeneInfo);
     const { data: beneinfo } = await supabase
       .from("BeneAccount")
       .select()
@@ -262,7 +269,6 @@ const Message = ({ beneemail }) => {
   };
   const handleChange = (event) => {
     const fileUploaded = event.target.files[0];
-    console.log(fileUploaded);
     if (fileUploaded !== undefined) {
       setFileHolder(fileUploaded);
       setFileName(fileUploaded.name);
@@ -377,6 +383,58 @@ const Message = ({ beneemail }) => {
       return false;
   };
 
+  var displayColor = "";
+  function stringToColor(string) {
+    let hash = 0;
+    let i;
+
+    /* eslint-disable no-bitwise */
+    for (i = 0; i < string.length; i += 1) {
+      hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    let color = "#";
+
+    for (i = 0; i < 3; i += 1) {
+      const value = (hash >> (i * 8)) & 0xff;
+      color += `00${value.toString(16)}`.slice(-2);
+    }
+    displayColor = color;
+    /* eslint-enable no-bitwise */
+    return color;
+  }
+
+  function avatarComponent(name) {
+    return (
+      <div
+        style={{ background: stringToColor(name) }}
+        className={`flex text-white items-center justify-center h-[40px]  w-[45px] rounded-full font-thin`}
+      >{`${name.split(" ")[0][0]}`}</div>
+      // ${name.split(" ")[1][0]}
+    );
+  }
+
+  const [avatar, setAvatar] = useState(false);
+  const [displayAvatarConfig, setDisplayAvatar] = useState();
+
+  async function displayAvatar(email) {
+    try {
+      const { data: profilePic } = await supabase.storage
+        .from("ProfilePic")
+        .list(email + "/", { limit: 1, offset: 0 });
+
+      if (profilePic) {
+        setAvatar(true);
+
+        setDisplayAvatar(
+          `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/ProfilePic/${email}/${profilePic[0].name}`
+        );
+      }
+    } catch (error) {
+      setAvatar(false);
+    }
+  }
+
   return (
     <>
       <div className="w-[100%] h-screen md:pt-[2%] pt-[12%] md:p-5 p-1 flex justify-center   ">
@@ -434,6 +492,58 @@ const Message = ({ beneemail }) => {
                   <div className="h-[79.3%]  rounded-bl-md overflow-y-auto scroll-smooth">
                     {studinfo.length > 0 ? (
                       <>
+                        <label className="flex justify-center bg-[#274472] font-semibold text-white p-1">
+                          APO & ADVISER
+                        </label>
+                        {allbeneinfo
+                          .sort((a, b) =>
+                            a.last_Modif <= b.created_at ? -1 : 1
+                          )
+                          .sort((a, b) =>
+                            a.last_Modif <= b.created_at ? -1 : 1
+                          )
+                          .filter((val) => {
+                            try {
+                              if (search === "") {
+                                return val;
+                              } else if (
+                                val.beneName
+                                  .toLowerCase()
+                                  .includes(search.toLowerCase())
+                              ) {
+                                return val;
+                              } else if (
+                                val.position
+                                  .toLowerCase()
+                                  .includes(search.toLowerCase())
+                              ) {
+                                return val;
+                              }
+                            } catch (error) {}
+                          })
+                          .slice(pageVisited, pageVisited + userPerPage)
+                          .map((bene, index) => (
+                            <MessageBeneContanct
+                              key={bene.id}
+                              studinfo={bene}
+                              setGetStudName={setGetStudName}
+                              setShowMessage={setShowMessage}
+                              setGetID={setGetID}
+                              setSeen={setSeen}
+                              message={havemessage}
+                              beneName={beneName}
+                              read={seen}
+                              run={run}
+                              getFile={getFile}
+                              index={index}
+                              setGetEmail={setGetEmail}
+                              displayAvatar={displayAvatar}
+                              setAvatar={setAvatar}
+                            />
+                          ))}
+                        <label className="flex justify-center bg-[#274472] font-semibold text-white p-1">
+                          STUDENT
+                        </label>
                         {studinfo
                           .sort((a, b) =>
                             a.last_Modif >= b.created_at ? -1 : 1
@@ -475,6 +585,9 @@ const Message = ({ beneemail }) => {
                               run={run}
                               getFile={getFile}
                               index={index}
+                              setGetEmail={setGetEmail}
+                              displayAvatar={displayAvatar}
+                              setAvatar={setAvatar}
                             />
                           ))}
                       </>
@@ -541,16 +654,22 @@ const Message = ({ beneemail }) => {
                       <MdArrowBackIos className="text-[25px] text-white group-hover:text-slate-400 " />
                     </div>
                   )}
-                  <img
-                    className="md:h-10 md:w-10 h-8 w-8 rounded-full"
-                    src={profile}
-                  />
-                  <p
-                    onClick={() => closeMessage()}
-                    className=" flex items-center p-1 pl-[1%] mt-0.5 text-[15px] w-[100%] font-semibold text-white cursor-pointer hover:underline hover:text-blue-500"
-                  >
-                    {getstudname}
-                  </p>
+                  <>
+                    {avatar ? (
+                      <img
+                        src={displayAvatarConfig}
+                        className="h-[40px] w-[45px] rounded-full"
+                      ></img>
+                    ) : (
+                      avatarComponent(getstudname)
+                    )}
+                    <p
+                      onClick={() => closeMessage()}
+                      className=" flex items-center p-1 pl-[1%] mt-0.5 text-[15px] w-[100%] font-semibold text-white cursor-pointer hover:underline hover:text-blue-500"
+                    >
+                      {getstudname}
+                    </p>
+                  </>
                 </div>
                 {/* Message Container Design */}
                 {receivedmessages ? (

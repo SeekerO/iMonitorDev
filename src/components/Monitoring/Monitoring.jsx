@@ -90,20 +90,6 @@ const Monitoring = ({ Data }) => {
     } catch (error) {}
   };
 
-  // Adding Data in array and removing
-  // const [test, setTest] = useState([]);
-  // const handlechange = (event1) => {
-  //   const { value, checked } = event1.target;
-
-  //   if (checked) {
-  //     setTest((pre) => [...pre, { data: value }]);
-  //   } else {
-  //     setTest((pre) => {
-  //       return [...pre.filter((test) => test !== value)];
-  //     });
-  //   }
-  // };
-
   return (
     <div id="monitoring" className=" overflow-hidden text-white md:p-10 p-2">
       <div

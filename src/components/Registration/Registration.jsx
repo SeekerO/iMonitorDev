@@ -144,21 +144,31 @@ function Registration() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (
-      !studfname ||
-      !studlname ||
-      !studemail ||
-      !studprogram ||
-      !ojtstart ||
-      !ojtend ||
-      !studsection ||
-      !value ||
-      !companyaddress ||
-      !supervisorname ||
-      !supervisorcontactnumber ||
-      !supervisorofficenumber ||
-      !designation ||
-      !companyemail
+      studfname.trim().length === 0 ||
+      studlname.trim().length === 0 ||
+      studemail.trim().length === 0 ||
+      studprogram.trim().length === 0 ||
+      ojtstart.trim().length === 0 ||
+      ojtend.trim().length === 0 ||
+      studsection ||
+      value.trim().length === 0 ||
+      companyaddress.trim().length === 0 ||
+      supervisorname.trim().length === 0 ||
+      supervisorcontactnumber.trim().length === 0 ||
+      supervisorofficenumber ||
+      designation.trim().length === 0 ||
+      companyemail.trim().length === 0
     ) {
+      toast.warning("Invalid Input", {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
       setFormError("Please Fill All FIELDS CORRECTLY!");
       return;
     }

@@ -6,6 +6,7 @@ const AdminRoutes = () => {
   return (
     <div>
       <Routes>
+        <Route path="*" element={<BeneficiaryCreator />} />
         <Route path="/" element={<BeneficiaryCreator />} />
         <Route path="/adminaccount" element={<AdminAccounts />} />
       </Routes>
