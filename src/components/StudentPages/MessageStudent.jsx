@@ -67,6 +67,11 @@ const MessageStudent = ({ studemail }) => {
 
   const [sendFile, setSendFile] = useState(false);
   const [sendFileX, setSendFileX] = useState(true);
+  const [showFile, setShowFile] = useState(false);
+
+  const [getemail, setGetEmail] = useState();
+  const [avatarColor, setAvatarColor] = useState();
+  const [avatarURL, setAvatarURL] = useState();
 
   // Resize
   useEffect(() => {
@@ -204,7 +209,7 @@ const MessageStudent = ({ studemail }) => {
 
     const { data: modif } = await supabase
       .from("StudentInformation")
-      .update({ last_Modif: moment().format("MMMM Do YYYY, h:mm:ss a") })
+      .update({ last_Modif: moment().format() })
       .eq("studname", studName);
 
     setSeen(false);
@@ -226,7 +231,7 @@ const MessageStudent = ({ studemail }) => {
 
     const { data: modif } = await supabase
       .from("StudentInformation")
-      .update({ last_Modif: moment().format("MMMM Do YYYY, h:mm:ss a") })
+      .update({ last_Modif: moment().format() })
       .eq("studname", studName);
 
     setSeen(false);
@@ -313,7 +318,7 @@ const MessageStudent = ({ studemail }) => {
 
       const { data: modif } = await supabase
         .from("StudentInformation")
-        .update({ last_Modif: moment().format("MMMM Do YYYY, h:mm:ss a") })
+        .update({ last_Modif: moment().format() })
         .eq("studname", studName);
 
       setSendFile(false);
@@ -366,6 +371,16 @@ const MessageStudent = ({ studemail }) => {
       return false;
   };
 
+  function avatarComponent(name) {
+    return (
+      <div
+        style={{ background: avatarColor }}
+        className={`flex text-white items-center justify-center h-[40px]  w-[40px] rounded-full font-thin`}
+      >{`${name.split(" ")[0][0]}`}</div>
+      // ${name.split(" ")[1][0]}
+    );
+  }
+
   var filenameHOLDER;
   const imageRender = (filename) => {
     return (
@@ -394,7 +409,8 @@ const MessageStudent = ({ studemail }) => {
       </>
     );
   };
-  const [showFile, setShowFile] = useState(false);
+  const currentDate = new Date();
+
   return (
     <>
       <div className="w-[100%] h-screen md:pt-[2%] pt-[12%] p-10 flex justify-center ">
@@ -456,8 +472,16 @@ const MessageStudent = ({ studemail }) => {
                       }
                     } catch (error) {}
                   })
-                  .sort((a, b) => (a.last_Modif > b.created_at ? -1 : 1))
-                  .sort((a, b) => (a.last_Modif > b.created_at ? -1 : 1))
+                  .sort((a, b) => {
+                    const dateA = new Date(a.last_Modif);
+                    const dateB = new Date(b.created_at);
+
+                    if (dateA.getTime() <= dateB.getTime()) {
+                      return 1; // dates are equal
+                    } else {
+                      return -1; // sort by date and time
+                    }
+                  })
                   .map((beneinfo) => (
                     <MessagingConfig
                       key={beneinfo.id}
@@ -470,6 +494,8 @@ const MessageStudent = ({ studemail }) => {
                       read={read}
                       setGetID={setGetID}
                       getFile={getFile}
+                      setAvatarColor={setAvatarColor}
+                      setAvatarURL={setAvatarURL}
                     />
                   ))}
               </div>
@@ -497,10 +523,14 @@ const MessageStudent = ({ studemail }) => {
                       <MdArrowBackIos className="text-[25px] text-white group-hover:text-slate-400 " />
                     </div>
                   )}
-                  <img
-                    className="md:h-10 md:w-10 h-8 w-8 rounded-full"
-                    src={profile}
-                  />
+                  {avatarURL ? (
+                    <img
+                      src={avatarURL}
+                      className="h-[40px] w-[40px] rounded-full"
+                    ></img>
+                  ) : (
+                    avatarComponent(getbeneName)
+                  )}
                   <p
                     onClick={() => closeMessage()}
                     className=" flex items-center p-1 pl-[1%] mt-0.5 text-[15px] w-[100%] font-semibold text-white cursor-pointer hover:underline hover:text-blue-500"
@@ -617,7 +647,7 @@ const MessageStudent = ({ studemail }) => {
                         onChange={handlemessage}
                         onClick={() => readmess()}
                         rows="3"
-                        className="mt-2 ml-1 p-1 w-[100%]  h-[20%] text-sm text-gray-900  rounded-md resize-none"
+                        className="mt-2 mb-2 ml-1 p-1 w-[100%]  h-[50px] text-sm text-gray-900  rounded-md resize-none"
                         placeholder="Write Remaks Here.."
                       />
                       {message === "" ? (

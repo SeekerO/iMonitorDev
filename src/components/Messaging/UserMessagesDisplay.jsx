@@ -10,16 +10,10 @@ function UserMessagesDisplay({
   message,
   beneName,
   getstudname,
-  studinfo,
   beneinfo,
-  index,
   file,
   studID,
-  setDisplayImage,
-  setDisplayFile,
-  File,
-  displayimage,
-  displayfile,
+  avatarURL,
 }) {
   const [seen, setSeen] = useState(false);
   const [imagebroken, setImageBroken] = useState();
@@ -222,56 +216,66 @@ function UserMessagesDisplay({
   };
 
   return (
-    <div>
-      {message.name === getstudname && message.contactwith === beneName && (
-        <div className=" mb-2 flex place-content-start ">
-          <div className="flex flex-col">
-            <div className=" h-auto  flex">
-              <div className="bg-white h-[40px] w-[40px] rounded-full flex justify-center items-center">
-                <img
-                  src={profile}
-                  className="  h-[38.5px] justify-center rounded-full"
-                />
-              </div>
-
-              {messageSorter()}
-            </div>
-
-            <div className="text-right text-[9px] flex pt-1 ml-10 cursor-default">
-              <DateConverter date={message.created_at} />
-              {seen && (
-                <BsCheckAll className="text-[15px] ml-1 text-green-600" />
-              )}
-            </div>
-          </div>
-        </div>
-      )}
-
+    <>
       {message && (
         <div>
-          {message.name === beneName && message.contactwith === getstudname && (
-            <>
-              <div className=" mb-2 flex place-content-end">
-                <div className="flex flex-col">
-                  <div className=" flex place-content-end">
-                    {messageSorter()}
-                  </div>
+          {message.name === getstudname && message.contactwith === beneName && (
+            <div className=" mb-2 flex place-content-start ">
+              <div className="flex flex-col">
+                <div className=" h-auto  flex">
+                  {avatarURL ? (
+                    <img
+                      src={avatarURL}
+                      className="  h-[40px] justify-center rounded-full"
+                    />
+                  ) : (
+                    <img
+                      src={profile}
+                      className="  h-[40px] justify-center rounded-full"
+                    />
+                  )}
 
-                  <div className="place-content-end text-[9px] flex pt-1  cursor-default">
-                    <DateConverter date={message.created_at} />
-                    {seen && (
-                      <BsCheckAll className="text-[15px] ml-1 text-green-600" />
-                    )}
-                  </div>
+                  {messageSorter()}
+                </div>
+
+                <div className="text-right text-[9px] flex pt-1 ml-10 cursor-default">
+                  <DateConverter date={message.created_at} />
+                  {seen && (
+                    <BsCheckAll className="text-[15px] ml-1 text-green-600" />
+                  )}
                 </div>
               </div>
-            </>
+            </div>
           )}
+
+          {message && (
+            <div>
+              {message.name === beneName &&
+                message.contactwith === getstudname && (
+                  <>
+                    <div className=" mb-2 flex place-content-end">
+                      <div className="flex flex-col">
+                        <div className=" flex place-content-end">
+                          {messageSorter()}
+                        </div>
+
+                        <div className="place-content-end text-[9px] flex pt-1  cursor-default">
+                          <DateConverter date={message.created_at} />
+                          {seen && (
+                            <BsCheckAll className="text-[15px] ml-1 text-green-600" />
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                )}
+            </div>
+          )}
+
+          {!message && "Something's wrong with the connection"}
         </div>
       )}
-
-      {!message && "Something's wrong with the connection"}
-    </div>
+    </>
   );
 }
 

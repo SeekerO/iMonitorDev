@@ -15,11 +15,14 @@ function MessageBeneContanct({
   run,
   getFile,
   setGetEmail,
+  setAvatarColor,
+  setAvatarURL,
 }) {
   const [notif, setNotif] = useState();
   const [img, setImg] = useState();
   const [avatar, setAvatar] = useState(false);
-
+  var displayColor;
+  const [displayURL, setDisplayURL] = useState();
   //Listener for new messages in supabase
 
   useEffect(() => {
@@ -27,33 +30,6 @@ function MessageBeneContanct({
     displayAvatar(studinfo.beneEmail);
   }, [run]);
 
-  async function displayAvatar(email) {
-    try {
-      const { data: profilePic } = await supabase.storage
-        .from("ProfilePic")
-        .list(email + "/", { limit: 1, offset: 0 });
-
-      if (profilePic) {
-        setAvatar(true);
-        setImg(
-          `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/ProfilePic/${email}/${profilePic[0].name}`
-        );
-      }
-    } catch (error) {
-      setAvatar(false);
-    }
-  }
-  function avatarComponent(name) {
-    return (
-      <div
-        style={{ background: stringToColor(name) }}
-        className={`flex text-white items-center justify-center h-[40px]  w-[45px] rounded-full font-thin`}
-      >{`${name.split(" ")[0][0]}`}</div>
-      // ${name.split(" ")[1][0]}
-    );
-  }
-
-  var displayColor = "";
   function stringToColor(string) {
     let hash = 0;
     let i;
@@ -69,9 +45,40 @@ function MessageBeneContanct({
       const value = (hash >> (i * 8)) & 0xff;
       color += `00${value.toString(16)}`.slice(-2);
     }
-    displayColor = color;
+
     /* eslint-enable no-bitwise */
+    displayColor = color;
     return color;
+  }
+
+  async function displayAvatar(email) {
+    try {
+      const { data: profilePic } = await supabase.storage
+        .from("ProfilePic")
+        .list(email + "/", { limit: 1, offset: 0 });
+
+      if (profilePic) {
+        setAvatar(true);
+        setDisplayURL(
+          `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/ProfilePic/${email}/${profilePic[0].name}`
+        );
+        setImg(
+          `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/ProfilePic/${email}/${profilePic[0].name}`
+        );
+      }
+    } catch (error) {
+      setAvatar(false);
+    }
+  }
+
+  function avatarComponent(name) {
+    return (
+      <div
+        style={{ background: stringToColor(name) }}
+        className={`flex text-white items-center justify-center h-[30px]  w-[30px] rounded-full font-thin`}
+      >{`${name.split(" ")[0][0]}`}</div>
+      // ${name.split(" ")[1][0]}
+    );
   }
 
   //Notification Checker
@@ -106,6 +113,8 @@ function MessageBeneContanct({
     getFile(studinfo.id);
     setGetEmail(studinfo.beneEmail);
     readmessage(studinfo.beneEmail);
+    setAvatarColor(displayColor);
+    setAvatarURL(displayURL);
   }
 
   // Mark the message as read
@@ -145,21 +154,23 @@ function MessageBeneContanct({
           onClick={() => handleclickcontact()}
           className="hover:bg-opacity-[60%] hover:shadow-2xl shadow-black bg-blue-900 bg-opacity-[15%] hover:text-white flex p-1 cursor-pointer hover:p-2 duration-300"
         >
-          <div className="w-[100%]">
-            {avatar ? (
-              <img src={img} className="h-[40px] w-[45px] rounded-full"></img>
+          <div className="w-[100%] items-center flex gap-2">
+            {!avatar ? (
+              avatarComponent(studinfo.beneName)
             ) : (
-              avatarComponent(studinfo.studname)
+              <img src={img} className="h-[30px] w-[30px] rounded-full" />
             )}
-            <p className=" text-[13px] font-sans font-semibold">
-              {studinfo.beneName}
-            </p>
-            <p className=" text-[13px] font-sans font-semibold">
-              {studinfo.position}{" "}
-              {`${
-                studinfo.filterby !== "ALL" ? `| ${studinfo.filterby}` : ""
-              } `}
-            </p>
+            <div className="grid">
+              <p className=" text-[13px] font-sans font-semibold">
+                {studinfo.beneName}
+              </p>
+              <p className=" text-[13px] font-sans font-semibold">
+                {studinfo.position}{" "}
+                {`${
+                  studinfo.filterby !== "ALL" ? `| ${studinfo.filterby}` : ""
+                } `}
+              </p>
+            </div>
           </div>
           <div className="flex">
             {notif && (

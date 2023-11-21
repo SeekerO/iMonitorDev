@@ -72,8 +72,6 @@ const Message = ({ beneemail }) => {
   const [sendFile, setSendFile] = useState(false);
   const [sendFileX, setSendFileX] = useState(false);
 
-  const [getemail, setGetEmail] = useState();
-
   // Pagination MessageContact
   const [pageNumber, setPageNumber] = useState(0);
   const userPerPage = 20;
@@ -91,6 +89,10 @@ const Message = ({ beneemail }) => {
   const [displayfile, setDisplayFile] = useState([]);
   const imageExtensions = ["jpg", "jpeg", "png", "gif", "bmp"];
   const documentExtenstions = ["docx", "pdf", "ods", "pptx", "xlsx"];
+
+  const [getemail, setGetEmail] = useState();
+  const [avatarColor, setAvatarColor] = useState();
+  const [avatarURL, setAvatarURL] = useState();
 
   // Resize Depending on the width of the screen
   useEffect(() => {
@@ -223,7 +225,7 @@ const Message = ({ beneemail }) => {
 
       const { data: modif } = await supabase
         .from("BeneAccount")
-        .update({ last_Modif: moment().format("MMMM Do YYYY, h:mm:ss a") })
+        .update({ last_Modif: moment().format() })
         .eq("beneName", beneName);
 
       setSeen(false);
@@ -254,7 +256,7 @@ const Message = ({ beneemail }) => {
     readmess();
     const { data: modif } = await supabase
       .from("BeneAccount")
-      .update({ last_Modif: moment().format("MMMM Do YYYY, h:mm:ss a") })
+      .update({ last_Modif: moment().format() })
       .eq("beneName", beneName);
 
     setSeen(false);
@@ -324,7 +326,7 @@ const Message = ({ beneemail }) => {
     if (file) {
       const { data: modif } = await supabase
         .from("BeneAccount")
-        .update({ last_Modif: moment().format("MMMM Do YYYY, h:mm:ss a") })
+        .update({ last_Modif: moment().format() })
         .eq("beneName", beneName);
 
       const { data } = await supabase.from("Messaging").insert([
@@ -383,57 +385,26 @@ const Message = ({ beneemail }) => {
       return false;
   };
 
-  var displayColor = "";
-  function stringToColor(string) {
-    let hash = 0;
-    let i;
-
-    /* eslint-disable no-bitwise */
-    for (i = 0; i < string.length; i += 1) {
-      hash = string.charCodeAt(i) + ((hash << 5) - hash);
-    }
-
-    let color = "#";
-
-    for (i = 0; i < 3; i += 1) {
-      const value = (hash >> (i * 8)) & 0xff;
-      color += `00${value.toString(16)}`.slice(-2);
-    }
-    displayColor = color;
-    /* eslint-enable no-bitwise */
-    return color;
-  }
-
   function avatarComponent(name) {
     return (
       <div
-        style={{ background: stringToColor(name) }}
-        className={`flex text-white items-center justify-center h-[40px]  w-[45px] rounded-full font-thin`}
+        style={{ background: avatarColor }}
+        className={`flex text-white items-center justify-center h-[40px]  w-[40px] rounded-full font-thin`}
       >{`${name.split(" ")[0][0]}`}</div>
       // ${name.split(" ")[1][0]}
     );
   }
 
-  const [avatar, setAvatar] = useState(false);
-  const [displayAvatarConfig, setDisplayAvatar] = useState();
+  const compareDateTimes = (a, b) => {
+    const dateA = new Date(a);
+    const dateB = new Date(b);
 
-  async function displayAvatar(email) {
-    try {
-      const { data: profilePic } = await supabase.storage
-        .from("ProfilePic")
-        .list(email + "/", { limit: 1, offset: 0 });
-
-      if (profilePic) {
-        setAvatar(true);
-
-        setDisplayAvatar(
-          `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/ProfilePic/${email}/${profilePic[0].name}`
-        );
-      }
-    } catch (error) {
-      setAvatar(false);
+    if (dateA.getTime() === dateB.getTime()) {
+      return 0; // dates are equal
+    } else {
+      return dateA.getTime() - dateB.getTime(); // sort by date and time
     }
-  }
+  };
 
   return (
     <>
@@ -489,19 +460,23 @@ const Message = ({ beneemail }) => {
             <div className="h-[100%]">
               {studinfo ? (
                 <>
-                  <div className="h-[79.3%]  rounded-bl-md overflow-y-auto scroll-smooth">
+                  <div className="h-[77%]  rounded-bl-md overflow-y-auto scroll-smooth">
                     {studinfo.length > 0 ? (
                       <>
                         <label className="flex justify-center bg-[#274472] font-semibold text-white p-1">
                           APO & ADVISER
                         </label>
                         {allbeneinfo
-                          .sort((a, b) =>
-                            a.last_Modif <= b.created_at ? -1 : 1
-                          )
-                          .sort((a, b) =>
-                            a.last_Modif <= b.created_at ? -1 : 1
-                          )
+                          .sort((a, b) => {
+                            const dateA = new Date(a.last_Modif);
+                            const dateB = new Date(b.created_at);
+
+                            if (dateA.getTime() <= dateB.getTime()) {
+                              return 1; // dates are equal
+                            } else {
+                              return -1; // sort by date and time
+                            }
+                          })
                           .filter((val) => {
                             try {
                               if (search === "") {
@@ -537,20 +512,25 @@ const Message = ({ beneemail }) => {
                               getFile={getFile}
                               index={index}
                               setGetEmail={setGetEmail}
-                              displayAvatar={displayAvatar}
-                              setAvatar={setAvatar}
+                              setAvatarColor={setAvatarColor}
+                              setAvatarURL={setAvatarURL}
                             />
                           ))}
                         <label className="flex justify-center bg-[#274472] font-semibold text-white p-1">
                           STUDENT
                         </label>
                         {studinfo
-                          .sort((a, b) =>
-                            a.last_Modif >= b.created_at ? -1 : 1
-                          )
-                          .sort((a, b) =>
-                            a.last_Modif >= b.created_at ? -1 : 1
-                          )
+                          .sort((a, b) => {
+                            const dateA = new Date(a.last_Modif);
+                            const dateB = new Date(b.created_at);
+
+                            if (dateA.getTime() <= dateB.getTime()) {
+                              return 1; // dates are equal
+                            } else {
+                              return -1; // sort by date and time
+                            }
+                          })
+
                           .filter((val) => {
                             try {
                               if (search === "") {
@@ -572,23 +552,26 @@ const Message = ({ beneemail }) => {
                           })
                           .slice(pageVisited, pageVisited + userPerPage)
                           .map((studinfo, index) => (
-                            <MessagingConfig
-                              key={studinfo.id}
-                              studinfo={studinfo}
-                              setGetStudName={setGetStudName}
-                              setShowMessage={setShowMessage}
-                              setGetID={setGetID}
-                              setSeen={setSeen}
-                              message={havemessage}
-                              beneName={beneName}
-                              read={seen}
-                              run={run}
-                              getFile={getFile}
-                              index={index}
-                              setGetEmail={setGetEmail}
-                              displayAvatar={displayAvatar}
-                              setAvatar={setAvatar}
-                            />
+                            <>
+                              <MessagingConfig
+                                key={studinfo.id}
+                                studinfo={studinfo}
+                                setGetStudName={setGetStudName}
+                                setShowMessage={setShowMessage}
+                                setGetID={setGetID}
+                                setSeen={setSeen}
+                                message={havemessage}
+                                beneName={beneName}
+                                read={seen}
+                                run={run}
+                                getFile={getFile}
+                                index={index}
+                                setGetEmail={setGetEmail}
+                                setAvatarColor={setAvatarColor}
+                                setAvatarURL={setAvatarURL}
+                              />
+                              {console.log(studinfo.last_Modif)}
+                            </>
                           ))}
                       </>
                     ) : (
@@ -655,18 +638,19 @@ const Message = ({ beneemail }) => {
                     </div>
                   )}
                   <>
-                    {avatar ? (
-                      <img
-                        src={displayAvatarConfig}
-                        className="h-[40px] w-[45px] rounded-full"
-                      ></img>
-                    ) : (
-                      avatarComponent(getstudname)
-                    )}
                     <p
                       onClick={() => closeMessage()}
-                      className=" flex items-center p-1 pl-[1%] mt-0.5 text-[15px] w-[100%] font-semibold text-white cursor-pointer hover:underline hover:text-blue-500"
+                      className=" flex items-center pl-[1%] mt-0.5 text-[15px] w-[100%] gap-1
+                       font-semibold text-white cursor-pointer hover:underline hover:text-blue-500"
                     >
+                      {avatarURL ? (
+                        <img
+                          src={avatarURL}
+                          className="h-[40px] w-[40px] rounded-full"
+                        ></img>
+                      ) : (
+                        avatarComponent(getstudname)
+                      )}
                       {getstudname}
                     </p>
                   </>
@@ -677,7 +661,7 @@ const Message = ({ beneemail }) => {
                     className={`w-[100%] bg-[#bfd7eddc] p-3 overflow-y-auto overflow-x-hidden md:h-[78%] h-[80%]`}
                   >
                     {receivedmessages
-                      .sort((a, b) => (a.created_at < b.created_at ? -1 : 1))
+                      .sort((a, b) => (a.created_at <= b.created_at ? -1 : 1))
                       .map((message) => (
                         <UserMessagesDisplay
                           key={message.id}
@@ -691,6 +675,7 @@ const Message = ({ beneemail }) => {
                           displayimage={displayimage}
                           setDisplayFile={setDisplayFile}
                           displayfile={displayfile}
+                          avatarURL={avatarURL}
                         />
                       ))}
                     <div ref={messageEndRef} />
@@ -784,7 +769,7 @@ const Message = ({ beneemail }) => {
                         onChange={(e) => setMessage(e.target.value)}
                         onClick={() => readmess()}
                         rows="3"
-                        className="mt-2 ml-1 p-1 w-[100%]  h-[20%] text-sm text-gray-900  rounded-md resize-none"
+                        className="mt-2 mb-2 ml-1 p-1 w-[100%] h-[50px] text-sm text-gray-900  rounded-md resize-none"
                         placeholder="Write Remaks Here.."
                       />
                       {message === "" ? (
