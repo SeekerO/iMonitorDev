@@ -61,7 +61,7 @@ const FaceDetector = ({ setImage }) => {
     }
   };
   return (
-    <div className="h-[200px]">
+    <div className="h-[250px]">
       {hasPermission === true && (
         <div className="h-[100%]">
           {imageUserHolder ? (

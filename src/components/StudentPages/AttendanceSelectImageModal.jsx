@@ -129,7 +129,7 @@ const AttendanceSelectImageModal = ({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center z-50">
       <div
-        className="bg-[#dddede] h-[55%] mt-10 md:w-[30%] w-[90%] rounded-xl flex flex-col "
+        className="bg-[#dddede] h-fit mt-10 md:w-[30%] w-[90%] rounded-xl flex flex-col "
         data-aos="zoom-in"
         data-aos-duration="300"
       >
@@ -149,17 +149,11 @@ const AttendanceSelectImageModal = ({
               <BeatLoader color="#4d9eff" size={10} />
             </div>
           ) : (
-            <div className="justify-center items-center flex flex-col h-[100%]">
-              <div className="h-[100%]">
+            <div className="justify-center items-center flex flex-col h-full">
+              <div className="h-[380px]">
                 <p className="font-semibold text-lg mb-4">
                   Upload your image here to time in
                 </p>
-                {/* <input
-                type="file"
-                accept="image/png, image/jpeg"
-                onChange={handleFileInputChange}
-              ></input>
-              {isEmpty && <p>File selected.</p>} */}
                 <FaceDetector setImage={setImage} />
               </div>
               {image && (
