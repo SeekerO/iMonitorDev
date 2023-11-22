@@ -6,6 +6,7 @@ const FaceDetector = ({ setImage }) => {
   const webcamRef = React.useRef(null);
   const [imageUserHolder, setImageUserHolder] = useState(null);
   const [hasPermission, setHasPermission] = useState(null);
+  const [mirror, setMirror] = useState(true);
 
   const capture = React.useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot();
@@ -21,6 +22,7 @@ const FaceDetector = ({ setImage }) => {
   const [facingMode, setFacingMode] = useState("user"); // 'user' for front camera, 'environment' for back camera
 
   const switchCamera = () => {
+    setMirror(!mirror);
     setFacingMode((prevMode) => (prevMode === "user" ? "environment" : "user"));
   };
 
@@ -83,7 +85,7 @@ const FaceDetector = ({ setImage }) => {
                 audio={false}
                 ref={webcamRef}
                 screenshotFormat="image/jpeg"
-                mirrored={true} // Adjust mirror effect based on camera view
+                mirrored={mirror} // Adjust mirror effect based on camera view
                 videoConstraints={{ facingMode }}
                 className="h-[100%] rounded-md shadow-md shadow-black"
               />
