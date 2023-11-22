@@ -61,7 +61,7 @@ const FaceDetector = ({ setImage }) => {
     }
   };
   return (
-    <div className="h-screen">
+    <div className="md:h-[200px] h-400px">
       {hasPermission === true && (
         <div className="h-[100%]">
           {imageUserHolder ? (
@@ -69,7 +69,7 @@ const FaceDetector = ({ setImage }) => {
               <img
                 src={imageUserHolder}
                 alt="Captured selfie"
-                className="md:h-[200px] rounded-md shadow-md shadow-black"
+                className="h-[100%] rounded-md shadow-md shadow-black"
               />
               <button
                 onClick={() => reCapture()}
@@ -80,7 +80,7 @@ const FaceDetector = ({ setImage }) => {
               </button>
             </div>
           ) : (
-            <div className="flex flex-col items-center h-[28%]">
+            <div className="flex flex-col items-center h-[100%]">
               <Webcam
                 audio={false}
                 ref={webcamRef}

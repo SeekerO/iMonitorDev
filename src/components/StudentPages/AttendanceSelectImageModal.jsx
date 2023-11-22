@@ -150,16 +150,18 @@ const AttendanceSelectImageModal = ({
             </div>
           ) : (
             <div className="justify-center items-center flex flex-col h-[100%]">
-              <p className="font-semibold text-lg mb-4">
-                Upload your image here to time in
-              </p>
-              {/* <input
+              <div className="h-[100%]">
+                <p className="font-semibold text-lg mb-4">
+                  Upload your image here to time in
+                </p>
+                {/* <input
                 type="file"
                 accept="image/png, image/jpeg"
                 onChange={handleFileInputChange}
               ></input>
               {isEmpty && <p>File selected.</p>} */}
-              <FaceDetector setImage={setImage} />
+                <FaceDetector setImage={setImage} />
+              </div>
               {image && (
                 <button
                   onClick={() => Run()}
