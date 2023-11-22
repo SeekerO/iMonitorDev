@@ -223,7 +223,6 @@ const Monitoring = ({ Data }) => {
           {/* STUD INFO */}
           {studinfos && (
             <>
-              {" "}
               {studinfos.length > 0 ? (
                 <div className="overflow-y-auto bg-black bg-opacity-[1%] md:h-[90%] h-[80%] overflow-hidden">
                   {studinfos
@@ -268,7 +267,6 @@ const Monitoring = ({ Data }) => {
           )}
         </main>
         <div className="mt-[3%]">
-          
           {studinfos && studinfos.length > 0 && (
             <ReactPaginate
               previousLabel={"Previous"}

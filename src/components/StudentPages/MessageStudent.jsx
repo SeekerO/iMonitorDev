@@ -474,7 +474,7 @@ const MessageStudent = ({ studemail }) => {
                   })
                   .sort((a, b) => {
                     const dateA = new Date(a.last_Modif);
-                    const dateB = new Date(b.created_at);
+                    const dateB = new Date(b.last_Modif);
 
                     if (dateA.getTime() <= dateB.getTime()) {
                       return 1; // dates are equal
@@ -554,6 +554,8 @@ const MessageStudent = ({ studemail }) => {
                           beneinfo={studinfo}
                           studID={getID}
                           file={file}
+                          displayfile={displayfile}
+                          avatarURL={avatarURL}
                         />
                       ))}
                     <div ref={messageEndRef} />

@@ -469,7 +469,7 @@ const Message = ({ beneemail }) => {
                         {allbeneinfo
                           .sort((a, b) => {
                             const dateA = new Date(a.last_Modif);
-                            const dateB = new Date(b.created_at);
+                            const dateB = new Date(b.last_Modif);
 
                             if (dateA.getTime() <= dateB.getTime()) {
                               return 1; // dates are equal
@@ -521,16 +521,15 @@ const Message = ({ beneemail }) => {
                         </label>
                         {studinfo
                           .sort((a, b) => {
-                            const dateA = new Date(a.last_Modif);
-                            const dateB = new Date(b.created_at);
-
-                            if (dateA.getTime() <= dateB.getTime()) {
+                            var aDate = new Date(a.last_Modif);
+                            var bDate = new Date(b.last_Modif);
+                            var currDate = new Date();
+                            if (aDate.getTime() <= bDate.getTime()) {
                               return 1; // dates are equal
                             } else {
                               return -1; // sort by date and time
                             }
                           })
-
                           .filter((val) => {
                             try {
                               if (search === "") {
