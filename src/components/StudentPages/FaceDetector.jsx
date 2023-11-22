@@ -61,9 +61,9 @@ const FaceDetector = ({ setImage }) => {
     }
   };
   return (
-    <div className="">
+    <div className="h-screen">
       {hasPermission === true && (
-        <div>
+        <div className="h-[100%]">
           {imageUserHolder ? (
             <div>
               <img
@@ -80,14 +80,14 @@ const FaceDetector = ({ setImage }) => {
               </button>
             </div>
           ) : (
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center h-[30%]">
               <Webcam
                 audio={false}
                 ref={webcamRef}
                 screenshotFormat="image/jpeg"
                 mirrored={true} // Adjust mirror effect based on camera view
                 videoConstraints={{ facingMode }}
-                className="h-[200px] rounded-md shadow-md shadow-black"
+                className="h-[100%] rounded-md shadow-md shadow-black"
               />
               <div className="flex gap-5 items-center h-fit w-fit mt-3">
                 <button

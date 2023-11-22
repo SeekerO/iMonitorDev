@@ -149,7 +149,7 @@ const AttendanceSelectImageModal = ({
               <BeatLoader color="#4d9eff" size={10} />
             </div>
           ) : (
-            <div className="justify-center items-center flex flex-col">
+            <div className="justify-center items-center flex flex-col h-[100%]">
               <p className="font-semibold text-lg mb-4">
                 Upload your image here to time in
               </p>

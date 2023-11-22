@@ -74,7 +74,6 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo }) => {
   // }
 
   function datechecker() {
-    console.log(start);
     if (currDateFull === attendanceinfo.studDate) {
       if (currTime <= start) {
         if (currTime >= adjustedStart) {
