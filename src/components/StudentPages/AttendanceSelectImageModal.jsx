@@ -20,19 +20,6 @@ const AttendanceSelectImageModal = ({
   const [isEmpty, setIsEmpty] = useState(false);
   const [uploadProgress, setUploadProgress] = useState();
 
-  const handleFileInputChange = (event) => {
-    try {
-      const files = event.target.files;
-      const datafile = event.target.files[0];
-      if (files.length > 0) {
-        setIsEmpty(true);
-        setFile(datafile);
-      } else {
-        setIsEmpty(false);
-      }
-    } catch (error) {}
-  };
-
   const Run = async () => {
     if (image === false) {
       toast.warn("No File Detected", {
@@ -127,9 +114,9 @@ const AttendanceSelectImageModal = ({
 
   if (!visible) return null;
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center z-50">
+    <div className="fixed h-screen inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center z-50">
       <div
-        className="bg-[#dddede] h-fit mt-10 md:w-[30%] w-[90%] rounded-xl flex flex-col "
+        className="bg-[#dddede]   md:w-[30%] w-[99%] rounded-xl flex flex-col "
         data-aos="zoom-in"
         data-aos-duration="300"
       >
@@ -140,7 +127,7 @@ const AttendanceSelectImageModal = ({
         >
           X
         </button>
-        <div className="justify-center items-center flex flex-col mt-3 p-2">
+        <div className="justify-center items-center grid   h-[100%]">
           {uploading ? (
             <div className="mt-[12%] flex-col flex items-center p-4">
               <div className="font-semibold text-blue-500 flex">
@@ -149,17 +136,16 @@ const AttendanceSelectImageModal = ({
               <BeatLoader color="#4d9eff" size={10} />
             </div>
           ) : (
-            <div className="justify-center items-center flex flex-col h-full">
-              <div className="h-[380px]">
-                <p className="font-semibold text-lg mb-4">
-                  Upload your image here to time in
-                </p>
-                <FaceDetector setImage={setImage} />
-              </div>
+            <div className="justify-center items-center flex flex-col ">
+              <p className="font-semibold text-lg mb-4">
+                Upload your image here to time in
+              </p>
+
+              <FaceDetector setImage={setImage} className="" />
               {image && (
                 <button
                   onClick={() => Run()}
-                  className="flex text-center justify-center  items-center gap-1 w-full bg-blue-700 text-white mt-1 p-1 rounded-md"
+                  className="flex text-center justify-center  items-center gap-1 w-full bg-blue-700 text-white mt-1 mb-3 p-1 rounded-md"
                 >
                   UPLOAD
                 </button>

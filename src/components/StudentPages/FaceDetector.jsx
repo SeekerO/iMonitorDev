@@ -61,15 +61,15 @@ const FaceDetector = ({ setImage }) => {
     }
   };
   return (
-    <div className="h-[250px]">
+    <div className="">
       {hasPermission === true && (
-        <div className="h-[100%]">
+        <div className="">
           {imageUserHolder ? (
-            <div>
+            <div className="">
               <img
                 src={imageUserHolder}
                 alt="Captured selfie"
-                className="h-[100%] rounded-md shadow-md shadow-black"
+                className="max-h-[300px] rounded-md shadow-md shadow-black"
               />
               <button
                 onClick={() => reCapture()}
@@ -80,16 +80,16 @@ const FaceDetector = ({ setImage }) => {
               </button>
             </div>
           ) : (
-            <div className="flex flex-col items-center h-[100%]">
+            <div className="flex flex-col items-center ">
               <Webcam
                 audio={false}
                 ref={webcamRef}
                 screenshotFormat="image/jpeg"
                 mirrored={mirror} // Adjust mirror effect based on camera view
                 videoConstraints={{ facingMode }}
-                className="h-[100%] rounded-md shadow-md shadow-black"
+                className="max-h-[300px] rounded-md shadow-md shadow-black "
               />
-              <div className="flex gap-5 items-center h-fit w-fit mt-3">
+              <div className="flex gap-5 items-center h-fit w-fit mt-3 mb-3">
                 <button
                   onClick={capture}
                   className=" rounded-full h-[50px] w-[50px] flex text-center justify-center  items-center gap-1 
