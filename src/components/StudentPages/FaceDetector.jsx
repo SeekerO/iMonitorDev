@@ -87,7 +87,7 @@ const FaceDetector = ({ setImage }) => {
                 screenshotFormat="image/jpeg"
                 mirrored={true} // Adjust mirror effect based on camera view
                 videoConstraints={{ facingMode }}
-                className="md:h-[200px] rounded-md shadow-md shadow-black"
+                className="h-[200px] rounded-md shadow-md shadow-black"
               />
               <div className="flex gap-5 items-center h-fit w-fit mt-3">
                 <button
