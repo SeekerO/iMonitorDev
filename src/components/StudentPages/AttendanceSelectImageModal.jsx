@@ -151,7 +151,7 @@ const AttendanceSelectImageModal = ({
           ) : (
             <div className="justify-center items-center flex flex-col">
               <p className="font-semibold text-lg mb-4">
-                Upload your image here to verify
+                Upload your image here to time in
               </p>
               {/* <input
                 type="file"

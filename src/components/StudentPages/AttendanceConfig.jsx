@@ -7,7 +7,7 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo }) => {
   const [showmodaluploadimage, setShowModalUploadImage] = useState(false);
   const handlecloseuploadimage = () => setShowModalUploadImage(false);
 
-  const [In, setIn] = useState(true);
+  const [In, setIn] = useState(false);
   const [Out, setOut] = useState(true);
 
   var currDateFull = moment().format("l");

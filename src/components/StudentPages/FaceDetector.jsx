@@ -5,6 +5,7 @@ import { PiCameraRotateFill } from "react-icons/pi";
 const FaceDetector = ({ setImage }) => {
   const webcamRef = React.useRef(null);
   const [imageUserHolder, setImageUserHolder] = useState(null);
+  const [hasPermission, setHasPermission] = useState(null);
 
   const capture = React.useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot();
@@ -29,51 +30,98 @@ const FaceDetector = ({ setImage }) => {
 
     return isLaptop;
   };
+
+  useEffect(() => {
+    checkCameraPermission();
+    const interval = setInterval(checkCameraPermission, 5000); // Check every 5 seconds
+    return () => clearInterval(interval); // Clear the interval on component unmount
+  }, []);
+
+  const checkCameraPermission = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      // Permission granted
+      stream.getTracks().forEach((track) => track.stop()); // Stop the stream
+      setHasPermission(true);
+    } catch (error) {
+      // Permission denied or some error occurred
+      setHasPermission(false);
+    }
+  };
+
+  const handleAllowPermission = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      // Permission granted after clicking the button
+      stream.getTracks().forEach((track) => track.stop()); // Stop the stream
+      setHasPermission(true);
+    } catch (error) {
+      // Permission still denied after attempting to grant
+      setHasPermission(false);
+    }
+  };
   return (
-    <div>
-      {imageUserHolder ? (
+    <div className="">
+      {hasPermission === true && (
         <div>
-          <img src={imageUserHolder} alt="Captured selfie" className="md:h-[200px] rounded-md shadow-md shadow-black" />
-          <button
-            onClick={() => reCapture()}
-            className="flex text-center justify-center  items-center gap-1 w-full bg-blue-950 text-white mt-3 p-1 rounded-md "
-          >
-            <FaCamera className="text-[20px]" />
-            Re-Capture
-          </button>
-        </div>
-      ) : (
-        <div className="flex flex-col items-center">
-          <Webcam
-            audio={false}
-            ref={webcamRef}
-            screenshotFormat="image/jpeg"
-            mirrored={true} // Adjust mirror effect based on camera view
-            videoConstraints={{ facingMode }}
-            className="md:h-[200px] rounded-md shadow-md shadow-black"
-          />
-          <div className="flex gap-5 items-center h-fit w-fit mt-3">
-            <button
-              onClick={capture}
-              className=" rounded-full h-[50px] w-[50px] flex text-center justify-center  items-center gap-1 
-             bg-blue-950 text-white mt-2 p-1 "
-            >
-              <FaCamera className="text-[20px]" />
-            </button>
-            {isUserOnLaptop() ? (
-              ""
-            ) : (
+          {imageUserHolder ? (
+            <div>
+              <img
+                src={imageUserHolder}
+                alt="Captured selfie"
+                className="md:h-[200px] rounded-md shadow-md shadow-black"
+              />
               <button
-                onClick={switchCamera}
-                className=" rounded-full h-[50px] w-[50px] flex text-center justify-center  items-center gap-1 
-             bg-blue-800 text-white mt-2 p-1 "
+                onClick={() => reCapture()}
+                className="flex text-center justify-center  items-center gap-1 w-full bg-blue-950 text-white mt-3 p-1 rounded-md "
               >
-                <PiCameraRotateFill className="text-[20px]" />
+                <FaCamera className="text-[20px]" />
+                Re-Capture
               </button>
-            )}
-          </div>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center">
+              <Webcam
+                audio={false}
+                ref={webcamRef}
+                screenshotFormat="image/jpeg"
+                mirrored={true} // Adjust mirror effect based on camera view
+                videoConstraints={{ facingMode }}
+                className="md:h-[200px] rounded-md shadow-md shadow-black"
+              />
+              <div className="flex gap-5 items-center h-fit w-fit mt-3">
+                <button
+                  onClick={capture}
+                  className=" rounded-full h-[50px] w-[50px] flex text-center justify-center  items-center gap-1 
+             bg-blue-950 text-white mt-2 p-1 "
+                >
+                  <FaCamera className="text-[20px]" />
+                </button>
+                {isUserOnLaptop() ? (
+                  ""
+                ) : (
+                  <button
+                    onClick={switchCamera}
+                    className=" rounded-full h-[50px] w-[50px] flex text-center justify-center  items-center gap-1 
+             bg-blue-800 text-white mt-2 p-1 "
+                  >
+                    <PiCameraRotateFill className="text-[20px]" />
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       )}
+      {hasPermission === false && (
+        <div className="grid gap-1 justify-center">
+          <p>Please Allow the Camera Permission to Time In.</p>
+          <button onClick={handleAllowPermission}>
+            Click to Allow Camera Permission
+          </button>
+        </div>
+      )}
+      {hasPermission === null && <p>Checking camera permission...</p>}
     </div>
   );
 };
