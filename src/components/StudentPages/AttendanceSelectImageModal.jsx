@@ -129,7 +129,7 @@ const AttendanceSelectImageModal = ({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center z-50">
       <div
-        className="bg-[#dddede] h-[55%] mt-10 md:w-[30%] rounded-xl flex flex-col "
+        className="bg-[#dddede] h-[55%] mt-10 md:w-[30%] w-[90%] rounded-xl flex flex-col "
         data-aos="zoom-in"
         data-aos-duration="300"
       >
