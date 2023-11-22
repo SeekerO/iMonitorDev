@@ -93,7 +93,7 @@ const FaceDetector = ({ setImage }) => {
                 <button
                   onClick={capture}
                   className=" rounded-full h-[50px] w-[50px] flex text-center justify-center  items-center gap-1 
-             bg-blue-950 text-white mt-2 p-1 "
+             bg-blue-950 text-white mt-2 p-1 border-4 border-slate-400 shadow-sm shadow-black"
                 >
                   <FaCamera className="text-[20px]" />
                 </button>
