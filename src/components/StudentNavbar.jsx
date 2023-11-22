@@ -61,8 +61,7 @@ function Navbar({ email }) {
     for (let index = 0; index < data.length; index++) {
       if (data[index] === email) {
         setAnnouncement_NOTIF(false);
-      } else {
-        setAnnouncement_NOTIF(true);
+        return;
       }
     }
   }
@@ -81,9 +80,9 @@ function Navbar({ email }) {
         studMess[index].readmessage === false
       ) {
         setNotif(true);
-        break;
       } else {
         setNotif(false);
+        break;
       }
     }
     setMessage(studMess);
