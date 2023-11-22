@@ -78,7 +78,7 @@ const FaceDetector = ({ setImage }) => {
               </button>
             </div>
           ) : (
-            <div className="flex flex-col items-center h-[30%]">
+            <div className="flex flex-col items-center h-[28%]">
               <Webcam
                 audio={false}
                 ref={webcamRef}
