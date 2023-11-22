@@ -33,8 +33,6 @@ const FaceDetector = ({ setImage }) => {
 
   useEffect(() => {
     checkCameraPermission();
-    const interval = setInterval(checkCameraPermission, 5000); // Check every 5 seconds
-    return () => clearInterval(interval); // Clear the interval on component unmount
   }, []);
 
   const checkCameraPermission = async () => {
