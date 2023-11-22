@@ -6,6 +6,7 @@ import "aos/dist/aos.css";
 import { GiDiploma } from "react-icons/gi";
 import AttendanceConfig from "./AttendanceConfig";
 import { TailSpin } from "react-loader-spinner";
+import FaceDetector from "./FaceDetector";
 
 const Attendance = ({ studemail }) => {
   // CONDITIONAL VARIABLES
@@ -142,7 +143,6 @@ const Attendance = ({ studemail }) => {
               ATTENDANCE
             </div>
             <div className=" md:ml-[30%] ml-5 mr-5">
-              {/* <p className="p-5 bg-gray-300 md:w-[500px] rounded-t-md mt-3 text-center font-semibold text-[25px]">Christine Fe G Erjas</p> */}
               <div className="md:w-[500px] w-full h-[450px] rounded-t-md bg-slate-200 rounded-b-md">
                 <div className="w-full bg-[#274472] rounded-t-md p-2 flex-col md:gap-10 gap-1">
                   <div className="mt-3 mb-3 flex text-white">
@@ -182,20 +182,20 @@ const Attendance = ({ studemail }) => {
                     <div
                       data-tip="Your Attendance will be shown when the OJT starts"
                       className="hover:text-blue-600 hover:cursor-help text-blue-900 font-semibold underline justify-center text-center
-
-                    before:text-sm
-                    before:content-[attr(data-tip)]
-                    before:absolute
-                    before:px-3 before: py-2
-                    before:left/1 before: top-3
-                    before:w-max before:max-w-xs
-                    before:-translate-x-1/3 before:-translate-y-full
-                  before:bg-gray-200 before:text-black
-                  before:border-black
-                    before:border-2
-                    before:rounded-md before:opacity-0
-                    before:transition-all
-                    hover:before:opacity-100"
+  
+                      before:text-sm
+                      before:content-[attr(data-tip)]
+                      before:absolute
+                      before:px-3 before: py-2
+                      before:left/1 before: top-3
+                      before:w-max before:max-w-xs
+                      before:-translate-x-1/3 before:-translate-y-full
+                    before:bg-gray-200 before:text-black
+                    before:border-black
+                      before:border-2
+                      before:rounded-md before:opacity-0
+                      before:transition-all
+                      hover:before:opacity-100"
                     >
                       Learn More
                     </div>

@@ -3,6 +3,7 @@ import moment from "moment";
 import supabase from "../iMonitorDBconfig";
 import { ToastContainer, toast } from "react-toastify";
 import { BeatLoader } from "react-spinners";
+import FaceDetector from "./FaceDetector";
 
 const AttendanceSelectImageModal = ({
   visible,
@@ -12,6 +13,7 @@ const AttendanceSelectImageModal = ({
 }) => {
   const [file, setFile] = useState([]);
   const [uploading, setUploading] = useState(false);
+  const [image, setImage] = useState();
 
   let IN;
 
@@ -32,7 +34,7 @@ const AttendanceSelectImageModal = ({
   };
 
   const Run = async () => {
-    if (isEmpty === false) {
+    if (image === false) {
       toast.warn("No File Detected", {
         position: "top-right",
         autoClose: 1000,
@@ -47,22 +49,38 @@ const AttendanceSelectImageModal = ({
       setUploading(true);
       document.getElementById("xButton").hidden = true;
 
+      const base64Image = image.split(",")[1]; // Extract base64 data
+      const file = base64toFile(image, "selfie.jpg");
+
       const { data } = await supabase.storage
         .from("StudentUploadedImages")
-        .upload(attendanceinfo.studemail + "/" + uuid, file);
-
-      toast.success("Successfully Uploaded", {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+        .upload(
+          attendanceinfo.studemail + "/" + `user_selfies_${Date.now()}.jpg`,
+          file,
+          {
+            cacheControl: "3600",
+            contentType: "image/jpeg", // Specify content type
+          }
+        );
       timein();
     }
+  };
+
+  // Function to convert base64 to File object
+  const base64toFile = (base64String, filename) => {
+    const arr = base64String.split(",");
+    if (arr.length < 2) {
+      throw new Error("Invalid base64 string format");
+    }
+
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, { type: mime });
   };
 
   function clear() {
@@ -86,16 +104,23 @@ const AttendanceSelectImageModal = ({
       .eq("id", attendanceinfo.id);
 
     if (data) {
-      console.log(data);
+      setUploading(false);
     }
-    if (error) {
-      console.log(error);
-    }
-
+    toast.success("Successfully Uploaded", {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
     setTimeout(() => {
       setUploading(false);
       document.getElementById("xButton").hidden = false;
       onClose();
+      setImage();
       // window.location.reload();
     }, 900);
   };
@@ -104,7 +129,7 @@ const AttendanceSelectImageModal = ({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center z-50">
       <div
-        className="bg-[#dddede] h-[25%] mt-10 md:w-[30%] rounded-xl flex flex-col "
+        className="bg-[#dddede] h-[55%] mt-10 md:w-[30%] rounded-xl flex flex-col "
         data-aos="zoom-in"
         data-aos-duration="300"
       >
@@ -128,18 +153,21 @@ const AttendanceSelectImageModal = ({
               <p className="font-semibold text-lg mb-4">
                 Upload your image here to verify
               </p>
-              <input
+              {/* <input
                 type="file"
                 accept="image/png, image/jpeg"
                 onChange={handleFileInputChange}
               ></input>
-              {isEmpty && <p>File selected.</p>}
-              <button
-                onClick={() => Run()}
-                className="w-[80%] rounded-md hover:bg-blue-300 hover:text-slate-900  mt-5 bg-blue-500 text-white font-semibold"
-              >
-                UPLOAD
-              </button>
+              {isEmpty && <p>File selected.</p>} */}
+              <FaceDetector setImage={setImage} />
+              {image && (
+                <button
+                  onClick={() => Run()}
+                  className="flex text-center justify-center  items-center gap-1 w-full bg-blue-700 text-white mt-1 p-1 rounded-md"
+                >
+                  UPLOAD
+                </button>
+              )}
             </div>
           )}
         </div>
