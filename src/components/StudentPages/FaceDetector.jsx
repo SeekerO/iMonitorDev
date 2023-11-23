@@ -62,7 +62,7 @@ const FaceDetector = ({ setImage }) => {
   };
   return (
     <div className="h-[400px]">
-      {hasPermission === true && (
+      {hasPermission === true ? (
         <div className="">
           {imageUserHolder ? (
             <div className="">
@@ -112,16 +112,19 @@ const FaceDetector = ({ setImage }) => {
             </div>
           )}
         </div>
+      ) : (
+        <>
+          {hasPermission === false && (
+            <div className="grid gap-1 justify-center">
+              <p>Please Allow the Camera Permission to Time In.</p>
+              <button onClick={handleAllowPermission}>
+                Click to Allow Camera Permission
+              </button>
+            </div>
+          )}
+          {hasPermission === null && <p>Checking camera permission...</p>}
+        </>
       )}
-      {hasPermission === false && (
-        <div className="grid gap-1 justify-center">
-          <p>Please Allow the Camera Permission to Time In.</p>
-          <button onClick={handleAllowPermission}>
-            Click to Allow Camera Permission
-          </button>
-        </div>
-      )}
-      {hasPermission === null && <p>Checking camera permission...</p>}
     </div>
   );
 };
