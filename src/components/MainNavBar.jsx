@@ -526,7 +526,7 @@ function Navbar({ instance }) {
                 <p onClick={() => handlechange()} className=" select-none  ">
                   i
                 </p>
-              <p className="select-none">Monitor</p>  
+              <p>Monitor</p>  
               </h1>
             </div>
             {/* Login Button*/}
@@ -701,7 +701,7 @@ function Navbar({ instance }) {
             Welcome To iMonitor
           </div>
         </div>
-        <div className="flex">
+        <div className="">
           {load && (
             <Backdrop
               sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}

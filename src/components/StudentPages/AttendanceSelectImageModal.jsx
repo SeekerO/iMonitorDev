@@ -74,6 +74,7 @@ const AttendanceSelectImageModal = ({
   function clear() {
     onClose();
     setFile(null);
+    setImage(false);
   }
 
   // apply this to onlick IN Button
@@ -129,6 +130,7 @@ const AttendanceSelectImageModal = ({
         >
           X
         </button>
+
         <div className="justify-center items-center grid   h-[100%]">
           {uploading ? (
             <div className="mt-[12%] flex-col flex items-center p-4">
