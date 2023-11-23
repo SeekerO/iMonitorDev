@@ -119,7 +119,7 @@ const AttendanceSelectImageModal = ({
   return (
     <div className="fixed h-screen inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center z-50">
       <div
-        className="bg-[#dddede]   md:w-[30%] w-[99%] rounded-xl flex flex-col "
+        className="bg-[#dddede]  md:w-[30%] w-[99%] rounded-xl flex flex-col "
         data-aos="zoom-in"
         data-aos-duration="300"
       >
@@ -133,7 +133,7 @@ const AttendanceSelectImageModal = ({
 
         <div className="justify-center items-center grid   h-[100%]">
           {uploading ? (
-            <div className="mt-[12%] flex-col flex items-center p-4">
+            <div className=" flex-col flex items-center p-4">
               <div className="font-semibold text-blue-500 flex">
                 Image is uploading please wait{" "}
               </div>
