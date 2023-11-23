@@ -522,11 +522,11 @@ function Navbar({ instance }) {
                 </div>
               )}
 
-              <h1 className="ml-2 font-bold text-white md:text-3xl flex cursor-default text-2xl items-center">
-                <p onClick={() => handlechange()} className="hover:cursor-help">
+              <h1 className="select-none ml-2 font-bold text-white md:text-3xl flex cursor-default text-2xl items-center  ">
+                <p onClick={() => handlechange()} className=" select-none  ">
                   i
                 </p>
-                Monitor
+              <p className="select-none">Monitor</p>  
               </h1>
             </div>
             {/* Login Button*/}
@@ -695,7 +695,7 @@ function Navbar({ instance }) {
 
         <div id="welcome" className="  ">
           <div
-            className=" place-content-center flex font-bold cursor-default text-white text-[64px] font-sans text-center 
+            className="select-none place-content-center flex font-bold cursor-default text-white text-[64px] font-sans text-center 
            md:mt-[15%] mt-[50%] "
           >
             Welcome To iMonitor

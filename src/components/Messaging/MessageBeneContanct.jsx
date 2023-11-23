@@ -75,7 +75,7 @@ function MessageBeneContanct({
     return (
       <div
         style={{ background: stringToColor(name) }}
-        className={`flex text-white items-center justify-center h-[30px]  w-[30px] rounded-full font-thin`}
+        className={`flex text-white items-center justify-center h-[40px]  w-[40px] rounded-full font-thin`}
       >{`${name.split(" ")[0][0]}`}</div>
       // ${name.split(" ")[1][0]}
     );
@@ -158,7 +158,7 @@ function MessageBeneContanct({
             {!avatar ? (
               avatarComponent(studinfo.beneName)
             ) : (
-              <img src={img} className="h-[30px] w-[30px] rounded-full" />
+              <img src={img} className="h-[40px] w-[40px] rounded-full" />
             )}
             <div className="grid">
               <p className=" text-[13px] font-sans font-semibold">

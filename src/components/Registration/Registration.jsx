@@ -470,7 +470,7 @@ function Registration() {
               ></textarea>
             </div>
             {/* Line 6  */}
-            <label className="font-semibold text-[25px] underline ">
+            <label className="font-semibold text-[25px] ">
               COMPANY INFORMATION
             </label>
             {/* Line 7 */}

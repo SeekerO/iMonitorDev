@@ -134,21 +134,22 @@ export default function ViewProfileModal({
             </div>
             <div className="h-[1px] w-[100%] bg-yellow-500 mb-4" />
             <div className="flex-col text-black">
-              <div className="flex">
-                <span className="font-bold md:text-[25px] text-lg mb-3 rounded-md text-black w-[35%]  p-2">
+              <div className="flex items-center">
+                <span className="font-bold flex md:text-[25px] text-lg rounded-md text-black  gap-1 p-2">
                   STUDENT INFORMATION
+                  {beneData.filterby === "ALL" && (
+                    <Link to={"/" + studinfos.id}>
+                      <button
+                        className="hover:bg-[#62a0d9] bg-yellow-500 mb-7  text-base p-0.5 px-2 rounded-md text-center w-fit   text-white hover:underline
+               hover:text-black font-semibold  flex items-center gap-1 "
+                      >
+                        <BsPencilSquare /> EDIT
+                      </button>{" "}
+                    </Link>
+                  )}
                 </span>
               </div>
-              <Link
-                to={"/" + studinfos.id}
-                className={`${
-                  beneData.filterby !== "ALL"
-                    ? "hidden"
-                    : " mb-7 pt-[0.5%] text-center w-fit  text-black hover:underline hover:text-blue-500 font-semibold pl-2 flex items-center gap-1 "
-                }`}
-              >
-                <BsPencilSquare /> EDIT
-              </Link>
+
               <div className="grid md:grid-cols-2 grid-cols-1 gap-x-10  mb-3 pl-2 text-black font-thin">
                 <label className=" mt-4 md:text-lg text-base ">
                   O365: {studinfos.studemail}

@@ -10,6 +10,7 @@ const AttendanceSelectImageModal = ({
   attendanceinfo,
   onClose,
   uuid,
+  setIn,
 }) => {
   const [file, setFile] = useState([]);
   const [uploading, setUploading] = useState(false);
@@ -103,6 +104,7 @@ const AttendanceSelectImageModal = ({
       progress: undefined,
       theme: "light",
     });
+    setIn(true);
     setTimeout(() => {
       setUploading(false);
       document.getElementById("xButton").hidden = false;

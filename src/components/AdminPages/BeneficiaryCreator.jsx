@@ -54,6 +54,7 @@ const BeneficiaryCreator = () => {
 
   //Create Account of Beneficiary
   var emailchecker = false;
+
   async function createaccount() {
     if (!createname || !createemail || !position || !course) {
       setPerformError("Please input all fields");
@@ -95,7 +96,10 @@ const BeneficiaryCreator = () => {
       }
 
       for (let index = 0; index < beneinfo.length; index++) {
-        if (beneinfo[index].beneEmail === createemail) {
+        if (
+          beneinfo[index].beneEmail === createemail ||
+          beneinfo[index].beneName === createname
+        ) {
           toast.warn(
             " The email is already registed in APO & ADVISER Accounts",
             {

@@ -24,73 +24,21 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo }) => {
     return () => clearInterval(intervalId);
   }, [attendanceinfo]);
 
-  // function timeChecker() {
-  //   for (let index = 0; index < companyinfo.length; index++) {
-  //     if (studinfo.companyname === companyinfo[index].companyname) {
-  //       start = new Date(
-  //         "1970-01-01T" + companyinfo[index].startingtime + "Z"
-  //       ).toLocaleTimeString("en-US", {
-  //         timeZone: "UTC",
-  //         hour12: true,
-  //         hour: "numeric",
-  //         minute: "numeric",
-  //         second: "numeric",
-  //       });
-
-  //       // Convert start to a Date object to perform arithmetic operations
-  //       const startDateObject = new Date(
-  //         "1970-01-01T" + companyinfo[index].startingtime + "Z"
-  //       );
-
-  //       // Subtract 1 hour from startDateObject
-  //       startDateObject.setHours(startDateObject.getHours() - 1);
-
-  //       // Format the adjustedStartDate as a string in the desired format
-  //       const adjustedStartDate = startDateObject.toLocaleTimeString("en-US", {
-  //         timeZone: "UTC",
-  //         hour12: true,
-  //         hour: "numeric",
-  //         minute: "numeric",
-  //         second: "numeric",
-  //       });
-
-  //       adjustedStart = adjustedStartDate; // Adjusted start date with 1 hour less
-
-  //       end = new Date(
-  //         "1970-01-01T" + companyinfo[index].endingtime + "Z"
-  //       ).toLocaleTimeString("en-US", {
-  //         timeZone: "UTC",
-  //         hour12: true,
-  //         hour: "numeric",
-  //         minute: "numeric",
-  //         second: "numeric",
-  //       });
-
-  //       datechecker();
-
-  //       break;
-  //     }
-  //   }
-  // }
-
   function datechecker() {
     if (currDateFull === attendanceinfo.studDate) {
-      if (currTime <= start) {
-        if (currTime >= adjustedStart) {
-          if (attendanceinfo.studin === null) {
+      if (attendanceinfo.studin === null) {
+        if (currTime <= start) {
+          if (adjustedStart <= start) {
             setIn(false);
-            setOut(true);
           } else {
             setIn(true);
-            if (attendanceinfo.studout === null) {
-              setOut(false);
-            } else {
-              setOut(true);
-            }
           }
+        } else {
+          setIn(true);
         }
-      }
-      if (currTime >= end) {
+      } else if (attendanceinfo.studout === null) {
+        setOut(false);
+      } else {
         setIn(true);
         setOut(true);
       }
@@ -175,14 +123,6 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo }) => {
     toHoursAndMinutes();
   }
 
-  const attendance = async () => {
-    const { data, error } = await supabase
-      .from("AttendanceTable")
-      .update({ studout: OUT })
-      .eq("id", attendanceinfo.id);
-
-    // window.location.reload();
-  };
   // add the date to the current in studentinforamtion studprgoress + hours
   function toHoursAndMinutes() {
     if (attendanceinfo.studin !== null && OUT !== null) {
@@ -190,30 +130,41 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo }) => {
       let hours = Math.floor(a / 3600);
       let minutes = (a % 3600) / 60;
 
-      if (hours < 9) {
-        hours = 9;
-      }
+      console.log(hours);
+      // if (hours <= 9) {
+      //   hours = 9;
+      // }
 
-      const studinfo = async () => {
-        const { data, error } = await supabase
-          .from("StudentInformation")
-          .select()
-          .eq("studemail", attendanceinfo.studemail)
-          .single();
-        if (data) {
-          let progress = data.studprogress;
-          let result = progress + hours;
-          const { data1, error } = await supabase
-            .from("StudentInformation")
-            .update({ studprogress: result })
-            .eq("studemail", attendanceinfo.studemail);
-
-          attendance();
-        }
-      };
-      studinfo();
+      studinfoData(hours);
     }
   }
+
+  const studinfoData = async (hours) => {
+    const { data, error } = await supabase
+      .from("StudentInformation")
+      .select()
+      .eq("studemail", attendanceinfo.studemail)
+      .single();
+    if (data) {
+      let progress = data.studprogress;
+      let result = progress + hours;
+      const { data1, error } = await supabase
+        .from("StudentInformation")
+        .update({ studprogress: result })
+        .eq("studemail", attendanceinfo.studemail);
+
+      attendance();
+    }
+  };
+
+  const attendance = async () => {
+    const { data, error } = await supabase
+      .from("AttendanceTable")
+      .update({ studout: OUT })
+      .eq("id", attendanceinfo.id);
+
+    setOut(true);
+  };
 
   return (
     <div>
@@ -251,6 +202,7 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo }) => {
         onClose={handlecloseuploadimage}
         visible={showmodaluploadimage}
         uuid={uuid}
+        setIn={setIn}
       />
     </div>
   );
