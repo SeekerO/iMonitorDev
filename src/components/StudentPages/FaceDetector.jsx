@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import Webcam from "react-webcam";
 import { FaCamera } from "react-icons/fa";
 import { PiCameraRotateFill } from "react-icons/pi";
-const FaceDetector = ({ setImage }) => {
+const FaceDetector = ({ setImage,Run }) => {
   const webcamRef = React.useRef(null);
   const [imageUserHolder, setImageUserHolder] = useState(null);
   const [hasPermission, setHasPermission] = useState(null);
@@ -61,11 +61,11 @@ const FaceDetector = ({ setImage }) => {
     }
   };
   return (
-    <div className="h-[400px]">
+    <div className="h-[380px]">
       {hasPermission === true ? (
         <div className="">
           {imageUserHolder ? (
-            <div className="">
+            <div className="grid justify-center">
               <img
                 src={imageUserHolder}
                 alt="Captured selfie"
@@ -77,6 +77,12 @@ const FaceDetector = ({ setImage }) => {
               >
                 <FaCamera className="text-[20px]" />
                 Re-Capture
+              </button>
+              <button
+                onClick={() => Run()}
+                className="flex text-center justify-center  items-center gap-1 w-full bg-blue-700 text-white mt-1 mb-3 p-1 rounded-md"
+              >
+                UPLOAD
               </button>
             </div>
           ) : (
@@ -97,6 +103,7 @@ const FaceDetector = ({ setImage }) => {
                 >
                   <FaCamera className="text-[20px]" />
                 </button>
+
                 {isUserOnLaptop() ? (
                   ""
                 ) : (

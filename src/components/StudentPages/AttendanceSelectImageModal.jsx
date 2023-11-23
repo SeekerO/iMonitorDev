@@ -139,19 +139,11 @@ const AttendanceSelectImageModal = ({
               <BeatLoader color="#4d9eff" size={10} />
             </div>
           ) : (
-            <div>
+            <div className="mb-10">
               <p className="font-semibold text-lg mb-4 text-center">
                 Upload your image here to time in
               </p>
-              <FaceDetector setImage={setImage} className="" />
-              {image && (
-                <button
-                  onClick={() => Run()}
-                  className="flex text-center justify-center  items-center gap-1 w-full bg-blue-700 text-white mt-1 mb-3 p-1 rounded-md"
-                >
-                  UPLOAD
-                </button>
-              )}
+              <FaceDetector setImage={setImage} Run={Run} />
             </div>
           )}
         </div>
