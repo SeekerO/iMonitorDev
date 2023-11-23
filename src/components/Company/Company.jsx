@@ -133,7 +133,7 @@ const Company = ({ Data }) => {
                 </div>
               </div>
 
-              <div className="bg-slate-300 rounded mt-2 w-[100%] h-[50px] justify-center items-center text-[20px] flex font-extrabold text-[#41729F] underline">
+              <div className="bg-slate-300 rounded mt-2 w-[100%] h-[50px] justify-center items-center text-[20px] flex font-extrabold text-[#41729F] ">
                 <p>COMPANY</p>
               </div>
 
@@ -216,7 +216,9 @@ const Company = ({ Data }) => {
                   </>
                 ) : (
                   <div className="flex items-center justify-center place-content-center md:h-[90%] h-[80%]  ">
-                    <label className="font-bold text-[30px] text-white">No Data</label>
+                    <label className="font-bold text-[30px] text-white">
+                      No Data
+                    </label>
                   </div>
                 )}
               </div>

@@ -72,7 +72,7 @@ export default function ViewProfileModal({
     return (
       <div
         style={{ background: displayColor }}
-        className={`flex text-white items-center justify-center h-[200px]  w-[200px] rounded-full font-thin`}
+        className={`flex text-white items-center justify-center h-[200px]  w-[200px] rounded-full font-thin text-[30px] shadow-md shadow-black`}
       >{`${name.split(" ")[0][0]}${name.split(" ")[1][0]} `}</div>
     );
   }
@@ -104,7 +104,7 @@ export default function ViewProfileModal({
       <div
         className="bg-slate-200 h-[75%] mt-10 md:w-[70%]  rounded-xl shadow-black shadow-2xl "
         data-aos="zoom-in"
-        data-aos-duration="500"
+        data-aos-duration="200"
       >
         <div className="flex justify-end  ">
           <button
@@ -120,7 +120,7 @@ export default function ViewProfileModal({
               {avatar ? (
                 <img
                   src={displayAvatarConfig}
-                  className="h-[200px] w-[200px] rounded-full"
+                  className="h-[200px] w-[200px] rounded-full shadow-md shadow-black"
                 ></img>
               ) : (
                 avatarComponent(studinfos.studname)
@@ -140,7 +140,7 @@ export default function ViewProfileModal({
                   {beneData.filterby === "ALL" && (
                     <Link to={"/" + studinfos.id}>
                       <button
-                        className="hover:bg-[#62a0d9] bg-yellow-500 mb-7  text-base p-0.5 px-2 rounded-md text-center w-fit   text-white hover:underline
+                        className="hover:bg-[#62a0d9] bg-yellow-500 mb-7  text-base p-0.5 px-2 rounded-md text-center w-fit   text-white 
                hover:text-black font-semibold  flex items-center gap-1 "
                       >
                         <BsPencilSquare /> EDIT

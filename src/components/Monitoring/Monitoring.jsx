@@ -48,7 +48,7 @@ const Monitoring = ({ Data }) => {
         }
       )
       .subscribe();
-    AOS.init({ duration: 1000 });
+    AOS.init({ duration: 0 });
   }, [Data, course, sy]);
 
   function refresh() {
@@ -190,7 +190,7 @@ const Monitoring = ({ Data }) => {
                 SECTION
               </label>
               <label className=" text-center  ml-[10%]  md:text-[16px] text-[9px] flex items-center   ">
-               <label className="md:mr-[120px] mr-[20px]">DURATION</label> 
+                <label className="md:mr-[120px] mr-[20px]">DURATION</label>
                 <svg
                   onClick={() => fetchstudinfo()}
                   xmlns="http://www.w3.org/2000/svg"

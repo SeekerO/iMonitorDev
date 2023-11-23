@@ -35,7 +35,7 @@ export default function ViewProfileModal({
         ref={menuRef}
         className="bg-slate-200 h-[75%] mt-10 md:w-[70%]  w-[100%] rounded-xl shadow-black shadow-2xl  "
         data-aos="zoom-in"
-        data-aos-duration="500"
+        data-aos-duration="200"
       >
         <div className="flex  justify-end">
           <button

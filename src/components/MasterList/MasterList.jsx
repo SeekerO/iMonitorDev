@@ -170,14 +170,14 @@ const MasterList = ({ Data }) => {
         <main className="md:h-[47%] h-[55%] mt-[1%] w-[100%]">
           <div className="bg-slate-300  rounded w-[100%] flex font-extrabold text-[#41729F]">
             <div className="flex w-full h-[50px] items-center ">
-              <label className=" text-center   md:pr-[27%] pr-[20%] md:ml-5 ml-2 md:text-[16px] text-[9px] underline">
+              <label className=" text-center   md:pr-[27%] pr-[20%] md:ml-5 ml-2 md:text-[16px] text-[9px] ">
                 STUDENT NAME
               </label>
-              <label className=" text-center   md:pr-[41%] pr-[29%] md:text-[16px] text-[9px]  underline">
+              <label className=" text-center   md:pr-[41%] pr-[29%] md:text-[16px] text-[9px]  ">
                 SECTION
               </label>
 
-              <label className=" text-cr0px]   md:text-[16px] text-[9px] underline ">
+              <label className=" text-cr0px]   md:text-[16px] text-[9px]  ">
                 DURATION
               </label>
             </div>

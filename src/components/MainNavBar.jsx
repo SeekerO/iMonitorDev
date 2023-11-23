@@ -701,7 +701,7 @@ function Navbar({ instance }) {
             Welcome To iMonitor
           </div>
         </div>
-        <div className="">
+        <div className="flex">
           {load && (
             <Backdrop
               sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}

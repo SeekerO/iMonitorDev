@@ -18,7 +18,7 @@ const Footer = () => {
                 <p className="font-semibold">Welcome to iMonitor</p>
                 <p className="pt-1 font-light ">
                   This web application is intended for monitoring the student
-                  trainees of STI College of Santa Maria.
+                  trainees at STI College of Santa Maria.
                 </p>
                 <div className="mt-[5%] grid gap-y-2 mb-[5%]">
                   <p className="font-semibold mb-1 md:text-base text-sm">

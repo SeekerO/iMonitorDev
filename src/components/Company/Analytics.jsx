@@ -156,14 +156,14 @@ function Analytics({ data }) {
     return (
       <div className="flex text-start gap-2 justify-center w-[100%]">
         <div className="md:flex grid gap-1 text-[15px] ">
-          The average number of student who completed their OJT in this company
+          The average number of student who completed their on-the-job training in this company
           is{" "}
           <div className="text-green-500 font-bold  italic">{`${
             avgCOM >= -0 ? `${avgCOM}%` : "No Data"
           }`}</div>
         </div>
         <div className="md:flex grid gap-1 text-[15px] ">
-          The average number of student who didn't complete their OJT in this
+          The average number of student who didn't complete their on-the-job training in this
           company is
           {console.log(avgINCOM)}
           <div className="text-red-500 font-bold italic">{`${
@@ -230,7 +230,7 @@ function Analytics({ data }) {
                               </label>
                               <label className="text-[14px] flex font-thin">
                                 {avg
-                                  ? `Incompleted: ${avg[index].incomplete}`
+                                  ? `Incomplete: ${avg[index].incomplete}`
                                   : "Loading"}
                               </label>
                             </div>

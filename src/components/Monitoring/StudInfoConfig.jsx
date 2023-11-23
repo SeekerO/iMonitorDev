@@ -10,8 +10,8 @@ import Avatar from "@mui/material/Avatar";
 const StudInfoConfig = ({ studinfos, BeneData, course, sy, handleCheck }) => {
   // AOS ANIMATION
   useEffect(() => {
-    DateCreated();
     displayAvatar(studinfos.studemail);
+    percentage();
     AOS.init({ duration: 1000 });
   }, [sy]);
 
@@ -21,33 +21,14 @@ const StudInfoConfig = ({ studinfos, BeneData, course, sy, handleCheck }) => {
   const [showmodalprofile, setShowModalProfile] = useState(false);
   const handleclosemodalprofile = () => setShowModalProfile(false);
 
-  const [DateHolderSY, SetDateHolderSY] = useState("2023");
-  const [StudCreateDate, SetStudCreateDate] = useState();
+  const [avatar, setAvatar] = useState(false);
+  const [displayAvatarConfig, setDisplayAvatar] = useState();
+  const [percent, setPercent] = useState(
+    Math.round((studinfos.studprogress / studinfos.studmaxprogress) * 100)
+  );
 
   var displayColor = "";
 
-  function DateCreated() {
-    if (sy === "S.Y. 2023-2024") {
-      SetDateHolderSY(2023);
-      SetStudCreateDate(new Date(studinfos.created_at).getFullYear());
-    }
-    if (sy === "S.Y. 2024-2025") {
-      SetDateHolderSY(2025);
-      SetStudCreateDate(new Date(studinfos.created_at).getFullYear());
-    }
-    if (sy === "S.Y. 2025-2026") {
-      SetDateHolderSY(2026);
-      SetStudCreateDate(new Date(studinfos.created_at).getFullYear());
-    }
-    if (sy === "S.Y. 2026-2027") {
-      SetDateHolderSY(2027);
-      SetStudCreateDate(new Date(studinfos.created_at).getFullYear());
-    }
-    if (sy === "S.Y. 2027-2028") {
-      SetDateHolderSY(2028);
-      SetStudCreateDate(new Date(studinfos.created_at).getFullYear());
-    }
-  }
   function stringToColor(string) {
     let hash = 0;
     let i;
@@ -77,9 +58,6 @@ const StudInfoConfig = ({ studinfos, BeneData, course, sy, handleCheck }) => {
     );
   }
 
-  const [avatar, setAvatar] = useState(false);
-  const [displayAvatarConfig, setDisplayAvatar] = useState();
-
   async function displayAvatar(email) {
     try {
       const { data: profilePic } = await supabase.storage
@@ -97,6 +75,12 @@ const StudInfoConfig = ({ studinfos, BeneData, course, sy, handleCheck }) => {
       setAvatar(false);
     }
   }
+
+  const percentage = (min, max) => {
+    let duration = Math.round((min / max) * 100);
+
+    return duration;
+  };
 
   return (
     <>
@@ -131,9 +115,9 @@ const StudInfoConfig = ({ studinfos, BeneData, course, sy, handleCheck }) => {
             <div className="w-[46%] pl-[10%] md:text-[16px] text-[10px] cursor-default items-center flex">
               {studinfos.studsection}
             </div>
-            <div className="md:h-6 h-8 w-[20%] bg-[#4d8092a7] mr-6 rounded-md  md:mt-1.5 mt-0 cursor-default items-center flex">
+            <div className=" h-6 w-[20%] bg-[#4d8092a7] mr-6 rounded-md  md:mt-1.5 mt-0 cursor-default items-center flex">
               <div
-                className="md:h-6 h-8 bg-[#78D0F4]  rounded-l rounded-r items-center flex"
+                className=" h-6 bg-[#78D0F4]  rounded-l rounded-r items-center flex"
                 style={{
                   width: `${
                     (studinfos.studprogress / studinfos.studmaxprogress) * 100
@@ -142,10 +126,13 @@ const StudInfoConfig = ({ studinfos, BeneData, course, sy, handleCheck }) => {
               >
                 <div
                   className={`${
-                    studinfos.studprogress > 0
-                      ? "md:pl-[60px] pl-[4px] md:pt-0 pt-2.5"
-                      : "md:pl-[70px] pl-[10px] md:pt-0 pt-2.5"
-                  } whitespace-nowrap z-0 md:text-[15px] text-[9px] font-mono   font-semibold mr-3  items-center flex`}
+                    percentage(
+                      studinfos.studprogress,
+                      studinfos.studmaxprogress
+                    ) > 80
+                      ? "w-full md:ml-0 ml-0.5"
+                      : "w-fit ml-1"
+                  } md:text-[15px] text-[9px] font-mono   font-semibold mr-3  justify-center flex text-center`}
                 >
                   {studinfos.studprogress}hrs/
                   {studinfos.studmaxprogress}hrs

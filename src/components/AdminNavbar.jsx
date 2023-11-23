@@ -32,7 +32,7 @@ function AdminPage() {
           open
             ? "transition-transform -translate-x-full duration-1000"
             : "transition-transform translate-x-0 duration-1000"
-        } absolute flex w-52 h-screen bg-[#5885AF] transition-transform  -translate-x-full md:translate-x-0`}
+        }  flex w-52 h-screen bg-[#5885AF] transition-transform  -translate-x-full md:translate-x-0`}
       >
         <div
           className="pl-[208px] pt-[10px] absolute"
