@@ -130,7 +130,7 @@ const AttendanceSelectImageModal = ({
         >
           X
         </button>
-        <div className=" items-center grid   h-[100%]">
+        <div className=" items-center grid  ">
           {uploading ? (
             <div className=" justify-center flex-col flex items-center p-4">
               <div className="font-semibold text-blue-500 flex">
