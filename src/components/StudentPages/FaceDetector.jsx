@@ -80,14 +80,14 @@ const FaceDetector = ({ setImage }) => {
               </button>
             </div>
           ) : (
-            <div className="flex flex-col items-center ">
+            <div className="flex flex-col items-center h-[300px]">
               <Webcam
                 audio={false}
                 ref={webcamRef}
                 screenshotFormat="image/jpeg"
                 mirrored={mirror} // Adjust mirror effect based on camera view
                 videoConstraints={{ facingMode }}
-                className="h-[200px] rounded-md shadow-md shadow-black "
+                className="max-h-[300px] rounded-md shadow-md shadow-black "
               />
               <div className="flex gap-5 items-center h-fit w-fit mt-3 mb-3">
                 <button
