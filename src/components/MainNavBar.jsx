@@ -22,11 +22,7 @@ import axios from "axios";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import moment from "moment";
-import { FcGoogle } from "react-icons/fc";
-import { BsMicrosoft } from "react-icons/bs";
 
-import { AiOutlineClose, AiOutlineGoogle } from "react-icons/ai";
-import { useGoogleLogin } from "@react-oauth/google";
 import { Test, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import iMonitorLogo from "../components/images/iMonitor.png";
@@ -37,6 +33,7 @@ import { loginRequest } from "./authHere";
 import { Backdrop } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import LoginComponent from "./LoginComponent";
+import BeneficiaryCreator from "./AdminPages/BeneficiaryCreator";
 
 function Navbar({ instance }) {
   // AOS ANIMATION
@@ -442,6 +439,7 @@ function Navbar({ instance }) {
       const fetchadmindata = async () => {
         let { data: admin } = await supabase.from("AdminAccount").select();
         var checker = false;
+        console.log(adminusername + adminpassword);
         if (admin) {
           for (let index = 0; index < admin.length; index++) {
             if (
@@ -454,17 +452,30 @@ function Navbar({ instance }) {
                 .eq("username", adminusername)
                 .select();
 
-              window.localStorage.setItem("token", generatedToken);
-              setAdminVerify(true);
-              closelogins();
-              setAdminUsername("");
-              setAdminPassword("");
-              remove();
-              greetings(true);
-              return;
+              if (admin[index].password === "deactivate") {
+                toast.error("Your account is deactivate", {
+                  position: "top-center",
+                  autoClose: 3000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: false,
+                  draggable: false,
+                  progress: undefined,
+                  theme: "light",
+                });
+                return;
+              } else {
+                window.localStorage.setItem("token", generatedToken);
+                setAdminVerify(true);
+                closelogins();
+                setAdminUsername("");
+                setAdminPassword("");
+                remove();
+                greetings(true);
+                return;
+              }
             }
           }
-          greetings(false);
         }
       };
       fetchadmindata();
@@ -526,7 +537,7 @@ function Navbar({ instance }) {
                 <p onClick={() => handlechange()} className=" select-none  ">
                   i
                 </p>
-              <p>Monitor</p>  
+                <p>Monitor</p>
               </h1>
             </div>
             {/* Login Button*/}
@@ -701,33 +712,37 @@ function Navbar({ instance }) {
             Welcome To iMonitor
           </div>
         </div>
-        <div className="">
-          {load && (
-            <Backdrop
-              sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-              open
-            >
-              <CircularProgress color="inherit" />
-            </Backdrop>
-          )}
-          {benechecker && (
-            <div className="relative left-0">
-              <BeneNavbar email={email} Data={dataBene} />
-            </div>
-          )}
-          {studentchecker && (
-            <div className="relative left-0">
-              <StudentNavbar email={email} />
-            </div>
-          )}
-          {adminverify && <AdminPage />}
-          <main className="flex-grow md:pl-52 bg-[#1e455d] bg-opacity-[60%] h-screen">
-            {/* content here */}
-            {benechecker && <BeneRoutes beneemail={email} data={dataBene} />}
-            {studentchecker && <StudentRoutes studemail={email} />}
-            {adminverify && <AdminRoutes studemail={email} />}
-          </main>
-        </div>
+
+        {load && (
+          <Backdrop
+            sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open
+          >
+            <CircularProgress color="inherit" />
+          </Backdrop>
+        )}
+        {benechecker && (
+          <div className="relative left-0">
+            <BeneNavbar email={email} Data={dataBene} />
+          </div>
+        )}
+        {studentchecker && (
+          <div className="relative left-0">
+            <StudentNavbar email={email} />
+          </div>
+        )}
+        {adminverify && (
+          <div className="relative left-0">
+            <AdminPage />
+          </div>
+        )}
+        <main className="flex-grow md:pl-52 bg-[#1e455d] bg-opacity-[60%] h-screen">
+          {/* content here */}
+          {benechecker && <BeneRoutes beneemail={email} data={dataBene} />}
+          {studentchecker && <StudentRoutes studemail={email} />}
+          {adminverify && <AdminRoutes studemail={email} />}
+        </main>
+
         {/* Main Div End*/}
 
         {/* Footer */}

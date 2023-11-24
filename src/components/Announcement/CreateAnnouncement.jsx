@@ -16,18 +16,13 @@ function CreateAnnouncement({ Data }) {
     AOS.init({ duration: 1000 });
   }, []);
 
-  const [isSelected, setSelected] = useState(false);
-  const [alert, setAlert] = useState("");
   const [title, setTitle] = useState("");
   const [endDate, setendDate] = useState("");
   const [allow, setAllow] = useState(false);
   const [message, setMessage] = useState("");
 
-  const [date, setDate] = useState("");
-
   const [performerror, setPerformError] = useState("");
   var currDate = moment().format("LLL");
-  let [uuid, setUuid] = useState();
 
   const [isEmpty, setIsEmpty] = useState(false);
   let [file, setFile] = useState([]);
@@ -37,6 +32,7 @@ function CreateAnnouncement({ Data }) {
     try {
       const files = event.target.files;
       const datafile = event.target.files[0];
+
       if (files.length > 0) {
         setIsEmpty(true);
         setFile(datafile);
@@ -48,10 +44,46 @@ function CreateAnnouncement({ Data }) {
   };
 
   function handlePostAnnouncement() {
-    if (!title || !endDate || !message) {
-      setPerformError("Please fill all fields");
+    if (
+      title.trim().length === 0 ||
+      endDate.trim().length === 0 ||
+      message.trim().length === 0
+    ) {
+      toast.warning("Invalid input", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
       return;
     }
+    const fileExtenstion = filename.split(".").pop().toLowerCase();
+    const imageExtensions = ["jpg", "jpeg", "png", "gif", "bmp"];
+    const documentExtenstions = ["docx", "pdf", "ods", "pptx", "xlsx"];
+
+    if (
+      fileExtenstion.includes(imageExtensions) ||
+      fileExtenstion.includes(documentExtenstions)
+    ) {
+    } else {
+      setIsEmpty();
+      toast.warning("Invalid File", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return;
+    }
+
     var a = false;
     const postdata = async () => {
       if (isEmpty === false) {
@@ -147,7 +179,6 @@ function CreateAnnouncement({ Data }) {
 
   return (
     <>
-      <ToastContainer />
       <div className=" h-screen  w-[100%] text-white  justify-center place-content-center flex">
         <form
           className="flex-col w-[100%] md:h-[85%] h-[82%] md:mt-3 mt-14 overflow-y-auto p-2 "
@@ -174,7 +205,7 @@ function CreateAnnouncement({ Data }) {
               value={endDate}
               onChange={(e) => setendDate(e.target.value)}
               type="date"
-              className="rounded-md p-2 md:w-[73.5%] w-[100%] text-black hover:cursor-pointer"
+              className="rounded-md p-2 text-black hover:cursor-pointer"
             />
           </div>
           <div className="flex pt-6 ">
@@ -194,7 +225,11 @@ function CreateAnnouncement({ Data }) {
               ADD ATTACHMENT:
             </label>
 
-            <input type="file" onChange={handleFileInputChange} />
+            <input
+              type="file"
+              accept="e.g:.jpg,.jpeg,.png,.gif,.bmp,.docx,.pdf,.ods,.pptx,.xlsx"
+              onChange={handleFileInputChange}
+            />
             {isEmpty && (
               <div className="">
                 <AiOutlineCheck size={25} style={{ fill: "black" }} />
@@ -223,6 +258,7 @@ function CreateAnnouncement({ Data }) {
           </div>
         </form>
       </div>
+      <ToastContainer limit={1} />
     </>
   );
 }

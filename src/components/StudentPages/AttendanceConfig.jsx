@@ -27,8 +27,8 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo }) => {
   function datechecker() {
     if (currDateFull === attendanceinfo.studDate) {
       if (attendanceinfo.studin === null) {
-        if (currTime <= start) {
-          if (adjustedStart <= start) {
+        if (start >= currTime <= adjustedStart) {
+          if (adjustedStart <= currTime) {
             setIn(false);
           } else {
             setIn(true);

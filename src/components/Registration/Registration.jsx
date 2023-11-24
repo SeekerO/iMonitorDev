@@ -159,7 +159,7 @@ function Registration() {
       designation.trim().length === 0 ||
       companyemail.trim().length === 0
     ) {
-      toast.warning("Invalid Input", {
+      toast.warning("No Empty Input", {
         position: "top-right",
         autoClose: 1000,
         hideProgressBar: false,

@@ -51,12 +51,17 @@ function ActivityLog() {
         <div className="bg-slate-300 bg-opacity-60 w-[99.9%] rounded-md  overflow-y-hidden h-[100%] p-5">
           <div className="grid grid-cols-3 mb-3  w-fill bg-slate-300 p-2 rounded-md text-[#4D7C9A]">
             <p className="font-bold ">NAME</p>
-            <p className="font-bold ">Button Clicked</p>
-            <p className="font-bold ">Time Clicked</p>
+            <p className="font-bold ">ACTIVITY</p>
+            <p className="font-bold ">TIME</p>
           </div>
           {/* test */}
           {ActivityLog ? (
             <>
+              {ActivityLog.length <= 0 && (
+                <div className="flex items-center justify-center place-content-center h-[100%] text-[30px] font-bold text-white">
+                  No Data
+                </div>
+              )}
               <div className="overflow-y-auto overflow-hidden w-[100%] md:h-[80%] h-[82%] ">
                 {ActivityLog.sort((a, b) =>
                   a.created_at < b.created_at ? 1 : -1

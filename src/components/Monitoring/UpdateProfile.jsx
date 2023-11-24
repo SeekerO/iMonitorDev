@@ -352,6 +352,8 @@ const UpdateProfile = () => {
     };
   });
 
+  const nav1 = useNavigate();
+
   function notifycomplete() {
     toast.success(`Account of ${studfullname} is Updated!`, {
       position: "top-center",
@@ -363,6 +365,7 @@ const UpdateProfile = () => {
       progress: undefined,
       theme: "light",
     });
+    nav1("/");
   }
 
   const optionDispaly = (opt, i) => {
@@ -384,7 +387,7 @@ const UpdateProfile = () => {
   return (
     <div className="overflow-hidden">
       <div
-        className="pt-8 md:p-5 p-1 text-white overflow-hidden h-screen" 
+        className="pt-8 md:p-5 p-1 text-white overflow-hidden h-screen"
         data-aos="fade-down"
         data-aos-duration="1000"
       >
@@ -473,7 +476,7 @@ const UpdateProfile = () => {
             </label>
             <input
               required
-              type="text"
+              type="number"
               className="rounded-md p-1 md:w-[12%] w-[100%]  text-black"
               value={studHours}
               onChange={(e) => setStudHours(e.target.value)}
