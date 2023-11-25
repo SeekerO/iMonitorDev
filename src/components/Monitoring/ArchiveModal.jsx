@@ -47,6 +47,7 @@ export default function ArchiveModal({
         studmaxprogress: studinfos.studmaxprogress,
         studprogress: studinfos.studprogress,
         filterby: studinfos.studcourse,
+        prevComp: studinfos.prevComp,
         studSY: "S.Y. 2023-2024",
       },
     ]);

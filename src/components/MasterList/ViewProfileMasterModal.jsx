@@ -4,6 +4,9 @@ import supabase from "../iMonitorDBconfig";
 import DateConverter from "../Monitoring/DateConverter";
 import Avatar from "@mui/material/Avatar";
 import { AiOutlineClose } from "react-icons/ai";
+import { MdPreview } from "react-icons/md";
+import PrevHistoryComp from "../Monitoring/PrevHistoryComp";
+import { Tooltip as ReactTooltip } from "react-tooltip";
 export default function ViewProfileMasterModal({
   visible,
   onClose,
@@ -16,6 +19,7 @@ export default function ViewProfileMasterModal({
   const [avatar, setAvatar] = useState(false);
   const [displayAvatarConfig, setDisplayAvatar] = useState();
 
+  const [viewPrev, setViewPrev] = useState(false);
   if (studinfos.studremarks === null) {
     remarks = "None";
   }
@@ -52,23 +56,7 @@ export default function ViewProfileMasterModal({
     );
   }
 
-  async function displayAvatar(email) {
-    try {
-      const { data: profilePic } = await supabase.storage
-        .from("ProfilePic")
-        .list(email + "/", { limit: 1, offset: 0 });
 
-      if (profilePic) {
-        setAvatar(true);
-
-        setDisplayAvatar(
-          `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/ProfilePic/${email}/${profilePic[0].name}`
-        );
-      }
-    } catch (error) {
-      setAvatar(false);
-    }
-  }
 
   function removeCourseAcro(course) {
     const modifiedCourse = course.replace(/\([^()]*\)/g, "").trim();
@@ -137,8 +125,24 @@ export default function ViewProfileMasterModal({
                 </label>
               </div>
 
-              <p className="font-bold md:text-[25px] text-lg mt-7 rounded-md text-black  p-2">
-                COMPANY INFROMATION
+              <p className="font-bold md:text-[25px] text-lg mt-7 rounded-md text-black p-2 flex">
+                <label> COMPANY INFROMATION </label>
+
+                {studinfos.prevComp.length > 0 && (
+                  <a>
+                    <MdPreview
+                      data-tooltip-id="Preview"
+                      className="text-[30px] hover:text-blue-600 cursor-pointer"
+                      onClick={() => setViewPrev(!viewPrev)}
+                    />
+                  </a>
+                )}
+
+                <PrevHistoryComp
+                  setViewPrev={setViewPrev}
+                  viewPrev={viewPrev}
+                  info={studinfos.prevComp}
+                />
               </p>
               <div className="grid md:grid-cols-2 grid-cols-1 pl-2 text-black font-thin">
                 <label className=" mt-4 md:text-lg text-base ">
@@ -193,6 +197,12 @@ export default function ViewProfileMasterModal({
           </form>
         </div>
       </div>
+      <ReactTooltip
+        id="Preview"
+        place="right"
+        variant="info"
+        content="Previous Company"
+      />
     </div>
   );
 }

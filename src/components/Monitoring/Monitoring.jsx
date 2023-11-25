@@ -51,9 +51,7 @@ const Monitoring = ({ Data }) => {
     AOS.init({ duration: 0 });
   }, [Data, course, sy]);
 
-  function refresh() {
-    fetchstudinfo();
-  }
+
 
   const fetchstudinfo = async () => {
     try {

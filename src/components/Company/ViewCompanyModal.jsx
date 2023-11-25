@@ -97,8 +97,8 @@ export default function ViewProfileModal({
             >
               <div className="pl-2">
                 <div className="grid grid-cols-2 ">
-                  <p className="font-semibold text-[19px] ">Student Name</p>
-                  <p className="font-semibold text-[19px] ">Student Section</p>
+                  <div className="font-semibold text-[19px] ">Student Name</div>
+                  <div className="font-semibold text-[19px] ">Student Section</div>
                 </div>
 
                 {studinfo.map((studinfo) => (

@@ -161,7 +161,7 @@ function AdminAccounts() {
               <div className="h-[295px] overflow-auto">
                 {AdminData.sort((a, b) => (a.status <= b.status ? -1 : 1)).map(
                   (admin) => (
-                    <AdminConfig key={admin.data} admin={admin} />
+                    <AdminConfig key={admin.id} admin={admin} />
                   )
                 )}
               </div>

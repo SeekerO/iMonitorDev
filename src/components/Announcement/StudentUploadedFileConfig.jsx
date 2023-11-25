@@ -25,7 +25,6 @@ function StudentUploadedFileConfig({ studname, announcementTitle }) {
       .from("StudentAnnouncementSubmit")
       .list(announcementTitle + "/" + studname + "/");
     setFile(data);
-    
   };
 
   const divRef = useRef(null);
@@ -50,15 +49,16 @@ function StudentUploadedFileConfig({ studname, announcementTitle }) {
       className="bg-slate-200 hover:bg-slate-400 hover:translate-x-2 hover:shadow-md hover:shadow-black duration-500 cursor-pointer  p-2 mt-2 rounded-md"
     >
       <p className="font-semibold"> {studname}</p>
+
       {open && (
         <div>
           <div className="font-semibold text-[14px] h-[100px] overflow-y-auto">
             File Submitted:
             {file.map((file) => (
               <div key={file.name} className="mt-2">
-                <p className="flex">
+                <div className="flex">
                   Submitted: <DateConverter date={file.created_at} />
-                </p>
+                </div>
                 Donwload File:
                 <a
                   onClick={() =>

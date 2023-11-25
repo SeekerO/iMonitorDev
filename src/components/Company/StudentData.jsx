@@ -74,7 +74,7 @@ function StudentData({ studinfo, setHide }) {
         onClick={() => openmodal()}
         className="grid grid-cols-2 cursor-pointer hover:bg-[#5885AF] hover:bg-opacity-[80%]  hover:text-blue-100 p-1 rounded-md "
       >
-        <p className="flex gap-1 items-center">
+        <div className="flex gap-1 items-center">
           {avatar ? (
             <img
               src={displayAvatarConfig}
@@ -84,8 +84,8 @@ function StudentData({ studinfo, setHide }) {
             <>{avatarComponent(studinfo.studname)}</>
           )}
           {studinfo.studname}
-        </p>
-        <p>{studinfo.studsection}</p>
+        </div>
+        <div>{studinfo.studsection}</div>
       </div>
 
       <ViewStudData

@@ -53,7 +53,7 @@ const StudInfoConfig = ({ studinfos, BeneData, course, sy, handleCheck }) => {
     return (
       <div
         style={{ background: stringToColor(name) }}
-        className={`flex text-white items-center justify-center h-9  w-9 rounded-full font-thin`}
+        className={`flex text-white items-center justify-center h-[40px] w-[40px] rounded-full font-thin`}
       >{`${name.split(" ")[0][0]}${name.split(" ")[1][0]} `}</div>
     );
   }

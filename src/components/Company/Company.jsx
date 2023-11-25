@@ -133,8 +133,10 @@ const Company = ({ Data }) => {
                 </div>
               </div>
 
-              <div className="bg-slate-300 rounded mt-2 w-[100%] h-[50px] justify-center items-center text-[20px] flex font-extrabold text-[#41729F] ">
-                <p>COMPANY</p>
+              <div className="bg-slate-300 rounded mt-2 w-[100%] h-[50px] justify-start grid grid-cols-3 items-center md:text-[15px] text-[10px] font-extrabold text-[#41729F] ">
+                <div className="md:ml-5 ml-3">COMPANY</div>
+                <div className="md:-ml-4 -ml-2">COMPANY ADDRESS</div>
+                <div className="md:ml-10 ml-1">NUMBER OF STUDENTS</div>
               </div>
 
               <div

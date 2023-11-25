@@ -8,12 +8,12 @@ import "react-toastify/dist/ReactToastify.css";
 
 const UpdateProfile = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
-
-  const [studinfo, setStudinfo] = useState();
-  const [beneinfo, setBeneinfo] = useState();
+  const nav = useNavigate();
+  const [studinfo, setStudinfo] = useState([]);
+  const [beneinfo, setBeneinfo] = useState([]);
   // Stud old name var
   const [oldstudname, setOldStudName] = useState("");
+  const [oldcompanyname, setOldCompanyName] = useState("");
   // Student inf var
   const [studfullname, setStudFullName] = useState("");
   const [studprogram, setStudProgram] = useState("");
@@ -25,8 +25,8 @@ const UpdateProfile = () => {
   const [studHours, setStudHours] = useState("");
   const [studHoursLimit, setStudHoursLimit] = useState("");
   // Companny var
-  const [startTime, setStartTime] = useState();
-  const [endTime, setEndTime] = useState();
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
   const [companyaddress, setCompanyaddress] = useState("");
   const [supervisorname, setSupervisorname] = useState("");
   const [supervisorcontactnumber, setSupervisorcontactnumber] = useState("");
@@ -38,7 +38,13 @@ const UpdateProfile = () => {
   const [companyinfos, setStudCompanyInfos] = useState("");
 
   const [disableTime, setDisableTime] = useState(true);
-  const nav = useNavigate();
+
+  const [suggestion, setSuggestion] = useState(false);
+  const [NumberOfStudent, setNumberOfStudent] = useState(0);
+  const [prevComp, setPrevComp] = useState([]);
+
+  const [oldCompData, setOldCompData] = useState([]);
+
   useEffect(() => {
     fetchcompanyinfo();
     fetchstudinfo();
@@ -60,7 +66,7 @@ const UpdateProfile = () => {
         }
       )
       .subscribe();
-  }, [id, navigate]);
+  }, [id]);
 
   const fetchstudinfo = async () => {
     const { data, error } = await supabase
@@ -86,13 +92,25 @@ const UpdateProfile = () => {
       setStudRemarks(data.studremarks);
       //company
       setValue(data.companyname);
+      setOldCompanyName(data.companyname);
       setCompanyaddress(data.companyaddress);
       setSupervisorname(data.supervisorname);
       setSupervisorcontactnumber(data.supervisorcontactnumber);
       setSupervisorofficenumber(data.supervisorofficenumber);
       setDesignation(data.companydesignation);
       setCompanyemail(data.companyemail);
+      setPrevComp(data.prevComp);
       setStudinfo(data);
+
+      setOldCompData({
+        companyname: data.companyname,
+        companyaddress: data.companyaddress,
+        supervisorname: data.supervisorname,
+        supervisorcontactnumber: data.supervisorcontactnumber,
+        supervisorofficenumber: data.supervisorofficenumber,
+        companydesignation: data.companydesignation,
+        companyemail: data.companyemail,
+      });
 
       const { data: time } = await supabase
         .from("CompanyTable")
@@ -101,6 +119,7 @@ const UpdateProfile = () => {
 
       setStartTime(time[0].startingtime);
       setEndTime(time[0].endingtime);
+      setNumberOfStudent(time[0].companyOJT);
     }
     if (error) nav("/");
 
@@ -108,7 +127,6 @@ const UpdateProfile = () => {
     setBeneinfo(bene);
   };
 
-  async function time() {}
   const fetchcompanyinfo = async () => {
     const { data } = await supabase.from("CompanyTable").select();
 
@@ -120,6 +138,7 @@ const UpdateProfile = () => {
   function isValidEmail(email) {
     return /\S+@\S+\.\S+/.test(email);
   }
+
   const handlesubmit = async (e) => {
     e.preventDefault();
     if (
@@ -231,8 +250,8 @@ const UpdateProfile = () => {
         .select();
     }
 
-    var studcourseUpdate;
-    var studmaxprog;
+    var studcourseUpdate = 0;
+    var studmaxprog = 0;
     if (studprogram === "(BSIT)Bachelor of Science in Information Technology") {
       studmaxprog = 486;
       studcourseUpdate = "BSIT";
@@ -261,7 +280,7 @@ const UpdateProfile = () => {
       studcourseUpdate = "BSCS";
     }
 
-    const { data, error } = await supabase
+    await supabase
       .from("StudentInformation")
       .update({
         studname: studfullname,
@@ -283,31 +302,41 @@ const UpdateProfile = () => {
         companyemail: companyemail,
       })
       .eq("id", id);
-    FilterCompany();
+    CompanyCheckerForUpdate();
   };
 
-  const FilterCompany = async () => {
-    try {
-      let a;
-      let b;
-      var c;
-      const { data, error } = await supabase.from("CompanyTable").select();
+  async function CompanyCheckerForUpdate() {
+    const { data: info } = await supabase.from("CompanyTable").select();
 
-      for (let index = 0; index < data.length; index++) {
-        if (value === data[index].companyname) {
-          a = data[index].id;
-          b = parseInt(data[index].companyOJT) + 1;
-          c = data[index].companyname;
+    let CompNumber;
+    let DecreasedCompNumber;
 
-          const { data1, error } = await supabase
+    if (oldcompanyname === value) {
+      notifycomplete();
+    } else {
+      for (let index = 0; index < info.length; index++) {
+        if (info[index].companyname === value) {
+          CompNumber = parseInt(info[index].companyOJT) + 1;
+          await supabase
             .from("CompanyTable")
-            .update({ companyOJT: b })
-            .eq("id", a);
+            .update({ companyOJT: CompNumber })
+            .eq("id", info[index].id);
+
+          DecreasedCompNumber = parseInt(NumberOfStudent) - 1;
+          console.log(oldcompanyname);
+          await supabase
+            .from("CompanyTable")
+            .update({ companyOJT: DecreasedCompNumber })
+            .eq("companyname", oldcompanyname);
+
+          StorePrevCompany();
+          notifycomplete();
+          return;
         }
       }
 
-      if (c !== value) {
-        const { data1, error } = await supabase.from("CompanyTable").insert({
+      if (oldcompanyname !== value) {
+        await supabase.from("CompanyTable").insert({
           companyname: value,
           companyaddress: companyaddress,
           supervisorname: supervisorname,
@@ -317,17 +346,69 @@ const UpdateProfile = () => {
           companyemail: companyemail,
           companyOJT: 1,
         });
+
+        DecreasedCompNumber = parseInt(NumberOfStudent) - 1;
+
+        await supabase
+          .from("CompanyTable")
+          .update({ companyOJT: DecreasedCompNumber })
+          .eq("companyname", oldcompanyname);
+
+        StorePrevCompany();
+        notifycomplete();
+        return;
       }
 
-      notifycomplete();
-    } catch (error) {}
-  };
+      return (
+        <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center">
+          afasdf
+        </div>
+      );
+    }
+  }
+
+  async function StorePrevCompany() {
+    var preComp = {
+      companyname: oldCompData.companyname,
+      companyaddress: oldCompData.companyaddress,
+      supervisorname: oldCompData.supervisorname,
+      supervisorcontactnumber: oldCompData.supervisorcontactnumber,
+      supervisorofficenumber: oldCompData.supervisorofficenumber,
+      companydesignation: oldCompData.companydesignation,
+      companyemail: oldCompData.companyemail,
+      dateLeft: new Date(),
+    };
+
+    var array = [];
+    array = array.concat(...prevComp, preComp);
+
+    if (prevComp.length <= 0) {
+      await supabase
+        .from("StudentInformation")
+        .update({ prevComp: array })
+        .eq("id", id);
+      return;
+    } else {
+      for (let index = 0; index < prevComp.length; index++) {
+        if (prevComp[index].companyname !== oldcompanyname) {
+          await supabase
+            .from("StudentInformation")
+            .update({ prevComp: array })
+            .eq("id", id);
+          return;
+        }
+      }
+    }
+  }
 
   //filter comapanyname
   const onChange = (event) => {
     setValue(event.target.value);
+    setSuggestion(true);
     for (let index = 0; index < companyinfos.length; index++) {
       if (companyinfos[index].companyname !== value) {
+        setDisableTime(false);
+      } else if (oldcompanyname === value) {
         setDisableTime(false);
       } else {
         setDisableTime(true);
@@ -352,8 +433,6 @@ const UpdateProfile = () => {
     };
   });
 
-  const nav1 = useNavigate();
-
   function notifycomplete() {
     toast.success(`Account of ${studfullname} is Updated!`, {
       position: "top-center",
@@ -365,7 +444,7 @@ const UpdateProfile = () => {
       progress: undefined,
       theme: "light",
     });
-    nav1("/");
+    nav("/");
   }
 
   const optionDispaly = (opt, i) => {
@@ -391,9 +470,9 @@ const UpdateProfile = () => {
         data-aos="fade-down"
         data-aos-duration="1000"
       >
-        <header className="font-bold md:text-4xl text-3xl mb-8">
+        <a className="font-bold md:text-4xl text-3xl mb-8">
           EDIT STUDENT INFORMATION
-        </header>
+        </a>
         {/*First line*/}
         <form
           onSubmit={handlesubmit}
@@ -495,10 +574,10 @@ const UpdateProfile = () => {
             ></textarea>
           </div>
           {/* Line 6  */}
-          <label className="font-semibold text-[25px] underline ">
+          <label className="font-semibold text-[25px]  ">
             COMPANY INFORMATION
           </label>
-          <div onLoad={() => time()} className="flex  gap-5 pt-2">
+          <div className="flex  gap-5 pt-2">
             <label className="gap-3 flex font-semibold text-[19px] ">
               START TIME
               <input
@@ -527,7 +606,7 @@ const UpdateProfile = () => {
               COMPANY NAME
             </label>
 
-            <div id="compRelative" className=" w-[100%] text-black  ">
+            <div className="grid w-[100%] h-fit text-black">
               <input
                 required
                 value={value}
@@ -536,20 +615,17 @@ const UpdateProfile = () => {
                 className="rounded-md w-[100%] h-[32px] md:h-7 text-black pl-2"
               />
 
-              {companyinfos && (
-                <div
-                  id="compAbsolute"
-                  className="overflow-auto w-[100%] max-h-24 rounded-md "
-                >
+              {companyinfos && suggestion && (
+                <div className="overflow-auto w-[100%] max-h-24 rounded-md ">
                   {companyinfos
                     .filter((item) => {
-                      const searchTerm = value.toLowerCase();
-                      const companyname = item.companyname.toLowerCase();
+                      var searchTerm = value.toLowerCase();
+                      var companyname1 = item.companyname.toLowerCase();
 
                       return (
                         searchTerm &&
-                        companyname.includes(searchTerm) &&
-                        companyname !== searchTerm
+                        companyname1.includes(searchTerm) &&
+                        companyname1 !== searchTerm
                       );
                     })
 
@@ -572,7 +648,9 @@ const UpdateProfile = () => {
                             setDesignation(companyinfos.companydesignation) ||
                             setCompanyemail(companyinfos.companyemail) ||
                             setStartTime(companyinfos.startingtime) ||
-                            setEndTime(companyinfos.endingtime)
+                            setEndTime(companyinfos.endingtime) ||
+                            setSuggestion(false) ||
+                            setDisableTime(true)
                           }
                           className="hover:bg-blue-400  rounded-md w-[100%]"
                         >

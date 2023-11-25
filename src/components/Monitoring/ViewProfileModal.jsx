@@ -4,10 +4,14 @@ import supabase from "../iMonitorDBconfig";
 import StudentUploadedImage from "./StudentUploadedImage";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsPencilSquare } from "react-icons/bs";
+import { MdPreview } from "react-icons/md";
+
+import { Tooltip as ReactTooltip } from "react-tooltip";
 
 import { ToastContainer, toast } from "react-toastify";
 import Avatar from "@mui/material/Avatar";
 import copy from "copy-to-clipboard";
+import PrevHistoryComp from "./PrevHistoryComp";
 export default function ViewProfileModal({
   visible,
   onClose,
@@ -20,10 +24,10 @@ export default function ViewProfileModal({
   const [files, setFiles] = useState([]);
   const [date, setDate] = useState();
 
-  const [viewPicture, setViewPicture] = useState(false);
-
   const [avatar, setAvatar] = useState(false);
   const [displayAvatarConfig, setDisplayAvatar] = useState();
+
+  const [viewPrev, setViewPrev] = useState(false);
   useEffect(() => {
     displayAvatar(studinfos.studemail);
     // Call the function to fetch files from a specific folder
@@ -168,9 +172,25 @@ export default function ViewProfileModal({
                 REMARKS: <p className="text-base">{remarks}</p>
               </label>
 
-              <p className="font-bold md:text-[25px] text-lg mt-7 rounded-md text-black  p-2">
-                COMPANY INFROMATION
-              </p>
+              <div className="font-bold md:text-[25px] text-lg mt-7 rounded-md text-black  p-2 flex items-center ">
+                <label> COMPANY INFROMATION</label>
+
+                {studinfos.prevComp.length > 0 && (
+                  <a>
+                    <MdPreview
+                      data-tooltip-id="Preview"
+                      className="text-[30px] hover:text-blue-600 cursor-pointer"
+                      onClick={() => setViewPrev(!viewPrev)}
+                    />
+                  </a>
+                )}
+
+                <PrevHistoryComp
+                  setViewPrev={setViewPrev}
+                  viewPrev={viewPrev}
+                  info={studinfos.prevComp}
+                />
+              </div>
               <div className="grid md:grid-cols-2 grid-cols-1 gap-x-5 pl-2 text-black">
                 <label className=" mt-4 md:text-lg text-base font-thin">
                   COMPANY NAME: {studinfos.companyname}
@@ -185,7 +205,7 @@ export default function ViewProfileModal({
                   onClick={() => copyText(studinfos.supervisorcontactnumber)}
                   className=" mt-4 md:text-lg text-base font-thin cursor-pointer"
                 >
-                  SUPERVISOR CONTACT #:{" "}
+                  SUPERVISOR CONTACT #:
                   <label className="hover:text-blue-500 hover:underline cursor-pointer">
                     {studinfos.supervisorcontactnumber}
                   </label>
@@ -227,8 +247,14 @@ export default function ViewProfileModal({
               </div>
             </div>
           </form>
-        </div>
+        </div>{" "}
       </div>
+      <ReactTooltip
+        id="Preview"
+        place="right"
+        variant="info"
+        content="Previous Company"
+      />
       <ToastContainer
         position="top-right"
         autoClose={1000}

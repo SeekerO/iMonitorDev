@@ -64,6 +64,8 @@ function Registration() {
 
   const [registring, setIsRegistring] = useState(false);
 
+  const [closeSuggestion, setCloseSuggestion] = useState();
+
   useEffect(() => {
     fetchcompanyinfo();
   }, [formSuccess]);
@@ -311,8 +313,10 @@ function Registration() {
   };
 
   //filter comapanyname
+
   const onChange = (event) => {
     setValue(event.target.value);
+    setCloseSuggestion(true);
   };
 
   const onSearch = (searchTerm) => {
@@ -509,49 +513,59 @@ function Registration() {
                   type="text"
                   className="rounded-md w-[100%] h-[32px] md:h-7 text-black pl-2"
                 />
+                {closeSuggestion && (
+                  <>
+                    {companyinfos && (
+                      <div className="overflow-auto w-[100%] max-h-24 rounded-md  ">
+                        {companyinfos
+                          .filter((item) => {
+                            const searchTerm = value.toLowerCase();
+                            const companyname = item.companyname.toLowerCase();
 
-                {companyinfos && (
-                  <div className="overflow-auto w-[100%] max-h-24 rounded-md  ">
-                    {companyinfos
-                      .filter((item) => {
-                        const searchTerm = value.toLowerCase();
-                        const companyname = item.companyname.toLowerCase();
+                            return (
+                              searchTerm &&
+                              companyname.includes(searchTerm) &&
+                              companyname !== searchTerm
+                            );
+                          })
 
-                        return (
-                          searchTerm &&
-                          companyname.includes(searchTerm) &&
-                          companyname !== searchTerm
-                        );
-                      })
-
-                      .map((companyinfos) => (
-                        <div
-                          className=" w-[100%] p-1 bg-slate-200 "
-                          key={companyinfos.id}
-                        >
-                          <p
-                            onClick={() =>
-                              onSearch(companyinfos.companyname) ||
-                              setCompanyaddress(companyinfos.companyaddress) ||
-                              setSupervisorname(companyinfos.supervisorname) ||
-                              setSupervisorcontactnumber(
-                                companyinfos.supervisorcontactnumber
-                              ) ||
-                              setSupervisorofficenumber(
-                                companyinfos.supervisorofficenumber
-                              ) ||
-                              setDesignation(companyinfos.companydesignation) ||
-                              setCompanyemail(companyinfos.companyemail) ||
-                              setStartTime(companyinfos.startingtime) ||
-                              setEndTime(companyinfos.endingtime)
-                            }
-                            className="hover:bg-blue-400  rounded-md w-[100%]"
-                          >
-                            {companyinfos.companyname}
-                          </p>
-                        </div>
-                      ))}
-                  </div>
+                          .map((companyinfos) => (
+                            <div
+                              className=" w-[100%] p-1 bg-slate-200 "
+                              key={companyinfos.id}
+                            >
+                              <p
+                                onClick={() =>
+                                  onSearch(companyinfos.companyname) ||
+                                  setCompanyaddress(
+                                    companyinfos.companyaddress
+                                  ) ||
+                                  setSupervisorname(
+                                    companyinfos.supervisorname
+                                  ) ||
+                                  setSupervisorcontactnumber(
+                                    companyinfos.supervisorcontactnumber
+                                  ) ||
+                                  setSupervisorofficenumber(
+                                    companyinfos.supervisorofficenumber
+                                  ) ||
+                                  setDesignation(
+                                    companyinfos.companydesignation
+                                  ) ||
+                                  setCompanyemail(companyinfos.companyemail) ||
+                                  setStartTime(companyinfos.startingtime) ||
+                                  setEndTime(companyinfos.endingtime) ||
+                                  setCloseSuggestion(!closeSuggestion)
+                                }
+                                className="hover:bg-blue-400  rounded-md w-[100%]"
+                              >
+                                {companyinfos.companyname}
+                              </p>
+                            </div>
+                          ))}
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
             </div>
