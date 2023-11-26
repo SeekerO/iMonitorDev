@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/iMonitorDev/static/css/main.3a12f8f7.css",
-    "main.js": "/iMonitorDev/static/js/main.dd1e3ce4.js",
+    "main.css": "/iMonitorDev/static/css/main.7848e413.css",
+    "main.js": "/iMonitorDev/static/js/main.aad92ae8.js",
     "static/js/839.b0c9ef90.chunk.js": "/iMonitorDev/static/js/839.b0c9ef90.chunk.js",
     "static/media/iMonitor.png": "/iMonitorDev/static/media/iMonitor.72b0bbe1dd123be29a7a.png",
     "static/media/internship-jobs.jpg": "/iMonitorDev/static/media/internship-jobs.ff283c47a55387cece2b.jpg",
@@ -9,12 +9,12 @@
     "static/media/STILOGO4.png": "/iMonitorDev/static/media/STILOGO4.6341635cf5f88e132982.png",
     "static/media/profile.png": "/iMonitorDev/static/media/profile.7a6a6c54279a54d1977c.png",
     "index.html": "/iMonitorDev/index.html",
-    "main.3a12f8f7.css.map": "/iMonitorDev/static/css/main.3a12f8f7.css.map",
-    "main.dd1e3ce4.js.map": "/iMonitorDev/static/js/main.dd1e3ce4.js.map",
+    "main.7848e413.css.map": "/iMonitorDev/static/css/main.7848e413.css.map",
+    "main.aad92ae8.js.map": "/iMonitorDev/static/js/main.aad92ae8.js.map",
     "839.b0c9ef90.chunk.js.map": "/iMonitorDev/static/js/839.b0c9ef90.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.3a12f8f7.css",
-    "static/js/main.dd1e3ce4.js"
+    "static/css/main.7848e413.css",
+    "static/js/main.aad92ae8.js"
   ]
 }
