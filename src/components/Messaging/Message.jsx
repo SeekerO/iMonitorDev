@@ -461,7 +461,7 @@ const Message = ({ beneemail }) => {
               {studinfo && allbeneinfo ? (
                 <>
                   <div className="h-[77%]  rounded-bl-md overflow-y-auto scroll-smooth">
-                    {studinfo.length > 0 ? (
+                    {studinfo.length >= 0 ? (
                       <>
                         <label className="flex justify-center bg-[#274472] font-semibold text-white p-1">
                           APO & ADVISER
@@ -571,24 +571,24 @@ const Message = ({ beneemail }) => {
                           ))}
                       </>
                     ) : (
-                      <div className="flex items-center justify-center place-content-center h-[100%]">
-                        <TailSpin
-                          height="80"
-                          width="80"
-                          color="#0074B7"
-                          ariaLabel="tail-spin-loading"
-                          radius="1"
-                          wrapperStyle={{}}
-                          wrapperClass=""
-                          visible={true}
-                        />
+                      <div className=" h-[77%]   place-content-center flex justify-center items-center">
+                        <label className="font-bold text-[20px]">No user</label>
                       </div>
                     )}
                   </div>
                 </>
               ) : (
-                <div className=" h-[77%]   place-content-center flex justify-center items-center">
-                  <label className="font-bold text-[20px]">No user</label>
+                <div className="flex items-center justify-center place-content-center h-[100%]">
+                  <TailSpin
+                    height="80"
+                    width="80"
+                    color="#0074B7"
+                    ariaLabel="tail-spin-loading"
+                    radius="1"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                    visible={true}
+                  />
                 </div>
               )}
               <div className=" bg-[#274472] w-[100%]  bottom-0">

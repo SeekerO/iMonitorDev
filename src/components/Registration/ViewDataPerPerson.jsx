@@ -70,7 +70,7 @@ function ViewDataPerPerson({ open, close, data }) {
                 <label>{ExcelDateToJSDate(data.ojtEnd)}</label>
               </div>
               <div>
-                <label className="font-semibold text-lg">Gmail: </label>
+                <label className="font-semibold text-lg">O365: </label>
                 <label>{data.o365}</label>
               </div>
               <div>

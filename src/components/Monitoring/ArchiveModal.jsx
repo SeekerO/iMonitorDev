@@ -3,7 +3,7 @@ import supabase from "../iMonitorDBconfig";
 import { Link } from "react-router-dom";
 import { RiInformationFill } from "react-icons/ri";
 import { TailSpin } from "react-loader-spinner";
-
+import { ToastContainer, toast } from "react-toastify";
 export default function ArchiveModal({
   visible,
   onClose,
@@ -27,7 +27,7 @@ export default function ArchiveModal({
     if (studinfos.studprogress === studinfos.studmaxprogress) {
       studinfos.status = "complete";
     }
-    const { data, error } = await supabase.from("MasterListTable1").insert([
+    await supabase.from("MasterListTable1").insert([
       {
         studname: studinfos.studname,
         studemail: studinfos.studemail,
@@ -52,18 +52,20 @@ export default function ArchiveModal({
       },
     ]);
 
-    if (error) {
-      console.log(error);
-    }
-    if (data) {
-      onRefresh(studinfos.id);
-      console.log(data);
-      handledelete();
-    }
     handledelete();
     onClose();
     refresh();
     setIsUploading(true);
+    toast.success("Archived Sucessfully!", {
+      position: "top-center",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   };
 
   const handledelete = async () => {
@@ -123,6 +125,7 @@ export default function ArchiveModal({
           </div>
         )}
       </div>
+      <ToastContainer limit={1} />
     </div>
   );
 }

@@ -49,8 +49,6 @@ function Registration() {
   const [designation, setDesignation] = useState("");
   const [companyemail, setCompanyemail] = useState("");
 
-  //ERROR VAR
-  const [formError, setFormError] = useState("");
   const [formSuccess, setFormSuccess] = useState("");
 
   // Student Info
@@ -150,14 +148,14 @@ function Registration() {
       studlname.trim().length === 0 ||
       studemail.trim().length === 0 ||
       studprogram.trim().length === 0 ||
-      ojtstart.trim().length === 0 ||
-      ojtend.trim().length === 0 ||
-      studsection ||
+      studsection.trim().length === 0 ||
+      !ojtstart ||
+      !ojtend ||
       value.trim().length === 0 ||
       companyaddress.trim().length === 0 ||
       supervisorname.trim().length === 0 ||
       supervisorcontactnumber.trim().length === 0 ||
-      supervisorofficenumber ||
+      supervisorofficenumber.trim().length === 0 ||
       designation.trim().length === 0 ||
       companyemail.trim().length === 0
     ) {
@@ -171,7 +169,7 @@ function Registration() {
         progress: undefined,
         theme: "light",
       });
-      setFormError("Please Fill All FIELDS CORRECTLY!");
+
       return;
     }
 
@@ -293,10 +291,7 @@ function Registration() {
     if (error) {
       setFormSuccess(null);
     }
-    if (data) {
-      setFormError(null);
-    }
-    setFormError(null);
+
     setShowModalRegis(true);
     clearfield();
     setIsRegistring(false);

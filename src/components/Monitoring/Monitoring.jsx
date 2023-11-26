@@ -18,6 +18,9 @@ const Monitoring = ({ Data }) => {
   const [searchstudinfos, setSearchStudInfos] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
 
+  const [course, setCourse] = useState("ALL");
+  const [sy, setSY] = useState("S.Y. 2023-2024");
+
   const [count, setCount] = useState();
 
   const [pageNumber, setPageNumber] = useState(0);
@@ -27,9 +30,6 @@ const Monitoring = ({ Data }) => {
   const changePage = ({ selected }) => {
     setPageNumber(selected);
   };
-
-  const [course, setCourse] = useState("ALL");
-  const [sy, setSY] = useState("S.Y. 2023-2024");
 
   const [archive_all_completed, setArchive_all_completed] = useState(false);
   useEffect(() => {
@@ -50,8 +50,6 @@ const Monitoring = ({ Data }) => {
       .subscribe();
     AOS.init({ duration: 0 });
   }, [Data, course, sy]);
-
-
 
   const fetchstudinfo = async () => {
     try {
@@ -273,6 +271,8 @@ const Monitoring = ({ Data }) => {
         variant="info"
         content="Archive all completed"
       />
+
+      
     </div>
   );
 };

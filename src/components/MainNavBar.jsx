@@ -452,7 +452,7 @@ function Navbar({ instance }) {
                 .eq("username", adminusername)
                 .select();
 
-              if (admin[index].password === "deactivate") {
+              if (admin[index].status === "deactivate") {
                 toast.error("Your account is deactivate", {
                   position: "top-center",
                   autoClose: 3000,
@@ -474,8 +474,21 @@ function Navbar({ instance }) {
                 greetings(true);
                 return;
               }
+              return;
             }
           }
+          toast.error("Your account is not registered", {
+            position: "top-center",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            progress: undefined,
+            theme: "light",
+          });
+
+          return;
         }
       };
       fetchadmindata();

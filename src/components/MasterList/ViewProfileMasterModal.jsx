@@ -126,7 +126,7 @@ export default function ViewProfileMasterModal({
               </div>
 
               <p className="font-bold md:text-[25px] text-lg mt-7 rounded-md text-black p-2 flex">
-                <label> COMPANY INFROMATION </label>
+                <label> COMPANY INFORMATION </label>
 
                 {studinfos.prevComp.length > 0 && (
                   <a>
