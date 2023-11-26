@@ -97,7 +97,7 @@ const StudInfoConfig = ({ studinfos, BeneData, course, sy, handleCheck }) => {
               <a
                 data-tooltip-id="View"
                 onClick={() => setShowModalProfile(true)}
-                className=" md:text-[16px] text-[10px] flex gap-1 items-center "
+                className=" md:text-[16px] text-[10px] flex gap-1 items-center  cursor-pointer"
               >
                 {avatar ? (
                   <img

@@ -137,8 +137,9 @@ function Registration() {
   };
 
   function isValidEmail(email) {
-    return /\S+@\S+\.\S+/.test(email);
+    return /\S+@stamaria\.sti\.edu\.ph$/.test(email);
   }
+
   var insert = false;
   // INSERT FUNCTION
   const handleSubmit = async (e) => {
@@ -448,7 +449,7 @@ function Registration() {
               <label className="font-semibold text-[19px] w-[5%]">O365</label>
               <input
                 required
-                type="text"
+                type="email"
                 className="rounded-md p-1 w-[100%]  text-black"
                 value={studemail}
                 onChange={(e) => setStudemail(e.target.value)}

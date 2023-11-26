@@ -28,6 +28,7 @@
     "file-saver": "^2.0.5",
     "jwt-decode": "^3.1.2",
     "ldrs": "^1.0.1",
+    "lottie-react": "^2.4.0",
     "moment": "^2.29.4",
     "msal": "^1.4.18",
     "react": "^18.2.0",

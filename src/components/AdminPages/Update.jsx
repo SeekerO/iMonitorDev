@@ -140,8 +140,8 @@ function Update({ visible, close, data, beneinfo, studinfo }) {
           theme: "light",
         });
         isUploading(false);
+        close1()
       } else {
-        console.log(oldname);
         toast.warning("Account Not Detected", {
           position: "top-right",
           autoClose: 1000,

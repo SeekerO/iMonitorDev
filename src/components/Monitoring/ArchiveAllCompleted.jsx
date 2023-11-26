@@ -4,9 +4,14 @@ import { Link } from "react-router-dom";
 import { RiInformationFill } from "react-icons/ri";
 import { ToastContainer, toast } from "react-toastify";
 import { TailSpin } from "react-loader-spinner";
+import Check from "./Check.json";
+import Lottie from "lottie-react";
+import { BsInfoCircleFill } from "react-icons/bs";
 
 export default function ArchiveAllCompleted({ visible, onClose }) {
   const [upload, setIsUploading] = useState(false);
+  const [info, setInfo] = useState(false);
+  const [check, setCheck] = useState(false);
   if (!visible) return null;
 
   async function handleArchiveCompleted() {
@@ -62,32 +67,21 @@ export default function ArchiveAllCompleted({ visible, onClose }) {
       count++;
     }
     if (studentcount === count) {
-      setIsUploading(false);
-      toast.info("It appears that nobody is completed.", {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      setCheck(true);
+      setInfo(true);
     } else {
-      setIsUploading(false);
-      toast.success("Successfully archived.", {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-      onClose(!visible);
+      setCheck(true);
+      setTimeout(() => {
+        onClose(!visible);
+      }, 1300);
     }
   }
+  const ok = () => {
+    onClose(!visible);
+    setInfo(false);
+    setCheck(false);
+    setIsUploading(false);
+  };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center p-4">
@@ -129,16 +123,37 @@ export default function ArchiveAllCompleted({ visible, onClose }) {
           </>
         ) : (
           <div className="flex flex-col items-center justify-center">
-            <TailSpin
-              height="80"
-              width="80"
-              color="#0074B7"
-              ariaLabel="tail-spin-loading"
-              radius="1"
-              wrapperStyle={{}}
-              wrapperClass=""
-              visible={true}
-            />
+            {check ? (
+              <>
+                {info ? (
+                  <div className="flex flex-col gap-y-3 items-center justify-center">
+                    <label className="text-blue-500 font-semibold text-[15px] flex items-center gap-x-1">
+                      <BsInfoCircleFill className="text-[20px]" /> It appears
+                      that nobody is completed.
+                    </label>
+                    <button
+                      onClick={() => ok()}
+                      className="bg-[#0074B7] hover:bg-[#0074B7] hover:bg-opacity-80 w-[100px] p-1 px-5 rounded-md"
+                    >
+                      OK
+                    </button>
+                  </div>
+                ) : (
+                  <Lottie animationData={Check} className="h-[110px]" />
+                )}
+              </>
+            ) : (
+              <TailSpin
+                height="80"
+                width="80"
+                color="#0074B7"
+                ariaLabel="tail-spin-loading"
+                radius="1"
+                wrapperStyle={{}}
+                wrapperClass=""
+                visible={true}
+              />
+            )}
           </div>
         )}
       </div>

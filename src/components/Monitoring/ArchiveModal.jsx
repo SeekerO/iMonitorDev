@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import supabase from "../iMonitorDBconfig";
-import { Link } from "react-router-dom";
+
 import { RiInformationFill } from "react-icons/ri";
 import { TailSpin } from "react-loader-spinner";
 import { ToastContainer, toast } from "react-toastify";
+import Check from "./Check.json";
+import Lottie from "lottie-react";
 export default function ArchiveModal({
   visible,
   onClose,
@@ -11,6 +13,7 @@ export default function ArchiveModal({
   onRefresh,
 }) {
   const [upload, setIsUploading] = useState(false);
+  const [check, setCheck] = useState(false);
   if (!visible) return null;
 
   function refresh() {
@@ -51,21 +54,24 @@ export default function ArchiveModal({
         studSY: "S.Y. 2023-2024",
       },
     ]);
-
-    handledelete();
-    onClose();
-    refresh();
     setIsUploading(true);
-    toast.success("Archived Sucessfully!", {
-      position: "top-center",
-      autoClose: 1000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
+    setCheck(true);
+    setTimeout(() => {
+      handledelete();
+      onClose();
+      refresh();
+    }, 1300);
+
+    // toast.success("Archived Sucessfully!", {
+    //   position: "top-center",
+    //   autoClose: 1000,
+    //   hideProgressBar: false,
+    //   closeOnClick: true,
+    //   pauseOnHover: false,
+    //   draggable: true,
+    //   progress: undefined,
+    //   theme: "light",
+    // });
   };
 
   const handledelete = async () => {
@@ -112,16 +118,22 @@ export default function ArchiveModal({
           </>
         ) : (
           <div className="flex flex-col items-center justify-center">
-            <TailSpin
-              height="80"
-              width="80"
-              color="#0074B7"
-              ariaLabel="tail-spin-loading"
-              radius="1"
-              wrapperStyle={{}}
-              wrapperClass=""
-              visible={true}
-            />
+            {check ? (
+              <>
+                <Lottie animationData={Check} />
+              </>
+            ) : (
+              <TailSpin
+                height="80"
+                width="80"
+                color="#0074B7"
+                ariaLabel="tail-spin-loading"
+                radius="1"
+                wrapperStyle={{}}
+                wrapperClass=""
+                visible={true}
+              />
+            )}
           </div>
         )}
       </div>

@@ -242,9 +242,9 @@ function Analytics({ data }) {
                     <div ref={divRef}>
                       <div
                         onClick={() => setMoreInformation(!moreinformaiton)}
-                        className="bg-[#58abf8b3] hover:bg-[#48a7ff60]  p-1 mt-4 rounded shadow-black shadow-lg md:w-[100%]  w-[99%] text-white justify-center flex "
+                        className="cursor-pointer bg-[#58abf8b3] hover:bg-[#48a7ff60]  p-1 mt-4 rounded shadow-black shadow-lg md:w-[100%]  w-[99%] text-white justify-center flex "
                       >
-                        <label className="font-bold text-md ">
+                        <label className="font-bold text-md  cursor-pointer">
                           HIDE INFORMATION
                         </label>
                       </div>

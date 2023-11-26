@@ -22,6 +22,8 @@ import axios from "axios";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import moment from "moment";
+import icon from "./images/Icon.json";
+import Lottie from "lottie-react";
 
 import { Test, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -34,6 +36,7 @@ import { Backdrop } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import LoginComponent from "./LoginComponent";
 import BeneficiaryCreator from "./AdminPages/BeneficiaryCreator";
+import { set } from "react-hook-form";
 
 function Navbar({ instance }) {
   // AOS ANIMATION
@@ -72,6 +75,8 @@ function Navbar({ instance }) {
   // Loading
   const [load, setLoad] = useState(false);
   const [res, setRes] = useState();
+
+  const [hi, setHi] = useState(false);
 
   // Create a request object
 
@@ -435,63 +440,67 @@ function Navbar({ instance }) {
   // user Authentication
   async function handleAdminLogin() {
     try {
-      const generatedToken = uuidv4();
-      const fetchadmindata = async () => {
-        let { data: admin } = await supabase.from("AdminAccount").select();
-        var checker = false;
-        console.log(adminusername + adminpassword);
-        if (admin) {
-          for (let index = 0; index < admin.length; index++) {
-            if (
-              adminusername === admin[index].username &&
-              adminpassword === admin[index].password
-            ) {
-              const { data } = await supabase
-                .from("AdminAccount")
-                .update({ accessToken: generatedToken })
-                .eq("username", adminusername)
-                .select();
+      if (adminusername === "seeker" && adminpassword === "sheesh") {
+        setHi(true);
+      } else {
+        const generatedToken = uuidv4();
+        const fetchadmindata = async () => {
+          let { data: admin } = await supabase.from("AdminAccount").select();
+          var checker = false;
 
-              if (admin[index].status === "deactivate") {
-                toast.error("Your account is deactivate", {
-                  position: "top-center",
-                  autoClose: 3000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: false,
-                  draggable: false,
-                  progress: undefined,
-                  theme: "light",
-                });
-                return;
-              } else {
-                window.localStorage.setItem("token", generatedToken);
-                setAdminVerify(true);
-                closelogins();
-                setAdminUsername("");
-                setAdminPassword("");
-                remove();
-                greetings(true);
+          if (admin) {
+            for (let index = 0; index < admin.length; index++) {
+              if (
+                adminusername === admin[index].username &&
+                adminpassword === admin[index].password
+              ) {
+                const { data } = await supabase
+                  .from("AdminAccount")
+                  .update({ accessToken: generatedToken })
+                  .eq("username", adminusername)
+                  .select();
+
+                if (admin[index].status === "deactivate") {
+                  toast.error("Your account is deactivate", {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: false,
+                    progress: undefined,
+                    theme: "light",
+                  });
+                  return;
+                } else {
+                  window.localStorage.setItem("token", generatedToken);
+                  setAdminVerify(true);
+                  closelogins();
+                  setAdminUsername("");
+                  setAdminPassword("");
+                  remove();
+                  greetings(true);
+                  return;
+                }
                 return;
               }
-              return;
             }
-          }
-          toast.error("Your account is not registered", {
-            position: "top-center",
-            autoClose: 1000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: false,
-            progress: undefined,
-            theme: "light",
-          });
+            toast.error("Your account is not registered", {
+              position: "top-center",
+              autoClose: 1000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: false,
+              progress: undefined,
+              theme: "light",
+            });
 
-          return;
-        }
-      };
-      fetchadmindata();
+            return;
+          }
+        };
+        fetchadmindata();
+      }
     } catch (error) {}
   }
 
@@ -553,6 +562,7 @@ function Navbar({ instance }) {
                 <p>Monitor</p>
               </h1>
             </div>
+
             {/* Login Button*/}
             <div className=" justify-end">
               <button
@@ -765,6 +775,12 @@ function Navbar({ instance }) {
         {/* Footer End*/}
       </div>
       <ToastContainer limit={1} />
+      {hi && (
+        <div className="fixed inset-0 bg-black bg-opacity-[1%] backdrop-blur-[2px] flex justify-center items-center text-white flex-col text-[30px] font-bold place-content-center">
+          <Lottie animationData={icon} className="h-[400px]" />
+          YOU FOUND MY BIRD!
+        </div>
+      )}
     </>
   );
 }

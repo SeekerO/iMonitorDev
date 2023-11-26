@@ -141,7 +141,7 @@ const Monitoring = ({ Data }) => {
           <a
             data-tooltip-id="ArchiveAll"
             onClick={() => setArchive_all_completed(!archive_all_completed)}
-            className="bg-[#5885AF] h-fit hover:bg-[#5885af90] p-1 rounded-md cursor-default md:text-base text-[12px]"
+            className="bg-[#5885AF] h-fit hover:bg-[#5885af90] p-1 rounded-md cursor-pointer md:text-base text-[12px]"
           >
             ARCHIVE COMPLETED
           </a>
