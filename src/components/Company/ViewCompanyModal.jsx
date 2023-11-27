@@ -10,6 +10,7 @@ export default function ViewProfileModal({
   number,
   Data,
   compName,
+  ReactTooltip,
 }) {
   let menuRef = useRef();
   const [studinfo, setStudInfo] = useState();
@@ -78,14 +79,14 @@ export default function ViewProfileModal({
               COMPANY EMAIL: {companyinfos.companyemail}
             </label>
           </form>
-          <Tooltip title="Expand" arrow placement="right">
-            <a
-              onClick={() => setOpenStudInfo(!openstudinfo)}
-              className="font-semibold text-black hover:text-blue-500 hover:underline rounded-md w-[300px] mb-2 text-[20px] cursor-pointer"
-            >
-              STUDENT INFORMATION {`(Current Enrolled)`}
-            </a>
-          </Tooltip>
+
+          <a
+            onClick={() => setOpenStudInfo(!openstudinfo)}
+            className="font-semibold text-black hover:text-blue-500 hover:underline rounded-md w-[300px] mb-2 text-[20px] cursor-pointer"
+          >
+            STUDENT INFORMATION {`(Current Enrolled)`}
+          </a>
+
           {/* Student name display in div */}
           {!hideData && (
             <div
@@ -98,7 +99,9 @@ export default function ViewProfileModal({
               <div className="pl-2">
                 <div className="grid grid-cols-2 ">
                   <div className="font-semibold text-[19px] ">Student Name</div>
-                  <div className="font-semibold text-[19px] ">Student Section</div>
+                  <div className="font-semibold text-[19px] ">
+                    Student Section
+                  </div>
                 </div>
 
                 {studinfo.map((studinfo) => (
@@ -107,6 +110,7 @@ export default function ViewProfileModal({
                     studinfo={studinfo}
                     Data={Data}
                     setHide={setHide}
+                    ReactTooltip={ReactTooltip}
                   />
                 ))}
               </div>

@@ -13,7 +13,6 @@ import ReactPaginate from "react-paginate";
 import ArchiveAllCompleted from "./ArchiveAllCompleted";
 
 const Monitoring = ({ Data }) => {
-  const [fetcherrror, setFetchError] = useState(null);
   const [studinfos, setStudInfos] = useState(null);
   const [searchstudinfos, setSearchStudInfos] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");

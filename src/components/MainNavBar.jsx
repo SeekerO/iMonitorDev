@@ -80,21 +80,22 @@ function Navbar({ instance }) {
 
   const location = useLocation();
   const [prevLocation, setPrevLocation] = useState(null);
-  const insert = async () => {
-    await supabase
-      .from("BeneAccount")
-      .update({ onlineStatus: "offline" })
-      .eq("beneEmail", email)
-      .single();
-  };
+
   useEffect(() => {
-    insert();
     if (prevLocation && location.pathname !== prevLocation.pathname) {
       // User has navigated to a different page
-      if (location.pathname !== "/message") {
+
+      if (location.pathname !== "/message" && benechecker) {
+        const insert = async () => {
+          await supabase
+            .from("BeneAccount")
+            .update({ onlineStatus: "offline" })
+            .eq("beneEmail", email)
+            .single();
+        };
         insert();
       }
-      if (location.pathname !== "/messagestudent") {
+      if (location.pathname !== "/messagestudent" && studentchecker) {
         const insert1 = async () => {
           await supabase
             .from("StudentInformation")
@@ -103,6 +104,7 @@ function Navbar({ instance }) {
             .single();
         };
         insert1();
+      } else {
       }
 
       // You can perform any necessary actions here when the user changes pages

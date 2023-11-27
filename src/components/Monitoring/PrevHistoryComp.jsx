@@ -4,7 +4,7 @@ import HistoryCompConfig from "./HistoryCompConfig";
 import { IoMdClose } from "react-icons/io";
 import { MdArrowBackIos } from "react-icons/md";
 import moment from "moment";
-function PrevHistoryComp({ viewPrev, setViewPrev, info }) {
+function PrevHistoryComp({ viewPrev, setViewPrev, info, ReactTooltip }) {
   const [clickedData, setClickedData] = useState(false);
 
   const close = () => {
@@ -54,6 +54,7 @@ function PrevHistoryComp({ viewPrev, setViewPrev, info }) {
                       data={data}
                       key={index}
                       setClickedData={setClickedData}
+                      ReactTooltip={ReactTooltip}
                     />
                   ))}
                 </>

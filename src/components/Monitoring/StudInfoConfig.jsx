@@ -181,6 +181,7 @@ const StudInfoConfig = ({
           studemail={studinfos.studemail}
           displayAvatarConfig={displayAvatarConfig}
           displayColor={displayColor}
+          ReactTooltip={ReactTooltip}
         />
         <ReactTooltip
           id="View"

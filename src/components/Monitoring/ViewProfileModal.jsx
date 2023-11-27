@@ -6,8 +6,6 @@ import { AiOutlineClose } from "react-icons/ai";
 import { BsPencilSquare } from "react-icons/bs";
 import { MdPreview } from "react-icons/md";
 
-import { Tooltip as ReactTooltip } from "react-tooltip";
-
 import { ToastContainer, toast } from "react-toastify";
 import Avatar from "@mui/material/Avatar";
 import copy from "copy-to-clipboard";
@@ -19,6 +17,7 @@ export default function ViewProfileModal({
   studemail,
   beneData,
   displayColor,
+  ReactTooltip,
 }) {
   var remarks = "";
   const [files, setFiles] = useState([]);
@@ -189,6 +188,7 @@ export default function ViewProfileModal({
                   setViewPrev={setViewPrev}
                   viewPrev={viewPrev}
                   info={studinfos.prevComp}
+                  ReactTooltip={ReactTooltip}
                 />
               </div>
               <div className="grid md:grid-cols-2 grid-cols-1 gap-x-5 pl-2 text-black">

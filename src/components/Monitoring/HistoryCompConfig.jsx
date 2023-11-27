@@ -1,6 +1,6 @@
 import React from "react";
-import { Tooltip as ReactTooltip } from "react-tooltip";
-function HistoryCompConfig({ data, setClickedData }) {
+
+function HistoryCompConfig({ data, setClickedData, ReactTooltip }) {
   const passData = () => {
     setClickedData({
       companyname: data.companyname,
