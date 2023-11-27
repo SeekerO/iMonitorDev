@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 //Picture
 import stilogo from "./images/STILOGO4.png";
-import profile from "./images/profile.png";
+
 import profileDisplay from "./images/profile.png";
 //Components
 import jwt_decode from "jwt-decode";
@@ -35,8 +35,6 @@ import { loginRequest } from "./authHere";
 import { Backdrop } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import LoginComponent from "./LoginComponent";
-import BeneficiaryCreator from "./AdminPages/BeneficiaryCreator";
-import { set } from "react-hook-form";
 
 function Navbar({ instance }) {
   // AOS ANIMATION
@@ -80,6 +78,40 @@ function Navbar({ instance }) {
 
   // Create a request object
 
+  const location = useLocation();
+  const [prevLocation, setPrevLocation] = useState(null);
+  const insert = async () => {
+    await supabase
+      .from("BeneAccount")
+      .update({ onlineStatus: "offline" })
+      .eq("beneEmail", email)
+      .single();
+  };
+  useEffect(() => {
+    insert();
+    if (prevLocation && location.pathname !== prevLocation.pathname) {
+      // User has navigated to a different page
+      if (location.pathname !== "/message") {
+        insert();
+      }
+      if (location.pathname !== "/messagestudent") {
+        const insert1 = async () => {
+          await supabase
+            .from("StudentInformation")
+            .update({ onlineStatus: "offline" })
+            .eq("studemail", email)
+            .single();
+        };
+        insert1();
+      }
+
+      // You can perform any necessary actions here when the user changes pages
+    }
+
+    // Update prevLocation to the current location
+    setPrevLocation(location);
+  }, [location, prevLocation]);
+
   var loginResponse;
   const loginAZURE = async () => {
     try {
@@ -94,6 +126,7 @@ function Navbar({ instance }) {
   async function handleCallbackResponse(response) {
     const generatedToken = uuidv4();
     setEmail(response.username);
+
     setRes(response);
     Auth(
       generatedToken,

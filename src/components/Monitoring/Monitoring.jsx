@@ -234,6 +234,7 @@ const Monitoring = ({ Data }) => {
                         studemai={studinfo.studemail}
                         course={course}
                         sy={sy}
+                        ReactTooltip={ReactTooltip}
                       />
                     ))}
                 </div>
@@ -271,8 +272,6 @@ const Monitoring = ({ Data }) => {
         variant="info"
         content="Archive all completed"
       />
-
-      
     </div>
   );
 };

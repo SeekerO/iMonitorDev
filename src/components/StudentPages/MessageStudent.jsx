@@ -27,6 +27,7 @@ const MessageStudent = ({ studemail }) => {
   const [beneinfo, setBeneInfo] = useState([]);
   const [getbeneName, setGetBeneName] = useState("");
   const [getID, setGetID] = useState();
+  const [onlineStatus, setOnlineStatus] = useState();
   // stud information
   const [studName, setStudName] = useState([]);
   const [studinfo, setStudinfo] = useState([]);
@@ -100,6 +101,13 @@ const MessageStudent = ({ studemail }) => {
           DataGetter();
         }
       )
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "StudentInformation" },
+        (payload) => {
+          DataGetter();
+        }
+      )
       .subscribe();
   }, []);
 
@@ -110,11 +118,27 @@ const MessageStudent = ({ studemail }) => {
       .channel("custom-all-channel")
       .on(
         "postgres_changes",
-        { event: "*", schema: "public", table: "Messaging" },
+        {
+          event: "*",
+          schema: "public",
+          table: "Messaging",
+          filter: `contactwith=eq.${studName}`,
+        },
         (payload) => {
           MessageGetter();
         }
       )
+      .on("presence", { event: "sync", table: "Messaging" }, (newState) => {
+        const insert = async () => {
+          await supabase
+            .from("StudentInformation")
+            .update({ onlineStatus: "online" })
+            .eq("studemail", studemail)
+            .single();
+        };
+
+        insert();
+      })
       .subscribe();
   }, [getbeneName]);
 
@@ -207,6 +231,18 @@ const MessageStudent = ({ studemail }) => {
       },
     ]);
 
+    var newMessage = {
+      name: studName,
+      message: message.trim(),
+      contactwith: getbeneName,
+      userID: studinfo.id,
+      created_at: moment().format(),
+    };
+
+    setReceivedMessages(
+      receivedmessages.concat(receivedmessages.push(newMessage))
+    );
+
     const { data: modif } = await supabase
       .from("StudentInformation")
       .update({ last_Modif: moment().format() })
@@ -228,6 +264,18 @@ const MessageStudent = ({ studemail }) => {
         userID: studinfo.id,
       },
     ]);
+
+    var newMessage = {
+      name: studName,
+      message: "👍🏻",
+      contactwith: getbeneName,
+      userID: studinfo.id,
+      created_at: moment().format(),
+    };
+
+    setReceivedMessages(
+      receivedmessages.concat(receivedmessages.push(newMessage))
+    );
 
     const { data: modif } = await supabase
       .from("StudentInformation")
@@ -373,11 +421,18 @@ const MessageStudent = ({ studemail }) => {
 
   function avatarComponent(name) {
     return (
-      <div
-        style={{ background: avatarColor }}
-        className={`flex text-white items-center justify-center h-[40px]  w-[40px] rounded-full font-thin`}
-      >{`${name.split(" ")[0][0]}`}</div>
-      // ${name.split(" ")[1][0]}
+      <div className="">
+        <div
+          style={{ background: avatarColor }}
+          className={`flex text-white items-center justify-center h-[40px]  w-[40px] rounded-full font-thin  border-2 border-[#274472]`}
+        >{`${name.split(" ")[0][0]}`}</div>
+
+        {onlineStatus === "online" ? (
+          <div className="bg-green-400 h-[13px] w-[13px] -ml-3 rounded-ful border-2 border-[#274472]" />
+        ) : (
+          <div className="bg-gray-400 h-[13px] w-[13px] -ml-3 rounded-full border-2 border-[#274472]" />
+        )}
+      </div>
     );
   }
 
@@ -496,6 +551,7 @@ const MessageStudent = ({ studemail }) => {
                       getFile={getFile}
                       setAvatarColor={setAvatarColor}
                       setAvatarURL={setAvatarURL}
+                      setOnlineStatus={setOnlineStatus}
                     />
                   ))}
               </div>
@@ -524,10 +580,17 @@ const MessageStudent = ({ studemail }) => {
                     </div>
                   )}
                   {avatarURL ? (
-                    <img
-                      src={avatarURL}
-                      className="h-[40px] w-[40px] rounded-full"
-                    ></img>
+                    <div className="">
+                      <img
+                        src={avatarURL}
+                        className="h-[40px] w-[40px] rounded-full border-2 border-[#274472]"
+                      ></img>
+                      {onlineStatus === "online" ? (
+                        <div className="bg-green-400 h-[13px] w-[13px] -ml-3 rounded-full  border-2 border-[#274472]" />
+                      ) : (
+                        <div className="bg-gray-400 h-[13px] w-[13px] -ml-3 rounded-full  border-2 border-[#274472]" />
+                      )}
+                    </div>
                   ) : (
                     avatarComponent(getbeneName)
                   )}

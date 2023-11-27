@@ -17,6 +17,7 @@ function MessageBeneContanct({
   setGetEmail,
   setAvatarColor,
   setAvatarURL,
+  setOnlineStatus,
 }) {
   const [notif, setNotif] = useState();
   const [img, setImg] = useState();
@@ -73,11 +74,18 @@ function MessageBeneContanct({
 
   function avatarComponent(name) {
     return (
-      <div
-        style={{ background: stringToColor(name) }}
-        className={`flex text-white items-center justify-center h-[40px]  w-[40px] rounded-full font-thin`}
-      >{`${name.split(" ")[0][0]}`}</div>
-      // ${name.split(" ")[1][0]}
+      <div className="flex items-end">
+        <div
+          style={{ background: stringToColor(name) }}
+          className={`flex text-white items-center justify-center h-[40px]  w-[40px] rounded-full font-thin border-2 border-white`}
+        >{`${name.split(" ")[0][0]}`}</div>
+
+        {studinfo.onlineStatus === "online" ? (
+          <div className="bg-green-400 h-[13px] w-[13px] -ml-3 rounded-full border-2 border-white" />
+        ) : (
+          <div className="bg-gray-400 h-[13px] w-[13px] -ml-3 rounded-full border-2 border-white" />
+        )}
+      </div>
     );
   }
 
@@ -115,6 +123,7 @@ function MessageBeneContanct({
     readmessage(studinfo.beneEmail);
     setAvatarColor(displayColor);
     setAvatarURL(displayURL);
+    setOnlineStatus(studinfo.onlineStatus);
   }
 
   // Mark the message as read
@@ -152,14 +161,25 @@ function MessageBeneContanct({
       {beneName !== studinfo.beneName && (
         <div
           onClick={() => handleclickcontact()}
-          className="hover:bg-opacity-[60%] hover:shadow-2xl shadow-black bg-blue-900 bg-opacity-[15%] hover:text-white flex p-1 cursor-pointer hover:p-2 duration-300"
+          className="hover:bg-[#0047ab2d] bg-hover:shadow-2xl shadow-black hover:text-black flex p-1 cursor-pointer hover:p-2 duration-300"
         >
           <div className="w-[100%] items-center flex gap-2">
             {!avatar ? (
               avatarComponent(studinfo.beneName)
             ) : (
-              <img src={img} className="h-[40px] w-[40px] rounded-full" />
+              <div className="flex items-end">
+                <img
+                  src={img}
+                  className="h-[40px] w-[40px] rounded-full border-2 border-white"
+                />
+                {studinfo.onlineStatus === "online" ? (
+                  <div className="bg-green-400 border-2 border-white    h-[13px] w-[13px] -ml-3 rounded-full" />
+                ) : (
+                  <div className="bg-gray-400 border-2 border-white   h-[13px] w-[13px] -ml-3 rounded-full" />
+                )}
+              </div>
             )}
+
             <div className="grid">
               <p className=" text-[13px] font-sans font-semibold">
                 {studinfo.beneName}

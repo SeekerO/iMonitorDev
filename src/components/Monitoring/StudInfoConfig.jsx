@@ -5,9 +5,16 @@ import ViewProfileModal from "./ViewProfileModal";
 import { useState, useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { Tooltip as ReactTooltip } from "react-tooltip";
+
 import Avatar from "@mui/material/Avatar";
-const StudInfoConfig = ({ studinfos, BeneData, course, sy, handleCheck }) => {
+const StudInfoConfig = ({
+  studinfos,
+  BeneData,
+  course,
+  sy,
+  handleCheck,
+  ReactTooltip,
+}) => {
   // AOS ANIMATION
   useEffect(() => {
     displayAvatar(studinfos.studemail);

@@ -9,8 +9,36 @@ import UploadLog from "./Announcement/UploadLog";
 import ActivityLog from "../components/Announcement/ActivityLog";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import supabase from "./iMonitorDBconfig";
 
 function BeneRoutes({ beneemail, data }) {
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      // Perform actions before the tab is closed
+      // For example, ask for confirmation using event.returnValue
+      event.preventDefault();
+      event.returnValue = ""; // Some browsers require a return value to show a custom message
+      const insert = async () => {
+        await supabase
+          .from("BeneAccount")
+          .update({ onlineStatus: "offline" })
+          .eq("beneEmail", beneemail)
+          .single();
+      };
+      insert();
+      // You can perform additional actions here
+      // For example, send a request to the server before the tab closes
+
+      // Note: The returned string is typically used for showing a confirmation dialog,
+      // but modern browsers usually ignore this and show their own default message.
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []); // Empty dependency array ensures this effect runs only once
   return (
     <>
       {data && (

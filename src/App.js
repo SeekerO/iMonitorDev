@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import MainNavBar from "./components/MainNavBar";
-import BeneficiaryCreator from "./components/AdminPages/BeneficiaryCreator";
 
 function App({ instance }) {
   return (
@@ -8,10 +7,9 @@ function App({ instance }) {
       <div className="bg-cover bg-center flex-col">
         <div>
           <header className="fixed top-0">
-            <MainNavBar instance={instance} />       
+            <MainNavBar instance={instance} />
           </header>
         </div>
-
       </div>
     </div>
   );

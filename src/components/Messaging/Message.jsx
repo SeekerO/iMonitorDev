@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
-import profile from "../Messaging/profile.png";
 import supabase from "../iMonitorDBconfig";
 import MessagingConfig from "./MessagingConfig";
-import DateConverter from "./DateConverter";
 import moment from "moment";
 import UserMessagesDisplay from "./UserMessagesDisplay";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -15,7 +13,6 @@ import { IoMdContacts, IoMdThumbsUp } from "react-icons/io";
 import { MdArrowBackIos } from "react-icons/md";
 import { AiFillCheckCircle, AiFillFolderOpen } from "react-icons/ai";
 import { GrAttachment } from "react-icons/gr";
-import { FadeLoader } from "react-spinners";
 import { IoSend } from "react-icons/io5";
 import { Backdrop } from "@mui/material";
 import { TailSpin } from "react-loader-spinner";
@@ -33,6 +30,7 @@ const Message = ({ beneemail }) => {
   const [studname, setStudName] = useState();
   const [getstudname, setGetStudName] = useState("");
   const [getID, setGetID] = useState();
+  const [onlineStatus, setOnlineStatus] = useState();
   // bene information
   const [beneName, setBeneName] = useState([]);
   const [beneinfo, setBeneInfo] = useState([]);
@@ -112,11 +110,18 @@ const Message = ({ beneemail }) => {
   // Runs once
   useEffect(() => {
     DataGetter();
-    const StudentInformation = supabase
+    supabase
       .channel("custom-update-channel")
       .on(
         "postgres_changes",
         { event: "UPDATE", schema: "public", table: "StudentInformation" },
+        (payload) => {
+          DataGetter();
+        }
+      )
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "BeneAccount" },
         (payload) => {
           DataGetter();
         }
@@ -131,13 +136,29 @@ const Message = ({ beneemail }) => {
       .channel("custom-all-channel")
       .on(
         "postgres_changes",
-        { event: "*", schema: "public", table: "Messaging" },
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "Messaging",
+          filter: `contactwith=eq.${beneName}`,
+        },
         (payload) => {
           MessageGetter();
         }
       )
+      .on("presence", { event: "sync", table: "Messaging" }, (newState) => {
+        const insert = async () => {
+          await supabase
+            .from("BeneAccount")
+            .update({ onlineStatus: "online" })
+            .eq("beneEmail", beneemail)
+            .single();
+        };
+
+        insert();
+      })
       .subscribe();
-  }, [getstudname, beneemail]);
+  }, [getstudname]);
 
   useEffect(() => {
     messageEndRef.current?.scrollIntoView();
@@ -218,10 +239,21 @@ const Message = ({ beneemail }) => {
           name: beneName,
           message: message.trim(),
           contactwith: getstudname,
-
           userID: beneinfo.id,
         },
       ]);
+
+      var newMessage = {
+        name: beneName,
+        message: message.trim(),
+        contactwith: getstudname,
+        userID: beneinfo.id,
+        created_at: moment().format(),
+      };
+
+      setReceivedMessages(
+        receivedmessages.concat(receivedmessages.push(newMessage))
+      );
 
       const { data: modif } = await supabase
         .from("BeneAccount")
@@ -253,6 +285,18 @@ const Message = ({ beneemail }) => {
         userID: beneinfo.id,
       },
     ]);
+
+    var newMessage = {
+      name: beneName,
+      message: "👍🏻",
+      contactwith: getstudname,
+      userID: beneinfo.id,
+      created_at: moment().format(),
+    };
+
+    setReceivedMessages(
+      receivedmessages.concat(receivedmessages.push(newMessage))
+    );
     readmess();
     const { data: modif } = await supabase
       .from("BeneAccount")
@@ -387,24 +431,20 @@ const Message = ({ beneemail }) => {
 
   function avatarComponent(name) {
     return (
-      <div
-        style={{ background: avatarColor }}
-        className={`flex text-white items-center justify-center h-[40px]  w-[40px] rounded-full font-thin`}
-      >{`${name.split(" ")[0][0]}`}</div>
-      // ${name.split(" ")[1][0]}
+      <div className="flex items-end">
+        <div
+          style={{ background: avatarColor }}
+          className={`flex text-white items-center justify-center h-[40px]  w-[40px] rounded-full font-thin border-2 border-[#274472]`}
+        >{`${name.split(" ")[0][0]}`}</div>
+
+        {onlineStatus === "online" ? (
+          <div className="bg-green-400 h-[13px] w-[13px] -ml-3 rounded-ful border-2 border-[#274472]" />
+        ) : (
+          <div className="bg-gray-400 h-[13px] w-[13px] -ml-3 rounded-full border-2 border-[#274472]" />
+        )}
+      </div>
     );
   }
-
-  const compareDateTimes = (a, b) => {
-    const dateA = new Date(a);
-    const dateB = new Date(b);
-
-    if (dateA.getTime() === dateB.getTime()) {
-      return 0; // dates are equal
-    } else {
-      return dateA.getTime() - dateB.getTime(); // sort by date and time
-    }
-  };
 
   return (
     <>
@@ -434,10 +474,10 @@ const Message = ({ beneemail }) => {
             }
             md:w-[250px] w-[100%] md:h-[100%] h-[90%] md:flex-col bg-white rounded-l-md  shadow-md shadow-black`}
           >
-            <p className="font-bold text-[25px] h-[51px] text-center pt-1 text-white rounded-tl-md bg-[#274472] flex items-center justify-center ">
+            <div className="font-bold text-[25px] h-[51px] text-center pt-1 text-white rounded-tl-md bg-[#274472] flex items-center justify-center ">
               <IoMdContacts className="text-[25px] text-white mr-0.5  mt-1" />
               Contacts
-            </p>
+            </div>
             <center>
               <div className="bg-slate-300 flex w-[96%] rounded-md place-content-center mt-2 mb-2 ">
                 <svg
@@ -460,7 +500,7 @@ const Message = ({ beneemail }) => {
             <div className="h-[100%]">
               {studinfo && allbeneinfo ? (
                 <>
-                  <div className="h-[77%]  rounded-bl-md overflow-y-auto scroll-smooth">
+                  <div className="h-[77%] rounded-bl-md overflow-y-auto scroll-smooth">
                     {studinfo.length >= 0 ? (
                       <>
                         <label className="flex justify-center bg-[#274472] font-semibold text-white p-1">
@@ -514,6 +554,7 @@ const Message = ({ beneemail }) => {
                               setGetEmail={setGetEmail}
                               setAvatarColor={setAvatarColor}
                               setAvatarURL={setAvatarURL}
+                              setOnlineStatus={setOnlineStatus}
                             />
                           ))}
                         <label className="flex justify-center bg-[#274472] font-semibold text-white p-1">
@@ -567,6 +608,7 @@ const Message = ({ beneemail }) => {
                               setGetEmail={setGetEmail}
                               setAvatarColor={setAvatarColor}
                               setAvatarURL={setAvatarURL}
+                              setOnlineStatus={setOnlineStatus}
                             />
                           ))}
                       </>
@@ -634,21 +676,28 @@ const Message = ({ beneemail }) => {
                     </div>
                   )}
                   <>
-                    <p
+                    <div
                       onClick={() => closeMessage()}
                       className=" flex items-center pl-[1%] mt-0.5 text-[15px] w-[100%] gap-1
                        font-semibold text-white cursor-pointer hover:underline hover:text-blue-500"
                     >
                       {avatarURL ? (
-                        <img
-                          src={avatarURL}
-                          className="h-[40px] w-[40px] rounded-full"
-                        ></img>
+                        <div className="flex items-end">
+                          <img
+                            src={avatarURL}
+                            className="h-[40px] w-[40px] rounded-full border-2 border-[#274472]"
+                          />
+                          {onlineStatus === "online" ? (
+                            <div className="bg-green-400 h-[13px] w-[13px] -ml-3 rounded-full border-2 border-[#274472]" />
+                          ) : (
+                            <div className="bg-gray-400 h-[13px] w-[13px] -ml-3 rounded-full border-2 border-[#274472]"  />
+                          )}
+                        </div>
                       ) : (
                         avatarComponent(getstudname)
                       )}
                       {getstudname}
-                    </p>
+                    </div>
                   </>
                 </div>
                 {/* Message Container Design */}
