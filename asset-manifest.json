@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/iMonitorDev/static/css/main.4dbef803.css",
-    "main.js": "/iMonitorDev/static/js/main.269cc0af.js",
+    "main.css": "/iMonitorDev/static/css/main.e053a304.css",
+    "main.js": "/iMonitorDev/static/js/main.bfa56951.js",
     "static/js/839.b0c9ef90.chunk.js": "/iMonitorDev/static/js/839.b0c9ef90.chunk.js",
     "static/media/iMonitor.png": "/iMonitorDev/static/media/iMonitor.72b0bbe1dd123be29a7a.png",
     "static/media/internship-jobs.jpg": "/iMonitorDev/static/media/internship-jobs.ff283c47a55387cece2b.jpg",
@@ -9,12 +9,12 @@
     "static/media/STILOGO4.png": "/iMonitorDev/static/media/STILOGO4.6341635cf5f88e132982.png",
     "static/media/profile.png": "/iMonitorDev/static/media/profile.7a6a6c54279a54d1977c.png",
     "index.html": "/iMonitorDev/index.html",
-    "main.4dbef803.css.map": "/iMonitorDev/static/css/main.4dbef803.css.map",
-    "main.269cc0af.js.map": "/iMonitorDev/static/js/main.269cc0af.js.map",
+    "main.e053a304.css.map": "/iMonitorDev/static/css/main.e053a304.css.map",
+    "main.bfa56951.js.map": "/iMonitorDev/static/js/main.bfa56951.js.map",
     "839.b0c9ef90.chunk.js.map": "/iMonitorDev/static/js/839.b0c9ef90.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.4dbef803.css",
-    "static/js/main.269cc0af.js"
+    "static/css/main.e053a304.css",
+    "static/js/main.bfa56951.js"
   ]
 }
