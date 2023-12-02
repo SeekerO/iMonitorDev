@@ -10,8 +10,8 @@ function Image({ e, userInfo, ID, name, receivedmessages }) {
     FILE_NAME = filename;
     return (
       <>
-        {receivedmessages.map((mess) => (
-          <div>
+        {receivedmessages.map((mess, index) => (
+          <div key={index}>
             {mess.name === userInfo.beneName && filename === mess.message && (
               <img
                 onClick={() => url1()}

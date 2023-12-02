@@ -18,6 +18,7 @@ function MessageBeneContanct({
   setAvatarColor,
   setAvatarURL,
   setOnlineStatus,
+  getRole,
 }) {
   const [notif, setNotif] = useState();
   const [img, setImg] = useState();
@@ -124,6 +125,7 @@ function MessageBeneContanct({
     setAvatarColor(displayColor);
     setAvatarURL(displayURL);
     setOnlineStatus(studinfo.onlineStatus);
+    getRole(studinfo.ROLE)
   }
 
   // Mark the message as read

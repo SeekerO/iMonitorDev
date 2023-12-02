@@ -271,7 +271,7 @@ function BatchUpload({ visible, close, sy }) {
             )}
           </div>
         ) : (
-          <div className="bg-slate-200 h-[650px] w-[800px] rounded-md text-black flex-col flex place-content-center">
+          <div className="bg-[#274472] h-[650px] w-[800px] rounded-md text-black flex-col flex place-content-center">
             <div className="flex justify-end ">
               <button
                 onClick={() => closemodal()}
@@ -282,8 +282,8 @@ function BatchUpload({ visible, close, sy }) {
             </div>
             <NoteForBatchUpload visible={openNote} close={setOpenNote} />
             <div className="h-[95%] w-[100%]  flex flex-col p-2">
-              <div className="flex gap-2 mt-2 items-center">
-                <label className="font-bold text-[18px]">
+              <div className="flex gap-2 mt-2 items-center text-white">
+                <label className="font-bold text-[18px] ">
                   Upload Excel File Here:
                 </label>
                 <input
@@ -294,7 +294,7 @@ function BatchUpload({ visible, close, sy }) {
                 />
               </div>
 
-              <div className="bg-slate-900 bg-opacity-10 h-[550px] p-1 rounded-sm mt-1">
+              <div className="bg-slate-300 h-[550px] p-1 rounded-sm mt-1">
                 {displayData ? (
                   <div className="grid grid-cols-5 p-1 font-semibold">
                     <label>FirstName</label>

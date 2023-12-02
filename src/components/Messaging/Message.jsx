@@ -35,6 +35,7 @@ const Message = ({ beneemail }) => {
   const [beneName, setBeneName] = useState([]);
   const [beneinfo, setBeneInfo] = useState([]);
   const [allbeneinfo, setallbeneinfo] = useState([]);
+  const [isRole, getRole] = useState();
   // message
   const [message, setMessage] = useState("");
   const [havemessage, setHaveMessage] = useState(true);
@@ -146,6 +147,30 @@ const Message = ({ beneemail }) => {
           MessageGetter();
         }
       )
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "Messaging",
+          filter: `name=eq.${beneName}`,
+        },
+        (payload) => {
+          MessageGetter();
+        }
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "Messaging",
+          filter: `contactwith=eq.${beneName}`,
+        },
+        (payload) => {
+          MessageGetter();
+        }
+      )
       .on("presence", { event: "sync", table: "Messaging" }, (newState) => {
         const insert = async () => {
           await supabase
@@ -168,6 +193,7 @@ const Message = ({ beneemail }) => {
   }, [receivedmessages]);
 
   // Data Getter In SupaBase
+  var ID = "";
   async function DataGetter() {
     const { data: allBeneInfo } = await supabase.from("BeneAccount").select();
 
@@ -180,6 +206,7 @@ const Message = ({ beneemail }) => {
     if (beneinfo) {
       setBeneName(beneinfo.beneName);
       setBeneInfo(beneinfo);
+      ID = beneinfo.id;
 
       if (beneinfo.filterby === "ALL") {
         const { data: studinfo, count } = await supabase
@@ -347,15 +374,9 @@ const Message = ({ beneemail }) => {
     }
   }
 
-  async function SendFile() {
-    setSendFile(true);
-    setSendFileX(true);
-    setSeen(false);
-    setMessage("");
-    setHaveMessage(true);
-
+  const sendingFile = async () => {
     var uuid = Math.ceil(Math.random() * 99999999);
-    const { data: file, error } = await supabase.storage
+    const { data: file, error: error } = await supabase.storage
       .from("MessageFileUpload")
       .upload(
         getID +
@@ -404,6 +425,20 @@ const Message = ({ beneemail }) => {
       });
       setSendFile(false);
       setSendFileX(false);
+    }
+    return;
+  };
+
+  async function SendFile() {
+    setSendFile(true);
+    setSendFileX(true);
+    setSeen(false);
+    setMessage("");
+    setHaveMessage(true);
+
+    if (isRole === "") {
+      sendingFile();
+      return;
     }
   }
 
@@ -471,11 +506,11 @@ const Message = ({ beneemail }) => {
                 ? `  ${
                     showMessage
                       ? "hidden"
-                      : "md:w-[250px] w-[100%] md:h-[100%] h-[90%] md:flex-col bg-white rounded-l-md"
+                      : "md:w-[250px] w-[100%]  md:flex-col bg-white rounded-l-md"
                   }`
                 : ""
             }
-            md:w-[250px] w-[100%] md:h-[100%] h-[90%] md:flex-col bg-white rounded-l-md  shadow-md shadow-black`}
+            md:w-[250px] w-[100%] h-[100%] md:flex-col bg-white rounded-l-md  shadow-md shadow-black`}
           >
             <div className="font-bold text-[25px] h-[51px] text-center pt-1 text-white rounded-tl-md bg-[#274472] flex items-center justify-center ">
               <IoMdContacts className="text-[25px] text-white mr-0.5  mt-1" />
@@ -500,10 +535,10 @@ const Message = ({ beneemail }) => {
               </div>
             </center>
 
-            <div className="h-[100%]">
+            <div className="h-[96%]">
               {studinfo && allbeneinfo ? (
                 <>
-                  <div className="h-[77%] rounded-bl-md overflow-y-auto scroll-smooth">
+                  <div className=" md:h-[80%] h-[85%] rounded-bl-md overflow-y-auto scroll-smooth">
                     {studinfo.length >= 0 ? (
                       <>
                         <label className="flex justify-center bg-[#274472] font-semibold text-white p-1">
@@ -558,6 +593,7 @@ const Message = ({ beneemail }) => {
                               setAvatarColor={setAvatarColor}
                               setAvatarURL={setAvatarURL}
                               setOnlineStatus={setOnlineStatus}
+                              getRole={getRole}
                             />
                           ))}
                         <label className="flex justify-center bg-[#274472] font-semibold text-white p-1">
@@ -612,6 +648,7 @@ const Message = ({ beneemail }) => {
                               setAvatarColor={setAvatarColor}
                               setAvatarURL={setAvatarURL}
                               setOnlineStatus={setOnlineStatus}
+                              getRole={getRole}
                             />
                           ))}
                       </>
@@ -710,9 +747,9 @@ const Message = ({ beneemail }) => {
                   >
                     {receivedmessages
                       .sort((a, b) => (a.created_at <= b.created_at ? -1 : 1))
-                      .map((message) => (
+                      .map((message, index) => (
                         <UserMessagesDisplay
-                          key={message.id}
+                          key={index}
                           message={message}
                           getstudname={getstudname}
                           beneName={beneName}
@@ -724,6 +761,8 @@ const Message = ({ beneemail }) => {
                           setDisplayFile={setDisplayFile}
                           displayfile={displayfile}
                           avatarURL={avatarURL}
+                          isRole={isRole}
+                          receivedmessages={receivedmessages}
                         />
                       ))}
                     <div ref={messageEndRef} />
@@ -752,12 +791,15 @@ const Message = ({ beneemail }) => {
                     style={{ display: "none" }} // Make the file input element invisible
                   />
                   <div className="flex w-[100%] h-[100%] ">
-                    <button
-                      className="button-upload ml-1 mt-4 hover:bg-slate-300 bg-white p-2 rounded-full h-fit items-center justify-center "
-                      onClick={handleClick}
-                    >
-                      <GrAttachment className="" />
-                    </button>
+                    {isRole === "" && (
+                      <button
+                        className="button-upload ml-1 mt-4 hover:bg-slate-300 bg-white p-2 rounded-full h-fit items-center justify-center "
+                        onClick={handleClick}
+                      >
+                        <GrAttachment className="" />
+                      </button>
+                    )}
+
                     {showUpload ? (
                       <div className={`absolute -mt-[35px] ml-[2%] `}>
                         <div className="flex w-[100%] gap-2 items-center">
@@ -858,7 +900,7 @@ const Message = ({ beneemail }) => {
           </div>
 
           {/* File Uploaded */}
-          {openfile ? (
+          {openfile && isRole === "" ? (
             <div className="h-[100%]">
               <div
                 className={`${
@@ -906,11 +948,10 @@ const Message = ({ beneemail }) => {
                 {showFile ? (
                   <div className="">
                     <div className="md:w-[100%] p-2">
-                      {file.map((e) => (
-                        <div>
+                      {file.map((e, index) => (
+                        <div key={index}>
                           {checker(e.name) === false && (
                             <DownloadFIle
-                              key={e.id}
                               e={e}
                               userInfo={beneinfo}
                               ID={getID}

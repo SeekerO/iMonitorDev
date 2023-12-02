@@ -143,8 +143,6 @@ function MessagingConfig({
     } catch (error) {}
   };
 
-  console.log(img);
-
   return (
     <>
       {beneinfo.status === "active" && (

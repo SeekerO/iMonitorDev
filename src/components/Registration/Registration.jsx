@@ -507,6 +507,7 @@ function Registration() {
                   value={value}
                   onChange={onChange}
                   type="text"
+                  placeholder="Enter Company Name"
                   className="rounded-md w-[100%] h-[32px] md:h-7 text-black pl-2"
                 />
                 {closeSuggestion && (
@@ -576,6 +577,7 @@ function Registration() {
                 value={companyaddress}
                 onChange={(e) => setCompanyaddress(e.target.value)}
                 type="text"
+                placeholder="Enter Company Address"
                 className="rounded-md w-[100%] h-[32px] md:h-7 text-black pl-2"
               />
             </div>
@@ -589,6 +591,7 @@ function Registration() {
                 value={supervisorname}
                 onChange={(e) => setSupervisorname(e.target.value)}
                 type="text"
+                placeholder="Enter Supervisor Name"
                 className="rounded-md w-[100%] h-[32px]  text-black pl-2"
               ></input>
               <label className="font-semibold text-[19px] w-[15%]">
@@ -599,6 +602,7 @@ function Registration() {
                 value={designation}
                 onChange={(e) => setDesignation(e.target.value)}
                 type="text"
+                placeholder="Enter Designation"
                 className="rounded-md w-[100%] text-black pl-2 h-[32px]"
               ></input>
             </div>
@@ -612,6 +616,7 @@ function Registration() {
                 value={supervisorcontactnumber}
                 onChange={(e) => setSupervisorcontactnumber(e.target.value)}
                 type="text"
+                placeholder="Enter Supervisor Contact #"
                 className="rounded-md w-[100%] h-[32px] text-black pl-2"
               ></input>
               <label className="font-semibold text-[19px]  w-[100%] md:w-[30%] mb-3 ">
@@ -622,6 +627,7 @@ function Registration() {
                 value={companyemail}
                 onChange={(e) => setCompanyemail(e.target.value)}
                 type="text"
+                placeholder="Enter Office Email"
                 className="rounded-md w-[100%]  h-[32px] text-black pl-2"
               ></input>
             </div>
@@ -637,6 +643,7 @@ function Registration() {
                 value={supervisorofficenumber}
                 onChange={(e) => setSupervisorofficenumber(e.target.value)}
                 type="text"
+                placeholder="Enter Office Number"
                 className="rounded-md w-[100%] text-black pl-2 h-[32px]"
               ></input>
             </div>

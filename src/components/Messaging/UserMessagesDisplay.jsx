@@ -14,19 +14,37 @@ function UserMessagesDisplay({
   file,
   studID,
   avatarURL,
+  isRole,
+  receivedmessages,
 }) {
   const [seen, setSeen] = useState(false);
   const [imagebroken, setImageBroken] = useState();
-  const [userImage, setUserImage] = useState(
-    `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${studID}_${beneinfo.id}/${beneinfo.id}/${message.message}`
-  );
-  const [currentUserImage, setCurrentUserImage] = useState(
-    `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${studID}_${beneinfo.id}/${studID}/${message.message}`
-  );
+  const [userImage, setUserImage] = useState();
+  const [currentUserImage, setCurrentUserImage] = useState();
   const [viewPicture, setViewPicture] = useState(false);
 
   useEffect(() => {
     seenChecker();
+
+    setUserImage(
+      `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${studID}_${beneinfo.id}/${beneinfo.id}/${message.message}`
+    );
+    setCurrentUserImage(
+      `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${studID}_${beneinfo.id}/${studID}/${message.message}`
+    );
+    // if (isRole === "") {
+    // } else {
+    //   if (message.name === getstudname && message.contactwith === beneName) {
+    //     setCurrentUserImage(
+    //       `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${studID}_${beneinfo.id}/${studID}/${message.message}`
+    //     );
+    //   }
+    //   if (message.name === beneName && message.contactwith === getstudname) {
+    //     setUserImage(
+    //       `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${beneinfo.id}_${studID}/${beneinfo.id}/${message.message}`
+    //     );
+    //   }
+    // }
   }, [message]);
 
   useEffect(() => {
@@ -156,7 +174,7 @@ function UserMessagesDisplay({
                           onClick={() => setViewPicture(!viewPicture)}
                           className="max-w-[240px] max-h-[250px] min-h-[150px] min-w-[180px]"
                           onError={brokenimage}
-                          src={userImage}
+                          src={userImage || currentUserImage}
                         ></img>
                         <ViewImage
                           name={message.message}

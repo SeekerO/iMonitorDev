@@ -5,7 +5,7 @@ import supabase from "../iMonitorDBconfig";
 import options from "../programoptions.json";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import { Oval } from  'react-loader-spinner'
 const UpdateProfile = () => {
   const { id } = useParams();
   const nav = useNavigate();
@@ -138,7 +138,6 @@ const UpdateProfile = () => {
   function isValidEmail(email) {
     return /\S+@stamaria\.sti\.edu\.ph$/.test(email);
   }
-
 
   const handlesubmit = async (e) => {
     e.preventDefault();
@@ -466,283 +465,314 @@ const UpdateProfile = () => {
 
   return (
     <div className="overflow-hidden">
-      <div
-        className="pt-8 md:p-5 p-1 text-white overflow-hidden h-screen"
-        data-aos="fade-down"
-        data-aos-duration="1000"
-      >
-        <a className="font-bold md:text-4xl text-3xl mb-8">
-          EDIT STUDENT INFORMATION
-        </a>
-        {/*First line*/}
-        <form
-          onSubmit={handlesubmit}
-          className="grid  w-[100%] bg-black bg-opacity-[1%] p-1 overflow-y-auto overflow-x-hidden  h-[70%]"
+      {studinfo ? (
+        <div
+          className="pt-8 md:p-5 p-1 text-white overflow-hidden h-screen"
+          data-aos="fade-down"
+          data-aos-duration="1000"
         >
-          {/* Line 1 */}
-          <div className="w-[100%] md:flex grid  gap-1 h-fit">
-            <label className="font-semibold text-[20px] md:w-[10%] w-[100%]">
-              FULL NAME:
-            </label>
-            <div className=" md:flex flex-grow grid gap-y-5 gap-2 w-fill">
+          <a className="font-bold md:text-4xl text-3xl mb-8">
+            EDIT STUDENT INFORMATION
+          </a>
+          {/*First line*/}
+          <form
+            onSubmit={handlesubmit}
+            className="grid  w-[100%] bg-black bg-opacity-[1%] p-1 overflow-y-auto overflow-x-hidden  h-[70%]"
+          >
+            {/* Line 1 */}
+            <div className="w-[100%] md:flex grid  gap-1 h-fit">
+              <label className="font-semibold text-[20px] md:w-[10%] w-[100%]">
+                FULL NAME:
+              </label>
+              <div className=" md:flex flex-grow grid gap-y-5 gap-2 w-fill">
+                <input
+                  required
+                  type="text"
+                  className="rounded-md p-1 w-[100%] 0 text-black"
+                  placeholder="First Name"
+                  id="studfname"
+                  value={studfullname}
+                  onChange={(e) => setStudFullName(e.target.value)}
+                ></input>
+              </div>
+            </div>
+            {/* Line 2 */}
+            <div className="grid md:flex grid-cols-1  gap-4 pt-4 w-[100%]">
+              <label className="font-semibold text-[19px]">PROGRAM</label>
+
+              <div className="w-[100%]" ref={menuRef}>
+                <select
+                  value={studprogram}
+                  className="w-full text-black rounded-md pl-2 text-justify p-1"
+                  onChange={(e) => setStudProgram(e.target.value)}
+                >
+                  {options.map((options, index) =>
+                    optionDispaly(options, index)
+                  )}
+                </select>
+              </div>
+              <label className="font-semibold text-[19px]">SECTION</label>
               <input
                 required
+                value={studsection}
+                onChange={(e) => setStudSection(e.target.value)}
                 type="text"
-                className="rounded-md p-1 w-[100%] 0 text-black"
-                placeholder="First Name"
-                id="studfname"
-                value={studfullname}
-                onChange={(e) => setStudFullName(e.target.value)}
+                placeholder="Enter Section"
+                className="rounded-md w-[100%] text-black pl-2"
               ></input>
             </div>
-          </div>
-          {/* Line 2 */}
-          <div className="grid md:flex grid-cols-1  gap-4 pt-4 w-[100%]">
-            <label className="font-semibold text-[19px]">PROGRAM</label>
-
-            <div className="w-[100%]" ref={menuRef}>
-              <select
-                value={studprogram}
-                className="w-full text-black rounded-md pl-2 text-justify p-1"
-                onChange={(e) => setStudProgram(e.target.value)}
-              >
-                {options.map((options, index) => optionDispaly(options, index))}
-              </select>
+            {/* Line 3 */}
+            <div className="grid md:flex grid-cols-1  gap-4 pt-4 w-[100%]">
+              <label className="font-semibold text-[19px] w-[26%]">
+                OJT STARTING
+              </label>
+              <input
+                required
+                value={ojtstart}
+                type="date"
+                className="rounded-md md:w-[100%] min-w-[405px] h-[32px] text-black pl-2"
+                onChange={(e) => setOjtStart(e.target.value)}
+              />
+              <label className="font-semibold text-[19px] w-[20%]">
+                OJT END
+              </label>
+              <input
+                required
+                value={ojtend}
+                type="date"
+                className="rounded-md md:w-[100%] min-w-[405px] text-black pl-2"
+                onChange={(e) => setOjtEnd(e.target.value)}
+              />
             </div>
-            <label className="font-semibold text-[19px]">SECTION</label>
-            <input
-              required
-              value={studsection}
-              onChange={(e) => setStudSection(e.target.value)}
-              type="text"
-              placeholder="Enter Section"
-              className="rounded-md w-[100%] text-black pl-2"
-            ></input>
-          </div>
-          {/* Line 3 */}
-          <div className="grid md:flex grid-cols-1  gap-4 pt-4 w-[100%]">
-            <label className="font-semibold text-[19px] w-[26%]">
-              OJT STARTING
-            </label>
-            <input
-              required
-              value={ojtstart}
-              type="date"
-              className="rounded-md md:w-[100%] min-w-[405px] h-[32px] text-black pl-2"
-              onChange={(e) => setOjtStart(e.target.value)}
-            />
-            <label className="font-semibold text-[19px] w-[20%]">OJT END</label>
-            <input
-              required
-              value={ojtend}
-              type="date"
-              className="rounded-md md:w-[100%] min-w-[405px] text-black pl-2"
-              onChange={(e) => setOjtEnd(e.target.value)}
-            />
-          </div>
-          {/* Line 4 */}
-          <div className="grid md:flex grid-cols-1 w-[100%]  gap-4 pt-4">
-            <label className="font-semibold text-[19px] w-[5%]">O365</label>
-            <input
-              required
-              type="email"
-              className="rounded-md p-1 md:w-[65%] w-[100%]  text-black"
-              value={studemail}
-              onChange={(e) => setStudemail(e.target.value)}
-              placeholder="example123456@stamaria.sti.edu.ph"
-            ></input>
-            <label className="font-semibold text-[19px] w-[16%]">
-              STUDENT PROGRESS
-            </label>
-            <input
-              required
-              type="number"
-              className="rounded-md p-1 md:w-[12%] w-[100%]  text-black"
-              value={studHours}
-              onChange={(e) => setStudHours(e.target.value)}
-              placeholder="Hours"
-            ></input>
-          </div>
-          {/* Line 5 */}
-          <div className="grid md:flex grid-cols-1  gap-4 pt-4 mb-10">
-            <label className="font-semibold text-[19px] w-[6%]">REMARKS</label>
-            <textarea
-              rows="4"
-              className="p-1 w-[100%] text-sm text-gray-900  rounded-md"
-              placeholder="Write Remaks Here.."
-              value={studremarks}
-              onChange={(e) => setStudRemarks(e.target.value)}
-            ></textarea>
-          </div>
-          {/* Line 6  */}
-          <label className="font-semibold text-[25px]  ">
-            COMPANY INFORMATION
-          </label>
-          <div className="flex  gap-5 pt-2">
-            <label className="gap-3 flex font-semibold text-[19px] ">
-              START TIME
+            {/* Line 4 */}
+            <div className="grid md:flex grid-cols-1 w-[100%]  gap-4 pt-4">
+              <label className="font-semibold text-[19px] w-[5%]">O365</label>
               <input
-                disabled={disableTime}
-                value={startTime}
-                onChange={(e) => setStartTime(e.target.value)}
                 required
-                type="time"
-                className="rounded-md text-black pl-1 h-[30px] "
-              />
-            </label>
-            <label className="gap-3 flex font-semibold text-[19px]">
-              END TIME
+                type="email"
+                className="rounded-md p-1 md:w-[65%] w-[100%]  text-black"
+                value={studemail}
+                onChange={(e) => setStudemail(e.target.value)}
+                placeholder="example123456@stamaria.sti.edu.ph"
+              ></input>
+              <label className="font-semibold text-[19px] w-[16%]">
+                STUDENT PROGRESS
+              </label>
               <input
-                disabled={disableTime}
-                value={endTime}
-                onChange={(e) => setEndTime(e.target.value)}
                 required
-                type="time"
-                className="rounded-md text-black pl-1 h-[30px] "
-              />
+                type="number"
+                className="rounded-md p-1 md:w-[12%] w-[100%]  text-black"
+                value={studHours}
+                onChange={(e) => setStudHours(e.target.value)}
+                placeholder="Hours"
+              ></input>
+            </div>
+            {/* Line 5 */}
+            <div className="grid md:flex grid-cols-1  gap-4 pt-4 mb-10">
+              <label className="font-semibold text-[19px] w-[6%]">
+                REMARKS
+              </label>
+              <textarea
+                rows="4"
+                className="p-1 w-[100%] text-sm text-gray-900  rounded-md"
+                placeholder="Write Remaks Here.."
+                value={studremarks}
+                onChange={(e) => setStudRemarks(e.target.value)}
+              ></textarea>
+            </div>
+            {/* Line 6  */}
+            <label className="font-semibold text-[25px]  ">
+              COMPANY INFORMATION
             </label>
-          </div>
-          <div className="grid md:flex grid-cols-1 w-[100%]  gap-4 pt-4">
-            <label className="font-semibold text-[19px] md:w-[15%] w-[100%]">
-              COMPANY NAME
-            </label>
+            <div className="flex  gap-5 pt-2">
+              <label className="gap-3 flex font-semibold text-[19px] ">
+                START TIME
+                <input
+                  disabled={disableTime}
+                  value={startTime}
+                  onChange={(e) => setStartTime(e.target.value)}
+                  required
+                  type="time"
+                  className="rounded-md text-black pl-1 h-[30px] "
+                />
+              </label>
+              <label className="gap-3 flex font-semibold text-[19px]">
+                END TIME
+                <input
+                  disabled={disableTime}
+                  value={endTime}
+                  onChange={(e) => setEndTime(e.target.value)}
+                  required
+                  type="time"
+                  className="rounded-md text-black pl-1 h-[30px] "
+                />
+              </label>
+            </div>
+            <div className="grid md:flex grid-cols-1 w-[100%]  gap-4 pt-4">
+              <label className="font-semibold text-[19px] md:w-[15%] w-[100%]">
+                COMPANY NAME
+              </label>
 
-            <div className="grid w-[100%] h-fit text-black">
+              <div className="grid w-[100%] h-fit text-black">
+                <input
+                  required
+                  value={value}
+                  onChange={onChange}
+                  type="text"
+                  placeholder="Enter Company Name"
+                  className="rounded-md w-[100%] h-[32px] md:h-7 text-black pl-2"
+                />
+
+                {companyinfos && suggestion && (
+                  <div className="overflow-auto w-[100%] max-h-24 rounded-md ">
+                    {companyinfos
+                      .filter((item) => {
+                        var searchTerm = value.toLowerCase();
+                        var companyname1 = item.companyname.toLowerCase();
+
+                        return (
+                          searchTerm &&
+                          companyname1.includes(searchTerm) &&
+                          companyname1 !== searchTerm
+                        );
+                      })
+
+                      .map((companyinfos) => (
+                        <div
+                          className=" w-[100%] p-1 bg-slate-200 "
+                          key={companyinfos.id}
+                        >
+                          <p
+                            onClick={() =>
+                              onSearch(companyinfos.companyname) ||
+                              setCompanyaddress(companyinfos.companyaddress) ||
+                              setSupervisorname(companyinfos.supervisorname) ||
+                              setSupervisorcontactnumber(
+                                companyinfos.supervisorcontactnumber
+                              ) ||
+                              setSupervisorofficenumber(
+                                companyinfos.supervisorofficenumber
+                              ) ||
+                              setDesignation(companyinfos.companydesignation) ||
+                              setCompanyemail(companyinfos.companyemail) ||
+                              setStartTime(companyinfos.startingtime) ||
+                              setEndTime(companyinfos.endingtime) ||
+                              setSuggestion(false) ||
+                              setDisableTime(true)
+                            }
+                            className="hover:bg-blue-400  rounded-md w-[100%]"
+                          >
+                            {companyinfos.companyname}
+                          </p>
+                        </div>
+                      ))}
+                  </div>
+                )}
+              </div>
+            </div>
+            {/* Line 8 */}
+
+            <div className="grid md:flex grid-cols-1 w-[100%] gap-4 pt-4">
+              <label className="font-semibold text-[19px] w-[100%] md:w-[17%]">
+                COMPANY ADDRESS
+              </label>
               <input
                 required
-                value={value}
-                onChange={onChange}
+                value={companyaddress}
+                onChange={(e) => setCompanyaddress(e.target.value)}
                 type="text"
+                placeholder="Enter Company Address"
                 className="rounded-md w-[100%] h-[32px] md:h-7 text-black pl-2"
               />
-
-              {companyinfos && suggestion && (
-                <div className="overflow-auto w-[100%] max-h-24 rounded-md ">
-                  {companyinfos
-                    .filter((item) => {
-                      var searchTerm = value.toLowerCase();
-                      var companyname1 = item.companyname.toLowerCase();
-
-                      return (
-                        searchTerm &&
-                        companyname1.includes(searchTerm) &&
-                        companyname1 !== searchTerm
-                      );
-                    })
-
-                    .map((companyinfos) => (
-                      <div
-                        className=" w-[100%] p-1 bg-slate-200 "
-                        key={companyinfos.id}
-                      >
-                        <p
-                          onClick={() =>
-                            onSearch(companyinfos.companyname) ||
-                            setCompanyaddress(companyinfos.companyaddress) ||
-                            setSupervisorname(companyinfos.supervisorname) ||
-                            setSupervisorcontactnumber(
-                              companyinfos.supervisorcontactnumber
-                            ) ||
-                            setSupervisorofficenumber(
-                              companyinfos.supervisorofficenumber
-                            ) ||
-                            setDesignation(companyinfos.companydesignation) ||
-                            setCompanyemail(companyinfos.companyemail) ||
-                            setStartTime(companyinfos.startingtime) ||
-                            setEndTime(companyinfos.endingtime) ||
-                            setSuggestion(false) ||
-                            setDisableTime(true)
-                          }
-                          className="hover:bg-blue-400  rounded-md w-[100%]"
-                        >
-                          {companyinfos.companyname}
-                        </p>
-                      </div>
-                    ))}
-                </div>
-              )}
             </div>
-          </div>
-          {/* Line 8 */}
+            {/* Line 9 */}
+            <div className="grid md:flex grid-cols-1 w-[100%] gap-4 pt-4">
+              <label className="font-semibold text-[19px] w-[39%] ">
+                SUPERVISOR NAME
+              </label>
+              <input
+                required
+                value={supervisorname}
+                onChange={(e) => setSupervisorname(e.target.value)}
+                type="text"
+                placeholder="Enter Supervisor Name"
+                className="rounded-md w-[100%] h-[32px]  text-black pl-2"
+              ></input>
+              <label className="font-semibold text-[19px] w-[15%]">
+                DESIGNATION
+              </label>
+              <input
+                required
+                value={designation}
+                onChange={(e) => setDesignation(e.target.value)}
+                type="text"
+                placeholder="Enter Designation"
+                className="rounded-md w-[100%] text-black pl-2 h-[32px]"
+              ></input>
+            </div>
+            {/* Line 10 */}
+            <div className="grid md:flex grid-cols-1 w-[100%] gap-4 pt-4 mb-3">
+              <label className="font-semibold text-[19px]  w-[55%]">
+                SUPERVISOR CONTACT #
+              </label>
+              <input
+                required
+                value={supervisorcontactnumber}
+                onChange={(e) => setSupervisorcontactnumber(e.target.value)}
+                type="text"
+                placeholder="Enter Supervisor Contact #"
+                className="rounded-md w-[100%] h-[32px] text-black pl-2"
+              ></input>
+              <label className="font-semibold text-[19px]  w-[100%] md:w-[30%] mb-3 ">
+                OFFICE EMAIL
+              </label>
+              <input
+                required
+                value={companyemail}
+                onChange={(e) => setCompanyemail(e.target.value)}
+                type="text"
+                placeholder="Enter Office Email"
+                className="rounded-md w-[100%]  h-[32px] text-black pl-2"
+              ></input>
+            </div>
+            {/* Line 11 */}
 
-          <div className="grid md:flex grid-cols-1 w-[100%] gap-4 pt-4">
-            <label className="font-semibold text-[19px] w-[100%] md:w-[17%]">
-              COMPANY ADDRESS
-            </label>
-            <input
-              required
-              value={companyaddress}
-              onChange={(e) => setCompanyaddress(e.target.value)}
-              type="text"
-              className="rounded-md w-[100%] h-[32px] md:h-7 text-black pl-2"
-            />
-          </div>
-          {/* Line 9 */}
-          <div className="grid md:flex grid-cols-1 w-[100%] gap-4 pt-4">
-            <label className="font-semibold text-[19px] w-[39%] ">
-              SUPERVISOR NAME
-            </label>
-            <input
-              required
-              value={supervisorname}
-              onChange={(e) => setSupervisorname(e.target.value)}
-              type="text"
-              className="rounded-md w-[100%] h-[32px]  text-black pl-2"
-            ></input>
-            <label className="font-semibold text-[19px] w-[15%]">
-              DESIGNATION
-            </label>
-            <input
-              required
-              value={designation}
-              onChange={(e) => setDesignation(e.target.value)}
-              type="text"
-              className="rounded-md w-[100%] text-black pl-2 h-[32px]"
-            ></input>
-          </div>
-          {/* Line 10 */}
-          <div className="grid md:flex grid-cols-1 w-[100%] gap-4 pt-4 mb-3">
-            <label className="font-semibold text-[19px]  w-[55%]">
-              SUPERVISOR CONTACT #
-            </label>
-            <input
-              required
-              value={supervisorcontactnumber}
-              onChange={(e) => setSupervisorcontactnumber(e.target.value)}
-              type="text"
-              className="rounded-md w-[100%] h-[32px] text-black pl-2"
-            ></input>
-            <label className="font-semibold text-[19px]  w-[100%] md:w-[30%] mb-3 ">
-              OFFICE EMAIL
-            </label>
-            <input
-              required
-              value={companyemail}
-              onChange={(e) => setCompanyemail(e.target.value)}
-              type="text"
-              className="rounded-md w-[100%]  h-[32px] text-black pl-2"
-            ></input>
-          </div>
-          {/* Line 11 */}
+            <div className="w-[100%] md:flex grid">
+              <label className="font-semibold text-[19px] w-[15%]">
+                OFFICE NUMBER
+              </label>
 
-          <div className="w-[100%] md:flex grid">
-            <label className="font-semibold text-[19px] w-[15%]">
-              OFFICE NUMBER
-            </label>
+              <input
+                required
+                value={supervisorofficenumber}
+                onChange={(e) => setSupervisorofficenumber(e.target.value)}
+                type="text"
+                placeholder="Enter Office Number"
+                className="rounded-md w-[100%] text-black pl-2 h-[32px]"
+              ></input>
+            </div>
+            <button className=" bg-[#145DA0] w-[99.9%] h-[40px] rounded-md font-bold hover:bg-blue-400 mb-[10%] mt-2">
+              UPDATE
+            </button>
+          </form>
+        </div>
+      ) : (
+        <div className="flex items-center justify-center place-content-center mt-[20%]">
+          <Oval
+            height={80}
+            width={80}
+            color="#145DA0"
+            wrapperStyle={{}}
+            wrapperClass=""
+            visible={true}
+            ariaLabel="oval-loading"
+            secondaryColor="#fffff"
+            strokeWidth={2}
+            strokeWidthSecondary={2}
+          />
+        </div>
+      )}
 
-            <input
-              required
-              value={supervisorofficenumber}
-              onChange={(e) => setSupervisorofficenumber(e.target.value)}
-              type="text"
-              className="rounded-md w-[100%] text-black pl-2 h-[32px]"
-            ></input>
-          </div>
-          <button className=" bg-[#145DA0] w-[99.9%] h-[40px] rounded-md font-bold hover:bg-blue-400 mb-[10%] mt-2">
-            UPDATE
-          </button>
-        </form>
-      </div>
       <ToastContainer
         position="top-right"
         autoClose={1000}

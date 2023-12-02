@@ -73,7 +73,7 @@ function LoginComponent({
         <div
           className={`${
             openadmin ? "" : " hidden translate-x-0 duration-300"
-          }bg-slate-200 h-[35%] md:w-[20%] w-[70%] md:-mt-0 -mt-48 absolute`}
+          }bg-slate-200 md:w-[20%] w-[70%] md:-mt-0 -mt-48 absolute`}
         >
           <p
             onClick={() => setOpenAdmin(!openadmin)}
@@ -97,7 +97,7 @@ function LoginComponent({
             />
             <div
               onClick={() => handleAdminLogin()}
-              className=" bg-[#274472] hover:bg-blue-500 hover:cursor-pointer text-center ml-5 mr-5 mt-4 p-3 rounded-md font-semibold text-white "
+              className=" bg-[#274472] mb-5 hover:bg-blue-500 hover:cursor-pointer text-center ml-5 mr-5 mt-4 p-3 rounded-md font-semibold text-white "
             >
               LOGIN
             </div>

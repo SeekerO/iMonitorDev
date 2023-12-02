@@ -9,8 +9,8 @@ function ActivityLog() {
 
   const [pageNumber, setPageNumber] = useState(0);
   const userPerPage = 50;
-  const pageVisited = pageNumber * userPerPage;
-  const pageCount = Math.ceil(count / userPerPage);
+  let pageVisited = pageNumber * userPerPage;
+  let pageCount = Math.ceil(count / userPerPage);
   const changePage = ({ selected }) => {
     setPageNumber(selected);
   };

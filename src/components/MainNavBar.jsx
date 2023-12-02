@@ -78,41 +78,41 @@ function Navbar({ instance }) {
 
   // Create a request object
 
-  const location = useLocation();
-  const [prevLocation, setPrevLocation] = useState(null);
+  // const location = useLocation();
+  // const [prevLocation, setPrevLocation] = useState(null);
 
-  useEffect(() => {
-    if (prevLocation && location.pathname !== prevLocation.pathname) {
-      // User has navigated to a different page
+  // useEffect(() => {
+  //   if (prevLocation && location.pathname !== prevLocation.pathname) {
+  //     // User has navigated to a different page
 
-      if (location.pathname !== "/message" && benechecker) {
-        const insert = async () => {
-          await supabase
-            .from("BeneAccount")
-            .update({ onlineStatus: "offline" })
-            .eq("beneEmail", email)
-            .single();
-        };
-        insert();
-      }
-      if (location.pathname !== "/messagestudent" && studentchecker) {
-        const insert1 = async () => {
-          await supabase
-            .from("StudentInformation")
-            .update({ onlineStatus: "offline" })
-            .eq("studemail", email)
-            .single();
-        };
-        insert1();
-      } else {
-      }
+  //     if (location.pathname !== "/message" && benechecker) {
+  //       const insert = async () => {
+  //         await supabase
+  //           .from("BeneAccount")
+  //           .update({ onlineStatus: "offline" })
+  //           .eq("beneEmail", email)
+  //           .single();
+  //       };
+  //       insert();
+  //     }
+  //     if (location.pathname !== "/messagestudent" && studentchecker) {
+  //       const insert1 = async () => {
+  //         await supabase
+  //           .from("StudentInformation")
+  //           .update({ onlineStatus: "offline" })
+  //           .eq("studemail", email)
+  //           .single();
+  //       };
+  //       insert1();
+  //     } else {
+  //     }
 
-      // You can perform any necessary actions here when the user changes pages
-    }
+  //     // You can perform any necessary actions here when the user changes pages
+  //   }
 
-    // Update prevLocation to the current location
-    setPrevLocation(location);
-  }, [location, prevLocation]);
+  //   // Update prevLocation to the current location
+  //   setPrevLocation(location);
+  // }, [location, prevLocation]);
 
   var loginResponse;
   const loginAZURE = async () => {

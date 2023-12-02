@@ -3,6 +3,7 @@ import supabase from "../iMonitorDBconfig";
 import { FaBell } from "react-icons/fa";
 import { AiFillMessage } from "react-icons/ai";
 import Message from "./Message";
+import { getRoles } from "@testing-library/react";
 function MessagingConfig({
   studinfo,
   setGetStudName,
@@ -18,6 +19,7 @@ function MessagingConfig({
   setAvatarColor,
   setAvatarURL,
   setOnlineStatus,
+  getRole,
 }) {
   const [notif, setNotif] = useState();
   const [img, setImg] = useState();
@@ -126,6 +128,7 @@ function MessagingConfig({
     setAvatarColor(displayColor);
     setAvatarURL(displayURL);
     setOnlineStatus(studinfo.onlineStatus);
+    getRole("");
   }
 
   // Mark the message as read
