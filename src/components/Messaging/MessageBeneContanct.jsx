@@ -134,7 +134,7 @@ function MessageBeneContanct({
     setAvatarURL(displayURL);
     setOnlineStatus(studinfo.onlineStatus);
     getRole(studinfo.ROLE);
-    setNotif(!notif);
+    setNotif(false);
   }
 
   // Mark the message as read

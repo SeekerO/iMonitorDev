@@ -85,7 +85,7 @@ function MessagingConfig({
       <div className="flex items-end">
         <div
           style={{ background: stringToColor(name) }}
-          className={`flex text-white items-center justify-center h-[40px]  w-[40px] rounded-full font-thin`}
+          className={`flex text-white items-center justify-center h-[40px]  w-[40px] rounded-full font-thin border-2 border-white`}
         >{`${name.split(" ")[0][0]}`}</div>
 
         {beneinfo.onlineStatus === "online" ? (
@@ -163,7 +163,7 @@ function MessagingConfig({
                 avatarComponent(beneinfo.beneName)
               ) : (
                 <div className="flex items-end">
-                  <img src={img} className="h-[40px] w-[40px] rounded-full" />
+                  <img src={img} className="h-[40px] w-[40px] rounded-full border-2 border-white" />
                   {beneinfo.onlineStatus === "online" ? (
                     <div className="bg-green-400 h-[13px] w-[13px] -ml-3 rounded-full border-2 border-white" />
                   ) : (

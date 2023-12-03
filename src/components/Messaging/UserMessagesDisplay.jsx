@@ -32,19 +32,6 @@ function UserMessagesDisplay({
     setCurrentUserImage(
       `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${studID}_${beneinfo.id}/${studID}/${message.message}`
     );
-    // if (isRole === "") {
-    // } else {
-    //   if (message.name === getstudname && message.contactwith === beneName) {
-    //     setCurrentUserImage(
-    //       `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${studID}_${beneinfo.id}/${studID}/${message.message}`
-    //     );
-    //   }
-    //   if (message.name === beneName && message.contactwith === getstudname) {
-    //     setUserImage(
-    //       `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${beneinfo.id}_${studID}/${beneinfo.id}/${message.message}`
-    //     );
-    //   }
-    // }
   }, [message]);
 
   useEffect(() => {

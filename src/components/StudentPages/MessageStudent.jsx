@@ -552,7 +552,7 @@ const MessageStudent = ({ studemail }) => {
                     </div>
                   )}
                   {avatarURL ? (
-                    <div className="flex">
+                    <div className="flex items-end">
                       <img
                         src={avatarURL}
                         className="h-[40px] w-[40px] rounded-full border-2 border-[#274472]"

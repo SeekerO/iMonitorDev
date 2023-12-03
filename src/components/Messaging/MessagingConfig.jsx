@@ -137,7 +137,7 @@ function MessagingConfig({
     setAvatarURL(displayURL);
     setOnlineStatus(studinfo.onlineStatus);
     getRole("");
-    setNotif(!notif);
+    setNotif(false);
   }
 
   // Mark the message as read
