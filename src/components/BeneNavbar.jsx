@@ -12,6 +12,7 @@ function Navbar({ email, Data }) {
   const [open, setOpen] = useState(true);
   const [drop, Setdropopen] = useState(true);
   const [notif, setNotif] = useState(false);
+  const [messagesNumber, setMessNumber] = useState(0);
 
   useEffect(() => {
     checkmessage();
@@ -26,6 +27,8 @@ function Navbar({ email, Data }) {
           table: "Messaging",
         },
         (payload) => {
+          setNotif(false);
+          setMessNumber(0);
           checkmessage();
         }
       )
@@ -39,12 +42,14 @@ function Navbar({ email, Data }) {
       .eq("beneEmail", email)
       .single();
 
-    const { data: beneMess } = await supabase.from("Messaging").select();
+    const { data: beneMess, count } = await supabase
+      .from("Messaging")
+      .select("*", { count: "exact" })
+      .match({ contactwith: benedata.beneName, readmessage: "FALSE" });
+
+    setMessNumber(count);
     for (let index = 0; index < beneMess.length; index++) {
-      if (
-        beneMess[index].contactwith === benedata.beneName &&
-        beneMess[index].readmessage === false
-      ) {
+      if (beneMess[index].readmessage === false) {
         setNotif(true);
         return;
       } else {
@@ -202,7 +207,7 @@ function Navbar({ email, Data }) {
               onClick={() => handlemessagebutton()}
               className="flex items-center p-2 rounded-lg text-white hover:bg-[#274472] transform hover:translate-x-2 hover:shadow-md  duration-500"
             >
-              <div className="flex">
+              <div className="flex items-center">
                 <svg
                   aria-hidden="true"
                   className="w-6 h-6 text-white"
@@ -212,16 +217,18 @@ function Navbar({ email, Data }) {
                 >
                   <path d="M64 0C28.7 0 0 28.7 0 64V352c0 35.3 28.7 64 64 64h96v80c0 6.1 3.4 11.6 8.8 14.3s11.9 2.1 16.8-1.5L309.3 416H448c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64z" />
                 </svg>
-                <span className="ml-3 flex">
+                <span className="ml-3 flex ">
                   Message
-                  {notif ? (
-                    <div className="flex">
-                      <IoMdNotifications className="text-red-600 ml-2 text-[20px]" />
-                    </div>
-                  ) : (
-                    ""
+                  {notif && (
+                    <div className="h-[12px] w-[12px] bg-red-500 rounded-full" />
                   )}
+                  {/* <IoMdNotifications className="text-red-600 ml-2 text-[20px]" /> */}
                 </span>
+                {notif && (
+                  <label className="text-white bg-gray-500 rounded-md h-fit px-1 font-semibold font-mono text-[10px] items-center flex ml-[40px]">
+                    +{messagesNumber}
+                  </label>
+                )}
               </div>
             </Link>
             {/*ANNOUCEMENT BUTTON*/}

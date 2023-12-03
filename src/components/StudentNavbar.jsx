@@ -12,6 +12,7 @@ function Navbar({ email }) {
   const [notif, setNotif] = useState(false);
   const [message, setMessage] = useState();
   const [announcement_NOTIF, setAnnouncement_NOTIF] = useState(true);
+  const [messagesNumber, setMessNumber] = useState(0);
   // AOS ANIMATION
   useEffect(() => {
     AOS.init();
@@ -30,6 +31,8 @@ function Navbar({ email }) {
           table: "Messaging",
         },
         (payload) => {
+          setNotif(false);
+          setMessNumber(0);
           checkmessage();
         }
       )
@@ -73,12 +76,14 @@ function Navbar({ email }) {
       .eq("studemail", email)
       .single();
 
-    const { data: studMess } = await supabase.from("Messaging").select();
+    const { data: studMess, count } = await supabase
+      .from("Messaging")
+      .select("*", { count: "exact" })
+      .match({ contactwith: studdata.studname, readmessage: "FALSE" });
+
+    setMessNumber(count);
     for (let index = 0; index < studMess.length; index++) {
-      if (
-        studMess[index].contactwith === studdata.studname &&
-        studMess[index].readmessage === false
-      ) {
+      if (studMess[index].readmessage === false) {
         setNotif(true);
       } else {
         setNotif(false);
@@ -212,23 +217,29 @@ function Navbar({ email }) {
               onClick={() => setOpen(!open)}
               className="flex items-center p-2 rounded-lg text-white hover:bg-[#274472] transform hover:translate-x-2 hover:shadow-md"
             >
-              <svg
-                aria-hidden="true"
-                className="w-6 h-6 text-white"
-                fill="currentColor"
-                viewBox="0 0 512 512"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M64 0C28.7 0 0 28.7 0 64V352c0 35.3 28.7 64 64 64h96v80c0 6.1 3.4 11.6 8.8 14.3s11.9 2.1 16.8-1.5L309.3 416H448c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64z" />
-              </svg>
-              <span className="ml-3 flex">
-                Message{" "}
-                {notif ? (
-                  <IoMdNotifications className="text-red-600 ml-1 text-[20px]" />
-                ) : (
-                  ""
+              <div className="flex items-center">
+                <svg
+                  aria-hidden="true"
+                  className="w-6 h-6 text-white"
+                  fill="currentColor"
+                  viewBox="0 0 512 512"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M64 0C28.7 0 0 28.7 0 64V352c0 35.3 28.7 64 64 64h96v80c0 6.1 3.4 11.6 8.8 14.3s11.9 2.1 16.8-1.5L309.3 416H448c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64z" />
+                </svg>
+                <span className="ml-3 flex ">
+                  Message
+                  {notif && (
+                    <div className="h-[12px] w-[12px] bg-red-500 rounded-full" />
+                  )}
+                  {/* <IoMdNotifications className="text-red-600 ml-2 text-[20px]" /> */}
+                </span>
+                {notif && (
+                  <label className="text-white bg-gray-500 rounded-md h-fit px-1 font-semibold font-mono text-[10px] items-center flex ml-[40px]">
+                    +{messagesNumber}
+                  </label>
                 )}
-              </span>
+              </div>
             </Link>
           </div>
         </aside>

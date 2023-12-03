@@ -19,7 +19,7 @@ function BatchUpload({ visible, close, sy }) {
   const [maxload, setMaxLoad] = useState();
   const [succes, setSucces] = useState(false);
 
-  const [openNote, setOpenNote] = useState(false);
+  const [openNote, setOpenNote] = useState(true);
 
   const readExcel = async (e) => {
     setSelectedFile(e.target.files[0]);
@@ -327,7 +327,7 @@ function BatchUpload({ visible, close, sy }) {
               {displayData && (
                 <button
                   onClick={() => UploadDataExcel()}
-                  className="bg-[#274472] text-white hover:bg-green-600  h-fit p-2 mt-1 rounded-sm"
+                  className="bg-[#5885AF] text-white hover:bg-green-600  h-fit p-2 mt-1 rounded-sm"
                 >
                   Register
                 </button>

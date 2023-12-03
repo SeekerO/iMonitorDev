@@ -25,12 +25,15 @@ function MessageBeneContanct({
   const [avatar, setAvatar] = useState(false);
   var displayColor;
   const [displayURL, setDisplayURL] = useState();
+  const [counter, setCounter] = useState(0);
   //Listener for new messages in supabase
 
   useEffect(() => {
     CheckNotification();
-    displayAvatar(studinfo.beneEmail);
   }, [run]);
+  useEffect(() => {
+    displayAvatar(studinfo.beneEmail);
+  }, []);
 
   function stringToColor(string) {
     let hash = 0;
@@ -93,12 +96,17 @@ function MessageBeneContanct({
   //Notification Checker
   async function CheckNotification() {
     try {
-      const { data: bene } = await supabase
+      const { data: bene, count } = await supabase
         .from("Messaging")
-        .select()
-        .match({ name: studinfo.beneName, contactwith: beneName });
+        .select("*", { count: "exact" })
+        .match({
+          name: studinfo.beneName,
+          contactwith: beneName,
+          readmessage: "FALSE",
+        });
 
       if (bene) {
+        setCounter(count);
         for (let index = 0; index < bene.length; index++) {
           if (
             bene[index].name === studinfo.beneName &&
@@ -125,7 +133,8 @@ function MessageBeneContanct({
     setAvatarColor(displayColor);
     setAvatarURL(displayURL);
     setOnlineStatus(studinfo.onlineStatus);
-    getRole(studinfo.ROLE)
+    getRole(studinfo.ROLE);
+    setNotif(!notif);
   }
 
   // Mark the message as read
@@ -194,14 +203,14 @@ function MessageBeneContanct({
               </p>
             </div>
           </div>
-          <div className="flex">
-            {notif && (
+          {notif && (
+            <div className="flex">
               <div className=" text-red-600 font-bold flex">
                 <AiFillMessage className="text-red-600" />
-                <FaBell className="text-[10px] -mt-1" />
+                <label className="text-[10px]">+{counter}</label>
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       )}
     </div>

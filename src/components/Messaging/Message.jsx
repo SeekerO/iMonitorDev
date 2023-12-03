@@ -182,9 +182,6 @@ const Message = ({ beneemail }) => {
 
         insert();
       })
-      .on("presence", { event: "leave" }, ({ key, leftPresences }) => {
-        console.log("leave", key, leftPresences);
-      })
       .subscribe();
   }, [getstudname]);
 
@@ -583,7 +580,7 @@ const Message = ({ beneemail }) => {
                               setShowMessage={setShowMessage}
                               setGetID={setGetID}
                               setSeen={setSeen}
-                              message={havemessage}
+                              message={receivedmessages}
                               beneName={beneName}
                               read={seen}
                               run={run}
@@ -638,7 +635,7 @@ const Message = ({ beneemail }) => {
                               setShowMessage={setShowMessage}
                               setGetID={setGetID}
                               setSeen={setSeen}
-                              message={havemessage}
+                              message={receivedmessages}
                               beneName={beneName}
                               read={seen}
                               run={run}

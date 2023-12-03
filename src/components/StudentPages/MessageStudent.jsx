@@ -421,14 +421,14 @@ const MessageStudent = ({ studemail }) => {
 
   function avatarComponent(name) {
     return (
-      <div className="">
+      <div className="flex items-end">
         <div
           style={{ background: avatarColor }}
           className={`flex text-white items-center justify-center h-[40px]  w-[40px] rounded-full font-thin  border-2 border-[#274472]`}
         >{`${name.split(" ")[0][0]}`}</div>
 
         {onlineStatus === "online" ? (
-          <div className="bg-green-400 h-[13px] w-[13px] -ml-3 rounded-ful border-2 border-[#274472]" />
+          <div className="bg-green-400 h-[13px] w-[13px] -ml-3 rounded-full border-2 border-[#274472]" />
         ) : (
           <div className="bg-gray-400 h-[13px] w-[13px] -ml-3 rounded-full border-2 border-[#274472]" />
         )}
@@ -436,35 +436,7 @@ const MessageStudent = ({ studemail }) => {
     );
   }
 
-  var filenameHOLDER;
-  const imageRender = (filename) => {
-    return (
-      <>
-        {receivedmessages.map((e) => (
-          <div>
-            {e.name === studinfo.studname && filename === e.message && (
-              <>
-                {console.log(studinfo.id + "_" + getID)}
-                <img
-                  className=""
-                  src={`https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${studinfo.id}_${getID}/${studinfo.id}/${filename}`}
-                ></img>
-              </>
-            )}
-            {e.name === getbeneName && filename === e.message && (
-              <>
-                <img
-                  className=""
-                  src={`https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${studinfo.id}_${getID}/${getID}/${filename}`}
-                ></img>
-              </>
-            )}
-          </div>
-        ))}
-      </>
-    );
-  };
-  const currentDate = new Date();
+
 
   return (
     <>
@@ -580,7 +552,7 @@ const MessageStudent = ({ studemail }) => {
                     </div>
                   )}
                   {avatarURL ? (
-                    <div className="">
+                    <div className="flex">
                       <img
                         src={avatarURL}
                         className="h-[40px] w-[40px] rounded-full border-2 border-[#274472]"

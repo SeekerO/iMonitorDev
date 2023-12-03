@@ -22,6 +22,7 @@ function MessagingConfig({
   const [avatar, setAvatar] = useState(false);
   var displayColor;
   const [displayURL, setDisplayURL] = useState();
+  const [counter, setCounter] = useState(0);
 
   //checker if there are unread messages each name
 
@@ -30,6 +31,7 @@ function MessagingConfig({
   }, []);
 
   useEffect(() => {
+    setNotif(false);
     CheckNotification();
   }, [message]);
 
@@ -87,9 +89,9 @@ function MessagingConfig({
         >{`${name.split(" ")[0][0]}`}</div>
 
         {beneinfo.onlineStatus === "online" ? (
-          <div className="bg-green-400 h-[13px] w-[13px] -ml-3 rounded-full" />
+          <div className="bg-green-400 h-[13px] w-[13px] -ml-3 rounded-full border-2 border-white" />
         ) : (
-          <div className="bg-gray-400 h-[13px] w-[13px] -ml-3 rounded-full" />
+          <div className="bg-gray-400 h-[13px] w-[13px] -ml-3 rounded-full border-2 border-white" />
         )}
       </div>
     );
@@ -97,12 +99,17 @@ function MessagingConfig({
 
   async function CheckNotification() {
     try {
-      const { data: bene } = await supabase
+      const { data: bene, count } = await supabase
         .from("Messaging")
-        .select()
-        .match({ name: beneinfo.beneName, contactwith: studName });
+        .select("*", { count: "exact" })
+        .match({
+          name: beneinfo.beneName,
+          contactwith: studName,
+          readmessage: "FALSE",
+        });
 
       if (bene) {
+        setCounter(count);
         for (let index = 0; index < bene.length; index++) {
           if (
             bene[index].name === beneinfo.beneName &&
@@ -149,18 +156,18 @@ function MessagingConfig({
         <div>
           <div
             onClick={() => handleclickcontact()}
-            className="hover:bg-opacity-[60%] bg-blue-900 bg-opacity-[15%] hover:text-white flex p-1 cursor-pointer hover:p-2 duration-300"
+            className="hover:bg-[#0047ab2d] hover:text-white flex p-1 cursor-pointer hover:p-2 duration-300"
           >
             <div className="w-[100%] flex items-center gap-1">
               {!avatar ? (
                 avatarComponent(beneinfo.beneName)
               ) : (
                 <div className="flex items-end">
-                  <img src={img} className="h-[30px] w-[30px] rounded-full" />
+                  <img src={img} className="h-[40px] w-[40px] rounded-full" />
                   {beneinfo.onlineStatus === "online" ? (
-                    <div className="bg-green-400 h-[13px] w-[13px] -ml-3 rounded-full" />
+                    <div className="bg-green-400 h-[13px] w-[13px] -ml-3 rounded-full border-2 border-white" />
                   ) : (
-                    <div className="bg-gray-400 h-[13px] w-[13px] -ml-3 rounded-full" />
+                    <div className="bg-gray-400 h-[13px] w-[13px] -ml-3 rounded-full border-2 border-white" />
                   )}
                 </div>
               )}
@@ -180,7 +187,7 @@ function MessagingConfig({
             {notif && (
               <div className=" text-red-600 font-bold flex">
                 <AiFillMessage className="text-red-600" />
-                <FaBell className="text-[10px] -mt-1" />
+                <label className="text-[10px]">+{counter}</label>
               </div>
             )}
           </div>

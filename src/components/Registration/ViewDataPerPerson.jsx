@@ -62,6 +62,10 @@ function ViewDataPerPerson({ open, close, data }) {
                 <label>{data.Section}</label>
               </div>
               <div>
+                <label className="font-semibold text-lg">O365: </label>
+                <label>{data.o365}</label>
+              </div>
+              <div>
                 <label className="font-semibold text-lg">OJT START: </label>
                 <label>{ExcelDateToJSDate(data.ojtStarting)}</label>
               </div>
@@ -69,10 +73,7 @@ function ViewDataPerPerson({ open, close, data }) {
                 <label className="font-semibold text-lg">OJT END: </label>
                 <label>{ExcelDateToJSDate(data.ojtEnd)}</label>
               </div>
-              <div>
-                <label className="font-semibold text-lg">O365: </label>
-                <label>{data.o365}</label>
-              </div>
+
               <div>
                 <label className="font-semibold text-lg">Remarks: </label>
                 <label>{data.remarks}</label>

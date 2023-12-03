@@ -13,7 +13,6 @@ function MessagingConfig({
   beneName,
   setGetID,
   read,
-  run,
   getFile,
   setGetEmail,
   setAvatarColor,
@@ -26,12 +25,17 @@ function MessagingConfig({
   const [avatar, setAvatar] = useState(false);
   var displayColor;
   const [displayURL, setDisplayURL] = useState();
+  const [counter, setCounter] = useState(0);
   //Listener for new messages in supabase
 
   useEffect(() => {
+    setNotif(false);
     CheckNotification();
+  }, [message]);
+
+  useEffect(() => {
     displayAvatar(studinfo.studemail);
-  }, [run]);
+  }, []);
 
   async function displayAvatar(email) {
     try {
@@ -68,8 +72,6 @@ function MessagingConfig({
           <div className="bg-gray-400 h-[13px] w-[13px] -ml-3 rounded-full border-2 border-white" />
         )}
       </div>
-
-      // ${name.split(" ")[1][0]}
     );
   }
 
@@ -96,10 +98,16 @@ function MessagingConfig({
   //Notification Checker
   async function CheckNotification() {
     try {
-      const { data: bene } = await supabase
+      const { data: bene, count } = await supabase
         .from("Messaging")
-        .select()
-        .match({ name: studinfo.studname, contactwith: beneName });
+        .select("*", { count: "exact" })
+        .match({
+          name: studinfo.studname,
+          contactwith: beneName,
+          readmessage: "FALSE",
+        });
+
+      setCounter(count);
 
       if (bene) {
         for (let index = 0; index < bene.length; index++) {
@@ -129,6 +137,7 @@ function MessagingConfig({
     setAvatarURL(displayURL);
     setOnlineStatus(studinfo.onlineStatus);
     getRole("");
+    setNotif(!notif);
   }
 
   // Mark the message as read
@@ -197,7 +206,7 @@ function MessagingConfig({
           {notif && (
             <div className=" text-red-600 font-bold flex">
               <AiFillMessage className="text-red-600" />
-              <FaBell className="text-[10px] -mt-1" />
+              <label className="text-[10px]">+{counter}</label>
             </div>
           )}
         </div>
