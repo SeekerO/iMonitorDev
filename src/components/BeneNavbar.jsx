@@ -13,6 +13,7 @@ function Navbar({ email, Data }) {
   const [drop, Setdropopen] = useState(true);
   const [notif, setNotif] = useState(false);
   const [messagesNumber, setMessNumber] = useState(0);
+  const [data, setData] = useState();
 
   useEffect(() => {
     checkmessage();
@@ -41,7 +42,7 @@ function Navbar({ email, Data }) {
       .select()
       .eq("beneEmail", email)
       .single();
-
+    setData(benedata);
     const { data: beneMess, count } = await supabase
       .from("Messaging")
       .select("*", { count: "exact" })

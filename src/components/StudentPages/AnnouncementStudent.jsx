@@ -87,6 +87,7 @@ function AnnouncementStudent({ studemail }) {
       const { data1 } = await supabase.storage
         .from("StudentAnnouncementSubmit")
         .upload(getTitle + "/" + studname1 + "/" + random + filename, file);
+        // .upload(Teachers_name + "/" + Course + "/" + Section + "/" + filename, file);
       notifyuploaded();
       setFile([]);
       setUploading(false);
@@ -242,7 +243,7 @@ function AnnouncementStudent({ studemail }) {
                             onClick={() => setOpenSubmit(!opensubmit)}
                             className="text-blue-600 underline cursor-pointer"
                           >
-                            View Submit
+                            View Submitted
                           </a>
                           <div className="font-semibold gap-4 flex ">
                             Upload file here{" "}

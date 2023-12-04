@@ -31,7 +31,6 @@ function MessagingConfig({
   }, []);
 
   useEffect(() => {
-    setNotif(false);
     CheckNotification();
   }, [message]);
 
@@ -163,7 +162,10 @@ function MessagingConfig({
                 avatarComponent(beneinfo.beneName)
               ) : (
                 <div className="flex items-end">
-                  <img src={img} className="h-[40px] w-[40px] rounded-full border-2 border-white" />
+                  <img
+                    src={img}
+                    className="h-[40px] w-[40px] rounded-full border-2 border-white"
+                  />
                   {beneinfo.onlineStatus === "online" ? (
                     <div className="bg-green-400 h-[13px] w-[13px] -ml-3 rounded-full border-2 border-white" />
                   ) : (

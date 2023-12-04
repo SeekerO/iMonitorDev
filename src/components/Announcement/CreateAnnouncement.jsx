@@ -42,6 +42,7 @@ function CreateAnnouncement({ Data }) {
       }
     } catch (error) {}
   };
+  console.log(isEmpty);
 
   function handlePostAnnouncement() {
     if (
@@ -61,31 +62,23 @@ function CreateAnnouncement({ Data }) {
       });
       return;
     }
-    const fileExtenstion = filename.split(".").pop().toLowerCase();
-    const imageExtensions = ["jpg", "jpeg", "png", "gif", "bmp"];
-    const documentExtenstions = ["docx", "pdf", "ods", "pptx", "xlsx"];
-
-    if (
-      fileExtenstion.includes(imageExtensions) ||
-      fileExtenstion.includes(documentExtenstions)
-    ) {
-    } else {
-      setIsEmpty();
-      toast.warning("Invalid File", {
-        position: "top-center",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-      return;
-    }
 
     var a = false;
     const postdata = async () => {
+      if (title.trim() === 0 || message.trim() === 0) {
+        toast.warning("Invalid Input", {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        return;
+      }
+
       if (isEmpty === false) {
         const { data, error } = await supabase
           .from("AnnouncementTable")
@@ -99,50 +92,53 @@ function CreateAnnouncement({ Data }) {
               PostedBy: Data.beneName,
             },
           ]);
-        if (data) {
-          console.log(data);
-          a = true;
-        }
-        if (error) {
-          console.log(error);
-        }
+        clear();
       } else {
-        var endDateSend = moment(endDate).format("LLL");
-        const { data, error } = await supabase
-          .from("AnnouncementTable")
-          .insert([
-            {
-              announcementTitle: title,
-              announcementAllow: allow,
-              announcementStartDate: currDate,
-              announcementEndDate: endDateSend,
-              announcementMessage: message,
-            },
-          ]);
-        if (data) {
-          console.log(data);
-          a = true;
-        }
-        if (error) {
-          console.log(error);
-        }
+        const imageExtensions = ["jpg", "jpeg", "png", "gif", "bmp"];
+        const documentExtenstions = ["docx", "pdf", "ods", "pptx", "xlsx"];
+        const fileExtenstion = filename.split(".").pop().toLowerCase();
+        console.log(fileExtenstion);
 
-        const { data1, error1 } = await supabase.storage
-          .from("AnnouncementAttachmentFiles")
-          .upload(title + "/" + filename, file);
+        if (
+          imageExtensions.includes(fileExtenstion) ||
+          documentExtenstions.includes(fileExtenstion)
+        ) {
+          await supabase.storage
+            .from("AnnouncementAttachmentFiles")
+            .upload(title + "/" + filename, file);
 
-        if (data1) {
-          console.log("Uploaded File");
-          //
-        }
-        if (error1) {
-          console.log(error1);
+          var endDateSend = moment(endDate).format("LLL");
+          const { data, error } = await supabase
+            .from("AnnouncementTable")
+            .insert([
+              {
+                announcementTitle: title,
+                announcementAllow: allow,
+                announcementStartDate: currDate,
+                announcementEndDate: endDateSend,
+                announcementMessage: message,
+              },
+            ]);
+
+          clear();
+        } else {
+          setIsEmpty();
+          toast.warning("Invalid File", {
+            position: "top-center",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+          return;
         }
       }
     };
     // window.location.reload();
     postdata();
-    clear();
   }
 
   function clear() {
@@ -153,7 +149,11 @@ function CreateAnnouncement({ Data }) {
     setTitle("");
     setendDate("");
     setPerformError("");
-    setFile([]);
+    setFile();
+    setFileName();
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
   }
 
   function handlealert() {
