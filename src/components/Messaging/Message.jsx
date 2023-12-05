@@ -473,7 +473,7 @@ const Message = ({ beneemail }) => {
         >{`${name.split(" ")[0][0]}`}</div>
 
         {onlineStatus === "online" ? (
-          <div className="bg-green-400 h-[13px] w-[13px] -ml-3 rounded-ful border-2 border-[#274472]" />
+          <div className="bg-green-400 h-[13px] w-[13px] -ml-3 rounded-full border-2 border-[#274472]" />
         ) : (
           <div className="bg-gray-400 h-[13px] w-[13px] -ml-3 rounded-full border-2 border-[#274472]" />
         )}
