@@ -134,6 +134,9 @@ export default function ViewProfileModal({
               <label className=" mt-2  text-sm text-center font-thin text-black ">
                 {removeCourseAcro(studinfos.studprogram)}
               </label>
+              <label className=" mt-2  text-sm text-center font-thin text-black ">
+                {studinfos.studSY}
+              </label>
             </div>
             <div className="h-[1px] w-[100%] bg-yellow-500 mb-4" />
             <div className="flex-col text-black">

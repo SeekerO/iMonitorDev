@@ -469,7 +469,7 @@ const Message = ({ beneemail }) => {
       <div className="flex items-end">
         <div
           style={{ background: avatarColor }}
-          className={`flex text-white items-center justify-center h-[40px]  w-[40px] rounded-full font-thin border-2 border-[#274472]`}
+          className={`flex text-white items-center justify-center h-[40px]  w-[40px] rounded-full font-thin border-2 border-[#274472] hover:no-underline`}
         >{`${name.split(" ")[0][0]}`}</div>
 
         {onlineStatus === "online" ? (
@@ -716,7 +716,7 @@ const Message = ({ beneemail }) => {
                     <div
                       onClick={() => closeMessage()}
                       className=" flex items-center pl-[1%] mt-0.5 text-[15px] w-[100%] gap-1
-                       font-semibold text-white cursor-pointer hover:underline hover:text-blue-500"
+                       font-semibold text-white cursor-pointer  "
                     >
                       {avatarURL ? (
                         <div className="flex items-end">
@@ -733,7 +733,7 @@ const Message = ({ beneemail }) => {
                       ) : (
                         avatarComponent(getstudname)
                       )}
-                      {getstudname}
+                      <label className="hover:text-blue-500 hover:underline">{getstudname}</label>
                     </div>
                   </>
                 </div>

@@ -56,8 +56,6 @@ export default function ViewProfileMasterModal({
     );
   }
 
-
-
   function removeCourseAcro(course) {
     const modifiedCourse = course.replace(/\([^()]*\)/g, "").trim();
     return `(${studinfos.studsection}) ` + modifiedCourse;
@@ -94,6 +92,9 @@ export default function ViewProfileMasterModal({
               </label>
               <label className=" mt-2 text-sm text-center  text-black ">
                 {removeCourseAcro(studinfos.studprogram)}
+              </label>
+              <label className=" mt-2 text-sm text-center  text-black ">
+                {studinfos.studSY}
               </label>
             </div>
             <div className="h-[1px] w-[100%] bg-yellow-500 mb-4" />
