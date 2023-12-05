@@ -104,13 +104,9 @@ function Navbar({ instance }) {
             .single();
         };
         insert1();
-      } else {
       }
-
-      // You can perform any necessary actions here when the user changes pages
     }
 
-    // Update prevLocation to the current location
     setPrevLocation(location);
   }, [location, prevLocation]);
 

@@ -4,7 +4,7 @@ import supabase from "./iMonitorDBconfig";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { IoMdNotifications } from "react-icons/io";
-
+import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
 import moment from "moment";
 
 function Navbar({ email }) {
@@ -31,8 +31,6 @@ function Navbar({ email }) {
           table: "Messaging",
         },
         (payload) => {
-          setNotif(false);
-          setMessNumber(0);
           checkmessage();
         }
       )
@@ -87,7 +85,6 @@ function Navbar({ email }) {
         setNotif(true);
       } else {
         setNotif(false);
-        break;
       }
     }
     setMessage(studMess);
@@ -149,7 +146,7 @@ function Navbar({ email }) {
         } absolute flex w-52 h-screen  bg-[#5885AF] transition-transform  -translate-x-full md:translate-x-0`}
       >
         <div
-          className="pl-[208px] pt-[10px] absolute"
+          className="pl-[208px] pt-[10px] absolute flex"
           onClick={() => toggleDiv()}
         >
           <svg
@@ -168,6 +165,11 @@ function Navbar({ email }) {
               d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5"
             />
           </svg>
+          {notif || announcement_NOTIF ? (
+            <div className="h-4 w-4  rounded-full bg-red-500 md:hidden visible" />
+          ) : (
+            ""
+          )}
         </div>
         <aside className={"relative"}>
           <div className="px-3 py-4 ">
@@ -229,12 +231,12 @@ function Navbar({ email }) {
                 </svg>
                 <span className="ml-3 flex ">
                   Message
-                  {notif && (
+                  {messagesNumber > 0 && (
                     <div className="h-[12px] w-[12px] bg-red-500 rounded-full" />
                   )}
                   {/* <IoMdNotifications className="text-red-600 ml-2 text-[20px]" /> */}
                 </span>
-                {notif && (
+                {messagesNumber > 0 && (
                   <label className="text-white bg-gray-500 rounded-md h-fit px-1 font-semibold font-mono text-[10px] items-center flex ml-[40px]">
                     +{messagesNumber}
                   </label>

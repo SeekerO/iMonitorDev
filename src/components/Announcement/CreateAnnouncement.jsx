@@ -151,9 +151,6 @@ function CreateAnnouncement({ Data }) {
     setPerformError("");
     setFile();
     setFileName();
-    setTimeout(() => {
-      window.location.reload();
-    }, 1000);
   }
 
   function handlealert() {

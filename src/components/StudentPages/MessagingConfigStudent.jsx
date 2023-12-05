@@ -34,10 +34,6 @@ function MessagingConfig({
     CheckNotification();
   }, [message]);
 
-  useEffect(() => {
-    readmessage();
-  }, [read]);
-
   function stringToColor(string) {
     let hash = 0;
     let i;
@@ -186,7 +182,7 @@ function MessagingConfig({
                 </p>
               </div>
             </div>
-            {notif && (
+            {counter > 0 && (
               <div className=" text-red-600 font-bold flex">
                 <AiFillMessage className="text-red-600" />
                 <label className="text-[10px]">+{counter}</label>

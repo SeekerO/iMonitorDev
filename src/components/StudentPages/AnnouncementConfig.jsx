@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import moment from "moment";
 import supabase from "../iMonitorDBconfig";
 import { IoNotificationsCircleOutline } from "react-icons/io5";
+import { FaHistory } from "react-icons/fa";
 
 const AnnouncementConfig = ({
   announcementinfo,
@@ -15,6 +16,7 @@ const AnnouncementConfig = ({
   setGetFileName,
   setGetPostedBy,
   studemail,
+  ReactTooltip,
 }) => {
   const [Files, setFiles] = useState([]);
   const [state, setState] = useState(false);
@@ -133,11 +135,26 @@ const AnnouncementConfig = ({
 
   return (
     <>
-      <div className={`${showDate && "hidden"}`}>
+      <div>
+        {showDate && (
+          <FaHistory
+            className="-mb-2.5 -ml-1.5 bg-gray-400 rounded-full p-1 text-[25px]"
+            data-tooltip-id="History"
+          />
+        )}
+
         <div
           onClick={() => handleclick()}
-          className={`${state ? "bg-black" : "bg-gray-200"}
-       h-20 bg-gray-200 p-1 hover:bg-gray-300 rounded-md hover:shadow-md hover:shadow-black hover:translate-x-1 duration-300`}
+          className={` ${
+            showDate
+              ? "bg-gray-400 h-20 p-1 rounded-md "
+              : `${
+                  state
+                    ? "bg-black"
+                    : "   h-20 bg-gray-200 p-1 rounded-md  hover:bg-gray-300 hover:shadow-md hover:shadow-black hover:translate-x-1 duration-300"
+                }`
+          } 
+   `}
         >
           <div className="flex items-center gap-0.5">
             {Announcement_Notif ? (
@@ -152,6 +169,12 @@ const AnnouncementConfig = ({
           </p>
         </div>
       </div>
+      <ReactTooltip
+        id="History"
+        place="right"
+        variant="info"
+        content="History"
+      />
     </>
   );
 };

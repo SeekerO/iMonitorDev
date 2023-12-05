@@ -5,7 +5,7 @@ import "react-datepicker/dist/react-datepicker.module.css";
 import { ToastContainer, toast } from "react-toastify";
 import { BeatLoader } from "react-spinners";
 import moment from "moment";
-
+import { Tooltip as ReactTooltip } from "react-tooltip";
 function AnnouncementStudent({ studemail }) {
   const [announcementinfo, setAnnouncementInfo] = useState([]);
   const [announcementinfoState, setAnnouncementInfoState] = useState(false);
@@ -87,7 +87,7 @@ function AnnouncementStudent({ studemail }) {
       const { data1 } = await supabase.storage
         .from("StudentAnnouncementSubmit")
         .upload(getTitle + "/" + studname1 + "/" + random + filename, file);
-        // .upload(Teachers_name + "/" + Course + "/" + Section + "/" + filename, file);
+      // .upload(Teachers_name + "/" + Course + "/" + Section + "/" + filename, file);
       notifyuploaded();
       setFile([]);
       setUploading(false);
@@ -149,6 +149,9 @@ function AnnouncementStudent({ studemail }) {
 
     setStudentFile(studfile);
   }
+  var date = moment().format("LLL");
+  var announceDate = moment(new Date(getEndDate)).format("LLL");
+  const showDate = date > announceDate;
 
   return (
     <>
@@ -181,6 +184,7 @@ function AnnouncementStudent({ studemail }) {
                           setGetFileName={setGetFileName}
                           setGetPostedBy={setGetPostedBy}
                           studemail={studemail}
+                          ReactTooltip={ReactTooltip}
                         />
                       </div>
                     ))}
@@ -202,9 +206,18 @@ function AnnouncementStudent({ studemail }) {
           >
             {getId ? (
               <div id="announcement" className="pl-[2%] pt-3 pr-[2%] h-[90%]">
-                <div className="font-bold text-[20px]  overflow-x-auto md:h-20 h-[10%] ">
-                  {getTitle}
+                <div className="flex justify-between items-start">
+                  <div className="font-bold text-[20px]  overflow-x-auto md:h-20 h-[10%] ">
+                    {getTitle}
+                  </div>
+                  <a
+                    onClick={() => setOpenSubmit(!opensubmit)}
+                    className="text-blue-600 underline cursor-pointer"
+                  >
+                    Submissions
+                  </a>
                 </div>
+
                 <div className="font-semibold text-[13px]">
                   Posted By: {getPostedBy}
                 </div>
@@ -239,32 +252,30 @@ function AnnouncementStudent({ studemail }) {
                     {getAllow === "true" ? (
                       <div className="grid">
                         <div className="">
-                          <a
-                            onClick={() => setOpenSubmit(!opensubmit)}
-                            className="text-blue-600 underline cursor-pointer"
-                          >
-                            View Submitted
-                          </a>
-                          <div className="font-semibold gap-4 flex ">
-                            Upload file here{" "}
-                          </div>
-                          <input
-                            type="file"
-                            onChange={handleFileInputChange}
-                            className=" w-[200px] overflow-x-auto "
-                          />
+                          {showDate && (
+                            <>
+                              <div className="font-semibold gap-4 flex ">
+                                Upload file here{" "}
+                              </div>
+                              <input
+                                type="file"
+                                onChange={handleFileInputChange}
+                                className=" w-[200px] overflow-x-auto "
+                              />
 
-                          <button
-                            disabled={isEmpty}
-                            onClick={handleUploadSubmitAnnouncement}
-                            className={`${
-                              isEmpty
-                                ? "bg-gray-400 w-[100px] rounded-md p-1 text-black mt-2 "
-                                : " mt-2 w-[100px] rounded-md p-1 bg-blue-500 hover:bg-blue-700 text-white font-semibold"
-                            }`}
-                          >
-                            Submit
-                          </button>
+                              <button
+                                disabled={isEmpty}
+                                onClick={handleUploadSubmitAnnouncement}
+                                className={`${
+                                  isEmpty
+                                    ? "bg-gray-400 w-[100px] rounded-md p-1 text-black mt-2 "
+                                    : " mt-2 w-[100px] rounded-md p-1 bg-blue-500 hover:bg-blue-700 text-white font-semibold"
+                                }`}
+                              >
+                                Submit
+                              </button>
+                            </>
+                          )}
                         </div>
                       </div>
                     ) : (
@@ -284,22 +295,22 @@ function AnnouncementStudent({ studemail }) {
             <div
               className={`bg-slate-200 md:w-[35%] w-[100%] rounded-r-md h-[100%]`}
             >
-              <div className="flex items-center md:justify-center grid-cols-2">
+              <div className="flex items-center md:justify-center grid-cols-2 bg-[#5885AF]">
                 <a
                   onClick={() => setOpenSubmit(!opensubmit)}
                   className={`${
                     window.innerWidth >= 768
                       ? "hidden"
-                      : `mr-[10%] text-blue-600 underline cursor-pointer ml-2 text-[13px]`
+                      : `mr-[10%] text-white underline cursor-pointer ml-2 text-[13px]`
                   }`}
                 >
                   Back
                 </a>
-                <div className="flex-col w-[100%] md:ml-[3%] ml-0">
+                <div className="flex w-[100%] p-1 gap-1 items-center bg-[#5885AF] text-white rounded-tr-md">
                   <label className="text-lg flex  font-semibold">
-                    Submitted
+                    Submitted:
                   </label>
-                  <label className="text-sm flex  font-semibold">
+                  <label className="text-lg flex  font-semibold">
                     {getTitle}
                   </label>
                 </div>
