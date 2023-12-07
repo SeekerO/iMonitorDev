@@ -131,12 +131,11 @@ const AnnouncementConfig = ({
       setAnnouncementNotif(true);
     }
   }
-  const showDate = date >= announceDate;
 
   return (
     <>
       <div>
-        {showDate && (
+        {moment(announceDate).isBefore(date) && (
           <FaHistory
             className="-mb-2.5 -ml-1.5 bg-gray-400 rounded-full p-1 text-[25px]"
             data-tooltip-id="History"
@@ -146,7 +145,7 @@ const AnnouncementConfig = ({
         <div
           onClick={() => handleclick()}
           className={` ${
-            showDate
+            moment(announceDate).isBefore(date)
               ? "bg-gray-400 h-20 p-1 rounded-md "
               : `${
                   state

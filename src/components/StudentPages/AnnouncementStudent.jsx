@@ -151,7 +151,7 @@ function AnnouncementStudent({ studemail }) {
   }
   var date = moment().format("LLL");
   var announceDate = moment(new Date(getEndDate)).format("LLL");
-  const showDate = date > announceDate;
+  const showDate = date <= announceDate;
 
   return (
     <>

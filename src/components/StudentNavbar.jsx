@@ -11,7 +11,7 @@ function Navbar({ email }) {
   const [open, setOpen] = useState(true);
   const [notif, setNotif] = useState(false);
   const [message, setMessage] = useState();
-  const [announcement_NOTIF, setAnnouncement_NOTIF] = useState(true);
+  const [announcement_NOTIF, setAnnouncement_NOTIF] = useState();
   const [messagesNumber, setMessNumber] = useState(0);
   // AOS ANIMATION
   useEffect(() => {
@@ -53,18 +53,24 @@ function Navbar({ email }) {
       .from("AnnouncementTable")
       .select();
 
-    for (let index = 0; index < announce.length; index++) {
-      checkAnnouncementView(announce[index].readsBy);
-    }
-  }
+    var mail3 = email;
 
-  function checkAnnouncementView(data) {
-    for (let index = 0; index < data.length; index++) {
-      if (data[index] === email) {
-        setAnnouncement_NOTIF(false);
-        return;
+    for (let index = 0; index < announce.length; index++) {
+      const a = [announce[index].readsBy];
+
+      if (a.length) {
+        for (let index1 = 0; index1 < a.length; index1++) {
+          var mail1 = a[index1];
+
+          if (mail1[index1] !== mail3) {
+            setAnnouncement_NOTIF(true);
+            return;
+          }
+        }
       }
     }
+    setAnnouncement_NOTIF(false);
+    return;
   }
 
   async function checkmessage() {
@@ -115,7 +121,7 @@ function Navbar({ email }) {
   }, [email]);
 
   async function recordLogin() {
-    var date = moment().format("LLL");
+    var date = moment(new Date()).format("LLL");
 
     const { data: actlog } = await supabase
       .from("StudentInformation")
@@ -208,10 +214,14 @@ function Navbar({ email }) {
               >
                 <path d="M64 0C28.7 0 0 28.7 0 64V352c0 35.3 28.7 64 64 64H240l-10.7 32H160c-17.7 0-32 14.3-32 32s14.3 32 32 32H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H346.7L336 416H512c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64zM512 64V288H64V64H512z" />
               </svg>
-              <span className="ml-3">Announcement</span>
-              {announcement_NOTIF && (
-                <IoMdNotifications className="text-red-600 text-[20px] ml-1" />
-              )}
+              <span className="ml-3 flex">
+                Announcement{" "}
+                <em>
+                  {announcement_NOTIF && (
+                    <IoMdNotifications className="text-red-600 text-[20px] ml-1" />
+                  )}
+                </em>
+              </span>
             </Link>
             {/*Message*/}
             <Link

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import supabase from "../iMonitorDBconfig";
 import UploadLog from "./UploadLog";
-
+import { FcExpired } from "react-icons/fc";
+import moment from "moment";
 function UploadStudentConfig({
   announceinfo,
   setGetId,
@@ -91,18 +92,36 @@ function UploadStudentConfig({
     handleGetDataFromStorageStudentSubmit();
   }, [folderCount, dataCount]);
 
+  const endDate = moment(new Date(announceinfo.announcementEndDate)).format(
+    "Y/M/D"
+  );
+  const startDate = moment(new Date(announceinfo.announcementStartDate)).format(
+    "Y/M/D"
+  );
+  const currDate = moment(new Date()).format("Y/M/D");
+
   return (
     <div className="hover:cursor-pointer p-2 rounded-md">
       <div
         onClick={() => handlePassDataToUploadLogProps()}
-        className="bg-gray-100 p-3 text-start rounded-md hover:bg-gray-400 hover:cursor-pointer
-        hover:translate-x-3  w-[230px]  h-[100px] text-[15px] overflow-hidden duration-500 hover:shadow-lg hover:shadow-black
-        
-        "
+        className="z-0 bg-gray-100 p-3 text-start rounded-md hover:bg-gray-400 hover:cursor-pointer
+        hover:translate-x-3  w-[230px]  h-[100px] text-[15px] overflow-hidden duration-500 hover:shadow-lg hover:shadow-black"
       >
-        <div className="truncate">{announceinfo.announcementTitle}</div>
-        <div>{announceinfo.announcementStartDate}</div>
-        <div className="flex text-[14px]">
+        <label className="truncate flex items-center">
+          {moment(endDate).isBefore(currDate) && (
+            <em>
+              <FcExpired className="text-[20px]" />
+            </em>
+          )}
+
+          {announceinfo.announcementTitle}
+        </label>
+        <div className="grid text-[12px] font-thin">
+          <label>START: {announceinfo.announcementStartDate}</label>
+
+          <label>END: {announceinfo.announcementEndDate}</label>
+        </div>
+        <div className="flex text-[12px] font-thin">
           Student Submissions:
           <div className="text-blue-600 ml-2">
             {dataCount === 0 ? "-/-" : `${folderCount}/${dataCount}`}
