@@ -19,19 +19,16 @@ function UserMessagesDisplay({
 }) {
   const [seen, setSeen] = useState(false);
   const [imagebroken, setImageBroken] = useState();
-  const [userImage, setUserImage] = useState();
-  const [currentUserImage, setCurrentUserImage] = useState();
+  const [userImage, setUserImage] = useState(
+    `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${studID}_${beneinfo.id}/${beneinfo.id}/${message.message}`
+  );
+  const [currentUserImage, setCurrentUserImage] = useState(
+    `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${studID}_${beneinfo.id}/${studID}/${message.message}`
+  );
   const [viewPicture, setViewPicture] = useState(false);
 
   useEffect(() => {
     seenChecker();
-
-    setUserImage(
-      `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${studID}_${beneinfo.id}/${beneinfo.id}/${message.message}`
-    );
-    setCurrentUserImage(
-      `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${studID}_${beneinfo.id}/${studID}/${message.message}`
-    );
   }, [message]);
 
   useEffect(() => {

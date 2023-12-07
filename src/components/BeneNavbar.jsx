@@ -121,7 +121,7 @@ function Navbar({ email, Data }) {
             {/*REGISTRATION BUTTON*/}
 
             <Link
-              to="/registration"
+              to="/Registration"
               onClick={() => setOpen(!open)}
               className={`${
                 Data.position === ""
@@ -160,7 +160,7 @@ function Navbar({ email, Data }) {
             </Link>
             {/*MASTER LIST BUTTON*/}
             <Link
-              to="/masterlist"
+              to="/Masterlist"
               onClick={() => setOpen(!open)}
               className={`${
                 Data.position === ""
@@ -185,7 +185,7 @@ function Navbar({ email, Data }) {
               ""
             ) : (
               <Link
-                to="/company"
+                to="/Company"
                 onClick={() => setOpen(!open)}
                 className={`flex items-center p-2 rounded-lg text-white hover:bg-[#274472] transform hover:translate-x-2 hover:shadow-md duration-500`}
               >
@@ -204,7 +204,7 @@ function Navbar({ email, Data }) {
 
             {/*MESSAGE BUTTON*/}
             <Link
-              to="/message"
+              to="/Message"
               onClick={() => handlemessagebutton()}
               className="flex items-center p-2 rounded-lg text-white hover:bg-[#274472] transform hover:translate-x-2 hover:shadow-md  duration-500"
             >
@@ -268,7 +268,7 @@ function Navbar({ email, Data }) {
               }`}
             >
               <Link
-                to="/createannouncement"
+                to="/Announcement/CreateAnnouncement"
                 onClick={() => setOpen(!open) || Setdropopen(!drop)}
                 className="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-[#274472] transform hover:translate-x-2 hover:shadow-md  duration-500"
               >
@@ -287,7 +287,7 @@ function Navbar({ email, Data }) {
               </Link>
 
               <Link
-                to="/activitylog"
+                to="/Announcement/ActivityLog"
                 onClick={() => setOpen(!open) || Setdropopen(!drop)}
                 className="flex  p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-[#274472] transform hover:translate-x-2 hover:shadow-md  duration-500"
               >
@@ -314,7 +314,7 @@ function Navbar({ email, Data }) {
               </Link>
 
               <Link
-                to="/uploadlog1"
+                to="/Announcement/UploadLog"
                 onClick={() => setOpen(!open) || Setdropopen(!drop)}
                 className="flex  p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-[#274472] transform hover:translate-x-2 hover:shadow-md  duration-500"
               >

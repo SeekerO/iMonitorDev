@@ -12,14 +12,14 @@ function StudentRoutes({ studemail }) {
       <Routes>
         <Route path="/*" element={<Attendance studemail={studemail} />} />
         <Route
-          path="/announcementstudent"
+          path="/Announcement"
           element={<AnnouncementStudent studemail={studemail} />}
         />
         <Route
-          path="/messagestudent"
+          path="/Message"
           element={<MessageStudent studemail={studemail} />}
         />
-        <Route path="/profile" element={<Profile studemail={studemail} />} />
+        <Route path="/Profile" element={<Profile studemail={studemail} />} />
       </Routes>
     </div>
   );

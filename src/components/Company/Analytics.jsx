@@ -3,10 +3,12 @@ import { PieChart } from "react-minimal-pie-chart";
 import { LineChart } from "@mui/x-charts/LineChart";
 import { BarChart, Bar } from "@mui/x-charts/BarChart";
 import supabase from "../iMonitorDBconfig";
+import { MdLocalPrintshop } from "react-icons/md";
 import { MoonLoader } from "react-spinners";
-
+import PdfLayout from "./PdfLayout";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import ReactToPrint from "react-to-print";
 function Analytics({ data }) {
   const [analytics, setAnalytics] = useState([]);
   const [showdata, setShowData] = useState(false);
@@ -14,6 +16,7 @@ function Analytics({ data }) {
   const [moreinformaiton, setMoreInformation] = useState(false);
 
   const divRef = useRef(null);
+  const testRef = useRef();
 
   const handleClickOutside = (event) => {
     if (divRef.current && !divRef.current.contains(event.target)) {
@@ -62,7 +65,6 @@ function Analytics({ data }) {
       setShowData(true);
     } catch (error) {}
   }
-  console.log(avg);
 
   const DataTop1 = async (compname) => {
     const { data: masterlistcom, count: complete } = await supabase
@@ -173,10 +175,11 @@ function Analytics({ data }) {
       </div>
     );
   };
+
   return (
-    <>
+    <div ref={divRef}>
       {analytics ? (
-        <>
+        <div>
           {analytics.length < 2 ? (
             <label className="text-white font-bold text-[20px]  flex justify-center place-content-center items-center mt-[10%]">
               The analytics will show when there are three or more companies
@@ -186,6 +189,25 @@ function Analytics({ data }) {
             <div className="mt-2  h-screen ">
               {showdata ? (
                 <>
+                  <ReactToPrint
+                    trigger={() => (
+                      <button className="flex gap-1 items-center bg-[#0874B9] p-0.5 px-2 rounded-md mb-1 text-white">
+                        <MdLocalPrintshop className="text-[20px] cursor-pointer" />
+                        <label className=" cursor-pointer">Print</label>
+                      </button>
+                    )}
+                    content={() => testRef.current}
+                    documentTitle="Test"
+                  />
+                  <div className="hidden">
+                    <PdfLayout
+                      data={data}
+                      analytics={analytics}
+                      avg={avg}
+                      testRef={testRef}
+                    />
+                  </div>
+
                   <div className=" md:w-[100%]  w-[99%]  h-[33%] md:flex grid place-content-center items-center  inset-0 bg-[#6f97bcb3] text-black rounded-md shadow-md shadow-black">
                     <div className=" h-[100%] flex items-center ">
                       <div className="flex-col mb-2">
@@ -239,7 +261,7 @@ function Analytics({ data }) {
                     </div>
                   </div>
                   {moreinformaiton ? (
-                    <div ref={divRef}>
+                    <div>
                       <div
                         onClick={() => setMoreInformation(!moreinformaiton)}
                         className="cursor-pointer bg-[#58abf8b3] hover:bg-[#48a7ff60]  p-1 mt-4 rounded shadow-black shadow-lg md:w-[100%]  w-[99%] text-white justify-center flex "
@@ -490,13 +512,13 @@ function Analytics({ data }) {
               )}
             </div>
           )}
-        </>
+        </div>
       ) : (
         <div className="flex place-content-center items-center h-[300px] bg-[#5885AF] bg-opacity-20 mt-2 rounded-md shadow-black shadow-md">
           <MoonLoader color="#131f2a" speedMultiplier={0.5} />
         </div>
       )}
-    </>
+    </div>
   );
 }
 

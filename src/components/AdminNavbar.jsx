@@ -99,7 +99,7 @@ function AdminPage() {
                 <span className="ml-3 text-white">Create Account</span>
               </Link>
               <Link
-                to="/adminaccount"
+                to="/AdminAccount"
                 onClick={() => setOpen(!open)}
                 className={
                   "flex items-center w-[100%] p-2 rounded-lg text-white transform hover:bg-blue-400 hover:cursor-pointer"

@@ -195,7 +195,7 @@ function Navbar({ email }) {
 
             {/*Announcement*/}
             <Link
-              to="/announcementstudent"
+              to="/Announcement"
               onClick={() => handleAnnouncementButtonClicked()}
               className="flex items-center p-2 rounded-lg text-white hover:bg-[#274472] transform hover:translate-x-2 hover:shadow-md"
             >
@@ -215,7 +215,7 @@ function Navbar({ email }) {
             </Link>
             {/*Message*/}
             <Link
-              to="/messagestudent"
+              to="/Message"
               onClick={() => setOpen(!open)}
               className="flex items-center p-2 rounded-lg text-white hover:bg-[#274472] transform hover:translate-x-2 hover:shadow-md"
             >

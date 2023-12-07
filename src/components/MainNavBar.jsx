@@ -692,7 +692,7 @@ function Navbar({ instance }) {
                             border-b-[10px] border-b-white
                             border-r-[7px] border-r-transparent"
                       />
-                      <Link to="/profile">
+                      <Link to="/Profile">
                         <p className=" p-1 rounded hover:bg-slate-300 hover:shadow-xl">
                           View Profile
                         </p>

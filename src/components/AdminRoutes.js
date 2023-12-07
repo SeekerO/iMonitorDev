@@ -10,7 +10,7 @@ const AdminRoutes = () => {
     <div>
       <Routes>
         <Route path="/" element={<BeneficiaryCreator />} />
-        <Route path="/adminaccount" element={<AdminAccounts />} />
+        <Route path="/AdminAccount" element={<AdminAccounts />} />
       </Routes>
     </div>
   );

@@ -144,7 +144,7 @@ export default function ViewProfileModal({
                 <span className="font-bold flex md:text-[25px] text-lg rounded-md text-black  gap-1 p-2">
                   STUDENT INFORMATION
                   {beneData.filterby === "ALL" && (
-                    <Link to={"/" + studinfos.id}>
+                    <Link to={"/UpdateProfile/" + studinfos.id}>
                       <button
                         className="hover:bg-[#62a0d9] bg-yellow-500 mb-7  text-base p-0.5 px-2 rounded-md text-center w-fit   text-white 
                hover:text-black font-semibold  flex items-center gap-1 "

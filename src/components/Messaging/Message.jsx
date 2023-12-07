@@ -18,6 +18,8 @@ import { Backdrop } from "@mui/material";
 import { TailSpin } from "react-loader-spinner";
 import { TbMessage2Share } from "react-icons/tb";
 
+import { Radio } from "react-loader-spinner";
+
 // Toastify
 import { ToastContainer, toast } from "react-toastify";
 import MessageBeneContanct from "./MessageBeneContanct";
@@ -535,119 +537,150 @@ const Message = ({ beneemail }) => {
             <div className="h-[96%]">
               {studinfo && allbeneinfo ? (
                 <>
-                  <div className=" md:h-[80%] h-[85%] rounded-bl-md overflow-y-auto scroll-smooth">
+                  <div className="h-[85%] md:max-h-[80%]  rounded-bl-md overflow-y-auto scroll-smooth">
                     {studinfo.length >= 0 ? (
                       <>
-                        <label className="flex justify-center bg-[#274472] font-semibold text-white p-1">
-                          APO & ADVISER
-                        </label>
-                        {allbeneinfo
-                          .sort((a, b) => {
-                            const dateA = new Date(a.last_Modif);
-                            const dateB = new Date(b.last_Modif);
+                        {allbeneinfo.length === 1 ? (
+                          ""
+                        ) : (
+                          <>
+                            <label className="flex justify-center bg-[#274472] font-semibold text-white p-1">
+                              APO & ADVISER
+                            </label>
+                            {allbeneinfo
+                              .sort((a, b) => {
+                                const dateA = new Date(a.last_Modif);
+                                const dateB = new Date(b.last_Modif);
 
-                            if (dateA.getTime() <= dateB.getTime()) {
-                              return 1; // dates are equal
-                            } else {
-                              return -1; // sort by date and time
-                            }
-                          })
-                          .filter((val) => {
-                            try {
-                              if (search === "") {
-                                return val;
-                              } else if (
-                                val.beneName
-                                  .toLowerCase()
-                                  .includes(search.toLowerCase())
-                              ) {
-                                return val;
-                              } else if (
-                                val.position
-                                  .toLowerCase()
-                                  .includes(search.toLowerCase())
-                              ) {
-                                return val;
-                              }
-                            } catch (error) {}
-                          })
-                          .slice(pageVisited, pageVisited + userPerPage)
-                          .map((bene, index) => (
-                            <MessageBeneContanct
-                              key={bene.id}
-                              studinfo={bene}
-                              setGetStudName={setGetStudName}
-                              setShowMessage={setShowMessage}
-                              setGetID={setGetID}
-                              setSeen={setSeen}
-                              message={receivedmessages}
-                              beneName={beneName}
-                              read={seen}
-                              run={run}
-                              getFile={getFile}
-                              index={index}
-                              setGetEmail={setGetEmail}
-                              setAvatarColor={setAvatarColor}
-                              setAvatarURL={setAvatarURL}
-                              setOnlineStatus={setOnlineStatus}
-                              getRole={getRole}
-                            />
-                          ))}
+                                if (dateA.getTime() <= dateB.getTime()) {
+                                  return 1; // dates are equal
+                                } else {
+                                  return -1; // sort by date and time
+                                }
+                              })
+                              .filter((val) => {
+                                try {
+                                  if (search === "") {
+                                    return val;
+                                  } else if (
+                                    val.beneName
+                                      .toLowerCase()
+                                      .includes(search.toLowerCase())
+                                  ) {
+                                    return val;
+                                  } else if (
+                                    val.position
+                                      .toLowerCase()
+                                      .includes(search.toLowerCase())
+                                  ) {
+                                    return val;
+                                  }
+                                } catch (error) {}
+                              })
+                              .slice(pageVisited, pageVisited + userPerPage)
+                              .map((bene, index) => (
+                                <MessageBeneContanct
+                                  key={bene.id}
+                                  studinfo={bene}
+                                  setGetStudName={setGetStudName}
+                                  setShowMessage={setShowMessage}
+                                  setGetID={setGetID}
+                                  setSeen={setSeen}
+                                  message={receivedmessages}
+                                  beneName={beneName}
+                                  read={seen}
+                                  run={run}
+                                  getFile={getFile}
+                                  index={index}
+                                  setGetEmail={setGetEmail}
+                                  setAvatarColor={setAvatarColor}
+                                  setAvatarURL={setAvatarURL}
+                                  setOnlineStatus={setOnlineStatus}
+                                  getRole={getRole}
+                                />
+                              ))}
+                          </>
+                        )}
+
                         <label className="flex justify-center bg-[#274472] font-semibold text-white p-1">
                           STUDENT
                         </label>
-                        {studinfo
-                          .sort((a, b) => {
-                            var aDate = new Date(a.last_Modif);
-                            var bDate = new Date(b.last_Modif);
-                            var currDate = new Date();
-                            if (aDate.getTime() <= bDate.getTime()) {
-                              return 1; // dates are equal
-                            } else {
-                              return -1; // sort by date and time
-                            }
-                          })
-                          .filter((val) => {
-                            try {
-                              if (search === "") {
-                                return val;
-                              } else if (
-                                val.studname
-                                  .toLowerCase()
-                                  .includes(search.toLowerCase())
-                              ) {
-                                return val;
-                              } else if (
-                                val.studsection
-                                  .toLowerCase()
-                                  .includes(search.toLowerCase())
-                              ) {
-                                return val;
-                              }
-                            } catch (error) {}
-                          })
-                          .slice(pageVisited, pageVisited + userPerPage)
-                          .map((studinfo, index) => (
-                            <MessagingConfig
-                              key={studinfo.id}
-                              studinfo={studinfo}
-                              setGetStudName={setGetStudName}
-                              setShowMessage={setShowMessage}
-                              setGetID={setGetID}
-                              setSeen={setSeen}
-                              message={receivedmessages}
-                              beneName={beneName}
-                              read={seen}
-                              run={run}
-                              getFile={getFile}
-                              index={index}
-                              setGetEmail={setGetEmail}
-                              setAvatarColor={setAvatarColor}
-                              setAvatarURL={setAvatarURL}
-                              setOnlineStatus={setOnlineStatus}
-                              getRole={getRole}
+                        {studinfo ? (
+                          <>
+                            {studinfo.length > 0 ? (
+                              <>
+                                {studinfo
+                                  .sort((a, b) => {
+                                    var aDate = new Date(a.last_Modif);
+                                    var bDate = new Date(b.last_Modif);
+                                    var currDate = new Date();
+                                    if (aDate.getTime() <= bDate.getTime()) {
+                                      return 1; // dates are equal
+                                    } else {
+                                      return -1; // sort by date and time
+                                    }
+                                  })
+                                  .filter((val) => {
+                                    try {
+                                      if (search === "") {
+                                        return val;
+                                      } else if (
+                                        val.studname
+                                          .toLowerCase()
+                                          .includes(search.toLowerCase())
+                                      ) {
+                                        return val;
+                                      } else if (
+                                        val.studsection
+                                          .toLowerCase()
+                                          .includes(search.toLowerCase())
+                                      ) {
+                                        return val;
+                                      }
+                                    } catch (error) {}
+                                  })
+                                  .slice(pageVisited, pageVisited + userPerPage)
+                                  .map((studinfo, index) => (
+                                    <MessagingConfig
+                                      key={studinfo.id}
+                                      studinfo={studinfo}
+                                      setGetStudName={setGetStudName}
+                                      setShowMessage={setShowMessage}
+                                      setGetID={setGetID}
+                                      setSeen={setSeen}
+                                      message={receivedmessages}
+                                      beneName={beneName}
+                                      read={seen}
+                                      run={run}
+                                      getFile={getFile}
+                                      index={index}
+                                      setGetEmail={setGetEmail}
+                                      setAvatarColor={setAvatarColor}
+                                      setAvatarURL={setAvatarURL}
+                                      setOnlineStatus={setOnlineStatus}
+                                      getRole={getRole}
+                                    />
+                                  ))}
+                              </>
+                            ) : (
+                              <div className="flex justify-center mt-10 font-semibold">
+                                NO DATA
+                              </div>
+                            )}
+                          </>
+                        ) : (
+                          <div className="flex justify-center mt-10 font-semibold">
+                            <Radio
+                              visible={true}
+                              height="80"
+                              width="80"
+                              colors={["  #4f8bec", "#3760a2", "#274472"]}
+                              ariaLabel="radio-loading"
+                              wrapperStyle={{}}
+                              wrapperClass="radio-wrapper"
                             />
-                          ))}
+                          </div>
+                        )}
                       </>
                     ) : (
                       <div className=" h-[77%]   place-content-center flex justify-center items-center">
@@ -670,7 +703,7 @@ const Message = ({ beneemail }) => {
                   />
                 </div>
               )}
-              <div className=" bg-[#274472] w-[100%]  bottom-0">
+              <div className=" bg-[#274472] w-[100%] bottom-0">
                 <ReactPaginate
                   previousLabel={"Previous"}
                   nextLabel={"Next"}
@@ -733,7 +766,9 @@ const Message = ({ beneemail }) => {
                       ) : (
                         avatarComponent(getstudname)
                       )}
-                      <label className="hover:text-blue-500 hover:underline">{getstudname}</label>
+                      <label className="hover:text-blue-500 hover:underline">
+                        {getstudname}
+                      </label>
                     </div>
                   </>
                 </div>

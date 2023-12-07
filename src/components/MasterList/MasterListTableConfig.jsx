@@ -9,6 +9,7 @@ import { Tooltip as ReactTooltip } from "react-tooltip";
 const MasterListTableConfig = ({ studinfos, sy, course }) => {
   // AOS ANIMATION
   useEffect(() => {
+    displayAvatar(studinfos.studemail);
     AOS.init();
   }, [sy]);
 
