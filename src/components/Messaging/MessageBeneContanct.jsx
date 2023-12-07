@@ -169,7 +169,7 @@ function MessageBeneContanct({
   }
   return (
     <div>
-      {beneName !== studinfo.beneName && (
+      {beneName !== studinfo.beneName ? (
         <div
           onClick={() => handleclickcontact()}
           className="hover:bg-[#0047ab2d] bg-hover:shadow-2xl shadow-black hover:text-black flex p-1 cursor-pointer hover:p-2 duration-300"
@@ -212,6 +212,8 @@ function MessageBeneContanct({
             </div>
           )}
         </div>
+      ) : (
+        ""
       )}
     </div>
   );
