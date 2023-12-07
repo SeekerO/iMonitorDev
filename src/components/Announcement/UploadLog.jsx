@@ -207,7 +207,7 @@ function UploadLog() {
                     />
                     <div
                       ref={SeenRef}
-                      className="bg-[#5885afe2] max-h-[100px] w-[250px] text-sm absolute text-slate-100 overflow-x-auto  rounded-md"
+                      className="bg-[#5885afe2] max-h-[100px] min-w-[200px] w-auto text-sm absolute text-slate-100 overflow-x-auto  rounded-md"
                     >
                       <SeenAnnouncement seen={seen} getreadsBy={getreadsBy} />
                     </div>

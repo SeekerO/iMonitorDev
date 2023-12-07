@@ -174,13 +174,11 @@ const BeneficiaryCreator = () => {
   }
 
   function isValidEmail(email) {
-    return /\S+@\S+\.\S+/.test(email);
+    return /\S+@stamaria\.sti\.edu\.ph$/.test(email);
   }
 
   return (
     <>
-      <ToastContainer limit={1} />
-
       <div className="h-screen overflow-y-auto md:pt-0 pt-10">
         <div className=" md:grid-cols-3 grid-cols-1 gap-5 gap-y-50  md:ml-[2.5%] ml-0 md:mr-[2.5%] mr-0 mt-[10%] place-content-center flex">
           {/* Create */}
@@ -190,25 +188,25 @@ const BeneficiaryCreator = () => {
             </p>
             {!loadingcreate ? (
               <div>
-                <div className="mt-[5.8%]">
+                <form className="mt-[5.8%]">
                   <p className="ml-5 font-semibold mt-4">NAME</p>
                   <input
                     type="text"
+                    required
                     value={createname}
                     placeholder="Type Name Here"
                     onChange={(e) => setCreateName(e.target.value)}
                     className="bg-gray-200 w-[90%] ml-5 mb-2 pl-2 p-2 rounded-sm"
                   ></input>
                   <p className="ml-5 font-semibold mt-4">EMAIL</p>
-
                   <input
                     type="email"
+                    required
                     value={createemail}
                     placeholder="Type Email Here"
                     onChange={(e) => setCreateEmail(e.target.value)}
                     className="bg-gray-200 w-[90%] ml-5 mb-2 pl-2 p-2 rounded-sm"
                   ></input>
-
                   {createname && (
                     <div className="flex">
                       <select
@@ -236,9 +234,6 @@ const BeneficiaryCreator = () => {
                     </div>
                   )}
 
-                  {performerror && (
-                    <p className="ml-[20px] text-red-600">{performerror}</p>
-                  )}
                   <button
                     disabled={creating}
                     onClick={() => createaccount()}
@@ -250,7 +245,7 @@ const BeneficiaryCreator = () => {
                   >
                     CREATE
                   </button>
-                </div>
+                </form>
                 <button
                   onClick={() => setViewAccounts(!viewAccounts)}
                   className=" text-blue-500 hover:underline cursor-pointer flex justify-start ml-5"

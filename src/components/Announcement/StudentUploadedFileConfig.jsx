@@ -31,7 +31,7 @@ function StudentUploadedFileConfig({ studname, announcementTitle }) {
 
   const handleClickOutside = (event) => {
     if (divRef.current && !divRef.current.contains(event.target)) {
-      setOpen(true);
+      setOpen(false);
     }
   };
 
@@ -44,38 +44,41 @@ function StudentUploadedFileConfig({ studname, announcementTitle }) {
   }, []);
 
   return (
-    <div
-      onClick={() => test()}
-      className="bg-slate-200 hover:bg-slate-400 hover:translate-x-2 hover:shadow-md hover:shadow-black duration-500 cursor-pointer  p-2 mt-2 rounded-md"
-    >
-      <p className="font-semibold"> {studname}</p>
+    <>
+      <div
+        ref={divRef}
+        onClick={() => test()}
+        className="bg-slate-200 hover:bg-slate-400 hover:translate-x-2 hover:shadow-md hover:shadow-black duration-500 cursor-pointer  p-2 mt-2 rounded-md"
+      >
+        <p className="font-semibold"> {studname}</p>
 
-      {open && (
-        <div>
-          <div className="font-semibold text-[14px] h-[100px] overflow-y-auto">
-            File Submitted:
-            {file.map((file) => (
-              <div key={file.name} className="mt-2">
-                <div className="flex">
-                  Submitted: <DateConverter date={file.created_at} />
+        {open && (
+          <div>
+            <div className="font-semibold text-[14px] h-[100px] overflow-y-auto">
+              File Submitted:
+              {file.map((file) => (
+                <div key={file.name} className="mt-2">
+                  <div className="flex">
+                    Submitted: <DateConverter date={file.created_at} />
+                  </div>
+                  Donwload File:
+                  <a
+                    onClick={() =>
+                      window.open(
+                        `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/StudentAnnouncementSubmit/${announcementTitle}/${studname}/${file.name}`
+                      )
+                    }
+                    className="hover:underline text-blue-700 w-fit ml-1"
+                  >
+                    {file.name}
+                  </a>
                 </div>
-                Donwload File:
-                <a
-                  onClick={() =>
-                    window.open(
-                      `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/StudentAnnouncementSubmit/${announcementTitle}/${studname}/${file.name}`
-                    )
-                  }
-                  className="hover:underline text-blue-700 w-fit ml-1"
-                >
-                  {file.name}
-                </a>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   );
 }
 

@@ -23,6 +23,7 @@ function CreateAnnouncement({ Data }) {
 
   const [performerror, setPerformError] = useState("");
   var currDate = moment().format("LLL");
+  var endDateSend = moment(endDate).format("LLL");
 
   const [isEmpty, setIsEmpty] = useState(false);
   let [file, setFile] = useState([]);
@@ -87,7 +88,7 @@ function CreateAnnouncement({ Data }) {
               announcementTitle: title,
               announcementAllow: allow,
               announcementStartDate: currDate,
-              announcementEndDate: endDate,
+              announcementEndDate: endDateSend,
               announcementMessage: message,
               PostedBy: Data.beneName,
             },
@@ -97,7 +98,6 @@ function CreateAnnouncement({ Data }) {
         const imageExtensions = ["jpg", "jpeg", "png", "gif", "bmp"];
         const documentExtenstions = ["docx", "pdf", "ods", "pptx", "xlsx"];
         const fileExtenstion = filename.split(".").pop().toLowerCase();
-        console.log(fileExtenstion);
 
         if (
           imageExtensions.includes(fileExtenstion) ||
@@ -107,7 +107,6 @@ function CreateAnnouncement({ Data }) {
             .from("AnnouncementAttachmentFiles")
             .upload(title + "/" + filename, file);
 
-          var endDateSend = moment(endDate).format("LLL");
           const { data, error } = await supabase
             .from("AnnouncementTable")
             .insert([
@@ -137,7 +136,7 @@ function CreateAnnouncement({ Data }) {
         }
       }
     };
-    // window.location.reload();
+
     postdata();
   }
 

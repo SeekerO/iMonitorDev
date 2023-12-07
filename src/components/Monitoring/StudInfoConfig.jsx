@@ -5,8 +5,8 @@ import ViewProfileModal from "./ViewProfileModal";
 import { useState, useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import ProgressBar from "@ramonak/react-progress-bar";
 
-import Avatar from "@mui/material/Avatar";
 const StudInfoConfig = ({
   studinfos,
   BeneData,
@@ -122,6 +122,24 @@ const StudInfoConfig = ({
             <div className="w-[46%] pl-[10%] md:text-[16px] text-[10px] cursor-default items-center flex">
               {studinfos.studsection}
             </div>
+            {/* <div className="mt-3 flex md:w-[22.2%]  w-[23%] items-center ">
+              <p className="absolute w-[100%] flex md:justify-center md:text-base  text-[8px] z-50">
+                {" "}
+                {studinfos.studprogress}hrs/
+                {studinfos.studmaxprogress}hrs
+              </p>
+              <ProgressBar
+                completed={studinfos.studprogress}
+                maxCompleted={studinfos.studmaxprogress}
+                baseBgColor="#4d8092a7"
+                bgColor="#78D0F4"
+                height="25px"
+                borderRadius={3}
+                isLabelVisible={false}
+                className="w-full mr-5"
+              />
+            </div> */}
+
             <div className=" h-6 w-[20%] bg-[#4d8092a7] mr-6 rounded-md  md:mt-1.5 mt-0 cursor-default items-center flex">
               <div
                 className=" h-6 bg-[#78D0F4]  rounded-l rounded-r items-center flex"
@@ -131,6 +149,7 @@ const StudInfoConfig = ({
                   }%`,
                 }}
               >
+                {" "}
                 <div
                   className={`${
                     percentage(

@@ -25,14 +25,14 @@ function AdminAccounts() {
         }
       )
       .subscribe();
-  }, [AdminData]);
+  }, []);
 
   async function FetchAdminData() {
     const { data: adminData } = await supabase.from("AdminAccount").select("*");
     setAdminData(adminData);
   }
 
-  async function CreateAdminAccount() {
+  const CreateAdminAccount = async () => {
     if (!username || !password || !confirmpassword) {
       return;
     }
@@ -75,10 +75,9 @@ function AdminAccounts() {
     setUsername("");
     setPassword("");
     setConfirmPassword("");
-  }
+  };
   const TypeUserName = (e) => {
     setUsername(e.target.value);
-    setUsernameExist("");
   };
 
   return (
@@ -89,29 +88,32 @@ function AdminAccounts() {
             <div className="bg-[#274472] flex justify-center font-bold  text-[25px] p-1  rounded-t-md mb-2 text-white">
               CREATE ADMIN ACCOUNT
             </div>
-            <form className="p-2 h-[75.5%] pt-[1%] ">
+            <form
+              onSubmit={() => CreateAdminAccount()}
+              className="p-2 h-[75.5%] pt-[1%] "
+            >
               <div className="flex-col gap-2 mb-2">
                 <label className="text-[18px] font-semibold">
                   UserName:{" "}
-                  <label className="text-[14px] text-red-500">
-                    {usernameExist}
-                  </label>
+                  <em className="text-[14px] text-red-500">{usernameExist}</em>
                 </label>
+
                 <input
-                  required
                   value={username}
+                  type="text"
                   onChange={(e) => TypeUserName(e)}
+                  required
                   placeholder="Enter UserName"
                   className="bg-slate-200 w-[100%] p-1 rounded-md"
-                ></input>
+                />
               </div>
 
               <div className="flex-col gap-2 mb-2 ">
                 <label className="text-[18px] font-semibold">Password: </label>
                 <input
+                  value={password}
                   type="password"
                   required
-                  value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter Password"
                   className="bg-slate-200 w-[100%] p-1 rounded-md"
@@ -122,21 +124,18 @@ function AdminAccounts() {
                   Confirm Password:
                 </label>
                 <input
+                  value={confirmpassword}
                   type="Password"
                   required
-                  value={confirmpassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Re-Enter Password"
                   className="bg-slate-200 w-[100%] p-1 rounded-md"
                 ></input>
               </div>
+              <button className="bg-[#274472] hover:bg-[#3971a5] w-[100%] p-2 bottom-0 rounded-b-md font-semibold text-white">
+                CREATE
+              </button>
             </form>
-            <button
-              onClick={() => CreateAdminAccount()}
-              className="bg-[#274472] hover:bg-[#3971a5] hover:text-white w-[100%] p-2 bottom-0 rounded-b-md font-semibold"
-            >
-              CREATE
-            </button>
           </div>
           <div className="w-[100%] h-[100%] bg-[#94b8d8] rounded-md flex-col ">
             <div className=" bg-[#274472] text-white flex justify-center font-bold  text-[25px] p-1  rounded-t-md mb-2">
@@ -173,19 +172,6 @@ function AdminAccounts() {
           </div>
         </div>
       </div>
-      <ToastContainer
-        position="top-right"
-        autoClose={1000}
-        limit={1}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
     </>
   );
 }

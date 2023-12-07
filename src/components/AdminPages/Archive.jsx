@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import supabase from "../iMonitorDBconfig";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { IoIosArrowBack } from "react-icons/io";
 
 function Archive({ visible, close, data }) {

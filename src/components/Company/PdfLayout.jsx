@@ -48,6 +48,7 @@ export default function PdfLayout({ data, analytics, avg, testRef }) {
         {analytics && (
           <div className="">
             <div className=" md:w-[100%]  w-[99%]  h-[33%] md:flex grid place-content-center items-center  inset-0  text-black rounded-md ">
+              {/* PIE CHART */}
               <div className=" h-[100%] flex items-center ">
                 <div className="flex-col mb-2">
                   <p className="flex-col flex text-center font-senibold text-lg text-black">
@@ -102,7 +103,7 @@ export default function PdfLayout({ data, analytics, avg, testRef }) {
               </div>
             </div>
 
-            <div>
+            <div className="p-10">
               {analytics && (
                 <div className="flex  justify-between ">
                   {analytics.map((data, index) => (
@@ -323,6 +324,7 @@ export default function PdfLayout({ data, analytics, avg, testRef }) {
   };
 
   const capital = (text) => {
+
     var textCapital = text;
     return (
       <p className="font-thin">
@@ -330,19 +332,21 @@ export default function PdfLayout({ data, analytics, avg, testRef }) {
       </p>
     );
   };
-  
+
+
   return (
     <div ref={testRef} className="p-2">
       <div className="flex items-center  gap-2 ml-1">
         <img src={stilogo} alt="STI LOGO" className=" h-15 w-20 rounded-sm" />
-        <label className="font-bold text-[30px] font-sans text-[#0874B9]">iMonitor</label>
+        <label className="font-bold text-[30px] font-sans text-[#0874B9]">
+          iMonitor
+        </label>
       </div>
       <div className="h-[1px] bg-black w-[99%] mt-4" />
 
       <div className="p-3">
         <label className="flex justify-center text-[20px] text-center ">
-          {capital(`This data consist of the detailed information of the top 3 company
-          generated in `)}
+          {capital(`THIS DATA CONSISTS OF THE DETAILED INFORMATION OF THE TOP 3 COMPANY GENERATED IN`)}
         </label>
       </div>
       <div className="grid">{layout()}</div>
