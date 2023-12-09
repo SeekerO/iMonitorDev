@@ -149,9 +149,8 @@ function AnnouncementStudent({ studemail }) {
 
     setStudentFile(studfile);
   }
-  var date = moment().format("LLL");
+  var date = moment(new Date()).format("LLL");
   var announceDate = moment(new Date(getEndDate)).format("LLL");
-  const showDate = date <= announceDate;
 
   return (
     <>
@@ -249,10 +248,10 @@ function AnnouncementStudent({ studemail }) {
                   </div>
                 ) : (
                   <div>
-                    {getAllow === "true" ? (
+                    {getAllow === "true" && (
                       <div className="grid">
                         <div className="">
-                          {showDate && (
+                          {moment(date).isBefore(announceDate) && (
                             <>
                               <div className="font-semibold gap-4 flex ">
                                 Upload file here{" "}
@@ -278,8 +277,6 @@ function AnnouncementStudent({ studemail }) {
                           )}
                         </div>
                       </div>
-                    ) : (
-                      <div></div>
                     )}
                   </div>
                 )}

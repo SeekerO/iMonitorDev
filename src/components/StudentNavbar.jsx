@@ -47,13 +47,29 @@ function Navbar({ email }) {
       )
       .subscribe();
   }, []);
-
+  const [counter, setCounter] = useState(0);
   async function fetchAnnouncemnt_INFO() {
-    const { data: announce } = await supabase
+    const { data: announce, count } = await supabase
       .from("AnnouncementTable")
-      .select();
+      .select("*", { count: "exact" });
 
     var mail3 = email;
+
+    let numberofNotif = 0;
+    for (let index = 0; index < announce.length; index++) {
+      const a = [announce[index].readsBy];
+
+      if (a.length) {
+        for (let index1 = 0; index1 < a.length; index1++) {
+          var mail1 = a[index1];
+
+          if (mail1[index1] !== mail3) {
+            numberofNotif++;
+          }
+        }
+      }
+    }
+    setCounter(numberofNotif);
 
     for (let index = 0; index < announce.length; index++) {
       const a = [announce[index].readsBy];
@@ -218,10 +234,15 @@ function Navbar({ email }) {
                 Announcement{" "}
                 <em>
                   {announcement_NOTIF && (
-                    <IoMdNotifications className="text-red-600 text-[20px] ml-1" />
+                    <div className="bg-red-500 h-3 w-3 rounded-full ml-1" />
                   )}
                 </em>
               </span>
+              {announcement_NOTIF && (
+                <label className="text-[8px] ml-2 p-0.5 rounded-sm bg-slate-500 text-white">
+                  +{counter}
+                </label>
+              )}
             </Link>
             {/*Message*/}
             <Link
