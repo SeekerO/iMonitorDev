@@ -14,7 +14,7 @@ import ArchiveAllCompleted from "./ArchiveAllCompleted";
 import moment from "moment";
 
 const Monitoring = ({ Data }) => {
-  const [studinfos, setStudInfos] = useState(null);
+  const [studinfos, setStudInfos] = useState(false);
   const [searchstudinfos, setSearchStudInfos] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -224,7 +224,7 @@ const Monitoring = ({ Data }) => {
             </div>
           </div>
           {/* STUD INFO */}
-          {studinfos && (
+          {studinfos ? (
             <>
               {studinfos.length > 0 ? (
                 <div className="overflow-y-auto bg-black bg-opacity-[1%] md:h-[90%] h-[80%] overflow-hidden">
@@ -268,6 +268,8 @@ const Monitoring = ({ Data }) => {
                 </div>
               )}
             </>
+          ) : (
+            "Loading"
           )}
         </main>
         <div className="mt-[3%]">

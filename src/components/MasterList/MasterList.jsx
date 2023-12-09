@@ -230,7 +230,7 @@ const MasterList = ({ Data }) => {
           {/* STUD INFO */}
           {fetcherrror && <p>{fetcherrror}</p>}
 
-          {studinfos && (
+          {studinfos ? (
             <>
               {studinfos.length > 0 ? (
                 <>
@@ -273,7 +273,7 @@ const MasterList = ({ Data }) => {
                 </div>
               )}
             </>
-          )}
+          ) : "Loading"}
         </main>
         <div className="mt-[20px]">
           {studinfos && studinfos.length > 0 && (
