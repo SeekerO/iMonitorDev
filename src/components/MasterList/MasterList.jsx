@@ -9,6 +9,9 @@ import { Backdrop } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 
 import ReactPaginate from "react-paginate";
+import PrintModal from "./PrintModal";
+
+import { MdLocalPrintshop } from "react-icons/md";
 
 const MasterList = ({ Data }) => {
   // AOS ANIMATION
@@ -23,6 +26,8 @@ const MasterList = ({ Data }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [course, setCourse] = useState("ALL");
   const [sy, setSY] = useState("S.Y. 2023-2024");
+
+  const [openPrint, setOpenPrint] = useState(false);
 
   useEffect(() => {
     fetchstudinfo();
@@ -134,6 +139,13 @@ const MasterList = ({ Data }) => {
               <option className="text-[15px]">S.Y. 2028-2029</option>
             </select>
           </div>
+
+          <button
+            onClick={() => setOpenPrint(!openPrint)}
+            className="h-[26px] rounded-md bg-[#214f7a] px-5 flex gap-1 items-center"
+          >
+            <MdLocalPrintshop /> PRINT
+          </button>
         </div>
 
         {studinfos === null ? (
@@ -246,6 +258,7 @@ const MasterList = ({ Data }) => {
           )}
         </div>
       </div>
+      <PrintModal openPrint={openPrint} setOpenPrint={setOpenPrint} />
     </div>
   );
 };
