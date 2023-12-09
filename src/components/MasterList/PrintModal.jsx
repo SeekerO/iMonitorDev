@@ -57,42 +57,75 @@ function PrintModal({ openPrint, setOpenPrint }) {
       return;
     } else if (course1 !== defCourse && sy1 === defSY) {
       const fetch = async () => {
-        const { data: masterlist, count } = await supabase
-          .from("MasterListTable1")
-          .select("*", { count: "exact" })
-          .match({ filterby: course1, status: status1.toLowerCase() });
+        if (status1.toLowerCase() === "status") {
+          const { data: masterlist, count } = await supabase
+            .from("MasterListTable1")
+            .select("*", { count: "exact" })
+            .match({ filterby: course1 });
 
-        setData(masterlist);
-        setCount(count);
+          setData(masterlist);
+          setCount(count);
+        } else {
+          const { data: masterlist, count } = await supabase
+            .from("MasterListTable1")
+            .select("*", { count: "exact" })
+            .match({ filterby: course1, status: status1.toLowerCase() });
+
+          setData(masterlist);
+          setCount(count);
+        }
       };
+
       fetch();
       return;
     } else if (course1 === defCourse && sy1 !== defSY) {
       const fetch = async () => {
-        const { data: masterlist, count } = await supabase
-          .from("MasterListTable1")
-          .select("*", { count: "exact" })
-          .match({ studSY: sy1, status: status1.toLowerCase() });
+        if (status1.toLowerCase() === "status") {
+          const { data: masterlist, count } = await supabase
+            .from("MasterListTable1")
+            .select("*", { count: "exact" })
+            .match({ studSY: sy1 });
 
-        setData(masterlist);
-        setCount(count);
+          setData(masterlist);
+          setCount(count);
+        } else {
+          const { data: masterlist, count } = await supabase
+            .from("MasterListTable1")
+            .select("*", { count: "exact" })
+            .match({ studSY: sy1, status: status1.toLowerCase() });
+
+          setData(masterlist);
+          setCount(count);
+        }
       };
       fetch();
       return;
     } else if (course1 !== defCourse && sy1 !== defSY) {
-      console.log(true + "1");
       const fetch = async () => {
-        const { data: masterlist, count } = await supabase
-          .from("MasterListTable1")
-          .select("*", { count: "exact" })
-          .match({
-            filterby: course1,
-            studSY: sy1,
-            status: status1.toLowerCase(),
-          });
+        if (status1.toLowerCase() === "status") {
+          const { data: masterlist, count } = await supabase
+            .from("MasterListTable1")
+            .select("*", { count: "exact" })
+            .match({
+              filterby: course1,
+              studSY: sy1,
+            });
 
-        setData(masterlist);
-        setCount(count);
+          setData(masterlist);
+          setCount(count);
+        } else {
+          const { data: masterlist, count } = await supabase
+            .from("MasterListTable1")
+            .select("*", { count: "exact" })
+            .match({
+              filterby: course1,
+              studSY: sy1,
+              status: status1.toLowerCase(),
+            });
+
+          setData(masterlist);
+          setCount(count);
+        }
       };
       fetch();
       return;
@@ -102,7 +135,7 @@ function PrintModal({ openPrint, setOpenPrint }) {
   function close() {
     setCourse("ALL");
     setSY("S.Y. 2023-2024");
-    setStatus("ALL STATUS");
+    setStatus("STATUS");
     setData([]);
     setOpenPrint(!openPrint);
   }

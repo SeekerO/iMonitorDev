@@ -191,7 +191,7 @@ function Analytics({ data }) {
                 <>
                   <ReactToPrint
                     trigger={() => (
-                      <button className="flex gap-1 items-center bg-[#0874B9] p-0.5 px-2 rounded-md mb-1 text-white">
+                      <button className="flex gap-1 items-center hover:bg-[#449256] bg-[#58af6f] p-0.5 px-2 rounded-md mb-1 text-white">
                         <MdLocalPrintshop className="text-[20px] cursor-pointer" />
                         <label className=" cursor-pointer">Print</label>
                       </button>
