@@ -43,7 +43,6 @@ function CreateAnnouncement({ Data }) {
       }
     } catch (error) {}
   };
-  console.log(isEmpty);
 
   function handlePostAnnouncement() {
     if (

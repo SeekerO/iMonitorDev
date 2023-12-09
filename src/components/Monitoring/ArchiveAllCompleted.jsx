@@ -66,14 +66,19 @@ export default function ArchiveAllCompleted({ visible, onClose }) {
       }
       count++;
     }
+    // No Data
     if (studentcount === count) {
-      setCheck(true);
       setInfo(true);
-    } else {
       setCheck(true);
+    }
+    // With Data
+    else {
+      setCheck(true);
+
       setTimeout(() => {
+        setIsUploading(false);
         onClose(!visible);
-      }, 1300);
+      }, 1200);
     }
   }
   const ok = () => {

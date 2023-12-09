@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import supabase from "../iMonitorDBconfig";
 import { IoIosArrowBack } from "react-icons/io";
 
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 function Update({ visible, close, data, beneinfo, studinfo }) {
   const [oldname, setOldName] = useState(data.beneName);
@@ -140,7 +140,7 @@ function Update({ visible, close, data, beneinfo, studinfo }) {
           theme: "light",
         });
         isUploading(false);
-        close1()
+        close1();
       } else {
         toast.warning("Account Not Detected", {
           position: "top-right",

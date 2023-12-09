@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import supabase from "../iMonitorDBconfig";
 import AdminConfig from "./AdminConfig";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 

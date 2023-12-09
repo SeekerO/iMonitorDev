@@ -14,6 +14,7 @@ function BatchUpload({ visible, close, sy }) {
   const [displayData, setDisplayData] = useState(false);
   const [buttonUpload, setButtonUpload] = useState(true);
   const [uploading, setUploading] = useState(false);
+  const [checking, setChecking] = useState(false);
 
   const [load, setLoad] = useState(0);
   const [maxload, setMaxLoad] = useState();
@@ -79,6 +80,169 @@ function BatchUpload({ visible, close, sy }) {
   }
 
   async function UploadDataExcel() {
+    const { data: studinfo } = await supabase
+      .from("StudentInformation")
+      .select();
+
+    let nameOccurrences = {};
+    let emailOccurrences = {};
+    // Check Repeated Name
+    for (let index = 0; index < dataHolder.length; index++) {
+      var name =
+        dataHolder[index].Firstname +
+        `${
+          dataHolder[index].MiddleInitial
+            ? ` ${dataHolder[index].MiddleInitial} `
+            : " "
+        }` +
+        dataHolder[index].Lastname +
+        `${dataHolder[index].Suffix ? ` ${dataHolder[index].Suffix} ` : ""}`;
+
+      if (nameOccurrences[name]) {
+        nameOccurrences[name]++;
+      } else {
+        nameOccurrences[name] = 1;
+      }
+    }
+
+    // If name is repeated
+    for (let name in nameOccurrences) {
+      if (nameOccurrences[name] > 1) {
+        toast.warn(`Input has duplicate names`, {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          progress: undefined,
+          theme: "light",
+        });
+        return;
+      }
+    }
+
+    // Check Repeated Email
+    for (let index = 0; index < dataHolder.length; index++) {
+      var email = dataHolder[index].o365;
+
+      if (emailOccurrences[email]) {
+        emailOccurrences[email]++;
+      } else {
+        emailOccurrences[email] = 1;
+      }
+    }
+
+    // If email is repeated
+    for (let email in emailOccurrences) {
+      if (emailOccurrences[email] > 1) {
+        toast.warn(`Input has duplicate emails`, {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          progress: undefined,
+          theme: "light",
+        });
+        return;
+      }
+    }
+
+    // Check Invalid Date
+    for (let index = 0; index < dataHolder.length; index++) {
+      const moment = require("moment"); // Import Moment.js library
+
+      // Check if the dateString represents a valid date
+      let isValidDateSTART = moment(
+        ExcelDateToJSDate(dataHolder[index].ojtStarting),
+        "YYYY-MM-DD",
+        true
+      ).isValid();
+
+      let isValidDateEND = moment(
+        ExcelDateToJSDate(dataHolder[index].ojtEnd),
+        "YYYY-MM-DD",
+        true
+      ).isValid();
+
+      if (!isValidDateSTART) {
+        toast.warn(`Invalid Start Date`, {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          progress: undefined,
+          theme: "light",
+        });
+        return;
+      }
+
+      if (!isValidDateEND) {
+        toast.warn(`Invalid Start Date`, {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          progress: undefined,
+          theme: "light",
+        });
+        return;
+      }
+    }
+
+    // Check Data is already exist in DataBase
+    for (let index = 0; index < studinfo.length; index++) {
+      var name =
+        dataHolder[index].Firstname +
+        `${
+          dataHolder[index].MiddleInitial
+            ? ` ${dataHolder[index].MiddleInitial} `
+            : " "
+        }` +
+        dataHolder[index].Lastname +
+        `${dataHolder[index].Suffix ? ` ${dataHolder[index].Suffix} ` : ""}`;
+
+      if (name === studinfo[index].studname) {
+        alert("Already Exist", name);
+        return;
+      }
+
+      if (dataHolder[index].o365 === studinfo[index].studemail) {
+        alert("Already Exist", dataHolder[index].o365);
+        return;
+      }
+    }
+
+    // Invalid program
+    for (let index = 0; index < dataHolder.length; index++) {
+      switch (dataHolder[index].Program) {
+        case "BSIT":
+        case "BSTM":
+        case "BSAIS":
+        case "BSHM":
+        case "BSCS":
+        case "BSCPE":
+          break;
+        default:
+          toast.warn(`Invalid Program`, {
+            position: "top-right",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            progress: undefined,
+            theme: "light",
+          });
+          return;
+      }
+    }
+
+    StoreData();
+  }
+
+  async function StoreData() {
     let count = 0;
 
     for (let index = 0; index < dataHolder.length; index++) {
@@ -157,7 +321,10 @@ function BatchUpload({ visible, close, sy }) {
                   ? ` ${dataHolder[index].MiddleInitial} `
                   : " "
               }` +
-              dataHolder[index].Lastname,
+              dataHolder[index].Lastname +
+              `${
+                dataHolder[index].Suffix ? ` ${dataHolder[index].Suffix} ` : ""
+              }`,
             studprogram: course,
             studemail: dataHolder[index].o365,
             ojtstart: moment(ojtstart).format("l"),
@@ -296,12 +463,13 @@ function BatchUpload({ visible, close, sy }) {
 
               <div className="bg-slate-300 h-[550px] p-1 rounded-sm mt-1">
                 {displayData ? (
-                  <div className="grid grid-cols-5 p-1 font-semibold">
+                  <div className="grid grid-cols-6 p-1 font-semibold">
                     <label>FirstName</label>
                     <label>M.I</label>
                     <label>LastName</label>
+                    <label>Suffix</label>
                     <label>Program</label>
-                    <label>Setion</label>
+                    <label>Section</label>
                   </div>
                 ) : (
                   <div className="flex place-content-center items-center h-[100%]">

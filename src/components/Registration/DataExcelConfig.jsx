@@ -9,12 +9,13 @@ function DataExcelConfig({ data }) {
       <div
         onClick={() => setViewProfile(!viewprofile)}
         key={data.gmail}
-        className="grid grid-cols-5 p-1 hover:bg-[#377abe60] cursor-pointer"
+        className="grid grid-cols-6 p-1 hover:bg-[#377abe60] cursor-pointer"
       >
      
         <label className="cursor-pointer"> {data.Firstname}</label>
         <label className="cursor-pointer">{data.MiddleInitial}</label>
         <label className="cursor-pointer">{data.Lastname}</label>
+        <label className="cursor-pointer">{data.Suffix}</label>
         <label className="cursor-pointer">{data.Program}</label>
         <label className="cursor-pointer">{data.Section}</label>
       </div>

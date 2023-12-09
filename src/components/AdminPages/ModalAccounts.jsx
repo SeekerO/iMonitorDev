@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import BeneConfig from "./BeneConfig";
-import { ToastContainer } from "react-toastify";
+
 
 function ModalAccounts({ visible, beneinfo, studinfo, setViewAccounts }) {
   if (!visible) return null;
@@ -48,7 +48,7 @@ function ModalAccounts({ visible, beneinfo, studinfo, setViewAccounts }) {
       ) : (
         <div>Something Wrong with the connection</div>
       )}
-      <ToastContainer limit={1} />
+  
     </>
   );
 }
