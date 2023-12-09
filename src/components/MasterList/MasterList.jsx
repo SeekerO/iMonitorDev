@@ -98,7 +98,7 @@ const MasterList = ({ Data }) => {
       <div
         className=" text-white md:pt-[2%] pt-[10%] w-[100%] h-screen"
         data-aos="fade-up"
-        data-aos-duration="500"
+        data-aos-duration="300"
       >
         <header className="font-bold text-4xl mb-2">MASTER LIST</header>
 
@@ -258,7 +258,7 @@ const MasterList = ({ Data }) => {
           )}
         </div>
       </div>
-      <PrintModal openPrint={openPrint} setOpenPrint={setOpenPrint} />
+      <PrintModal openPrint={openPrint} setOpenPrint={setOpenPrint}  Data={Data}/>
     </div>
   );
 };

@@ -30,6 +30,7 @@ function Registration() {
   const [studfname, setStudFName] = useState("");
   const [studlname, setStudLName] = useState("");
   const [studmname, setStudMName] = useState("");
+  const [studsuffix, setStudSuffix] = useState("");
   const [studprogram, setStudProgram] = useState("");
   const [studemail, setStudemail] = useState("");
   const [ojtstart, setOjtStart] = useState("");
@@ -97,44 +98,6 @@ function Registration() {
     setStartTime("");
     setEndTime("");
   }
-
-  const FilterCompany = async () => {
-    try {
-      let a;
-      let b;
-      var c;
-      const { data } = await supabase.from("CompanyTable").select();
-
-      for (let index1 = 0; index1 < data.length; index1++) {
-        if (value === data[index1].companyname) {
-          a = data[index1].id;
-          b = parseInt(data[index1].companyOJT) + 1;
-          c = data[index1].companyname;
-
-          const { data1 } = await supabase
-            .from("CompanyTable")
-            .update({ companyOJT: b })
-            .eq("id", a);
-          break;
-        }
-      }
-
-      if (c !== value) {
-        const { data1 } = await supabase.from("CompanyTable").insert({
-          companyname: value,
-          companyaddress: companyaddress,
-          supervisorname: supervisorname,
-          supervisorcontactnumber: supervisorcontactnumber,
-          supervisorofficenumber: supervisorofficenumber,
-          companydesignation: designation,
-          companyemail: companyemail,
-          companyOJT: 1,
-          startingtime: startTime,
-          endingtime: endTime,
-        });
-      }
-    } catch (error) {}
-  };
 
   function isValidEmail(email) {
     return /\S+@stamaria\.sti\.edu\.ph$/.test(email);
@@ -233,7 +196,12 @@ function Registration() {
 
     FilterCompany();
 
-    var studfullname = studfname + " " + studmname + " " + studlname;
+    var studfullname =
+      studfname +
+      `${studmname === "" ? " " : ` ${studmname} `}` +
+      studlname +
+      " " +
+      `${studsuffix === "" ? " " : ` ${studsuffix} `}`;
     var program = studprogram.toString();
     var studcourse;
     let studmaxduration;
@@ -298,6 +266,44 @@ function Registration() {
     setIsRegistring(false);
   };
 
+  const FilterCompany = async () => {
+    try {
+      let a;
+      let b;
+      var c;
+      const { data } = await supabase.from("CompanyTable").select();
+
+      for (let index1 = 0; index1 < data.length; index1++) {
+        if (value === data[index1].companyname) {
+          a = data[index1].id;
+          b = parseInt(data[index1].companyOJT) + 1;
+          c = data[index1].companyname;
+
+          const { data1 } = await supabase
+            .from("CompanyTable")
+            .update({ companyOJT: b })
+            .eq("id", a);
+          break;
+        }
+      }
+
+      if (c !== value) {
+        const { data1 } = await supabase.from("CompanyTable").insert({
+          companyname: value,
+          companyaddress: companyaddress,
+          supervisorname: supervisorname,
+          supervisorcontactnumber: supervisorcontactnumber,
+          supervisorofficenumber: supervisorofficenumber,
+          companydesignation: designation,
+          companyemail: companyemail,
+          companyOJT: 1,
+          startingtime: startTime,
+          endingtime: endTime,
+        });
+      }
+    } catch (error) {}
+  };
+
   const fetchcompanyinfo = async () => {
     const { data, error } = await supabase.from("CompanyTable").select();
     if (error) {
@@ -327,13 +333,35 @@ function Registration() {
     return yyyy + "-" + mm + "-" + dd;
   };
 
+  const emailFill = (e) => {
+    const inputValue = e.target.value;
+
+    if (
+      inputValue.endsWith("@") &&
+      !inputValue.endsWith("tamaria.sti.edu.ph")
+    ) {
+      setStudemail(inputValue + "stamaria.sti.edu.ph");
+    } else {
+      setStudemail(inputValue);
+    }
+  };
+
+  const setProgramToAcro = (e) => {
+    setStudProgram(e.target.value);
+    for (let index = 0; index < options.length; index++) {
+      if (options[index].Program === e.target.value) {
+        setStudSection(options[index].Acro);
+        return;
+      }
+    }
+  };
   return (
     <>
       <div className="overflow-hidden md:pt-[2%] pt-[5%] ">
         <div
           className="pt-5 text-white h-screen"
           data-aos="fade-down"
-          data-aos-duration="1000"
+          data-aos-duration="300"
         >
           <div className="md:flex grid items-center p-4 ">
             <header className="font-bold md:text-4xl text-3xl mb-4 pl-1">
@@ -389,6 +417,13 @@ function Registration() {
                   value={studlname}
                   onChange={(e) => setStudLName(e.target.value)}
                 ></input>
+                <input
+                  type="text"
+                  className="rounded-md p-1 md:w-[10%] w-[100%] text-black"
+                  placeholder="Suffix"
+                  value={studsuffix}
+                  onChange={(e) => setStudSuffix(e.target.value)}
+                ></input>
               </div>
             </div>
             {/* Line 2 */}
@@ -400,7 +435,7 @@ function Registration() {
                   required
                   value={studprogram}
                   className="w-full text-black rounded-md pl-2 text-justify p-1"
-                  onChange={(e) => setStudProgram(e.target.value)}
+                  onChange={(e) => setProgramToAcro(e)}
                 >
                   {options.map((options) => (
                     <option key={options.id} className="pt-4 text-black">
@@ -448,11 +483,12 @@ function Registration() {
             <div className="grid md:flex grid-cols-1 w-[100%]  gap-4 pt-4">
               <label className="font-semibold text-[19px] w-[5%]">O365</label>
               <input
+                onClick={() => setStudemail("")}
                 required
                 type="email"
                 className="rounded-md p-1 w-[100%]  text-black"
                 value={studemail}
-                onChange={(e) => setStudemail(e.target.value)}
+                onChange={(e) => emailFill(e)}
                 placeholder="example123456@stamaria.sti.edu.ph"
               ></input>
             </div>

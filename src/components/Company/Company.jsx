@@ -78,7 +78,7 @@ const Company = ({ Data }) => {
       <div className="h-[100%] md:p-10 p-2">
         <div
           data-aos="fade-up"
-          data-aos-duration="500"
+          data-aos-duration="300"
           className="md:pt-[0%] pt-[10%]"
         >
           <label className="text-[30px] font-bold text-white">

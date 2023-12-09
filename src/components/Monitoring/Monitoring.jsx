@@ -90,7 +90,7 @@ const Monitoring = ({ Data }) => {
       <div
         className="md:pt-[2%] pt-[10%] w-[100%] h-screen"
         data-aos="fade-up"
-        data-aos-duration="500"
+        data-aos-duration="300"
       >
         <header className=" flex gap-1 items-center  font-bold  text-4xl mb-2">
           MONITORING

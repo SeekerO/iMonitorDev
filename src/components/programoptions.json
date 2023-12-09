@@ -1,36 +1,43 @@
 [
   {
     "id": 1,
-    "Program": ""
+    "Program": "",
+    "Acro": ""
   },
   {
     "id": 2,
     "Program": "(BSIT)Bachelor of Science in Information Technology",
-    "Hours": 486
+    "Hours": 486,
+    "Acro": "BT"
   },
   {
     "id": 3,
     "Program": "(BSAIS)Bachelor of Science in Accounting Information Systems",
-    "Hours": 600
+    "Hours": 600,
+    "Acro": "AIS"
   },
   {
     "id": 4,
     "Program": "(BSHM)Bachelor of Science in Hospitality Management",
-    "Hours": 600
+    "Hours": 600,
+    "Acro": "HM"
   },
   {
     "id": 5,
     "Program": "(BSTM)Bachelor of Science in Tourism Management",
-    "Hours": 600
+    "Hours": 600,
+    "Acro": "TM"
   },
   {
     "id": 6,
     "Program": "(BSCPE)Bachelor of Science in Computer Engineering",
-    "Hours": 486
+    "Hours": 486,
+    "Acro": "CPE"
   },
   {
     "id": 7,
     "Program": "(BSCS)Bachelor of Science in Computer Science",
-    "Hours": 300
+    "Hours": 300,
+    "Acro": "CS"
   }
 ]

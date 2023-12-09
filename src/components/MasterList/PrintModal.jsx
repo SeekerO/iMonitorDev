@@ -6,7 +6,7 @@ import { FaPrint, FaCheckToSlot } from "react-icons/fa6";
 import ReactToPrint from "react-to-print";
 import PdfLayoutMasterList from "./PdfLayoutMasterList";
 
-function PrintModal({ openPrint, setOpenPrint }) {
+function PrintModal({ openPrint, setOpenPrint, Data }) {
   const [course, setCourse] = useState("ALL");
   const [sy, setSY] = useState("S.Y. 2023-2024");
   const [status, setStatus] = useState("STATUS");
@@ -15,15 +15,28 @@ function PrintModal({ openPrint, setOpenPrint }) {
   const layout = useRef();
 
   useEffect(() => {
-    const fetch = async () => {
-      const { data: masterlist, count } = await supabase
-        .from("MasterListTable1")
-        .select("*", { count: "exact" });
+    if (Data.position !== "ADVISER") {
+      const fetch = async () => {
+        const { data: masterlist, count } = await supabase
+          .from("MasterListTable1")
+          .select("*", { count: "exact" });
 
-      setData(masterlist);
-      setCount(count);
-    };
-    fetch();
+        setData(masterlist);
+        setCount(count);
+      };
+      fetch();
+    } else {
+      const fetch = async () => {
+        const { data: masterlist, count } = await supabase
+          .from("MasterListTable1")
+          .select("*", { count: "exact" })
+          .eq("filterby", Data.filterby);
+
+        setData(masterlist);
+        setCount(count);
+      };
+      fetch();
+    }
   }, [openPrint]);
 
   async function getToPrint(course1, sy1, status1) {
@@ -34,101 +47,160 @@ function PrintModal({ openPrint, setOpenPrint }) {
     var defCourse = "ALL";
     var defSY = "S.Y. 2023-2024";
 
-    if (course1 === defCourse && sy1 === defSY) {
-      const fetch = async () => {
-        if (status1.toLowerCase() === "status") {
-          const { data: masterlist, count } = await supabase
-            .from("MasterListTable1")
-            .select("*", { count: "exact" });
+    if (Data.position !== "ADVISER") {
+      if (course1 === defCourse && sy1 === defSY) {
+        const fetch = async () => {
+          if (status1.toLowerCase() === "status") {
+            const { data: masterlist, count } = await supabase
+              .from("MasterListTable1")
+              .select("*", { count: "exact" });
 
-          setData(masterlist);
-          setCount(count);
-        } else if (status1.toLowerCase() !== "status") {
-          const { data: masterlist, count } = await supabase
-            .from("MasterListTable1")
-            .select("*", { count: "exact" })
-            .eq("status", status1.toLowerCase());
+            setData(masterlist);
+            setCount(count);
+          } else if (status1.toLowerCase() !== "status") {
+            const { data: masterlist, count } = await supabase
+              .from("MasterListTable1")
+              .select("*", { count: "exact" })
+              .eq("status", status1.toLowerCase());
 
-          setData(masterlist);
-          setCount(count);
-        }
-      };
-      fetch();
-      return;
-    } else if (course1 !== defCourse && sy1 === defSY) {
-      const fetch = async () => {
-        if (status1.toLowerCase() === "status") {
-          const { data: masterlist, count } = await supabase
-            .from("MasterListTable1")
-            .select("*", { count: "exact" })
-            .match({ filterby: course1 });
+            setData(masterlist);
+            setCount(count);
+          }
+        };
+        fetch();
+        return;
+      } else if (course1 !== defCourse && sy1 === defSY) {
+        const fetch = async () => {
+          if (status1.toLowerCase() === "status") {
+            const { data: masterlist, count } = await supabase
+              .from("MasterListTable1")
+              .select("*", { count: "exact" })
+              .match({ filterby: course1 });
 
-          setData(masterlist);
-          setCount(count);
-        } else {
-          const { data: masterlist, count } = await supabase
-            .from("MasterListTable1")
-            .select("*", { count: "exact" })
-            .match({ filterby: course1, status: status1.toLowerCase() });
+            setData(masterlist);
+            setCount(count);
+          } else {
+            const { data: masterlist, count } = await supabase
+              .from("MasterListTable1")
+              .select("*", { count: "exact" })
+              .match({ filterby: course1, status: status1.toLowerCase() });
 
-          setData(masterlist);
-          setCount(count);
-        }
-      };
+            setData(masterlist);
+            setCount(count);
+          }
+        };
 
-      fetch();
-      return;
-    } else if (course1 === defCourse && sy1 !== defSY) {
-      const fetch = async () => {
-        if (status1.toLowerCase() === "status") {
-          const { data: masterlist, count } = await supabase
-            .from("MasterListTable1")
-            .select("*", { count: "exact" })
-            .match({ studSY: sy1 });
+        fetch();
+        return;
+      } else if (course1 === defCourse && sy1 !== defSY) {
+        const fetch = async () => {
+          if (status1.toLowerCase() === "status") {
+            const { data: masterlist, count } = await supabase
+              .from("MasterListTable1")
+              .select("*", { count: "exact" })
+              .match({ studSY: sy1 });
 
-          setData(masterlist);
-          setCount(count);
-        } else {
-          const { data: masterlist, count } = await supabase
-            .from("MasterListTable1")
-            .select("*", { count: "exact" })
-            .match({ studSY: sy1, status: status1.toLowerCase() });
+            setData(masterlist);
+            setCount(count);
+          } else {
+            const { data: masterlist, count } = await supabase
+              .from("MasterListTable1")
+              .select("*", { count: "exact" })
+              .match({ studSY: sy1, status: status1.toLowerCase() });
 
-          setData(masterlist);
-          setCount(count);
-        }
-      };
-      fetch();
-      return;
-    } else if (course1 !== defCourse && sy1 !== defSY) {
-      const fetch = async () => {
-        if (status1.toLowerCase() === "status") {
-          const { data: masterlist, count } = await supabase
-            .from("MasterListTable1")
-            .select("*", { count: "exact" })
-            .match({
-              filterby: course1,
-              studSY: sy1,
-            });
+            setData(masterlist);
+            setCount(count);
+          }
+        };
+        fetch();
+        return;
+      } else if (course1 !== defCourse && sy1 !== defSY) {
+        const fetch = async () => {
+          if (status1.toLowerCase() === "status") {
+            const { data: masterlist, count } = await supabase
+              .from("MasterListTable1")
+              .select("*", { count: "exact" })
+              .match({
+                filterby: course1,
+                studSY: sy1,
+              });
 
-          setData(masterlist);
-          setCount(count);
-        } else {
-          const { data: masterlist, count } = await supabase
-            .from("MasterListTable1")
-            .select("*", { count: "exact" })
-            .match({
-              filterby: course1,
-              studSY: sy1,
-              status: status1.toLowerCase(),
-            });
+            setData(masterlist);
+            setCount(count);
+          } else {
+            const { data: masterlist, count } = await supabase
+              .from("MasterListTable1")
+              .select("*", { count: "exact" })
+              .match({
+                filterby: course1,
+                studSY: sy1,
+                status: status1.toLowerCase(),
+              });
 
-          setData(masterlist);
-          setCount(count);
-        }
-      };
-      fetch();
-      return;
+            setData(masterlist);
+            setCount(count);
+          }
+        };
+        fetch();
+        return;
+      }
+    } else {
+      if (sy1 === defSY) {
+        const fetch = async () => {
+          if (status1.toLowerCase() === "status") {
+            const { data: masterlist, count } = await supabase
+              .from("MasterListTable1")
+              .select("*", { count: "exact" })
+              .match({ filterby: Data.filterby });
+
+            setData(masterlist);
+            setCount(count);
+            return;
+          } else if (status1.toLowerCase() !== "status") {
+            const { data: masterlist, count } = await supabase
+              .from("MasterListTable1")
+              .select("*", { count: "exact" })
+              .match({
+                filterby: Data.filterby,
+                status: status1.toLowerCase(),
+              });
+
+            setData(masterlist);
+            setCount(count);
+            return;
+          }
+        };
+        fetch();
+        return;
+      } else if (sy1 !== defSY) {
+        const fetch = async () => {
+          if (status1.toLowerCase() === "status") {
+            const { data: masterlist, count } = await supabase
+              .from("MasterListTable1")
+              .select("*", { count: "exact" })
+              .match({ filterby: Data.filterby, studSY: sy1 });
+
+            setData(masterlist);
+            setCount(count);
+            return;
+          } else {
+            const { data: masterlist, count } = await supabase
+              .from("MasterListTable1")
+              .select("*", { count: "exact" })
+              .match({
+                filterby: Data.filterby,
+                studSY: sy1,
+                status: status1.toLowerCase(),
+              });
+
+            setData(masterlist);
+            setCount(count);
+            return;
+          }
+        };
+        fetch();
+        return;
+      }
     }
   }
 
@@ -153,22 +225,25 @@ function PrintModal({ openPrint, setOpenPrint }) {
           </button>
         </div>
         <div className="p-2 text-white md:flex grid gap-3 h-fit justify-center">
-          <div className="bg-[#5885AF] flex gap-1 w-fit items-center rounded-md px-1">
-            <BiFilterAlt className="text-[20px]" />
-            <select
-              value={course}
-              onChange={(e) => getToPrint(e.target.value, sy, status)}
-              className={` h-[32px] rounded-md bg-[#5885AF] outline-none `}
-            >
-              <option value={"ALL"}>ALL</option>
-              <option value={"BSIT"}>BSIT</option>
-              <option value={"BSAIS"}>BSAIS</option>
-              <option value={"BSTM"}>BSTM</option>
-              <option value={"BSHM"}>BSHM</option>
-              <option value={"BSCPE"}>BSCPE</option>
-              <option value={"BSCS"}>BSCS</option>
-            </select>
-          </div>
+          {Data.position !== "ADVISER" && (
+            <div className="bg-[#5885AF] flex gap-1 w-fit items-center rounded-md px-1">
+              <BiFilterAlt className="text-[20px]" />
+              <select
+                value={course}
+                onChange={(e) => getToPrint(e.target.value, sy, status)}
+                className={` h-[32px] rounded-md bg-[#5885AF] outline-none `}
+              >
+                <option value={"ALL"}>ALL</option>
+                <option value={"BSIT"}>BSIT</option>
+                <option value={"BSAIS"}>BSAIS</option>
+                <option value={"BSTM"}>BSTM</option>
+                <option value={"BSHM"}>BSHM</option>
+                <option value={"BSCPE"}>BSCPE</option>
+                <option value={"BSCS"}>BSCS</option>
+              </select>
+            </div>
+          )}
+
           <div className="bg-[#5885AF] flex gap-1 w-fit items-center rounded-md px-1 ">
             <BiFilterAlt className="text-[20px]" />
             <select

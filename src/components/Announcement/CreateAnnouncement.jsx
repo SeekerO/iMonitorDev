@@ -180,6 +180,7 @@ function CreateAnnouncement({ Data }) {
           onSubmit={handlePostAnnouncement}
           className="flex-col w-[100%] md:h-[85%] h-[82%] md:mt-3 mt-14 overflow-y-auto p-2 "
           data-aos="fade-left"
+          data-aos-duration="300"
         >
           <label className="text-[30px] font-bold ">CREATE ANNOUNCEMENT</label>
           <div className="mt-14">

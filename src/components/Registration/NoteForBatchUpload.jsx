@@ -10,19 +10,26 @@ function NoteForBatchUpload({ visible, close }) {
           <div className="text-center flex-col justify-center items-center flex pb-[20px]">
             <RiInformationFill className="text-blue-500 text-[50px]  rounded-full   " />
             <label className="w-[500px]  ">
-              Note: Kindly use this <a
+              Note: Kindly use this{" "}
+              <a
                 className="text-blue-600 hover:underline cursor-pointer"
                 onClick={() =>
                   window.open(
-                    "https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/Template/BatchFilingTemplate%20(1).xlsx"
+                    "https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/Template/BatchFilingTemplate.xlsx"
                   )
                 }
               >
-                 "Batch Filing Template" 
-              </a> when using the registration by batch.
+                "Batch Filing Template"
+              </a>{" "}
+              when using the registration by batch.
             </label>
           </div>
-          <a className="hover:text-red-600 cursor-pointer hover:underline text-[15px]" onClick={() => close(false)}>Close</a>
+          <a
+            className="hover:text-red-600 cursor-pointer hover:underline text-[15px]"
+            onClick={() => close(false)}
+          >
+            Close
+          </a>
         </div>
       </div>
     </div>

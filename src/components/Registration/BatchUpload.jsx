@@ -86,40 +86,40 @@ function BatchUpload({ visible, close, sy }) {
 
     let nameOccurrences = {};
     let emailOccurrences = {};
-    // Check Repeated Name
-    for (let index = 0; index < dataHolder.length; index++) {
-      var name =
-        dataHolder[index].Firstname +
-        `${
-          dataHolder[index].MiddleInitial
-            ? ` ${dataHolder[index].MiddleInitial} `
-            : " "
-        }` +
-        dataHolder[index].Lastname +
-        `${dataHolder[index].Suffix ? ` ${dataHolder[index].Suffix} ` : ""}`;
+    // // Check Repeated Name
+    // for (let index = 0; index < dataHolder.length; index++) {
+    //   var name =
+    //     dataHolder[index].Firstname +
+    //     `${
+    //       dataHolder[index].MiddleInitial
+    //         ? ` ${dataHolder[index].MiddleInitial} `
+    //         : " "
+    //     }` +
+    //     dataHolder[index].Lastname +
+    //     `${dataHolder[index].Suffix ? ` ${dataHolder[index].Suffix} ` : ""}`;
 
-      if (nameOccurrences[name]) {
-        nameOccurrences[name]++;
-      } else {
-        nameOccurrences[name] = 1;
-      }
-    }
+    //   if (nameOccurrences[name]) {
+    //     nameOccurrences[name]++;
+    //   } else {
+    //     nameOccurrences[name] = 1;
+    //   }
+    // }
 
-    // If name is repeated
-    for (let name in nameOccurrences) {
-      if (nameOccurrences[name] > 1) {
-        toast.warn(`Input has duplicate names`, {
-          position: "top-right",
-          autoClose: 1000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          progress: undefined,
-          theme: "light",
-        });
-        return;
-      }
-    }
+    // // If name is repeated
+    // for (let name in nameOccurrences) {
+    //   if (nameOccurrences[name] > 1) {
+    //     toast.warn(`Input has duplicate names`, {
+    //       position: "top-right",
+    //       autoClose: 1000,
+    //       hideProgressBar: false,
+    //       closeOnClick: true,
+    //       pauseOnHover: false,
+    //       progress: undefined,
+    //       theme: "light",
+    //     });
+    //     return;
+    //   }
+    // }
 
     // Check Repeated Email
     for (let index = 0; index < dataHolder.length; index++) {
@@ -192,7 +192,7 @@ function BatchUpload({ visible, close, sy }) {
       }
     }
 
-    // Check Data is already exist in DataBase
+    // Check Email is already exist in DataBase
     for (let index = 0; index < studinfo.length; index++) {
       var name =
         dataHolder[index].Firstname +
@@ -204,13 +204,16 @@ function BatchUpload({ visible, close, sy }) {
         dataHolder[index].Lastname +
         `${dataHolder[index].Suffix ? ` ${dataHolder[index].Suffix} ` : ""}`;
 
-      if (name === studinfo[index].studname) {
-        alert("Already Exist", name);
-        return;
-      }
-
       if (dataHolder[index].o365 === studinfo[index].studemail) {
-        alert("Already Exist", dataHolder[index].o365);
+        toast.warn(`Input email has already exist`, {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          progress: undefined,
+          theme: "light",
+        });
         return;
       }
     }

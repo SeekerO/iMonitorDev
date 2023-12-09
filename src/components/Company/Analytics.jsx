@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { PieChart } from "react-minimal-pie-chart";
 import { LineChart } from "@mui/x-charts/LineChart";
 import { BarChart, Bar } from "@mui/x-charts/BarChart";
+
 import supabase from "../iMonitorDBconfig";
 import { MdLocalPrintshop } from "react-icons/md";
 import { MoonLoader } from "react-spinners";
