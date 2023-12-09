@@ -11,6 +11,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import ReactPaginate from "react-paginate";
 import ArchiveAllCompleted from "./ArchiveAllCompleted";
+import moment from "moment";
 
 const Monitoring = ({ Data }) => {
   const [studinfos, setStudInfos] = useState(null);
@@ -18,7 +19,7 @@ const Monitoring = ({ Data }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const [course, setCourse] = useState("ALL");
-  const [sy, setSY] = useState("S.Y. 2023-2024");
+  const [sy, setSY] = useState();
 
   const [count, setCount] = useState();
 
@@ -31,6 +32,9 @@ const Monitoring = ({ Data }) => {
   };
 
   const [archive_all_completed, setArchive_all_completed] = useState(false);
+  useEffect(() => {
+    filterYear();
+  }, [Data]);
   useEffect(() => {
     fetchstudinfo();
     supabase
@@ -47,8 +51,17 @@ const Monitoring = ({ Data }) => {
         }
       )
       .subscribe();
+
     AOS.init({ duration: 0 });
   }, [Data, course, sy]);
+
+  const filterYear = () => {
+    var curryear = moment().year();
+
+    var nextyear = curryear + 1;
+
+    setSY("S.Y. " + curryear + "-" + nextyear);
+  };
 
   const fetchstudinfo = async () => {
     try {
@@ -109,29 +122,41 @@ const Monitoring = ({ Data }) => {
                   onChange={(e) => setCourse(e.target.value)}
                   className={`h-[25px] md:text-base text-sm rounded-md bg-[#5885AF] outline-none`}
                 >
-                  <option>ALL</option>
-                  <option>BSIT</option>
-                  <option>BSAIS</option>
-                  <option>BSTM</option>
-                  <option>BSHM</option>
-                  <option>BSCPE</option>
-                  <option>BSCS</option>
+                  <option value={"ALL"}>ALL</option>
+                  <option value={"BSIT"}>BSIT</option>
+                  <option value={"BSAIS"}>BSAIS</option>
+                  <option value={"BSTM"}>BSTM</option>
+                  <option value={"BSHM"}>BSHM</option>
+                  <option value={"BSCPE"}>BSCPE</option>
+                  <option value={"BSCS"}>BSCS</option>
                 </select>
               </div>
-              <div className="flex max-h-[50px] items-center rounded-md bg-[#5885AF]">
-                <BiFilterAlt className="md:text-[20px] text-[14px]" />
-                <select
-                  value={sy}
-                  onChange={(e) => setSY(e.target.value)}
-                  className=" h-[25px] md:text-base text-sm rounded-md bg-[#5885AF] overflow-auto outline-none "
-                >
-                  <option className="text-[15px]">S.Y. 2023-2024</option>
-                  <option className="text-[15px]">S.Y. 2024-2025</option>
-                  <option className="text-[15px]">S.Y. 2025-2026</option>
-                  <option className="text-[15px]">S.Y. 2026-2027</option>
-                  <option className="text-[15px]">S.Y. 2027-2028</option>
-                </select>
-              </div>
+              {sy && (
+                <div className="flex max-h-[50px] items-center rounded-md bg-[#5885AF]">
+                  <BiFilterAlt className="md:text-[20px] text-[14px]" />
+                  <select
+                    defaultValue={sy}
+                    onChange={(e) => setSY(e.target.value)}
+                    className=" h-[25px] md:text-base text-sm rounded-md bg-[#5885AF] overflow-auto outline-none "
+                  >
+                    <option value={"S.Y. 2023-2024"} className="text-[15px]">
+                      S.Y. 2023-2024
+                    </option>
+                    <option value={"S.Y. 2024-2025"} className="text-[15px]">
+                      S.Y. 2024-2025
+                    </option>
+                    <option value={"S.Y. 2025-2026"} className="text-[15px]">
+                      S.Y. 2025-2026
+                    </option>
+                    <option value={"S.Y. 2026-2027"} className="text-[15px]">
+                      S.Y. 2026-2027
+                    </option>
+                    <option value={"S.Y. 2027-2028"} className="text-[15px]">
+                      S.Y. 2027-2028
+                    </option>
+                  </select>
+                </div>
+              )}
             </div>
             <label className="md:text-base text-sm font-thin md:mt-0 mt-2">
               Currently Enrolled: {count}

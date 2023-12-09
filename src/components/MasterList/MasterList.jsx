@@ -10,7 +10,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 import ReactPaginate from "react-paginate";
 import PrintModal from "./PrintModal";
-
+import moment from "moment";
 import { MdLocalPrintshop } from "react-icons/md";
 
 const MasterList = ({ Data }) => {
@@ -25,12 +25,33 @@ const MasterList = ({ Data }) => {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [course, setCourse] = useState("ALL");
-  const [sy, setSY] = useState("S.Y. 2023-2024");
+  const [sy, setSY] = useState();
 
   const [openPrint, setOpenPrint] = useState(false);
+  useEffect(() => {
+    const filterYear = () => {
+      // var curryear = moment().weekYear();
+      var curryear = moment().year();
+      var nextyear = curryear + 1;
+
+      setSY("S.Y. " + curryear + "-" + nextyear);
+    };
+    filterYear();
+  }, [Data]);
 
   useEffect(() => {
     fetchstudinfo();
+
+    const channels = supabase
+      .channel("custom-insert-channel")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "MasterListTable1" },
+        (payload) => {
+          fetchstudinfo();
+        }
+      )
+      .subscribe();
   }, [Data, course, sy]);
 
   const fetchstudinfo = async () => {
@@ -127,17 +148,29 @@ const MasterList = ({ Data }) => {
           </div>
           <div className="flex max-h-[50px] items-center rounded-md bg-[#5885AF] ">
             <BiFilterAlt className="text-[20px]" />
-            <select
-              value={sy}
-              onChange={(e) => setSY(e.target.value)}
-              className=" h-[25px] rounded-md bg-[#5885AF] overflow-auto  outline-none "
-            >
-              <option className="text-[15px]">S.Y. 2023-2024</option>
-              <option className="text-[15px]">S.Y. 2024-2025</option>
-              <option className="text-[15px]">S.Y. 2026-2027</option>
-              <option className="text-[15px]">S.Y. 2027-2028</option>
-              <option className="text-[15px]">S.Y. 2028-2029</option>
-            </select>
+            {sy && (
+              <select
+                defaultValue={sy}
+                onChange={(e) => setSY(e.target.value)}
+                className=" h-[25px] md:text-base text-sm rounded-md bg-[#5885AF] overflow-auto outline-none "
+              >
+                <option value={"S.Y. 2023-2024"} className="text-[15px]">
+                  S.Y. 2023-2024
+                </option>
+                <option value={"S.Y. 2024-2025"} className="text-[15px]">
+                  S.Y. 2024-2025
+                </option>
+                <option value={"S.Y. 2025-2026"} className="text-[15px]">
+                  S.Y. 2025-2026
+                </option>
+                <option value={"S.Y. 2026-2027"} className="text-[15px]">
+                  S.Y. 2026-2027
+                </option>
+                <option value={"S.Y. 2027-2028"} className="text-[15px]">
+                  S.Y. 2027-2028
+                </option>
+              </select>
+            )}
           </div>
 
           <button
@@ -258,7 +291,11 @@ const MasterList = ({ Data }) => {
           )}
         </div>
       </div>
-      <PrintModal openPrint={openPrint} setOpenPrint={setOpenPrint}  Data={Data}/>
+      <PrintModal
+        openPrint={openPrint}
+        setOpenPrint={setOpenPrint}
+        Data={Data}
+      />
     </div>
   );
 };
