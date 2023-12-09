@@ -20,8 +20,12 @@ function Registration() {
     getStudentInfo();
     AOS.init();
   }, []);
+  const addYear = () => {
+    return moment().weekYear() + 1;
+  };
 
-  const [sy] = useState("S.Y. 2023-2024");
+  const [sy, setSY] = useState("S.Y. " + moment().weekYear() + "-" + addYear());
+
   //MODAL VAR
   const [showmodalregis, setShowModalRegis] = useState(false);
   const handleclosemodalregis = () => setShowModalRegis(false);
@@ -67,6 +71,10 @@ function Registration() {
 
   useEffect(() => {
     fetchcompanyinfo();
+    var curryear = moment().weekYear();
+    if (curryear !== 2023) {
+      setSY("S.Y " + curryear + "-" + addYear());
+    }
   }, [formSuccess]);
 
   async function getStudentInfo() {
