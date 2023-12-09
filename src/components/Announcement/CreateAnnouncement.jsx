@@ -44,7 +44,8 @@ function CreateAnnouncement({ Data }) {
     } catch (error) {}
   };
 
-  function handlePostAnnouncement() {
+  function handlePostAnnouncement(e) {
+    e.preventDefault();
     if (
       title.trim().length === 0 ||
       endDate.trim().length === 0 ||
@@ -176,6 +177,7 @@ function CreateAnnouncement({ Data }) {
     <>
       <div className=" h-screen  w-[100%] text-white  justify-center place-content-center flex">
         <form
+          onSubmit={handlePostAnnouncement}
           className="flex-col w-[100%] md:h-[85%] h-[82%] md:mt-3 mt-14 overflow-y-auto p-2 "
           data-aos="fade-left"
         >
@@ -244,10 +246,7 @@ function CreateAnnouncement({ Data }) {
             ></textarea>
           </div>
           <div>
-            <button
-              onClick={() => handlePostAnnouncement()}
-              className="md:w-[97%] w-[100%] h-[35px] mb-[100px] bg-[#0074B7]  rounded-md hover:bg-[#3282b5]"
-            >
+            <button className="md:w-[97%] w-[100%] h-[35px] mb-[100px] bg-[#0074B7]  rounded-md hover:bg-[#3282b5]">
               SEND
             </button>
           </div>
