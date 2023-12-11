@@ -6,7 +6,9 @@ import { FaPrint, FaCheckToSlot } from "react-icons/fa6";
 import ReactToPrint from "react-to-print";
 import PdfLayoutMasterList from "./PdfLayoutMasterList";
 
-function PrintModal({ openPrint, setOpenPrint, Data }) {
+import { FaDownload } from "react-icons/fa";
+
+function PrintModal({ openPrint, setOpenPrint, Data, saveAsPDF }) {
   const [course, setCourse] = useState("ALL");
   const [sy, setSY] = useState("S.Y. 2023-2024");
   const [status, setStatus] = useState("STATUS");
@@ -25,6 +27,7 @@ function PrintModal({ openPrint, setOpenPrint, Data }) {
         setCount(count);
       };
       fetch();
+      return;
     } else {
       const fetch = async () => {
         const { data: masterlist, count } = await supabase
@@ -36,6 +39,7 @@ function PrintModal({ openPrint, setOpenPrint, Data }) {
         setCount(count);
       };
       fetch();
+      return;
     }
   }, [openPrint]);
 
@@ -215,113 +219,149 @@ function PrintModal({ openPrint, setOpenPrint, Data }) {
   if (!openPrint) return null;
   return (
     <div className="fixed inset-0 backdrop-blur-sm flex justify-center items-center ">
-      <div className="bg-slate-200 md:h-[150px] h-[250px] md:w-[500px] w-[300px] rounded-md grid  shadow-md shadow-black">
-        <div className="flex justify-end ">
-          <button
+      <div className="bg-slate-200 md:h-[600px] h-[250px] md:w-[780px] w-[300px] rounded-md grid  shadow-md shadow-black">
+        <div className=" flex justify-end">
+          <a
             onClick={() => close()}
-            className="text-right flex bg-red-500 hover:bg-red-300 h-fit p-0.5 px-5 rounded-tr-md w-fit justify-end "
+            className="text-center flex bg-red-500  p-1 w-[90px]  hover:bg-red-300 rounded-tr-md h-fit justify-center cursor-pointer"
           >
             <IoMdClose className="text-[20px]" />
-          </button>
+          </a>
         </div>
-        <div className="p-2 text-white md:flex grid gap-3 h-fit justify-center">
-          {Data.position !== "ADVISER" && (
-            <div className="bg-[#5885AF] flex gap-1 w-fit items-center rounded-md px-1">
-              <BiFilterAlt className="text-[20px]" />
-              <select
-                value={course}
-                onChange={(e) => getToPrint(e.target.value, sy, status)}
-                className={` h-[32px] rounded-md bg-[#5885AF] outline-none `}
-              >
-                <option value={"ALL"}>ALL</option>
-                <option value={"BSIT"}>BSIT</option>
-                <option value={"BSAIS"}>BSAIS</option>
-                <option value={"BSTM"}>BSTM</option>
-                <option value={"BSHM"}>BSHM</option>
-                <option value={"BSCPE"}>BSCPE</option>
-                <option value={"BSCS"}>BSCS</option>
-              </select>
-            </div>
-          )}
 
-          <div className="bg-[#5885AF] flex gap-1 w-fit items-center rounded-md px-1 ">
-            <BiFilterAlt className="text-[20px]" />
-            <select
-              value={sy}
-              onChange={(e) => getToPrint(course, e.target.value, status)}
-              className=" h-[32px] rounded-md bg-[#5885AF] overflow-auto  outline-none "
-            >
-              <option value={"S.Y. 2023-2024"} className="text-[15px]">
-                S.Y. 2023-2024
-              </option>
-              <option value={"S.Y. 2024-2025"} className="text-[15px]">
-                S.Y. 2024-2025
-              </option>
-              <option value={"S.Y. 2026-2027"} className="text-[15px]">
-                S.Y. 2026-2027
-              </option>
-              <option value={"S.Y. 2027-2028"} className="text-[15px]">
-                S.Y. 2027-2028
-              </option>
-              <option value={"S.Y. 2028-2029"} className="text-[15px]">
-                S.Y. 2028-2029
-              </option>
-            </select>
-          </div>
-          <select
-            value={status}
-            onChange={(e) => getToPrint(course, sy, e.target.value)}
-            className=" h-[32px] rounded-md bg-[#5885AF] overflow-auto  outline-none "
-          >
-            <option value={"STATUS"} className="text-[15px]">
-              ALL STATUS
-            </option>
-            <option value={"COMPLETE"} className="text-[15px]">
-              COMPLETE
-            </option>
-            <option value={"INCOMPLETE"} className="text-[15px]">
-              INCOMPLETE
-            </option>
-          </select>
-          <div>
-            {data.length > 0 && (
-              <div>
-                <ReactToPrint
-                  trigger={() => (
-                    <button className="hover:bg-[#449256] bg-[#58af6f] text-white rounded-md flex items-center gap-2 p-1 w-full justify-center">
-                      <FaPrint />
-                      PRINT
-                    </button>
+        <div className="">
+          <div className="flex md:justify-between justify-center -mt-8 ">
+            <div className="justify-center md:grid hidden ">
+              <label className="text-center font-bold text-[20px]">
+                PRIVIEW
+              </label>
+              <div className="h-[500px] w-[600px] bg-gray-300 ml-2 p-2 overflow-y-auto overflow-x-hidden rounded-md ">
+                <div className="flex justify-end ">
+                  <button
+                    onClick={() => saveAsPDF(layout, sy)}
+                    className="text-right text-gray-600 -mb-6 mr-1"
+                  >
+                    <FaDownload />
+                  </button>
+                </div>
+
+                <div className="bg-white rounded-md">
+                  {data.length > 0 ? (
+                    <>
+                      <PdfLayoutMasterList
+                        data={data}
+                        layout={layout}
+                        sy={sy}
+                        course={course}
+                      />
+                    </>
+                  ) : (
+                    <label className="flex justify-center">NO DATA</label>
                   )}
-                  content={() => layout.current}
-                  documentTitle="MasterList"
-                />
-
-                <div className="hidden">
-                  <PdfLayoutMasterList
-                    data={data}
-                    layout={layout}
-                    sy={sy}
-                    course={course}
-                  />
                 </div>
               </div>
-            )}
+            </div>
+
+            <div className="p-2 text-white grid   gap-3 h-fit justify-center mt-10">
+              {Data.position !== "ADVISER" && (
+                <div className="bg-[#5885AF] flex gap-1  w-full items-center rounded-md px-1">
+                  <BiFilterAlt className="text-[20px]" />
+                  <select
+                    value={course}
+                    onChange={(e) => getToPrint(e.target.value, sy, status)}
+                    className={` h-[32px] rounded-md bg-[#5885AF] w-full outline-none `}
+                  >
+                    <option value={"ALL"}>ALL</option>
+                    <option value={"BSIT"}>BSIT</option>
+                    <option value={"BSAIS"}>BSAIS</option>
+                    <option value={"BSTM"}>BSTM</option>
+                    <option value={"BSHM"}>BSHM</option>
+                    <option value={"BSCPE"}>BSCPE</option>
+                    <option value={"BSCS"}>BSCS</option>
+                  </select>
+                </div>
+              )}
+              <div className="bg-[#5885AF] flex gap-1 w-fit items-center rounded-md px-1 ">
+                <BiFilterAlt className="text-[20px]" />
+                <select
+                  value={sy}
+                  onChange={(e) => getToPrint(course, e.target.value, status)}
+                  className=" h-[32px] rounded-md bg-[#5885AF] overflow-auto  w-full outline-none "
+                >
+                  <option value={"S.Y. 2023-2024"} className="text-[15px]">
+                    S.Y. 2023-2024
+                  </option>
+                  <option value={"S.Y. 2024-2025"} className="text-[15px]">
+                    S.Y. 2024-2025
+                  </option>
+                  <option value={"S.Y. 2026-2027"} className="text-[15px]">
+                    S.Y. 2026-2027
+                  </option>
+                  <option value={"S.Y. 2027-2028"} className="text-[15px]">
+                    S.Y. 2027-2028
+                  </option>
+                  <option value={"S.Y. 2028-2029"} className="text-[15px]">
+                    S.Y. 2028-2029
+                  </option>
+                </select>
+              </div>
+              <div className="bg-[#5885AF] flex gap-1 items-center w-full rounded-md px-1">
+                <BiFilterAlt className="text-[20px]" />
+                <select
+                  value={status}
+                  onChange={(e) => getToPrint(course, sy, e.target.value)}
+                  className=" h-[32px] rounded-md bg-[#5885AF] overflow-auto w-full outline-none "
+                >
+                  <option value={"STATUS"} className="text-[15px]">
+                    ALL STATUS
+                  </option>
+                  <option
+                    value={"COMPLETE"}
+                    className="text-[15px] text-green-200"
+                  >
+                    COMPLETE
+                  </option>
+                  <option
+                    value={"INCOMPLETE"}
+                    className="text-[15px] text-red-200"
+                  >
+                    INCOMPLETE
+                  </option>
+                </select>
+              </div>
+
+              <div>
+                {data.length > 0 && (
+                  <div>
+                    <ReactToPrint
+                      trigger={() => (
+                        <a className="hover:bg-[#449256] bg-[#58af6f] text-white rounded-md flex items-center gap-2 p-1 w-full justify-center">
+                          <FaPrint />
+                          PRINT
+                        </a>
+                      )}
+                      content={() => layout.current}
+                      documentTitle="MasterList"
+                    />
+                    {data.length !== 0 ? (
+                      <>
+                        {data && (
+                          <label className="p-2 text-black flex font-thin text-[12px] gap-1 h-fit justify-center">
+                            Number of Data: <em>{count}</em>
+                          </label>
+                        )}
+                      </>
+                    ) : (
+                      <label className="p-2 text-black flex gap-1 h-fit justify-center">
+                        No Data
+                      </label>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
-        {data.length !== 0 ? (
-          <>
-            {data && (
-              <label className="p-2 text-black flex gap-1 h-fit justify-center">
-                Number of Data: <em>{count}</em>
-              </label>
-            )}
-          </>
-        ) : (
-          <label className="p-2 text-black flex gap-1 h-fit justify-center">
-            No Data
-          </label>
-        )}
       </div>
     </div>
   );

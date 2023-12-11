@@ -13,31 +13,25 @@ import PrintModal from "./PrintModal";
 import moment from "moment";
 import { MdLocalPrintshop } from "react-icons/md";
 
+import html2pdf from "html2pdf.js";
+
 const MasterList = ({ Data }) => {
   // AOS ANIMATION
   useEffect(() => {
     AOS.init();
   }, []);
-
+  var curryear = moment().year();
+  var nextyear = curryear + 1;
   const [fetcherrror, setFetchError] = useState(null);
   const [studinfos, setStudInfos] = useState(null);
   const [count, setCount] = useState(0);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [course, setCourse] = useState("ALL");
-  const [sy, setSY] = useState();
+  const [sy, setSY] = useState("S.Y. " + curryear + "-" + nextyear);
+  const [status, setStatus] = useState("ALL STATUS");
 
   const [openPrint, setOpenPrint] = useState(false);
-  useEffect(() => {
-    const filterYear = () => {
-      // var curryear = moment().weekYear();
-      var curryear = moment().year();
-      var nextyear = curryear + 1;
-
-      setSY("S.Y. " + curryear + "-" + nextyear);
-    };
-    filterYear();
-  }, [Data]);
 
   useEffect(() => {
     fetchstudinfo();
@@ -52,39 +46,75 @@ const MasterList = ({ Data }) => {
         }
       )
       .subscribe();
-  }, [Data, course, sy]);
+  }, [Data, course, sy, status]);
 
   const fetchstudinfo = async () => {
     try {
       if (Data.filterby === "ALL") {
         if (course === "ALL") {
-          const {
-            data: filter,
-            count,
-            error,
-          } = await supabase
-            .from("MasterListTable1")
-            .select("*", { count: "exact" })
-            .match({ studSY: sy });
+          if (status === "ALL STATUS") {
+            const {
+              data: filter,
+              count,
+              error,
+            } = await supabase
+              .from("MasterListTable1")
+              .select("*", { count: "exact" })
+              .match({ studSY: sy });
 
-          setCount(count);
-          setStudInfos(filter);
+            setCount(count);
+            setStudInfos(filter);
 
-          if (error) setFetchError("Please check your connection..");
+            if (error) setFetchError("Please check your connection..");
+          } else {
+            const {
+              data: filter,
+              count,
+              error,
+            } = await supabase
+              .from("MasterListTable1")
+              .select("*", { count: "exact" })
+              .match({ studSY: sy, status: status.toLowerCase() });
+
+            setCount(count);
+            setStudInfos(filter);
+
+            if (error) setFetchError("Please check your connection..");
+          }
         } else {
-          const {
-            data: filter,
-            count,
-            error,
-          } = await supabase
-            .from("MasterListTable1")
-            .select("*", { count: "exact" })
-            .match({ filterby: course, studSY: sy });
+          if (status === "ALL STATUS") {
+            const {
+              data: filter,
+              count,
+              error,
+            } = await supabase
+              .from("MasterListTable1")
+              .select("*", { count: "exact" })
+              .match({ filterby: course, studSY: sy });
 
-          setCount(count);
-          setStudInfos(filter);
+            setCount(count);
+            setStudInfos(filter);
 
-          if (error) setFetchError("Please check your connection..");
+            if (error) setFetchError("Please check your connection..");
+          } else {
+            const {
+              data: filter,
+              count,
+              error,
+            } = await supabase
+              .from("MasterListTable1")
+              .select("*", { count: "exact" })
+              .match({
+                filterby: course,
+                studSY: sy,
+                status: status.toLowerCase(),
+              });
+
+            setCount(count);
+            setStudInfos(filter);
+
+            if (error) setFetchError("Please check your connection..");
+          }
         }
       } else {
         const {
@@ -114,6 +144,18 @@ const MasterList = ({ Data }) => {
     setPageNumber(selected);
   };
 
+  function saveAsPDF(layout, year) {
+    var year = sy.replace(/[.\s]/g, "_");
+    const pdf = new html2pdf(layout.current, {
+      margin: 10,
+      filename: "MASTER_LIST_" + status + "_" + course + "_" + year,
+      image: { type: "jpeg", quality: 3 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+    });
+    pdf.save();
+  }
+
   return (
     <div id="monitoring" className="overflow-hidden md:p-10 p-2">
       <div
@@ -124,53 +166,72 @@ const MasterList = ({ Data }) => {
         <header className="font-bold text-4xl mb-2">MASTER LIST</header>
 
         <div className="flex gap-4 max-h-[50px]">
-          <div
-            className={`${
-              Data.filterby === "ALL"
-                ? "flex max-h-[50px] items-center rounded-md bg-[#5885AF] "
-                : "hidden"
-            }`}
-          >
-            <BiFilterAlt className="text-[20px]" />
-            <select
-              value={course}
-              onChange={(e) => setCourse(e.target.value)}
-              className={` h-[25px] rounded-md bg-[#5885AF] outline-none `}
+          <div className="grid md:grid-cols-3 grid-cols-2 gap-2">
+            <div
+              className={`${
+                Data.filterby === "ALL"
+                  ? "flex max-h-[50px] items-center rounded-md bg-[#5885AF] "
+                  : "hidden"
+              }`}
             >
-              <option>ALL</option>
-              <option>BSIT</option>
-              <option>BSAIS</option>
-              <option>BSTM</option>
-              <option>BSHM</option>
-              <option>BSCPE</option>
-              <option>BSCS</option>
-            </select>
-          </div>
-          <div className="flex max-h-[50px] items-center rounded-md bg-[#5885AF] ">
-            <BiFilterAlt className="text-[20px]" />
-            {sy && (
+              <BiFilterAlt className="text-[20px]" />
               <select
-                defaultValue={sy}
-                onChange={(e) => setSY(e.target.value)}
+                value={course}
+                onChange={(e) => setCourse(e.target.value)}
+                className={` h-[25px] rounded-md bg-[#5885AF] w-full outline-none `}
+              >
+                <option>ALL</option>
+                <option>BSIT</option>
+                <option>BSAIS</option>
+                <option>BSTM</option>
+                <option>BSHM</option>
+                <option>BSCPE</option>
+                <option>BSCS</option>
+              </select>
+            </div>
+            <div className="flex max-h-[50px] items-center rounded-md bg-[#5885AF] ">
+              <BiFilterAlt className="text-[20px]" />
+              {sy && (
+                <select
+                  defaultValue={sy}
+                  onChange={(e) => setSY(e.target.value)}
+                  className=" h-[25px] md:text-base text-sm rounded-md bg-[#5885AF] overflow-auto outline-none "
+                >
+                  <option value={"S.Y. 2023-2024"} className="text-[15px]">
+                    S.Y. 2023-2024
+                  </option>
+                  <option value={"S.Y. 2024-2025"} className="text-[15px]">
+                    S.Y. 2024-2025
+                  </option>
+                  <option value={"S.Y. 2025-2026"} className="text-[15px]">
+                    S.Y. 2025-2026
+                  </option>
+                  <option value={"S.Y. 2026-2027"} className="text-[15px]">
+                    S.Y. 2026-2027
+                  </option>
+                  <option value={"S.Y. 2027-2028"} className="text-[15px]">
+                    S.Y. 2027-2028
+                  </option>
+                </select>
+              )}
+            </div>
+            <div className="flex max-h-[50px] items-center rounded-md bg-[#5885AF] ">
+              <BiFilterAlt className="text-[20px]" />
+              <select
+                onChange={(e) => setStatus(e.target.value)}
                 className=" h-[25px] md:text-base text-sm rounded-md bg-[#5885AF] overflow-auto outline-none "
               >
-                <option value={"S.Y. 2023-2024"} className="text-[15px]">
-                  S.Y. 2023-2024
+                <option value={"ALL STATUS"} className="text-[15px]">
+                  ALL STATUS
                 </option>
-                <option value={"S.Y. 2024-2025"} className="text-[15px]">
-                  S.Y. 2024-2025
+                <option value={"COMPLETE"} className="text-[15px]">
+                  COMPLETE
                 </option>
-                <option value={"S.Y. 2025-2026"} className="text-[15px]">
-                  S.Y. 2025-2026
-                </option>
-                <option value={"S.Y. 2026-2027"} className="text-[15px]">
-                  S.Y. 2026-2027
-                </option>
-                <option value={"S.Y. 2027-2028"} className="text-[15px]">
-                  S.Y. 2027-2028
+                <option value={"INCOMPLETE"} className="text-[15px]">
+                  INCOMPLETE
                 </option>
               </select>
-            )}
+            </div>
           </div>
 
           <button
@@ -273,7 +334,9 @@ const MasterList = ({ Data }) => {
                 </div>
               )}
             </>
-          ) : "Loading"}
+          ) : (
+            "Loading"
+          )}
         </main>
         <div className="mt-[20px]">
           {studinfos && studinfos.length > 0 && (
@@ -295,6 +358,7 @@ const MasterList = ({ Data }) => {
         openPrint={openPrint}
         setOpenPrint={setOpenPrint}
         Data={Data}
+        saveAsPDF={saveAsPDF}
       />
     </div>
   );

@@ -226,22 +226,29 @@ const Message = ({ beneemail }) => {
     }
   }
 
+  const [lastCreatedAt, setLastCreatedAt] = useState(null);
   // Message Getter In SupaBase
   const MessageGetter = async () => {
     try {
       const { data: bene } = await supabase
         .from("Messaging")
         .select()
-        .eq("name", beneName);
+        .order("created_at", { ascending: false })
+        .limit(10)
+        .match({ name: beneName });
 
       const { data: stud } = await supabase
         .from("Messaging")
         .select()
-        .eq("name", getstudname);
+        .order("created_at", { ascending: false })
+        .limit(10)
+        .match({ name: getstudname });
 
       await setReceivedMessages(bene.concat(stud));
     } catch (error) {}
   };
+
+  const fetchAnother = async () => {};
 
   // Message Opener
   function openmessage() {
@@ -770,6 +777,7 @@ const Message = ({ beneemail }) => {
                         {getstudname}
                       </label>
                     </div>
+                    <button onClick={() => fetchAnother()}>Test</button>
                   </>
                 </div>
                 {/* Message Container Design */}

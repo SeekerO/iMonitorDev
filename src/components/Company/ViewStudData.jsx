@@ -3,6 +3,8 @@ import { Link, useParams } from "react-router-dom";
 import supabase from "../iMonitorDBconfig";
 import DateConverter from "../Monitoring/DateConverter";
 import { AiOutlineClose } from "react-icons/ai";
+import { BsFillPersonLinesFill } from "react-icons/bs";
+import { FaBuilding, FaFileImage } from "react-icons/fa";
 import copy from "copy-to-clipboard";
 import { ToastContainer, toast } from "react-toastify";
 export default function ViewStudData({
@@ -16,6 +18,7 @@ export default function ViewStudData({
 
   useEffect(() => {
     // Call the function to fetch files from a specific folder
+    displayAvatar(studemail);
     fetchFilesInFolder(studemail);
   }, []);
 
@@ -52,11 +55,12 @@ export default function ViewStudData({
 
   const [avatar, setAvatar] = useState(false);
   const [displayAvatarConfig, setDisplayAvatar] = useState();
+
   function avatarComponent(name) {
     return (
       <div
         style={{ background: displayColor }}
-        className={`flex text-white items-center justify-center h-[200px]  w-[200px] rounded-full font-thin`}
+        className={`flex text-white text-[50px] items-center justify-center h-[200px]  w-[200px] rounded-full font-thin shadow-md shadow-black`}
       >{`${name.split(" ")[0][0]}${name.split(" ")[1][0]} `}</div>
     );
   }
@@ -107,7 +111,7 @@ export default function ViewStudData({
                 {avatar ? (
                   <img
                     src={displayAvatarConfig}
-                    className="h-[200px] w-[200px] rounded-full"
+                    className="h-[200px] w-[200px] rounded-full shadow-md shadow-black"
                   ></img>
                 ) : (
                   avatarComponent(studinfos.studname)
@@ -123,8 +127,9 @@ export default function ViewStudData({
                 </label>
               </div>
               <div className="h-[1px] w-[100%] bg-yellow-500 mb-4" />
-              <div className="font-bold md:text-[25px] text-lg mb-3 flex gap-6">
-                STUDENT INFORMATION
+              <div className="font-bold md:text-[25px] text-lg mb-3 flex gap-1 items-center">
+                <BsFillPersonLinesFill className="text-[25px]" /> STUDENT
+                INFORMATION
               </div>
               <p className="  md:text-lg text-base">
                 STUDENT PROGRESS: {studinfos.studprogress} /{" "}
@@ -157,8 +162,8 @@ export default function ViewStudData({
                 </label>
               </div>
 
-              <p className="font-bold md:text-[25px] text-lg mt-7 ">
-                COMPANY INFROMATION
+              <p className="font-bold md:text-[25px] text-lg mt-7 flex gap-1 items-center ">
+                <FaBuilding className="text-[20px]" /> COMPANY INFROMATION
               </p>
               <div className="grid md:grid-cols-2 grid-cols-1 font-thin  ">
                 <label className=" mt-4 md:text-lg text-base ">
@@ -197,8 +202,8 @@ export default function ViewStudData({
               </div>
             </div>
             <div className="mt-10">
-              <p className="font-bold md:text-lg text-base">
-                Uploaded image in attendance
+              <p className="font-bold md:text-lg text-base flex items-center gap-1">
+                <FaFileImage className="text-[20px]"/>Uploaded image in attendance
               </p>
               <div className="h-[300px]  bg-[#5f7caa]  mr-[1%] rounded-md overflow-y-auto">
                 <div className="p-2 grid grid-cols-2">

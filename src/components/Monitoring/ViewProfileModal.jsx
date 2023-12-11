@@ -5,7 +5,8 @@ import StudentUploadedImage from "./StudentUploadedImage";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsPencilSquare } from "react-icons/bs";
 import { MdPreview } from "react-icons/md";
-
+import { BsFillPersonLinesFill } from "react-icons/bs";
+import { FaBuilding, FaFileImage } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import Avatar from "@mui/material/Avatar";
 import copy from "copy-to-clipboard";
@@ -141,18 +142,21 @@ export default function ViewProfileModal({
             <div className="h-[1px] w-[100%] bg-yellow-500 mb-4" />
             <div className="flex-col text-black">
               <div className="flex items-center">
-                <span className="font-bold flex md:text-[25px] text-lg rounded-md text-black  gap-1 p-2">
-                  STUDENT INFORMATION
-                  {beneData.filterby === "ALL" && (
-                    <Link to={"/UpdateProfile/" + studinfos.id}>
-                      <button
-                        className="hover:bg-[#62a0d9] bg-yellow-500 mb-7  text-base p-0.5 px-2 rounded-md text-center w-fit   text-white 
+                <span className="font-bold flex md:text-[25px]  items-center text-lg rounded-md text-black  gap-1 p-2">
+                  <BsFillPersonLinesFill className=" text-[25px]" /> STUDENT
+                  INFORMATION
+                  <div className="flex items-center">
+                    {beneData.filterby === "ALL" && (
+                      <Link to={"/UpdateProfile/" + studinfos.id}>
+                        <button
+                          className="hover:bg-[#62a0d9] bg-yellow-500 text-base p-0.5 px-2 rounded-md text-center w-fit   text-white 
                hover:text-black font-semibold  flex items-center gap-1 "
-                      >
-                        <BsPencilSquare /> EDIT
-                      </button>{" "}
-                    </Link>
-                  )}
+                        >
+                          <BsPencilSquare /> EDIT
+                        </button>{" "}
+                      </Link>
+                    )}
+                  </div>
                 </span>
               </div>
 
@@ -175,13 +179,15 @@ export default function ViewProfileModal({
               </label>
 
               <div className="font-bold md:text-[25px] text-lg mt-7 rounded-md text-black  p-2 flex items-center ">
-                <label> COMPANY INFORMATION</label>
+                <label className="flex items-center gap-1">
+                  <FaBuilding className="text-[20px]" /> COMPANY INFORMATION
+                </label>
 
                 {studinfos.prevComp.length > 0 && (
                   <a>
                     <MdPreview
                       data-tooltip-id="Preview"
-                      className="text-[30px] hover:text-blue-600 cursor-pointer"
+                      className="text-[30px]  cursor-pointer"
                       onClick={() => setViewPrev(!viewPrev)}
                     />
                   </a>
@@ -231,8 +237,8 @@ export default function ViewProfileModal({
               </div>
 
               <div className="mt-10">
-                <p className="font-bold md:text-lg text-base mb-2 rounded-md text-black p-2">
-                  Uploaded image in attendance
+                <p className="font-bold flex gap-1 items-center md:text-lg text-base mb-2 rounded-md text-black p-2">
+                  <FaFileImage className="text-[20px]"/> Uploaded image in attendance
                 </p>
                 <div className="h-[300px]  bg-[#5f7caa] bg-opacity-[80%]  mr-[1%] rounded-md overflow-y-auto">
                   <div className="p-2 grid grid-cols-2">

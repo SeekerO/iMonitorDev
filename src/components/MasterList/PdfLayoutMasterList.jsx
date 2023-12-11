@@ -9,8 +9,9 @@ function PdfLayoutMasterList({ data, layout, course, sy }) {
       return <div className="h-3 w-3 bg-green-500 rounded-full" />;
     }
   };
+
   return (
-    <div ref={layout} className="p-1 ">
+    <div  ref={layout} className="p-1 ">
       <div className="flex items-center  gap-2 ml-1">
         <img src={stilogo} alt="STI LOGO" className=" h-15 w-20 rounded-sm" />
         <label className="font-bold text-[30px] font-sans text-[#0874B9]">
@@ -36,7 +37,7 @@ function PdfLayoutMasterList({ data, layout, course, sy }) {
                   key={index}
                   className="grid grid-cols-1 mb-2.5 p-2 text-[12px] bg-slate-200 font-thin rounded-md  "
                 >
-                  <label className="flex gap-1 items-center font-normal">
+                  <label className="flex gap-1 items-center font-normal mb-2">
                     {item.status.toUpperCase()}
                     {status(item.status)}
                   </label>

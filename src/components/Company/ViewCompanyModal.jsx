@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 import supabase from "../iMonitorDBconfig";
 import StudentData from "./StudentData";
 import { AiOutlineClose } from "react-icons/ai";
+import { BsFillPersonPlusFill } from "react-icons/bs";
+import { FaList } from "react-icons/fa";
 import Tooltip from "@mui/material/Tooltip";
 export default function ViewProfileModal({
   visible,
@@ -47,8 +49,9 @@ export default function ViewProfileModal({
           </button>
         </div>
         <div className=" rounded-xl m-[1%] p-2">
-          <div className="pt-1 md:text-[25px] text-base font-semibold text-black w-[600px] rounded-md ">
-            NUMBER OF STUDENT CURRENTLY IN OJT: {number}
+          <div className="pt-1 md:text-[25px] flex items-center gap-1 text-base font-semibold text-black w-[600px] rounded-md ">
+            <BsFillPersonPlusFill className="text-[30px]" /> NUMBER OF STUDENT
+            CURRENTLY IN OJT: {number}
           </div>
           <form
             className={`${
@@ -82,9 +85,9 @@ export default function ViewProfileModal({
 
           <a
             onClick={() => setOpenStudInfo(!openstudinfo)}
-            className="font-semibold text-black hover:text-blue-500 hover:underline rounded-md w-[300px] mb-2 text-[20px] cursor-pointer"
+            className="font-semibold text-black flex items-center gap-1 hover:text-blue-500 rounded-md w-full mb-2 text-[20px] cursor-pointer"
           >
-            STUDENT INFORMATION {`(Current Enrolled)`}
+            <FaList /> STUDENT INFORMATION (Current Enrolled)
           </a>
 
           {/* Student name display in div */}

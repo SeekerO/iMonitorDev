@@ -14,12 +14,15 @@ import ArchiveAllCompleted from "./ArchiveAllCompleted";
 import moment from "moment";
 
 const Monitoring = ({ Data }) => {
+  var curryear = moment().year();
+  var nextyear = curryear + 1;
+
   const [studinfos, setStudInfos] = useState(false);
   const [searchstudinfos, setSearchStudInfos] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
 
   const [course, setCourse] = useState("ALL");
-  const [sy, setSY] = useState();
+  const [sy, setSY] = useState("S.Y. " + curryear + "-" + nextyear);
 
   const [count, setCount] = useState();
 
@@ -30,11 +33,8 @@ const Monitoring = ({ Data }) => {
   const changePage = ({ selected }) => {
     setPageNumber(selected);
   };
-
   const [archive_all_completed, setArchive_all_completed] = useState(false);
-  useEffect(() => {
-    filterYear();
-  }, [Data]);
+
   useEffect(() => {
     fetchstudinfo();
     supabase
@@ -54,14 +54,6 @@ const Monitoring = ({ Data }) => {
 
     AOS.init({ duration: 0 });
   }, [Data, course, sy]);
-
-  const filterYear = () => {
-    var curryear = moment().year();
-
-    var nextyear = curryear + 1;
-
-    setSY("S.Y. " + curryear + "-" + nextyear);
-  };
 
   const fetchstudinfo = async () => {
     try {

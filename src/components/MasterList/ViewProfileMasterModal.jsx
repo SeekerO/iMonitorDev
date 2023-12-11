@@ -5,6 +5,8 @@ import DateConverter from "../Monitoring/DateConverter";
 import Avatar from "@mui/material/Avatar";
 import { AiOutlineClose } from "react-icons/ai";
 import { MdPreview } from "react-icons/md";
+import { BsFillPersonLinesFill } from "react-icons/bs";
+import { FaBuilding, FaFileImage } from "react-icons/fa";
 import PrevHistoryComp from "../Monitoring/PrevHistoryComp";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 export default function ViewProfileMasterModal({
@@ -99,8 +101,9 @@ export default function ViewProfileMasterModal({
             </div>
             <div className="h-[1px] w-[100%] bg-yellow-500 mb-4" />
             <div className="flex-col text-black ">
-              <div className="font-bold md:text-[25px] text-lg mb-3 flex gap-6 rounded-md text-black  p-2">
-                STUDENT INFORMATION
+              <div className="font-bold items-center md:text-[25px] text-lg mb-3 flex gap-1 rounded-md text-black  p-2">
+                <BsFillPersonLinesFill className=" text-[25px]" /> STUDENT
+                INFORMATION
               </div>
               <p className="  md:text-lg text-base pl-2 text-black">
                 STUDENT PROGRESS: {studinfos.studprogress} /{" "}
@@ -127,7 +130,9 @@ export default function ViewProfileMasterModal({
               </div>
 
               <p className="font-bold md:text-[25px] text-lg mt-7 rounded-md text-black p-2 flex">
-                <label> COMPANY INFORMATION </label>
+                <label className="flex items-center gap-1">
+                  <FaBuilding className="text-[20px]" /> COMPANY INFORMATION{" "}
+                </label>
 
                 {studinfos.prevComp.length > 0 && (
                   <a>
@@ -170,8 +175,9 @@ export default function ViewProfileMasterModal({
               </div>
             </div>
             <div className="mt-10">
-              <p className="font-bold md:text-lg text-base mb-2 rounded-md text-black  p-2">
-                Uploaded image in attendance
+              <p className="font-bold flex items-center gap-1 md:text-lg text-base mb-2 rounded-md text-black  p-2">
+                <FaFileImage className="text-[20px]" /> Uploaded image in
+                attendance
               </p>
               <div className="h-[300px]  bg-[#5f7caa] bg-opacity-[80%] mr-[1%] rounded-md overflow-y-auto">
                 <div className="p-2 grid grid-cols-2">
