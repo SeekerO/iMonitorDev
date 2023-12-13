@@ -183,9 +183,10 @@ function MessagingConfig({
               </div>
             </div>
             {counter > 0 && (
-              <div className=" text-red-600 font-bold flex">
-                <AiFillMessage className="text-red-600" />
-                <label className="text-[10px]">+{counter}</label>
+              <div className=" text-red-600 font-bold flex items-start">
+                <div className="text-[9px] flex items-center">
+                  <div className="h-2 w-2 rounded-full bg-red-600" />+{counter}
+                </div>
               </div>
             )}
           </div>

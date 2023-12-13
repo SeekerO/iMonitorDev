@@ -17,12 +17,17 @@ import { IoSend } from "react-icons/io5";
 import { Backdrop } from "@mui/material";
 import { TailSpin } from "react-loader-spinner";
 import { TbMessage2Share } from "react-icons/tb";
+import { FaChevronCircleDown } from "react-icons/fa";
 
 import { Radio } from "react-loader-spinner";
 
 // Toastify
 import { ToastContainer, toast } from "react-toastify";
 import MessageBeneContanct from "./MessageBeneContanct";
+
+import { tailspin } from "ldrs";
+
+tailspin.register();
 
 const Message = ({ beneemail }) => {
   // search name
@@ -43,7 +48,7 @@ const Message = ({ beneemail }) => {
   const [havemessage, setHaveMessage] = useState(true);
   // fetching message
   const [receivedmessages, setReceivedMessages] = useState([]);
-
+  const [allmess, setAllMess] = useState();
   //end of the message
   const messageEndRef = useRef(null);
 
@@ -95,6 +100,8 @@ const Message = ({ beneemail }) => {
   const [avatarColor, setAvatarColor] = useState();
   const [avatarURL, setAvatarURL] = useState();
 
+  const [messLoad, setMessLoad] = useState(false);
+
   // Resize Depending on the width of the screen
   useEffect(() => {
     const handleResize = () => {
@@ -108,7 +115,7 @@ const Message = ({ beneemail }) => {
     handleResize();
     window.addEventListener("resize", handleResize);
     SetRun(!run);
-  }, [receivedmessages]);
+  }, []);
 
   // Runs once
   useEffect(() => {
@@ -187,9 +194,9 @@ const Message = ({ beneemail }) => {
       .subscribe();
   }, [getstudname]);
 
-  useEffect(() => {
-    messageEndRef.current?.scrollIntoView();
-  }, [receivedmessages]);
+  // useEffect(() => {
+  //   messageEndRef.current?.scrollIntoView();
+  // }, [receivedmessages]);
 
   // Data Getter In SupaBase
   var ID = "";
@@ -226,7 +233,6 @@ const Message = ({ beneemail }) => {
     }
   }
 
-  const [lastCreatedAt, setLastCreatedAt] = useState(null);
   // Message Getter In SupaBase
   const MessageGetter = async () => {
     try {
@@ -235,20 +241,91 @@ const Message = ({ beneemail }) => {
         .select()
         .order("created_at", { ascending: false })
         .limit(10)
-        .match({ name: beneName });
-
+        .match({ name: beneName, contactwith: getstudname });
       const { data: stud } = await supabase
         .from("Messaging")
         .select()
         .order("created_at", { ascending: false })
         .limit(10)
-        .match({ name: getstudname });
-
+        .match({ name: getstudname, contactwith: beneName });
       await setReceivedMessages(bene.concat(stud));
+
+      messageEndRef.current?.scrollIntoView();
+      const { data: allbene } = await supabase
+        .from("Messaging")
+        .select()
+        .order("created_at", { ascending: false })
+        .match({ name: beneName, contactwith: getstudname });
+
+      const { data: allstud } = await supabase
+        .from("Messaging")
+        .select()
+        .order("created_at", { ascending: false })
+        .match({ name: getstudname, contactwith: beneName });
+
+      await setAllMess(allbene.concat(allstud));
     } catch (error) {}
   };
 
-  const fetchAnother = async () => {};
+  const fetchAnother = async () => {
+    try {
+      for (let index = 0; index < allmess.length; index++) {
+        if (receivedmessages[index].id !== allmess[index].id) {
+          setMessLoad(true);
+          const { data: recentMessages } = await supabase
+            .from("Messaging")
+            .select()
+            .order("created_at", { ascending: false })
+            .limit(10)
+            .match({ name: beneName, contactwith: getstudname });
+
+          const { data: olderMessages } = await supabase
+            .from("Messaging")
+            .select()
+            .order("created_at", { ascending: false })
+            .limit(10)
+            .lt(
+              "created_at",
+              recentMessages[recentMessages.length - 1].created_at
+            ) // Fetch messages older than the last message in recentMessages
+            .match({ name: beneName, contactwith: getstudname });
+
+          const { data: recentMessagesSTUD } = await supabase
+            .from("Messaging")
+            .select()
+            .order("created_at", { ascending: false })
+            .limit(10)
+            .match({ name: getstudname, contactwith: beneName });
+
+          const { data: olderMessagesSTUD } = await supabase
+            .from("Messaging")
+            .select()
+            .order("created_at", { ascending: false })
+            .limit(10)
+            .lt(
+              "created_at",
+              recentMessagesSTUD[recentMessagesSTUD.length - 1].created_at
+            ) // Fetch messages older than the last message in recentMessages
+            .match({ name: getstudname, contactwith: beneName });
+
+          // Combine the older messages with the recent messages
+
+          const combinedMessagesBENE = recentMessages.concat(olderMessages);
+          const combinedMessagesSTUD =
+            recentMessagesSTUD.concat(olderMessagesSTUD);
+
+          const combine2user =
+            combinedMessagesBENE.concat(combinedMessagesSTUD);
+          // Update receivedMessages state with the combined messages
+          setReceivedMessages(combine2user);
+          setMessLoad(false);
+          return;
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching messages:", error);
+    }
+  };
 
   // Message Opener
   function openmessage() {
@@ -333,8 +410,9 @@ const Message = ({ beneemail }) => {
     setReceivedMessages(
       receivedmessages.concat(receivedmessages.push(newMessage))
     );
+
     readmess();
-    const { data: modif } = await supabase
+   await supabase
       .from("BeneAccount")
       .update({ last_Modif: moment().format() })
       .eq("beneName", beneName);
@@ -342,6 +420,7 @@ const Message = ({ beneemail }) => {
     setSeen(false);
     setMessage("");
     setHaveMessage(true);
+    messageEndRef.current?.scrollIntoView();
   }
 
   const hiddenFileInput = useRef(null);
@@ -489,6 +568,22 @@ const Message = ({ beneemail }) => {
       </div>
     );
   }
+  const myMessageDiv = useRef();
+  const [backToScroll, setBackToScroll] = useState(false);
+
+  const handleScroll = () => {
+    const { scrollTop, clientHeight, scrollHeight } = myMessageDiv.current;
+    if (scrollTop === 0 && scrollHeight >= clientHeight) {
+      setBackToScroll(true);
+    }
+    if (scrollTop === 0 && scrollHeight > clientHeight) {
+      fetchAnother();
+    } else if (scrollTop === 0 && scrollHeight > clientHeight) {
+      fetchAnother();
+    } else {
+      setBackToScroll(false);
+    }
+  };
 
   return (
     <>
@@ -604,6 +699,7 @@ const Message = ({ beneemail }) => {
                                   setAvatarURL={setAvatarURL}
                                   setOnlineStatus={setOnlineStatus}
                                   getRole={getRole}
+                                  setBackToScroll={setBackToScroll}
                                 />
                               ))}
                           </>
@@ -666,6 +762,7 @@ const Message = ({ beneemail }) => {
                                       setAvatarURL={setAvatarURL}
                                       setOnlineStatus={setOnlineStatus}
                                       getRole={getRole}
+                                      setBackToScroll={setBackToScroll}
                                     />
                                   ))}
                               </>
@@ -731,7 +828,6 @@ const Message = ({ beneemail }) => {
           </div>
           {/* Message */}
           <div
-            id="message"
             className={`${
               window.innerWidth <= 768
                 ? `${
@@ -777,34 +873,56 @@ const Message = ({ beneemail }) => {
                         {getstudname}
                       </label>
                     </div>
-                    <button onClick={() => fetchAnother()}>Test</button>
                   </>
                 </div>
+
                 {/* Message Container Design */}
                 {receivedmessages ? (
                   <div
+                    ref={myMessageDiv}
+                    onScroll={handleScroll}
                     className={`w-[100%] bg-[#bfd7eddc] p-3 overflow-y-auto overflow-x-hidden md:h-[78%] h-[80%]`}
                   >
+                    {backToScroll && !messLoad && (
+                      <div
+                        onClick={() => messageEndRef.current?.scrollIntoView()}
+                        className="  justify-center flex "
+                      >
+                        <FaChevronCircleDown className="mt-2 text-[30px] text-[#274472]" />
+                      </div>
+                    )}
+                    {backToScroll && messLoad && (
+                      <div className="flex justify-center items-center gap-1">
+                        <l-tailspin
+                          size="35"
+                          stroke="5"
+                          speed="0.9"
+                          color="#274472"
+                        ></l-tailspin>
+                      </div>
+                    )}
                     {receivedmessages
                       .sort((a, b) => (a.created_at <= b.created_at ? -1 : 1))
                       .map((message, index) => (
-                        <UserMessagesDisplay
-                          key={index}
-                          message={message}
-                          getstudname={getstudname}
-                          beneName={beneName}
-                          beneinfo={beneinfo}
-                          file={file}
-                          studID={getID}
-                          setDisplayImage={setDisplayImage}
-                          displayimage={displayimage}
-                          setDisplayFile={setDisplayFile}
-                          displayfile={displayfile}
-                          avatarURL={avatarURL}
-                          isRole={isRole}
-                          receivedmessages={receivedmessages}
-                        />
+                        <div key={index}>
+                          <UserMessagesDisplay
+                            message={message}
+                            getstudname={getstudname}
+                            beneName={beneName}
+                            beneinfo={beneinfo}
+                            file={file}
+                            studID={getID}
+                            setDisplayImage={setDisplayImage}
+                            displayimage={displayimage}
+                            setDisplayFile={setDisplayFile}
+                            displayfile={displayfile}
+                            avatarURL={avatarURL}
+                            isRole={isRole}
+                            receivedmessages={receivedmessages}
+                          />
+                        </div>
                       ))}
+
                     <div ref={messageEndRef} />
                     {delivered && (
                       <div className="text-[10px] text-blue-700 flex justify-end">

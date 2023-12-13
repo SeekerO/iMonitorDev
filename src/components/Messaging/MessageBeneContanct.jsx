@@ -19,6 +19,7 @@ function MessageBeneContanct({
   setAvatarURL,
   setOnlineStatus,
   getRole,
+  setBackToScroll,
 }) {
   const [notif, setNotif] = useState();
   const [img, setImg] = useState();
@@ -135,6 +136,7 @@ function MessageBeneContanct({
     setOnlineStatus(studinfo.onlineStatus);
     getRole(studinfo.ROLE);
     setNotif(false);
+    setBackToScroll(false);
   }
 
   // Mark the message as read
@@ -204,10 +206,9 @@ function MessageBeneContanct({
             </div>
           </div>
           {notif && (
-            <div className="flex">
-              <div className=" text-red-600 font-bold flex">
-                <AiFillMessage className="text-red-600" />
-                <label className="text-[10px]">+{counter}</label>
+            <div className=" text-red-600 font-bold flex items-start">
+              <div className="text-[9px] flex items-center">
+                <div className="h-2 w-2 rounded-full bg-red-600" />+{counter}
               </div>
             </div>
           )}

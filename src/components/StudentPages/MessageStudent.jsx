@@ -16,9 +16,14 @@ import { AiFillCheckCircle, AiFillFolderOpen } from "react-icons/ai";
 import { IoSend } from "react-icons/io5";
 import { GrAttachment } from "react-icons/gr";
 import { TbMessage2Share } from "react-icons/tb";
+import { FaChevronCircleDown } from "react-icons/fa";
 import { TailSpin } from "react-loader-spinner";
 // Toast
 import { ToastContainer, toast } from "react-toastify";
+
+import { tailspin } from "ldrs";
+
+tailspin.register();
 
 const MessageStudent = ({ studemail }) => {
   // search name
@@ -37,6 +42,7 @@ const MessageStudent = ({ studemail }) => {
   const [havemessage, setHaveMessage] = useState(true);
   // fetching messagers
   const [receivedmessages, setReceivedMessages] = useState();
+  const [allmess, setAllMess] = useState();
   //end of the message
   const messageEndRef = useRef(null);
 
@@ -52,9 +58,6 @@ const MessageStudent = ({ studemail }) => {
 
   //delivered
   const [delivered, setDelivered] = useState(false);
-
-  // set readmessage
-  const [read, setRead] = useState(false);
 
   // Send File and File holder
   const [fileholder, setFileHolder] = useState("");
@@ -73,6 +76,8 @@ const MessageStudent = ({ studemail }) => {
   const [getemail, setGetEmail] = useState();
   const [avatarColor, setAvatarColor] = useState();
   const [avatarURL, setAvatarURL] = useState();
+
+  const [messLoad, setMessLoad] = useState(false);
 
   // Resize
   useEffect(() => {
@@ -126,6 +131,7 @@ const MessageStudent = ({ studemail }) => {
         },
         (payload) => {
           MessageGetter();
+          messageEndRef.current?.scrollIntoView();
         }
       )
       .on("presence", { event: "sync", table: "Messaging" }, (newState) => {
@@ -141,10 +147,6 @@ const MessageStudent = ({ studemail }) => {
       })
       .subscribe();
   }, [getbeneName]);
-
-  useEffect(() => {
-    messageEndRef.current?.scrollIntoView();
-  }, [receivedmessages]);
 
   // Data Getter In SupaBase
   async function DataGetter() {
@@ -178,14 +180,31 @@ const MessageStudent = ({ studemail }) => {
       const { data: bene } = await supabase
         .from("Messaging")
         .select()
-        .eq("name", studName);
-
+        .order("created_at", { ascending: false })
+        .limit(10)
+        .match({ name: studName, contactwith: getbeneName });
       const { data: stud } = await supabase
         .from("Messaging")
         .select()
-        .eq("name", getbeneName);
-
+        .order("created_at", { ascending: false })
+        .limit(10)
+        .match({ name: getbeneName, contactwith: studName });
       await setReceivedMessages(bene.concat(stud));
+
+      const { data: allbene } = await supabase
+        .from("Messaging")
+        .select()
+        .order("created_at", { ascending: false })
+        .match({ name: studName, contactwith: getbeneName });
+
+      const { data: allstud } = await supabase
+        .from("Messaging")
+        .select()
+        .order("created_at", { ascending: false })
+        .match({ name: getbeneName, contactwith: studName });
+
+      setAllMess(allbene.concat(allstud));
+      messageEndRef.current?.scrollIntoView();
     } catch (error) {}
   };
 
@@ -260,7 +279,6 @@ const MessageStudent = ({ studemail }) => {
         name: studName,
         message: "👍🏻",
         contactwith: getbeneName,
-        readmessage: false,
         userID: studinfo.id,
       },
     ]);
@@ -277,7 +295,7 @@ const MessageStudent = ({ studemail }) => {
       receivedmessages.concat(receivedmessages.push(newMessage))
     );
 
-    const { data: modif } = await supabase
+    await supabase
       .from("StudentInformation")
       .update({ last_Modif: moment().format() })
       .eq("studname", studName);
@@ -285,6 +303,8 @@ const MessageStudent = ({ studemail }) => {
     setSeen(false);
     setMessage("");
     setHaveMessage(true);
+    readmess();
+    messageEndRef.current?.scrollIntoView();
   }
 
   const hiddenFileInput = useRef(null);
@@ -408,7 +428,6 @@ const MessageStudent = ({ studemail }) => {
 
     setFile(stud.concat(bene));
   }
-  const [displayimage, setDisplayImage] = useState([]);
   const [displayfile, setDisplayFile] = useState([]);
   const imageExtensions = ["jpg", "jpeg", "png", "gif", "bmp"];
   const documentExtenstions = ["docx", "pdf", "ods", "pptx", "xlsx"];
@@ -417,6 +436,67 @@ const MessageStudent = ({ studemail }) => {
     if (imageExtensions.includes(e.split(".").pop().toLowerCase())) return true;
     else if (documentExtenstions.includes(e.split(".").pop().toLowerCase()))
       return false;
+  };
+
+  const fetchAnother = async () => {
+    try {
+      for (let index = 0; index < allmess.length; index++) {
+        if (receivedmessages[index].id !== allmess[index].id) {
+          setMessLoad(true);
+          const { data: recentMessages } = await supabase
+            .from("Messaging")
+            .select()
+            .order("created_at", { ascending: false })
+            .limit(10)
+            .match({ name: studName, contactwith: getbeneName });
+
+          const { data: olderMessages } = await supabase
+            .from("Messaging")
+            .select()
+            .order("created_at", { ascending: false })
+            .limit(10)
+            .lt(
+              "created_at",
+              recentMessages[recentMessages.length - 1].created_at
+            ) // Fetch messages older than the last message in recentMessages
+            .match({ name: studName, contactwith: getbeneName });
+
+          const { data: recentMessagesSTUD } = await supabase
+            .from("Messaging")
+            .select()
+            .order("created_at", { ascending: false })
+            .limit(10)
+            .match({ name: getbeneName, contactwith: studName });
+
+          const { data: olderMessagesSTUD } = await supabase
+            .from("Messaging")
+            .select()
+            .order("created_at", { ascending: false })
+            .limit(10)
+            .lt(
+              "created_at",
+              recentMessagesSTUD[recentMessagesSTUD.length - 1].created_at
+            ) // Fetch messages older than the last message in recentMessages
+            .match({ name: getbeneName, contactwith: studName });
+
+          // Combine the older messages with the recent messages
+
+          const combinedMessagesBENE = recentMessages.concat(olderMessages);
+          const combinedMessagesSTUD =
+            recentMessagesSTUD.concat(olderMessagesSTUD);
+
+          const combine2user =
+            combinedMessagesBENE.concat(combinedMessagesSTUD);
+          // Update receivedMessages state with the combined messages
+          setReceivedMessages(combine2user);
+          setMessLoad(false);
+          return;
+        }
+      }
+      return;
+    } catch (error) {
+      console.error("Error fetching messages:", error);
+    }
   };
 
   function avatarComponent(name) {
@@ -436,7 +516,20 @@ const MessageStudent = ({ studemail }) => {
     );
   }
 
+  const myMessageDiv = useRef();
+  const [backToScroll, setBackToScroll] = useState(false);
 
+  const handleScroll = () => {
+    const { scrollTop, clientHeight, scrollHeight } = myMessageDiv.current;
+    if (scrollTop === 0 && scrollHeight >= clientHeight) {
+      setBackToScroll(true);
+    }
+    if (scrollTop === 0 && scrollHeight > clientHeight) {
+      fetchAnother();
+    } else {
+      setBackToScroll(false);
+    }
+  };
 
   return (
     <>
@@ -518,7 +611,6 @@ const MessageStudent = ({ studemail }) => {
                       setShowContacts={setShowContacts}
                       message={receivedmessages}
                       studName={studName}
-                      read={read}
                       setGetID={setGetID}
                       getFile={getFile}
                       setAvatarColor={setAvatarColor}
@@ -573,11 +665,33 @@ const MessageStudent = ({ studemail }) => {
                     {getbeneName}
                   </p>
                 </div>
+
                 {/* Message Container Design */}
                 {receivedmessages ? (
                   <div
+                    ref={myMessageDiv}
+                    onScroll={handleScroll}
                     className={` md:h-[76%] h-[80%] w-[100%] bg-[#bfd7eddc]  p-3 overflow-y-auto`}
                   >
+                    {backToScroll && !messLoad && (
+                      <div
+                        onClick={() => messageEndRef.current?.scrollIntoView()}
+                        className="  justify-center flex"
+                      >
+                        <FaChevronCircleDown className="mt-2 text-[30px] text-[#274472]" />
+                      </div>
+                    )}
+
+                    {messLoad && (
+                      <div className="flex justify-center items-center gap-1">
+                        <l-tailspin
+                          size="35"
+                          stroke="5"
+                          speed="0.9"
+                          color="#274472"
+                        ></l-tailspin>
+                      </div>
+                    )}
                     {receivedmessages
                       .sort((a, b) => (a.created_at < b.created_at ? -1 : 1))
                       .map((message) => (

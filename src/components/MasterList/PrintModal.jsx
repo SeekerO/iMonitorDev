@@ -233,7 +233,7 @@ function PrintModal({ openPrint, setOpenPrint, Data, saveAsPDF }) {
           <div className="flex md:justify-between justify-center -mt-8 ">
             <div className="justify-center md:grid hidden ">
               <label className="text-center font-bold text-[20px]">
-                PRIVIEW
+                PREVIEW
               </label>
               <div className="h-[500px] w-[600px] bg-gray-300 ml-2 p-2 overflow-y-auto overflow-x-hidden rounded-md ">
                 <div className="flex justify-end ">

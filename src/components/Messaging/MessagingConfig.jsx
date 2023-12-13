@@ -19,6 +19,7 @@ function MessagingConfig({
   setAvatarURL,
   setOnlineStatus,
   getRole,
+  setBackToScroll,
 }) {
   const [notif, setNotif] = useState();
   const [img, setImg] = useState();
@@ -30,9 +31,12 @@ function MessagingConfig({
 
   useEffect(() => {
     setNotif(false);
-    CheckNotification();
   }, [message]);
 
+  useEffect(() => {
+    CheckNotification();
+  }, [studinfo]);
+  
   useEffect(() => {
     displayAvatar(studinfo.studemail);
   }, []);
@@ -138,6 +142,7 @@ function MessagingConfig({
     setOnlineStatus(studinfo.onlineStatus);
     getRole("");
     setNotif(false);
+    setBackToScroll(false);
   }
 
   // Mark the message as read
@@ -204,9 +209,10 @@ function MessagingConfig({
         </div>
         <div className="flex">
           {notif && (
-            <div className=" text-red-600 font-bold flex">
-              <AiFillMessage className="text-red-600" />
-              <label className="text-[10px]">+{counter}</label>
+            <div className=" text-red-600 font-bold flex items-start">
+              <div className="text-[9px] flex items-center">
+                <div className="h-2 w-2 rounded-full bg-red-600" />+{counter}
+              </div>
             </div>
           )}
         </div>
