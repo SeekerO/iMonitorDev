@@ -93,14 +93,14 @@ function AttendanceLogConfig({ data }) {
   }
 
   return (
-    <div className="grid items-center gap-1 h-fit bg-slate-300 p-1 grid-cols-4">
-      <div className="flex items-center gap-1">
+    <div className="grid items-center gap-1 h-fit bg-slate-300 p-1 grid-cols-4 font-thin hover:p-3 hover:m-1 hover:rounded-md duration-300" >
+      <div className="flex items-center gap-1 ">
         {avatar && studData?.studname ? (
           <img src={displayAvatarConfig} className="h-9 w-9 rounded-full"></img>
         ) : (
           avatarComponent(data?.studname)
         )}
-        <div className="">{data?.studname}</div>
+        <div className=" text-[14px]">{data?.studname}</div>
       </div>
 
       <div className="flex justify-center items-center gap-1">

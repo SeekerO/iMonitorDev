@@ -130,7 +130,8 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo }) => {
       let hours = Math.floor(a / 3600);
       let minutes = (a % 3600) / 60;
 
-      if (hours >= 9) {
+      // if hours greater than 9 set it to 9 hours
+      if (hours > 9) {
         hours = 9;
       }
 

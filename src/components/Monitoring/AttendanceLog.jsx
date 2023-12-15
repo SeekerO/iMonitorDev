@@ -1,4 +1,4 @@
-import React, { useEffect, useState , useRef} from "react";
+import React, { useEffect, useState, useRef } from "react";
 import supabase from "../iMonitorDBconfig";
 import moment from "moment";
 import AttendanceLogConfig from "./AttendanceLogConfig";
@@ -181,9 +181,9 @@ function AttendanceLog({ attendanceLog, setAttendanceLog, Data }) {
             <div className="flex justify-center">TIME OUT</div>
             <div className="flex justify-center">DATE</div>
           </div>
-          <div className="h-[90%] overflow-y-auto w-[100%] bg-white grid ">
+          <div className=" h-[90%] w-[100%] overflow-y-scroll">
             {data && data.length > 0 ? (
-              <>
+              <div className="h-fit w-[100%] bg-white grid ">
                 {data
                   ?.filter((val) => {
                     try {
@@ -201,7 +201,7 @@ function AttendanceLog({ attendanceLog, setAttendanceLog, Data }) {
                   .map((data, index) => (
                     <AttendanceLogConfig key={index} data={data} />
                   ))}
-              </>
+              </div>
             ) : (
               <div className="w-full flex justify-center font-semibold  ">
                 NO DATA
