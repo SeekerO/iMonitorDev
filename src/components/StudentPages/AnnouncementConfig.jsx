@@ -132,6 +132,11 @@ const AnnouncementConfig = ({
     }
   }
 
+  const removeUUIDtitle = (title) => {
+    var text = title.split(".")[1];
+    return text;
+  };
+
   return (
     <>
       <div>
@@ -160,7 +165,7 @@ const AnnouncementConfig = ({
               <IoNotificationsCircleOutline className="text-red-600 text-[20px]" />
             ) : null}
             <p className="font-bold md:text-[20px] text-[10px] line-clamp-1">
-              {announcementinfo.announcementTitle}
+              {removeUUIDtitle(announcementinfo.announcementTitle)}
             </p>
           </div>
           <p className="md:text-[15px] text-[10px]">

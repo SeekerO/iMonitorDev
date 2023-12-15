@@ -111,6 +111,12 @@ function UploadLog() {
     };
   }, []);
 
+  const removeUUIDtitle = (title) => {
+    var text = title.split(".")[1];
+    return text;
+  };
+
+  const [search, setSearch] = useState("");
   return (
     <div
       className={`flex gap-1 md:pl-5 pl-1 bg-black bg-opacity-20  h-screen md:pt-0 pt-10`}
@@ -158,8 +164,29 @@ function UploadLog() {
                 open ? "" : "hidden"
               }  duration-500  overflow-y-auto overflow-x-hidden md:h-[70%] h-[55%] w-auto p-2`}
             >
+              <div className="mt-1 flex justify-center">
+                <input
+                  type="search"
+                  placeholder="Search"
+                  className="pl-2 rounded-md  w-[230px] "
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                ></input>
+              </div>
               {announceinfo
-                .sort((a, b) => (a.created_at < b.created_at ? 1 : -1))
+                .sort((a, b) => (a.announcementEndDate < b.announcementEndDate ? 1 : -1))
+                .filter((announce) => {
+                  try {
+                    var text = announce.announcementTitle
+                      .split(".")[1]
+                      .toLowerCase();
+                    if (search === "") {
+                      return announce;
+                    } else if (text.includes(search.toLowerCase())) {
+                      return announce;
+                    }
+                  } catch (error) {}
+                })
                 .map((announcementinfo) => (
                   <UploadStudentConfig
                     key={announcementinfo.id}
@@ -212,7 +239,7 @@ function UploadLog() {
                       <SeenAnnouncement seen={seen} getreadsBy={getreadsBy} />
                     </div>
                   </div>
-                  Announcement Title: {getTitle}
+                  Announcement Title: {removeUUIDtitle(getTitle)}
                 </div>
                 <div className="font-semibold grid text-[12px] mb-10">
                   <label>Posted By: {getPostedBy}</label>

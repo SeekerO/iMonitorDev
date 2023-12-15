@@ -31,7 +31,12 @@ function MessageBeneContanct({
 
   useEffect(() => {
     CheckNotification();
-  }, [run]);
+  }, [studinfo]);
+
+  useEffect(() => {
+    setNotif(false);
+  }, [message]);
+  
   useEffect(() => {
     displayAvatar(studinfo.beneEmail);
   }, []);
@@ -106,17 +111,19 @@ function MessageBeneContanct({
           readmessage: "FALSE",
         });
 
+      setCounter(count);
       if (bene) {
-        setCounter(count);
         for (let index = 0; index < bene.length; index++) {
           if (
             bene[index].name === studinfo.beneName &&
-            bene[index].readmessage === false &&
-            bene[index].contactwith === beneName
+            bene[index].contactwith === beneName &&
+            bene[index].readmessage === false
           ) {
+            console.log(true);
             setNotif(true);
             return;
           }
+          console.log(true);
           setNotif(false);
         }
       }

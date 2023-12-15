@@ -100,6 +100,10 @@ function UploadStudentConfig({
   );
   const currDate = moment(new Date()).format("Y/M/D");
 
+  const removeUUIDtitle = (title) => {
+    var text = title.split('.')[1]
+    return text;
+  };
   return (
     <div className="hover:cursor-pointer p-2 rounded-md">
       <div
@@ -114,7 +118,7 @@ function UploadStudentConfig({
             </em>
           )}
 
-          {announceinfo.announcementTitle}
+          {removeUUIDtitle(announceinfo.announcementTitle)}
         </label>
         <div className="grid text-[12px] font-thin">
           <label>START: {announceinfo.announcementStartDate}</label>

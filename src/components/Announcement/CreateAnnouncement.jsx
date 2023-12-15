@@ -9,6 +9,7 @@ import Datepicker from "react-tailwindcss-datepicker";
 import "react-datepicker/dist/react-datepicker.module.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { v4 as uuidv4 } from "uuid";
 
 function CreateAnnouncement({ Data }) {
   // AOS ANIMATION
@@ -46,6 +47,8 @@ function CreateAnnouncement({ Data }) {
 
   function handlePostAnnouncement(e) {
     e.preventDefault();
+    var announcementID = uuidv4();
+    console.log(announcementID);
     if (
       title.trim().length === 0 ||
       endDate.trim().length === 0 ||
@@ -85,7 +88,7 @@ function CreateAnnouncement({ Data }) {
           .from("AnnouncementTable")
           .insert([
             {
-              announcementTitle: title,
+              announcementTitle: announcementID + "." + title,
               announcementAllow: allow,
               announcementStartDate: currDate,
               announcementEndDate: endDateSend,
@@ -105,19 +108,17 @@ function CreateAnnouncement({ Data }) {
         ) {
           await supabase.storage
             .from("AnnouncementAttachmentFiles")
-            .upload(title + "/" + filename, file);
+            .upload(title + "/" + announcementID + "." + filename, file);
 
-          const { data, error } = await supabase
-            .from("AnnouncementTable")
-            .insert([
-              {
-                announcementTitle: title,
-                announcementAllow: allow,
-                announcementStartDate: currDate,
-                announcementEndDate: endDateSend,
-                announcementMessage: message,
-              },
-            ]);
+          await supabase.from("AnnouncementTable").insert([
+            {
+              announcementTitle: announcementID + "." + title,
+              announcementAllow: allow,
+              announcementStartDate: currDate,
+              announcementEndDate: endDateSend,
+              announcementMessage: message,
+            },
+          ]);
 
           clear();
         } else {

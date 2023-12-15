@@ -152,6 +152,12 @@ function AnnouncementStudent({ studemail }) {
   var date = moment(new Date()).format("LLL");
   var announceDate = moment(new Date(getEndDate)).format("LLL");
 
+  const removeUUIDtitle = (title) => {
+    var text = title.split(".")[1];
+    return text;
+  };
+
+  const [search, setSearch] = useState("");
   return (
     <>
       <ToastContainer limit={1} />
@@ -164,8 +170,33 @@ function AnnouncementStudent({ studemail }) {
             <div className="overflow-y-auto  rounded-md  h-[100%]">
               {announcementinfoState ? (
                 <div>
+                  <div className="mt-3 flex justify-center">
+                    <input
+                      type="search"
+                      placeholder="Search"
+                      className="pl-2 rounded-md"
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)}
+                    ></input>
+                  </div>
+
                   {announcementinfo
-                    .sort((a, b) => (a.created_at < b.created_at ? 1 : -1))
+
+                    .sort((a, b) =>
+                      a.announcementEndDate < b.announcementEndDate ? 1 : -1
+                    )
+                    .filter((announce) => {
+                      try {
+                        var text = announce.announcementTitle
+                          .split(".")[1]
+                          .toLowerCase();
+                        if (search === "") {
+                          return announce;
+                        } else if (text.includes(search.toLowerCase())) {
+                          return announce;
+                        }
+                      } catch (error) {}
+                    })
                     .map((announcementinfo) => (
                       <div
                         key={announcementinfo.id}
@@ -207,7 +238,7 @@ function AnnouncementStudent({ studemail }) {
               <div id="announcement" className="pl-[2%] pt-3 pr-[2%] h-[90%]">
                 <div className="flex justify-between items-start">
                   <div className="font-bold text-[20px]  overflow-x-auto md:h-20 h-[10%] ">
-                    {getTitle}
+                    {removeUUIDtitle(getTitle)}
                   </div>
                   <a
                     onClick={() => setOpenSubmit(!opensubmit)}
