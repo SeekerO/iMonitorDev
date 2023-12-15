@@ -104,13 +104,14 @@ const Monitoring = ({ Data }) => {
   const [change, setChange] = useState(false);
 
   const changeSort = (num1, num2) => {
-    setChange(!change);
-    if (change) {
+    if (!change) {
       setTop(-1);
       setBelow(1);
+      setChange(!change);
     } else {
       setTop(1);
       setBelow(-1);
+      setChange(!change);
     }
   };
   return (
