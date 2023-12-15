@@ -5,7 +5,7 @@ import supabase from "../iMonitorDBconfig";
 import options from "../programoptions.json";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Oval } from  'react-loader-spinner'
+import { Oval } from "react-loader-spinner";
 const UpdateProfile = () => {
   const { id } = useParams();
   const nav = useNavigate();
@@ -337,6 +337,8 @@ const UpdateProfile = () => {
 
       if (oldcompanyname !== value) {
         await supabase.from("CompanyTable").insert({
+          startingtime: startTime,
+          endingtime: endTime,
           companyname: value,
           companyaddress: companyaddress,
           supervisorname: supervisorname,

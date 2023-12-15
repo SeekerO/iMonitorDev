@@ -65,6 +65,7 @@ export default function ArchiveModal({
         archivedDate: date,
         archivedName: studinfos.studname,
         archivedEmail: studinfos.studemail,
+        archivedCourse: studinfos.studcourse
       },
     ]);
 

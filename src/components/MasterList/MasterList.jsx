@@ -16,6 +16,8 @@ import { MdLocalPrintshop } from "react-icons/md";
 import html2pdf from "html2pdf.js";
 import ArchiveLog from "./ArchiveLog";
 
+import { FaClipboardList } from "react-icons/fa";
+
 const MasterList = ({ Data }) => {
   // AOS ANIMATION
   useEffect(() => {
@@ -170,13 +172,19 @@ const MasterList = ({ Data }) => {
 
         <div className="flex justify-between">
           <div className="flex gap-4 max-h-[50px]">
-            <div className="grid md:grid-cols-3 grid-cols-2 gap-2">
+            <div
+              className={`${
+                Data.position !== "ADVISER"
+                  ? " md:grid-cols-3 grid-cols-2"
+                  : " grid-cols-2"
+              } grid  gap-2`}
+            >
               <div
                 className={`${
                   Data.filterby === "ALL"
                     ? "flex max-h-[50px] items-center rounded-md bg-[#5885AF] "
                     : "hidden"
-                }`}
+                } pl-1 `}
               >
                 <BiFilterAlt className="text-[20px]" />
                 <select
@@ -193,7 +201,7 @@ const MasterList = ({ Data }) => {
                   <option>BSCS</option>
                 </select>
               </div>
-              <div className="flex max-h-[50px] items-center rounded-md bg-[#5885AF] ">
+              <div className="flex max-h-[50px] items-center rounded-md bg-[#5885AF] pl-1 ">
                 <BiFilterAlt className="text-[20px]" />
                 {sy && (
                   <select
@@ -219,7 +227,7 @@ const MasterList = ({ Data }) => {
                   </select>
                 )}
               </div>
-              <div className="flex max-h-[50px] items-center rounded-md bg-[#5885AF] ">
+              <div className="flex max-h-[50px] items-center rounded-md bg-[#5885AF] pl-1  ">
                 <BiFilterAlt className="text-[20px]" />
                 <select
                   onChange={(e) => setStatus(e.target.value)}
@@ -240,19 +248,19 @@ const MasterList = ({ Data }) => {
 
             <button
               onClick={() => setOpenPrint(!openPrint)}
-              className="h-[26px] rounded-md hover:bg-[#449256] bg-[#58af6f] px-5 flex gap-1 items-center"
+              className=" hover:bg-[#449256] bg-[#58af6f] h-[26px] rounded-mdflex gap-1 items-center p-4 flex rounded-md "
             >
               <MdLocalPrintshop /> PRINT
             </button>
           </div>
-          <div className="">
-            <a
-              onClick={() => setArchiveLog(!archiveLog)}
-              className="h-[25px] md:text-base text-sm rounded-md hover:bg-[#5885af4f] bg-[#5885AF] cursor-pointer overflow-auto outline-none p-1 px-3"
-            >
-              ARCHIVE LOG
-            </a>
-          </div>
+
+          <a
+            onClick={() => setArchiveLog(!archiveLog)}
+            className="bg-[#FAF305] hover:bg-[#faf20586] h-[26px] rounded-mdflex gap-1 items-center p-4 flex rounded-md text-black "
+          >
+            <FaClipboardList className="text-[17px] " />
+            ARCHIVE LOG
+          </a>
         </div>
 
         {studinfos === null ? (
@@ -373,7 +381,11 @@ const MasterList = ({ Data }) => {
         Data={Data}
         saveAsPDF={saveAsPDF}
       />
-      <ArchiveLog archiveLog={archiveLog} setArchiveLog={setArchiveLog} />
+      <ArchiveLog
+        archiveLog={archiveLog}
+        setArchiveLog={setArchiveLog}
+        Data={Data}
+      />
     </div>
   );
 };

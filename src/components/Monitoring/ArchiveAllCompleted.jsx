@@ -67,6 +67,7 @@ export default function ArchiveAllCompleted({ visible, onClose, BeneData }) {
             archivedDate: moment().format("LLL"),
             archivedName: studinfos[index].studname,
             archivedEmail: studinfos[index].studemail,
+            archivedCourse: studinfos[index].studcourse,
           },
         ]);
 

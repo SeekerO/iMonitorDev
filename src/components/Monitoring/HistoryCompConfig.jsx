@@ -21,9 +21,9 @@ function HistoryCompConfig({ data, setClickedData, ReactTooltip }) {
         onClick={passData}
         className="text-sm grid grid-cols-3 gap-1 hover:bg-[#ffff0048] bg-slate-200 mt-1 p-1 rounded-md  cursor-pointer"
       >
-        <label className="cursor-pointer">{data.companyname}</label>
-        <label className="cursor-pointer">{data.companyemail}</label>
-        <label className="cursor-pointer">{data.companyaddress}</label>{" "}
+        <label className="cursor-pointer truncate">{data.companyname}</label>
+        <label className="cursor-pointer truncate">{data.companyemail}</label>
+        <label className="cursor-pointer truncate">{data.companyaddress}</label>{" "}
         <ReactTooltip
           id="View"
           place="bottom-start"

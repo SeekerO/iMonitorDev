@@ -55,8 +55,10 @@ function ArchiveLogConfig({ data }) {
       setAvatar(false);
     }
   }
+
+
   return (
-    <div className="bg-slate-300 p-1 flex justify-between items-center">
+    <div className="bg-slate-300 p-1 flex justify-between items-center hover:p-3 duration-300">
       <div className="flex items-center  gap-1">
         {avatar ? (
           <img src={displayAvatarConfig} className="h-9 w-9 rounded-full shadow-black shadow-sm"></img>

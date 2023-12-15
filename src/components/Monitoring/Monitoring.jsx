@@ -14,6 +14,11 @@ import ArchiveAllCompleted from "./ArchiveAllCompleted";
 import moment from "moment";
 import AttendanceLog from "./AttendanceLog";
 
+import { FaUserCheck } from "react-icons/fa";
+
+import { MdOutlineArrowDropDown } from "react-icons/md";
+import { MdOutlineArrowDropUp } from "react-icons/md";
+
 const Monitoring = ({ Data }) => {
   var curryear = moment().year();
   var nextyear = curryear + 1;
@@ -94,6 +99,20 @@ const Monitoring = ({ Data }) => {
   };
 
   const [attendanceLog, setAttendanceLog] = useState(false);
+  const [top, setTop] = useState(1);
+  const [below, setBelow] = useState(-1);
+  const [change, setChange] = useState(false);
+
+  const changeSort = (num1, num2) => {
+    setChange(!change);
+    if (change) {
+      setTop(-1);
+      setBelow(1);
+    } else {
+      setTop(1);
+      setBelow(-1);
+    }
+  };
   return (
     <div id="monitoring" className=" overflow-hidden text-white md:p-10 p-2">
       <div
@@ -110,7 +129,7 @@ const Monitoring = ({ Data }) => {
               <div
                 className={`${
                   Data.filterby !== "ALL" && "hidden"
-                } flex max-h-[50px] items-center rounded-md bg-[#5885AF] `}
+                } flex max-h-[50px] items-center rounded-md bg-[#5885AF] p-1`}
               >
                 <BiFilterAlt className="md:text-[20px] text-[14px]" />
                 <select
@@ -128,7 +147,7 @@ const Monitoring = ({ Data }) => {
                 </select>
               </div>
               {sy && (
-                <div className="flex max-h-[50px] items-center rounded-md bg-[#5885AF]">
+                <div className="flex max-h-[50px] items-center rounded-md bg-[#5885AF] p-1">
                   <BiFilterAlt className="md:text-[20px] text-[14px]" />
                   <select
                     defaultValue={sy}
@@ -169,8 +188,9 @@ const Monitoring = ({ Data }) => {
             <a
               data-tooltip-id="AttendanceLog"
               onClick={() => setAttendanceLog(!attendanceLog)}
-              className="bg-[#FAF305] mt-1 h-fit hover:bg-[#faf20586] p-1 rounded-md cursor-pointer md:text-base text-[12px] text-black text-center"
+              className="bg-[#FAF305] flex items-center justify-center mt-1 h-fit hover:bg-[#faf20586] p-1 rounded-md cursor-pointer md:text-base text-[12px] text-black text-center"
             >
+              <FaUserCheck />
               ATTENDANCE LOG
             </a>
           </div>
@@ -215,7 +235,13 @@ const Monitoring = ({ Data }) => {
                 SECTION
               </label>
               <label className=" text-center  ml-[10%]  md:text-[16px] text-[9px] flex items-center   ">
-                <label className="md:mr-[120px] mr-[20px]">DURATION</label>
+                <label className="md:mr-[120px] mr-[20px] flex items-center">
+                  DURATION{" "}
+                  <em className="grid" onClick={() => changeSort(1, -1)}>
+                    <MdOutlineArrowDropUp className="h-fit cursor-pointer text-[15px]" />
+                    <MdOutlineArrowDropDown className="h-fit cursor-pointer text-[15px]" />
+                  </em>
+                </label>
                 <svg
                   onClick={() => fetchstudinfo()}
                   xmlns="http://www.w3.org/2000/svg"
@@ -234,7 +260,9 @@ const Monitoring = ({ Data }) => {
               {studinfos.length > 0 ? (
                 <div className="overflow-y-auto bg-black bg-opacity-[1%] md:h-[90%] h-[80%] overflow-hidden">
                   {studinfos
-                    .sort((a, b) => (a.studprogress <= b.studprogress ? 1 : -1))
+                    .sort((a, b) =>
+                      a.studprogress <= b.studprogress ? top : below
+                    )
                     .filter((val) => {
                       try {
                         if (searchTerm === "") {
@@ -300,6 +328,7 @@ const Monitoring = ({ Data }) => {
       />
 
       <AttendanceLog
+        Data={Data}
         attendanceLog={attendanceLog}
         setAttendanceLog={setAttendanceLog}
       />
@@ -315,7 +344,7 @@ const Monitoring = ({ Data }) => {
         id="AttendanceLog"
         place="left"
         variant="info"
-        content="Time In and Time Out Log"
+        content="Time in and Time out Log"
       />
     </div>
   );
