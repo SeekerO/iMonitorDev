@@ -170,7 +170,7 @@ function AnnouncementStudent({ studemail }) {
             <div className="overflow-y-auto  rounded-md  h-[100%]">
               {announcementinfoState ? (
                 <div>
-                  <div className="mt-3 flex justify-center">
+                  <div className="mt-3 flex justify-center p-1">
                     <input
                       type="search"
                       placeholder="Search"
@@ -338,8 +338,8 @@ function AnnouncementStudent({ studemail }) {
                   <label className="text-lg flex  font-semibold">
                     Submitted:
                   </label>
-                  <label className="text-lg flex  font-semibold">
-                    {getTitle}
+                  <label className="text-lg flex  font-semibold truncate">
+                    {removeUUIDtitle(getTitle)}
                   </label>
                 </div>
               </div>
