@@ -5,7 +5,8 @@ import { BiFilterAlt } from "react-icons/bi";
 import { FaPrint, FaCheckToSlot } from "react-icons/fa6";
 import ReactToPrint from "react-to-print";
 import PdfLayoutMasterList from "./PdfLayoutMasterList";
-
+import ExcelButtonPrint from "../MasterList/ExcelButtonPrint";
+import { FaFilePdf } from "react-icons/fa";
 import { FaDownload } from "react-icons/fa";
 
 function PrintModal({ openPrint, setOpenPrint, Data, saveAsPDF }) {
@@ -216,10 +217,29 @@ function PrintModal({ openPrint, setOpenPrint, Data, saveAsPDF }) {
     setOpenPrint(!openPrint);
   }
 
+  const divRef = useRef(null);
+
+  const handleClickOutside = (event) => {
+    if (divRef.current && !divRef.current.contains(event.target)) {
+      setOpenPrint(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   if (!openPrint) return null;
   return (
     <div className="fixed inset-0 backdrop-blur-sm flex justify-center items-center ">
-      <div className="bg-slate-200 md:h-[600px] h-[250px] md:w-[780px] w-[300px] rounded-md grid  shadow-md shadow-black">
+      <div
+        ref={divRef}
+        className="bg-slate-200 md:h-[600px] h-[320px] md:w-[780px] w-[300px] rounded-md grid  shadow-md shadow-black"
+      >
         <div className=" flex justify-end">
           <a
             onClick={() => close()}
@@ -335,14 +355,15 @@ function PrintModal({ openPrint, setOpenPrint, Data, saveAsPDF }) {
                   <div>
                     <ReactToPrint
                       trigger={() => (
-                        <a className="hover:bg-[#449256] bg-[#58af6f] text-white rounded-md flex items-center gap-2 p-1 w-full justify-center">
-                          <FaPrint />
-                          PRINT
+                        <a className="hover:bg-[#924444] bg-[#af5858] text-white rounded-md flex items-center gap-1 p-1 w-full justify-center cursor-pointer">
+                          <FaFilePdf />
+                          PRINT PDF
                         </a>
                       )}
                       content={() => layout.current}
                       documentTitle="MasterList"
                     />
+                    <ExcelButtonPrint data={data} />
                     {data.length !== 0 ? (
                       <>
                         {data && (

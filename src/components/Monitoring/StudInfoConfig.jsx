@@ -190,6 +190,7 @@ const StudInfoConfig = ({
           studinfos={studinfos}
           onClose={handleclosemodalarchive}
           visible={showmodalarchive}
+          BeneData={BeneData}
         />
 
         <ViewProfileModal

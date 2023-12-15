@@ -7,12 +7,14 @@ import { TailSpin } from "react-loader-spinner";
 import Check from "./Check.json";
 import Lottie from "lottie-react";
 import { BsInfoCircleFill } from "react-icons/bs";
+import moment from "moment";
 
-export default function ArchiveAllCompleted({ visible, onClose }) {
+export default function ArchiveAllCompleted({ visible, onClose, BeneData }) {
   const [upload, setIsUploading] = useState(false);
   const [info, setInfo] = useState(false);
   const [check, setCheck] = useState(false);
   if (!visible) return null;
+  console.log(BeneData);
 
   async function handleArchiveCompleted() {
     setIsUploading(true);
@@ -58,6 +60,15 @@ export default function ArchiveAllCompleted({ visible, onClose }) {
               studSY: "S.Y. 2023-2024",
             },
           ]);
+
+        await supabase.from("ArchiveLog").insert([
+          {
+            archivedBy: BeneData.beneName,
+            archivedDate: moment().format("LLL"),
+            archivedName: studinfos[index].studname,
+            archivedEmail: studinfos[index].studemail,
+          },
+        ]);
 
         const { error } = await supabase
           .from("StudentInformation")

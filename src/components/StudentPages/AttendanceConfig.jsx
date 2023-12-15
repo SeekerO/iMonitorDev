@@ -25,7 +25,9 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo }) => {
   }, [attendanceinfo]);
 
   function datechecker() {
-    if (currDateFull === attendanceinfo.studDate) {
+    var format = moment(attendanceinfo.studDate).format("l");
+    console.log(format + " " + currDateFull);
+    if (format === currDateFull) {
       if (attendanceinfo.studin === null) {
         if (start >= currTime <= adjustedStart) {
           if (adjustedStart <= currTime) {
@@ -36,13 +38,11 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo }) => {
         } else {
           setIn(true);
         }
-      } else if (attendanceinfo.studout === null) {
-        setOut(false);
       } else {
-        setIn(true);
-        setOut(true);
+        setOut(false);
       }
     }
+
     setUuid(Math.ceil(Math.random() * 99999999));
   }
 

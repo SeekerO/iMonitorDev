@@ -12,11 +12,13 @@ import { Tooltip as ReactTooltip } from "react-tooltip";
 import ReactPaginate from "react-paginate";
 import ArchiveAllCompleted from "./ArchiveAllCompleted";
 import moment from "moment";
+import AttendanceLog from "./AttendanceLog";
 
 const Monitoring = ({ Data }) => {
   var curryear = moment().year();
   var nextyear = curryear + 1;
 
+  const [BeneData, setBeneData] = useState();
   const [studinfos, setStudInfos] = useState(false);
   const [searchstudinfos, setSearchStudInfos] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -37,6 +39,7 @@ const Monitoring = ({ Data }) => {
 
   useEffect(() => {
     fetchstudinfo();
+
     supabase
       .channel("table-db-changes")
       .on(
@@ -90,6 +93,7 @@ const Monitoring = ({ Data }) => {
     } catch (error) {}
   };
 
+  const [attendanceLog, setAttendanceLog] = useState(false);
   return (
     <div id="monitoring" className=" overflow-hidden text-white md:p-10 p-2">
       <div
@@ -154,13 +158,22 @@ const Monitoring = ({ Data }) => {
               Currently Enrolled: {count}
             </label>
           </div>
-          <a
-            data-tooltip-id="ArchiveAll"
-            onClick={() => setArchive_all_completed(!archive_all_completed)}
-            className="bg-[#5885AF] h-fit hover:bg-[#5885af90] p-1 rounded-md cursor-pointer md:text-base text-[12px]"
-          >
-            ARCHIVE COMPLETED
-          </a>
+          <div className="grid">
+            <a
+              data-tooltip-id="ArchiveAll"
+              onClick={() => setArchive_all_completed(!archive_all_completed)}
+              className="bg-[#5885AF] h-fit hover:bg-[#5885af90] p-1 rounded-md cursor-pointer md:text-base text-[12px]"
+            >
+              ARCHIVE COMPLETED
+            </a>
+            <a
+              data-tooltip-id="AttendanceLog"
+              onClick={() => setAttendanceLog(!attendanceLog)}
+              className="bg-[#FAF305] mt-1 h-fit hover:bg-[#faf20586] p-1 rounded-md cursor-pointer md:text-base text-[12px] text-black text-center"
+            >
+              ATTENDANCE LOG
+            </a>
+          </div>
         </div>
 
         {studinfos === null ? (
@@ -173,7 +186,7 @@ const Monitoring = ({ Data }) => {
         ) : (
           ""
         )}
-        <div className="bg-white w-[100%] mt-4 rounded-full   text-black mb-2">
+        <div className="bg-white w-[100%] mt-2 rounded-full   text-black mb-2">
           <div id="searchbar" className="flex w-[100%] ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -281,14 +294,28 @@ const Monitoring = ({ Data }) => {
         </div>
       </div>
       <ArchiveAllCompleted
+        BeneData={Data}
         visible={archive_all_completed}
         onClose={setArchive_all_completed}
       />
+
+      <AttendanceLog
+        attendanceLog={attendanceLog}
+        setAttendanceLog={setAttendanceLog}
+      />
+
       <ReactTooltip
         id="ArchiveAll"
         place="left"
         variant="info"
         content="Archive all completed"
+      />
+
+      <ReactTooltip
+        id="AttendanceLog"
+        place="left"
+        variant="info"
+        content="Time In and Time Out Log"
       />
     </div>
   );

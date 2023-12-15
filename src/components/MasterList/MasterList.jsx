@@ -14,6 +14,7 @@ import moment from "moment";
 import { MdLocalPrintshop } from "react-icons/md";
 
 import html2pdf from "html2pdf.js";
+import ArchiveLog from "./ArchiveLog";
 
 const MasterList = ({ Data }) => {
   // AOS ANIMATION
@@ -32,6 +33,8 @@ const MasterList = ({ Data }) => {
   const [status, setStatus] = useState("ALL STATUS");
 
   const [openPrint, setOpenPrint] = useState(false);
+
+  const [archiveLog, setArchiveLog] = useState(false);
 
   useEffect(() => {
     fetchstudinfo();
@@ -165,81 +168,91 @@ const MasterList = ({ Data }) => {
       >
         <header className="font-bold text-4xl mb-2">MASTER LIST</header>
 
-        <div className="flex gap-4 max-h-[50px]">
-          <div className="grid md:grid-cols-3 grid-cols-2 gap-2">
-            <div
-              className={`${
-                Data.filterby === "ALL"
-                  ? "flex max-h-[50px] items-center rounded-md bg-[#5885AF] "
-                  : "hidden"
-              }`}
-            >
-              <BiFilterAlt className="text-[20px]" />
-              <select
-                value={course}
-                onChange={(e) => setCourse(e.target.value)}
-                className={` h-[25px] rounded-md bg-[#5885AF] w-full outline-none `}
+        <div className="flex justify-between">
+          <div className="flex gap-4 max-h-[50px]">
+            <div className="grid md:grid-cols-3 grid-cols-2 gap-2">
+              <div
+                className={`${
+                  Data.filterby === "ALL"
+                    ? "flex max-h-[50px] items-center rounded-md bg-[#5885AF] "
+                    : "hidden"
+                }`}
               >
-                <option>ALL</option>
-                <option>BSIT</option>
-                <option>BSAIS</option>
-                <option>BSTM</option>
-                <option>BSHM</option>
-                <option>BSCPE</option>
-                <option>BSCS</option>
-              </select>
-            </div>
-            <div className="flex max-h-[50px] items-center rounded-md bg-[#5885AF] ">
-              <BiFilterAlt className="text-[20px]" />
-              {sy && (
+                <BiFilterAlt className="text-[20px]" />
                 <select
-                  defaultValue={sy}
-                  onChange={(e) => setSY(e.target.value)}
+                  value={course}
+                  onChange={(e) => setCourse(e.target.value)}
+                  className={` h-[25px] rounded-md bg-[#5885AF] w-full outline-none `}
+                >
+                  <option>ALL</option>
+                  <option>BSIT</option>
+                  <option>BSAIS</option>
+                  <option>BSTM</option>
+                  <option>BSHM</option>
+                  <option>BSCPE</option>
+                  <option>BSCS</option>
+                </select>
+              </div>
+              <div className="flex max-h-[50px] items-center rounded-md bg-[#5885AF] ">
+                <BiFilterAlt className="text-[20px]" />
+                {sy && (
+                  <select
+                    defaultValue={sy}
+                    onChange={(e) => setSY(e.target.value)}
+                    className=" h-[25px] md:text-base text-sm rounded-md bg-[#5885AF] overflow-auto outline-none "
+                  >
+                    <option value={"S.Y. 2023-2024"} className="text-[15px]">
+                      S.Y. 2023-2024
+                    </option>
+                    <option value={"S.Y. 2024-2025"} className="text-[15px]">
+                      S.Y. 2024-2025
+                    </option>
+                    <option value={"S.Y. 2025-2026"} className="text-[15px]">
+                      S.Y. 2025-2026
+                    </option>
+                    <option value={"S.Y. 2026-2027"} className="text-[15px]">
+                      S.Y. 2026-2027
+                    </option>
+                    <option value={"S.Y. 2027-2028"} className="text-[15px]">
+                      S.Y. 2027-2028
+                    </option>
+                  </select>
+                )}
+              </div>
+              <div className="flex max-h-[50px] items-center rounded-md bg-[#5885AF] ">
+                <BiFilterAlt className="text-[20px]" />
+                <select
+                  onChange={(e) => setStatus(e.target.value)}
                   className=" h-[25px] md:text-base text-sm rounded-md bg-[#5885AF] overflow-auto outline-none "
                 >
-                  <option value={"S.Y. 2023-2024"} className="text-[15px]">
-                    S.Y. 2023-2024
+                  <option value={"ALL STATUS"} className="text-[15px]">
+                    ALL STATUS
                   </option>
-                  <option value={"S.Y. 2024-2025"} className="text-[15px]">
-                    S.Y. 2024-2025
+                  <option value={"COMPLETE"} className="text-[15px]">
+                    COMPLETE
                   </option>
-                  <option value={"S.Y. 2025-2026"} className="text-[15px]">
-                    S.Y. 2025-2026
-                  </option>
-                  <option value={"S.Y. 2026-2027"} className="text-[15px]">
-                    S.Y. 2026-2027
-                  </option>
-                  <option value={"S.Y. 2027-2028"} className="text-[15px]">
-                    S.Y. 2027-2028
+                  <option value={"INCOMPLETE"} className="text-[15px]">
+                    INCOMPLETE
                   </option>
                 </select>
-              )}
+              </div>
             </div>
-            <div className="flex max-h-[50px] items-center rounded-md bg-[#5885AF] ">
-              <BiFilterAlt className="text-[20px]" />
-              <select
-                onChange={(e) => setStatus(e.target.value)}
-                className=" h-[25px] md:text-base text-sm rounded-md bg-[#5885AF] overflow-auto outline-none "
-              >
-                <option value={"ALL STATUS"} className="text-[15px]">
-                  ALL STATUS
-                </option>
-                <option value={"COMPLETE"} className="text-[15px]">
-                  COMPLETE
-                </option>
-                <option value={"INCOMPLETE"} className="text-[15px]">
-                  INCOMPLETE
-                </option>
-              </select>
-            </div>
-          </div>
 
-          <button
-            onClick={() => setOpenPrint(!openPrint)}
-            className="h-[26px] rounded-md hover:bg-[#449256] bg-[#58af6f] px-5 flex gap-1 items-center"
-          >
-            <MdLocalPrintshop /> PRINT
-          </button>
+            <button
+              onClick={() => setOpenPrint(!openPrint)}
+              className="h-[26px] rounded-md hover:bg-[#449256] bg-[#58af6f] px-5 flex gap-1 items-center"
+            >
+              <MdLocalPrintshop /> PRINT
+            </button>
+          </div>
+          <div className="">
+            <a
+              onClick={() => setArchiveLog(!archiveLog)}
+              className="h-[25px] md:text-base text-sm rounded-md hover:bg-[#5885af4f] bg-[#5885AF] cursor-pointer overflow-auto outline-none p-1 px-3"
+            >
+              ARCHIVE LOG
+            </a>
+          </div>
         </div>
 
         {studinfos === null ? (
@@ -360,6 +373,7 @@ const MasterList = ({ Data }) => {
         Data={Data}
         saveAsPDF={saveAsPDF}
       />
+      <ArchiveLog archiveLog={archiveLog} setArchiveLog={setArchiveLog} />
     </div>
   );
 };

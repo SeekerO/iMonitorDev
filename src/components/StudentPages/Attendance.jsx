@@ -18,24 +18,30 @@ const Attendance = ({ studemail }) => {
   const [attendanceinfo, setAttendanceinfo] = useState();
   const [studprog, setStudProg] = useState("");
   const [studmaxprog, setStudMaxProg] = useState("");
-  // var currDateFull = moment().format("l");
-  var currDateFull = moment().format("l");
+
+  var currDateFull = moment(new Date()).format("l");
   // Fetch Info's
   const [companyinfo, setCompanyInfo] = useState();
   const [studinfo, setStudInfo] = useState();
 
   useEffect(() => {
     AOS.init({ duration: 1000 });
-    DataRefresh();
+
     fetchstudinfo();
 
     supabase
       .channel("custom-all-channel")
       .on(
         "postgres_changes",
-        { event: "*", schema: "public", table: "AttendanceTable" },
+        { event: "UPDATE", schema: "public", table: "AttendanceTable" },
         (payload) => {
-          DataRefresh();
+          fetchstudinfo();
+        }
+      )
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "AttendanceTable" },
+        (payload) => {
           fetchstudinfo();
         }
       )
@@ -55,12 +61,11 @@ const Attendance = ({ studemail }) => {
       setStudProg(data.studprogress);
       setStudMaxProg(data.studmaxprogress);
 
-      var currentD = new Date(currDateFull);
-      var end = new Date(data.ojtend);
-      var start = new Date(data.ojtstart);
+      var end = moment(data.ojtend).format("L");
+      var start = moment(data.ojtstart).format("L");
 
-      if (start < currentD) {
-        if (end <= currentD) {
+      if (moment(currDateFull).isAfter(start)) {
+        if (moment(end).isBefore(currDateFull)) {
           //OJT IS FINISHED
           setojtfinished(true);
           a = false;
@@ -69,10 +74,11 @@ const Attendance = ({ studemail }) => {
           FetchAttendanceInfo();
           starter = true;
         }
+        setojtfinished(false);
       } else {
-        // OJT HAVENT STARTED YET
         setojtnotstarted(true);
       }
+
       fetchcompanyinfo();
     }
   };
@@ -86,46 +92,43 @@ const Attendance = ({ studemail }) => {
     setCompanyInfo(CompanyTable);
   }
 
-  const DataInsertInAttendance = async () => {
-    let { data1, error } = await supabase
-      .from("AttendanceTable")
-      .insert({ studemail: studemail, studDate: currDateFull });
+  const DataInsertInAttendance = async (info) => {
+    await supabase.from("AttendanceTable").insert({
+      studemail: studemail,
+      studDate: currDateFull,
+      course: info?.studcourse,
+      studname: info?.studname,
+    });
   };
-
-  function DataRefresh() {
-    const FetchAttendanceRefresh = async () => {
-      let { data, error } = await supabase
-        .from("AttendanceTable")
-        .select()
-        .eq("studemail", studemail);
-
-      setAttendanceinfo(data);
-    };
-    FetchAttendanceRefresh();
-  }
 
   // DATA in attendance Table
   const FetchAttendanceInfo = async () => {
     try {
-      let { data, error } = await supabase
+      let { data: attenInfo, error } = await supabase
         .from("AttendanceTable")
         .select()
         .eq("studemail", studemail);
 
-      for (let index = 0; index < data.length; index++) {
-        if (
-          currDateFull === data[index].studDate &&
-          data[index].studemail === studemail
-        ) {
-          a = true;
-        }
-      }
+      const { data: info } = await supabase
+        .from("StudentInformation")
+        .select()
+        .eq("studemail", studemail)
+        .single();
 
-      if (a === true) {
-        setAttendanceinfo(data);
-      } else {
-        DataInsertInAttendance();
-        setAttendanceinfo(data);
+      if (info && attenInfo.length === 0) {
+        DataInsertInAttendance(info);
+        setAttendanceinfo(attenInfo);
+      } else if (info && attenInfo.length > 0) {
+        for (let index = 0; index < attenInfo.length; index++) {
+          var date = moment(attenInfo[index].studDate).format("L");
+
+          if (currDateFull === date) {
+            setAttendanceinfo(attenInfo);
+            return;
+          }
+        }
+        DataInsertInAttendance(info);
+        return;
       }
     } catch (error) {}
   };
@@ -209,9 +212,7 @@ const Attendance = ({ studemail }) => {
                     {companyinfo && (
                       <div className="p-2 h-[355px] rounded-md overflow-y-auto">
                         {attendanceinfo
-                          .sort((a, b) =>
-                            a.created_at < b.created_at ? 1 : -1
-                          )
+                          .sort((a, b) => (a.studDate < b.studDate ? 1 : -1))
                           .map((attendanceinfo) => (
                             <AttendanceConfig
                               key={attendanceinfo.id}

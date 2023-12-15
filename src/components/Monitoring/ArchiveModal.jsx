@@ -6,11 +6,13 @@ import { TailSpin } from "react-loader-spinner";
 import { ToastContainer, toast } from "react-toastify";
 import Check from "./Check.json";
 import Lottie from "lottie-react";
+import moment from "moment";
+
 export default function ArchiveModal({
   visible,
   onClose,
   studinfos,
-  onRefresh,
+  BeneData,
 }) {
   const [upload, setIsUploading] = useState(false);
   const [check, setCheck] = useState(false);
@@ -54,6 +56,18 @@ export default function ArchiveModal({
         studSY: "S.Y. 2023-2024",
       },
     ]);
+
+    var date = moment().format("LLL");
+
+    await supabase.from("ArchiveLog").insert([
+      {
+        archivedBy: BeneData.beneName,
+        archivedDate: date,
+        archivedName: studinfos.studname,
+        archivedEmail: studinfos.studemail,
+      },
+    ]);
+
     setIsUploading(true);
     setCheck(true);
     setTimeout(() => {
