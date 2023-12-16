@@ -44,10 +44,14 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo, index }) => {
             }
           } else {
             if (currTime.isAfter(compEnd)) {
-              setOut(true);
-            } else {
               setOut(false);
+              return;
             }
+            if (attendanceinfo.studout !== null) {
+              setOut(true);
+              return;
+            }
+            setOut(false);
           }
         }
         return;
@@ -109,7 +113,7 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo, index }) => {
 
     setOut(true);
   };
-  
+
   function secondsToHours(seconds) {
     const hours = seconds / 3600; // There are 3600 seconds in an hour (60 seconds * 60 minutes)
     return hours;
@@ -163,12 +167,19 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo, index }) => {
               </button>
             </>
           ) : (
-            <div className="items-center flex h-full mr-5">
-              <div className="font-thin">
-                Total hours rendered:{" "}
-                {computeTotalHours(
-                  attendanceinfo.studin,
-                  attendanceinfo.studout
+            <div className="items-center flex h-full mr-5 gap-1 font-thin">
+              Total hours rendered:
+              <div className="font-thin ">
+                {attendanceinfo.studin !== null &&
+                attendanceinfo.studout !== null ? (
+                  <>
+                    {computeTotalHours(
+                      attendanceinfo.studin,
+                      attendanceinfo.studout
+                    )}
+                  </>
+                ) : (
+                  "0"
                 )}
               </div>
             </div>

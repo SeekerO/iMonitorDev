@@ -886,7 +886,6 @@ const MessageStudent = ({ studemail }) => {
                 </div>
                 <div className="flex flex-col items-center justify-center p-1 mt-2 text-[10px] font-semibold">
                   <p>File Uploaded By: </p>
-                  {getbeneName}
                 </div>
 
                 {showFile ? (

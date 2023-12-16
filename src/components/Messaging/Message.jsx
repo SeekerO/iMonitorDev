@@ -412,7 +412,7 @@ const Message = ({ beneemail }) => {
     );
 
     readmess();
-   await supabase
+    await supabase
       .from("BeneAccount")
       .update({ last_Modif: moment().format() })
       .eq("beneName", beneName);
@@ -1099,8 +1099,7 @@ const Message = ({ beneemail }) => {
                   </div>
                 </div>
                 <div className="flex flex-col items-center justify-center p-1 mt-2 text-[10px] font-semibold">
-                  <p>File Uploaded By: </p>
-                  {getstudname}
+                  <p>File Uploaded </p>
                 </div>
 
                 {showFile ? (
