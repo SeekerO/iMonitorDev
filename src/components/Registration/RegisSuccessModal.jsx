@@ -5,7 +5,7 @@ import Lottie from "lottie-react";
 tailspin.register();
 
 export default function RegisSuccessModal({ visible, onClose, registring }) {
-  if (visible) return null;
+  if (!visible) return null;
 
   if (!registring) {
     setTimeout(() => {

@@ -42,6 +42,17 @@ function ActivityLog() {
     setCount(count);
   };
 
+  const removeUUIDtitle = (title) => {
+    var text = title.split(".")[1];
+
+    const containsPeriod = title.includes(".");
+    if (!containsPeriod) {
+      return title;
+    } else {
+      return text;
+    }
+  };
+
   return (
     <div className="bg-black bg-opacity-20 md:pt-[1%] pt-[7%]  h-screen md:text-base text-[14px] p-5">
       <p className="font-bold text-[30px] font-sans mb-4 mt-4 text-white">
@@ -87,7 +98,7 @@ function ActivityLog() {
                         {log.name}
                       </p>
                       <p className="font-semibold font-sans cursor-default">
-                        {log.button}
+                        {removeUUIDtitle(log.button)}
                       </p>
                       <p className="font-semibold font-sans cursor-default">
                         {log.time}

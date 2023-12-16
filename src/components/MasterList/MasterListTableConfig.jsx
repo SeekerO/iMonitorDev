@@ -43,8 +43,10 @@ const MasterListTableConfig = ({ studinfos, sy, course }) => {
     return (
       <div
         style={{ background: stringToColor(name) }}
-        className={`flex text-white  items-center justify-center h-9  w-9 rounded-full font-thin`}
-      >{`${name.split(" ")[0][0]}${name.split(" ")[1][0]} `}</div>
+        className={`flex text-white  items-center justify-center h-9  w-9 rounded-full font-thin `}
+      >{`${name.toUpperCase().split(" ")[0][0]}${
+        name.toUpperCase().split(" ")[1][0]
+      } `}</div>
     );
   }
 
@@ -79,7 +81,10 @@ const MasterListTableConfig = ({ studinfos, sy, course }) => {
             hover:cursor-pointer md:text-[16px] text-[10px]"
               onClick={() => setShowModalProfile(true)}
             >
-              <div data-tooltip-id="View" className="flex items-center gap-2">
+              <div
+                data-tooltip-id="View"
+                className="flex items-center gap-2 capitalize "
+              >
                 {avatar ? (
                   <img
                     src={displayAvatarConfig}

@@ -15,10 +15,10 @@ import moment from "moment";
 import AttendanceLog from "./AttendanceLog";
 
 import { FaUserCheck } from "react-icons/fa";
-
+import { BiSolidSelectMultiple } from "react-icons/bi";
 import { MdOutlineArrowDropDown } from "react-icons/md";
 import { MdOutlineArrowDropUp } from "react-icons/md";
-
+import { MdPermContactCalendar } from "react-icons/md";
 const Monitoring = ({ Data }) => {
   var curryear = moment().year();
   var nextyear = curryear + 1;
@@ -107,11 +107,12 @@ const Monitoring = ({ Data }) => {
     if (!change) {
       setTop(-1);
       setBelow(1);
-      setChange(!change);
-    } else {
+      setChange(true);
+    }
+    if (change) {
       setTop(1);
       setBelow(-1);
-      setChange(!change);
+      setChange(false);
     }
   };
   return (
@@ -182,8 +183,9 @@ const Monitoring = ({ Data }) => {
             <a
               data-tooltip-id="ArchiveAll"
               onClick={() => setArchive_all_completed(!archive_all_completed)}
-              className="bg-[#5885AF] h-fit hover:bg-[#5885af90] p-1 rounded-md cursor-pointer md:text-base text-[12px]"
+              className="bg-[#5885AF] h-fit hover:bg-[#5885af90] p-1 rounded-md cursor-pointer md:text-base text-[10px] flex items-center justify-center"
             >
+              <BiSolidSelectMultiple className="text-[20px]" />
               ARCHIVE COMPLETED
             </a>
             <a
@@ -191,7 +193,7 @@ const Monitoring = ({ Data }) => {
               onClick={() => setAttendanceLog(!attendanceLog)}
               className="bg-[#FAF305] flex items-center justify-center mt-1 h-fit hover:bg-[#faf20586] p-1 rounded-md cursor-pointer md:text-base text-[12px] text-black text-center"
             >
-              <FaUserCheck />
+              <MdPermContactCalendar className="text-[20px]" />
               ATTENDANCE LOG
             </a>
           </div>
@@ -238,10 +240,10 @@ const Monitoring = ({ Data }) => {
               <label className=" text-center  ml-[10%]  md:text-[16px] text-[9px] flex items-center   ">
                 <label className="md:mr-[120px] mr-[20px] flex items-center">
                   DURATION{" "}
-                  <em className="grid" onClick={() => changeSort(1, -1)}>
+                  <a className="grid" onClick={() => changeSort(top, below)}>
                     <MdOutlineArrowDropUp className="h-fit cursor-pointer text-[15px]" />
                     <MdOutlineArrowDropDown className="h-fit cursor-pointer text-[15px]" />
-                  </em>
+                  </a>
                 </label>
                 <svg
                   onClick={() => fetchstudinfo()}

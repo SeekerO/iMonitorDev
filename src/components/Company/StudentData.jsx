@@ -39,7 +39,7 @@ function StudentData({ studinfo, setHide }) {
       <div
         style={{ background: stringToColor(name) }}
         className={`flex text-white items-center justify-center h-9  w-9 rounded-full font-thin`}
-      >{`${name.split(" ")[0][0]}${name.split(" ")[1][0]} `}</div>
+      >{`${name.toUpperCase().split(" ")[0][0]}${name.toUpperCase().split(" ")[1][0]} `}</div>
     );
   }
 
@@ -74,7 +74,7 @@ function StudentData({ studinfo, setHide }) {
         onClick={() => openmodal()}
         className="grid grid-cols-2 cursor-pointer hover:bg-[#5885AF] hover:bg-opacity-[80%]  hover:text-blue-100 p-1 rounded-md "
       >
-        <div className="flex gap-1 items-center">
+        <div className="flex gap-1 items-center capitalize ">
           {avatar ? (
             <img
               src={displayAvatarConfig}

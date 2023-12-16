@@ -393,7 +393,7 @@ function Registration() {
                 <input
                   required
                   type="text"
-                  className="rounded-md p-1 w-[100%]  text-black"
+                  className="rounded-md p-1 w-[100%]  text-black "
                   placeholder="First Name"
                   id="studfname"
                   value={studfname}
@@ -696,7 +696,6 @@ function Registration() {
           onClose={setShowModalRegis}
           visible={showmodalregis}
           registring={registring}
-          
         />
         <ToastContainer
           position="top-right"

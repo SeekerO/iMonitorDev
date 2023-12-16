@@ -505,7 +505,7 @@ const MessageStudent = ({ studemail }) => {
         <div
           style={{ background: avatarColor }}
           className={`flex text-white items-center justify-center h-[40px]  w-[40px] rounded-full font-thin  border-2 border-[#274472]`}
-        >{`${name.split(" ")[0][0]}`}</div>
+        >{`${name.toUpperCase().split(" ")[0][0]}`}</div>
 
         {onlineStatus === "online" ? (
           <div className="bg-green-400 h-[13px] w-[13px] -ml-3 rounded-full border-2 border-[#274472]" />
@@ -660,7 +660,8 @@ const MessageStudent = ({ studemail }) => {
                   )}
                   <p
                     onClick={() => closeMessage()}
-                    className=" flex items-center p-1 pl-[1%] mt-0.5 text-[15px] w-[100%] font-semibold text-white cursor-pointer hover:underline hover:text-blue-500"
+                    className=" flex items-center p-1 pl-[1%] mt-0.5 text-[15px] w-[100%] font-semibold text-white cursor-pointer 
+                    hover:underline hover:text-blue-500 capitalize"
                   >
                     {getbeneName}
                   </p>

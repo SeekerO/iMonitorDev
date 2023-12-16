@@ -558,7 +558,7 @@ const Message = ({ beneemail }) => {
         <div
           style={{ background: avatarColor }}
           className={`flex text-white items-center justify-center h-[40px]  w-[40px] rounded-full font-thin border-2 border-[#274472] hover:no-underline`}
-        >{`${name.split(" ")[0][0]}`}</div>
+        >{`${name.toUpperCase().split(" ")[0][0]}`}</div>
 
         {onlineStatus === "online" ? (
           <div className="bg-green-400 h-[13px] w-[13px] -ml-3 rounded-full border-2 border-[#274472]" />
@@ -869,7 +869,7 @@ const Message = ({ beneemail }) => {
                       ) : (
                         avatarComponent(getstudname)
                       )}
-                      <label className="hover:text-blue-500 hover:underline">
+                      <label className="hover:text-blue-500 hover:underline capitalize">
                         {getstudname}
                       </label>
                     </div>

@@ -116,7 +116,7 @@ export default function ViewStudData({
                 ) : (
                   avatarComponent(studinfos.studname)
                 )}
-                <label className=" mt-4 md:text-lg text-base text-center font-thin text-black ">
+                <label className=" mt-4 md:text-lg text-base text-center font-thin text-black capitalize ">
                   {studinfos.studname}
                 </label>
                 <label className=" mt-2 md:text-lg text-base text-center font-thin text-black ">

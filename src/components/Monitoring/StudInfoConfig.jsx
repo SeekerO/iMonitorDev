@@ -61,7 +61,9 @@ const StudInfoConfig = ({
       <div
         style={{ background: stringToColor(name) }}
         className={`flex text-white items-center justify-center h-[40px] w-[40px] rounded-full font-thin`}
-      >{`${name.split(" ")[0][0]}${name.split(" ")[1][0]} `}</div>
+      >{`${name.toUpperCase().split(" ")[0][0]}${
+        name.toUpperCase().split(" ")[1][0]
+      } `}</div>
     );
   }
 
@@ -99,7 +101,7 @@ const StudInfoConfig = ({
           >
             <div
               data-tip="View Information"
-              className=" pl-[2%] w-[29%]  hover:text-blue-600 cursor-default  items-center flex"
+              className=" pl-[2%] w-[29%]  hover:text-blue-600 cursor-default  items-center flex capitalize " 
             >
               <a
                 data-tooltip-id="View"

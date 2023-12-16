@@ -8,6 +8,7 @@ import { MdPreview } from "react-icons/md";
 import { BsFillPersonLinesFill } from "react-icons/bs";
 import { FaBuilding, FaFileImage } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
+import { IoEyeSharp } from "react-icons/io5";
 import Avatar from "@mui/material/Avatar";
 import copy from "copy-to-clipboard";
 import PrevHistoryComp from "./PrevHistoryComp";
@@ -129,7 +130,7 @@ export default function ViewProfileModal({
               ) : (
                 avatarComponent(studinfos.studname)
               )}
-              <label className=" mt-4  text-sm text-center font-thin text-black ">
+              <label className=" mt-4  text-sm text-center font-thin text-black capitalize ">
                 {studinfos.studname}
               </label>
               <label className=" mt-2  text-sm text-center font-thin text-black ">
@@ -149,8 +150,8 @@ export default function ViewProfileModal({
                     {beneData.filterby === "ALL" && (
                       <Link to={"/UpdateProfile/" + studinfos.id}>
                         <button
-                          className="hover:bg-[#62a0d9] bg-yellow-500 text-base p-0.5 px-2 rounded-md text-center w-fit   text-white 
-               hover:text-black font-semibold  flex items-center gap-1 "
+                          className="hover:shadow-md hover:shadow-black bg-yellow-500 text-base p-0.5 px-2 rounded-md text-center w-fit   text-white 
+                                       font-semibold  flex items-center gap-1 "
                         >
                           <BsPencilSquare /> EDIT
                         </button>{" "}
@@ -178,18 +179,18 @@ export default function ViewProfileModal({
                 REMARKS: <p className="text-base">{remarks}</p>
               </label>
 
-              <div className="font-bold md:text-[25px] text-lg mt-7 rounded-md text-black  p-2 flex items-center ">
+              <div className="font-bold md:text-[25px] text-lg mt-7 rounded-md text-black  p-2 flex items-center gap-1 ">
                 <label className="flex items-center gap-1">
                   <FaBuilding className="text-[20px]" /> COMPANY INFORMATION
                 </label>
 
                 {studinfos.prevComp.length > 0 && (
-                  <a>
-                    <MdPreview
-                      data-tooltip-id="Preview"
-                      className="text-[30px]  cursor-pointer"
-                      onClick={() => setViewPrev(!viewPrev)}
-                    />
+                  <a
+                    data-tooltip-id="Preview"
+                    onClick={() => setViewPrev(!viewPrev)}
+                    className=" border-2 border-yellow-500 h-[25px] w-[25px] justify-center items-center flex rounded-full hover:shadow-black hover:shadow-md"
+                  >
+                    <IoEyeSharp className="text-[20px] cursor-pointer text-yellow-500" />
                   </a>
                 )}
 
@@ -238,7 +239,8 @@ export default function ViewProfileModal({
 
               <div className="mt-10">
                 <p className="font-bold flex gap-1 items-center md:text-lg text-base mb-2 rounded-md text-black p-2">
-                  <FaFileImage className="text-[20px]"/> Uploaded image in attendance
+                  <FaFileImage className="text-[20px]" /> Uploaded image in
+                  attendance
                 </p>
                 <div className="h-[300px]  bg-[#5f7caa] bg-opacity-[80%]  mr-[1%] rounded-md overflow-y-auto">
                   <div className="p-2 grid grid-cols-2">

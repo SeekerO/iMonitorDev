@@ -416,10 +416,10 @@ function BatchUpload({ visible, close, sy }) {
   return (
     <>
       <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center">
-        {!uploading ? (
+        {uploading ? (
           <div className="">
             {succes ? (
-              <div className=" font-semibold h-[200px] w-[400px] text-white bg-[#b5dbff] rounded p-2 flex flex-col place-content-center justify-center items-center">
+              <div className=" font-semibold h-[200px] w-[400px] text-white bg-[#5885AF] rounded p-2 flex flex-col place-content-center justify-center items-center">
                 <label className="text-[20px] text-center mb-2 ">
                   <Lottie animationData={Check} className="h-[100px]" />{" "}
                 </label>
@@ -465,7 +465,7 @@ function BatchUpload({ visible, close, sy }) {
                 />
               </div>
 
-              <div className="bg-slate-300 h-[550px] p-1 rounded-sm mt-1">
+              <div className="bg-slate-300 h-[550px] p-1 rounded-sm mt-1 shadow-md shadow-black">
                 {displayData ? (
                   <div className="grid grid-cols-6 p-1 font-semibold">
                     <label>FirstName</label>

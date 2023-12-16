@@ -89,7 +89,7 @@ export default function ViewProfileMasterModal({
               ) : (
                 avatarComponent(studinfos.studname)
               )}
-              <label className=" mt-4 text-sm text-center  text-black ">
+              <label className=" mt-4 text-sm text-center  text-black capitalize ">
                 {studinfos.studname}
               </label>
               <label className=" mt-2 text-sm text-center  text-black ">

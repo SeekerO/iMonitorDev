@@ -88,7 +88,7 @@ function MessageBeneContanct({
         <div
           style={{ background: stringToColor(name) }}
           className={`flex text-white items-center justify-center h-[40px]  w-[40px] rounded-full font-thin border-2 border-white`}
-        >{`${name.split(" ")[0][0]}`}</div>
+        >{`${name.toUpperCase().split(" ")[0][0]}`}</div>
 
         {studinfo.onlineStatus === "online" ? (
           <div className="bg-green-400 h-[13px] w-[13px] -ml-3 rounded-full border-2 border-white" />
@@ -201,7 +201,7 @@ function MessageBeneContanct({
             )}
 
             <div className="grid">
-              <p className=" text-[13px] font-sans font-semibold">
+              <p className=" text-[13px] font-sans font-semibold capitalize ">
                 {studinfo.beneName}
               </p>
               <p className=" text-[13px] font-sans font-semibold">
