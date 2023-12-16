@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/iMonitorDev/static/css/main.154cea98.css",
-    "main.js": "/iMonitorDev/static/js/main.e11f09c2.js",
+    "main.js": "/iMonitorDev/static/js/main.7e277d49.js",
     "static/js/703.9e613bab.chunk.js": "/iMonitorDev/static/js/703.9e613bab.chunk.js",
     "static/js/513.d9827639.chunk.js": "/iMonitorDev/static/js/513.d9827639.chunk.js",
     "static/js/839.3c4ff7ea.chunk.js": "/iMonitorDev/static/js/839.3c4ff7ea.chunk.js",
@@ -12,13 +12,13 @@
     "static/media/profile.png": "/iMonitorDev/static/media/profile.7a6a6c54279a54d1977c.png",
     "index.html": "/iMonitorDev/index.html",
     "main.154cea98.css.map": "/iMonitorDev/static/css/main.154cea98.css.map",
-    "main.e11f09c2.js.map": "/iMonitorDev/static/js/main.e11f09c2.js.map",
+    "main.7e277d49.js.map": "/iMonitorDev/static/js/main.7e277d49.js.map",
     "703.9e613bab.chunk.js.map": "/iMonitorDev/static/js/703.9e613bab.chunk.js.map",
     "513.d9827639.chunk.js.map": "/iMonitorDev/static/js/513.d9827639.chunk.js.map",
     "839.3c4ff7ea.chunk.js.map": "/iMonitorDev/static/js/839.3c4ff7ea.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.154cea98.css",
-    "static/js/main.e11f09c2.js"
+    "static/js/main.7e277d49.js"
   ]
 }
