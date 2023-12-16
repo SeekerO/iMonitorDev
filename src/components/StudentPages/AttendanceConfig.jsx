@@ -57,74 +57,9 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo, index }) => {
     setUuid(Math.ceil(Math.random() * 99999999));
   }
 
-  function timeChecker() {
-    for (let index = 0; index < companyinfo.length; index++) {
-      if (studinfo.companyname === companyinfo[index].companyname) {
-        const startingTime = parseTime(companyinfo[index].startingtime);
-        const endingTime = parseTime(companyinfo[index].endingtime);
-
-        if (startingTime && endingTime) {
-          const startT = formatTime(startingTime);
-          const endT = formatTime(endingTime);
-          const adjustedStartT = adjustStartingTime(startT);
-          const currtimeT = moment().format("LTS");
-
-          // start = timeToSeconds(startT);
-          // adjustedStart = timeToSeconds(adjustedStartT);
-          // end = timeToSeconds(endT);
-          currTime = timeToSeconds(currtimeT);
-          // Perform the necessary operations with 'start', 'end', or other variables
-
-          break;
-        } else {
-        }
-      }
-    }
-  }
-
-  function timeToSeconds(timeString) {
-    const [hours, minutes, seconds] = timeString.split(":");
-
-    // Calculate the total number of seconds
-    const totalSeconds = hours * 3600 + minutes * 60 + seconds;
-    const cleanTime = removeAMPM(totalSeconds);
-    return cleanTime;
-  }
-
-  function removeAMPM(timeString) {
-    // Check if the string contains 'AM' or 'PM' and remove it
-    const withoutAMPM = timeString.replace(/\b(?:AM|PM)\b/g, " ").trim();
-    return withoutAMPM;
-  }
-
-  function adjustStartingTime(startTime) {
-    const [hours, minutes, seconds] = startTime.split(":");
-
-    var adjustedHours = hours - 1;
-
-    return `${adjustedHours}:${minutes}:${seconds}`;
-  }
-
-  function parseTime(timeString) {
-    // Assuming timeString is in HH:MM:SS format
-    const [hours, minutes, seconds] = timeString.split(":");
-    return new Date(1970, 0, 1, hours, minutes, seconds);
-  }
-
-  function formatTime(time) {
-    return time.toLocaleTimeString("en-US", {
-      timeZone: "Asia/Shanghai",
-      hour12: true,
-      hour: "numeric",
-      minute: "numeric",
-      second: "numeric",
-    });
-  }
-
   let OUT;
   // apply this to onlick OUT Button
   function timeout() {
-    // const timeStringOUT = moment().format("H:M");
     const timeStringOUT = moment().format("H:M");
     const arr1 = timeStringOUT.split(":"); // splitting the string by colon
     const secondsOUT = arr1[0] * 3600 + arr1[1] * 60; // converting // input string //store this in datebase
@@ -174,6 +109,17 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo, index }) => {
 
     setOut(true);
   };
+  
+  function secondsToHours(seconds) {
+    const hours = seconds / 3600; // There are 3600 seconds in an hour (60 seconds * 60 minutes)
+    return hours;
+  }
+
+  const computeTotalHours = (timeIN, timOUT) => {
+    const hours = secondsToHours(timOUT - timeIN);
+
+    return hours;
+  };
 
   return (
     <div>
@@ -189,28 +135,44 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo, index }) => {
           {attendanceinfo.studDate + ""}
         </p>
         <div className="">
-          <button
-            disabled={In}
-            onClick={() => setShowModalUploadImage(true)}
-            className={`${
-              In
-                ? "h-10 w-24 rounded-md  bg-gray-600 text-center mr-2 hover:cursor-not-allowed"
-                : "h-10 w-24 rounded-md hover:bg-green-400 bg-green-600 text-center mr-2 hover:cursor-pointer"
-            }`}
-          >
-            TIME IN
-          </button>
-          <button
-            disabled={Out}
-            onClick={() => timeout()}
-            className={`${
-              Out
-                ? "h-10 w-24 rounded-md  bg-gray-600 text-center mr-2 hover:cursor-not-allowed"
-                : "h-10 w-24 rounded-md hover:bg-red-400 bg-red-600 text-center mr-2 hover:cursor-pointer"
-            }`}
-          >
-            TIME OUT
-          </button>
+          {currDateFull === moment(attendanceinfo.studDate).format("L") ? (
+            <>
+              <button
+                disabled={In}
+                onClick={() => setShowModalUploadImage(true)}
+                className={`${
+                  In
+                    ? `h-10 w-24 rounded-md  bg-gray-600 text-center mr-2 hover:cursor-not-allowed`
+                    : "h-10 w-24 rounded-md hover:bg-green-400 bg-green-600 text-center mr-2 hover:cursor-pointer"
+                }`}
+              >
+                {/* h-10 w-24 rounded-md  bg-gray-600 text-center mr-2 hover:cursor-not-allowed */}
+                TIME IN
+              </button>
+
+              <button
+                disabled={Out}
+                onClick={() => timeout()}
+                className={`${
+                  Out
+                    ? "h-10 w-24 rounded-md  bg-gray-600 text-center mr-2 hover:cursor-not-allowed"
+                    : "h-10 w-24 rounded-md hover:bg-red-400 bg-red-600 text-center mr-2 hover:cursor-pointer"
+                }`}
+              >
+                TIME OUT
+              </button>
+            </>
+          ) : (
+            <div className="items-center flex h-full mr-5">
+              <div className="font-thin">
+                Total hours rendered:{" "}
+                {computeTotalHours(
+                  attendanceinfo.studin,
+                  attendanceinfo.studout
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </div>
       <AttendanceSelectImageModal
