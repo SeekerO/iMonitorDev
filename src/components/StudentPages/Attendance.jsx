@@ -14,6 +14,7 @@ const Attendance = ({ studemail }) => {
   var a = false;
   const [ojtfinished, setojtfinished] = useState(false);
   const [ojtnotstarted, setojtnotstarted] = useState(false);
+
   // DATA VARIABLES
   const [attendanceinfo, setAttendanceinfo] = useState();
   const [studprog, setStudProg] = useState("");
@@ -23,6 +24,9 @@ const Attendance = ({ studemail }) => {
   // Fetch Info's
   const [companyinfo, setCompanyInfo] = useState();
   const [studinfo, setStudInfo] = useState();
+
+  // specific
+  const [companyinfoTime, setCompanyInfoTime] = useState();
 
   useEffect(() => {
     AOS.init({ duration: 1000 });
@@ -64,21 +68,25 @@ const Attendance = ({ studemail }) => {
       var end = moment(data.ojtend).format("L");
       var start = moment(data.ojtstart).format("L");
 
-      if (moment(currDateFull).isAfter(start)) {
-        if (moment(end).isBefore(currDateFull)) {
-          //OJT IS FINISHED
-          setojtfinished(true);
-          a = false;
-        } else {
-          //OJT STARTED
-          FetchAttendanceInfo();
-          starter = true;
-        }
-        setojtfinished(false);
-      } else {
+      // Get the current date
+      const currentDate = moment();
+      const hasStarted = currentDate.isSameOrAfter(start);
+      const hasEnded = currentDate.isAfter(end);
+      const hasNotStarted = currentDate.isBefore(start);
+
+      // Output the results
+      if (hasStarted) {
+        FetchAttendanceInfo();
+        starter = true;
+      }
+      if (hasEnded) {
+        setojtfinished(true);
+        a = false;
+      }
+      // Output the result
+      if (hasNotStarted) {
         setojtnotstarted(true);
       }
-
       fetchcompanyinfo();
     }
   };
@@ -115,6 +123,13 @@ const Attendance = ({ studemail }) => {
         .eq("studemail", studemail)
         .single();
 
+      const { data: compInfo } = await supabase
+        .from("CompanyTable")
+        .select()
+        .eq("companyname", info.companyname)
+        .single();
+      setCompanyInfoTime(compInfo);
+
       if (info && attenInfo.length === 0) {
         DataInsertInAttendance(info);
         setAttendanceinfo(attenInfo);
@@ -133,9 +148,13 @@ const Attendance = ({ studemail }) => {
     } catch (error) {}
   };
 
+  const timeConverter = (time) => {
+    return moment(time, "HH:mm").format("hh:mm A");
+  };
+
   return (
     <div className="h-screen">
-      {attendanceinfo ? (
+      {attendanceinfo || ojtnotstarted || ojtfinished ? (
         <div className="">
           <div
             className="md:pt-[5%] pt-[10%]"
@@ -209,8 +228,18 @@ const Attendance = ({ studemail }) => {
                   ""
                 ) : (
                   <div>
+                    <div className="flex justify-center items-center font-thin text-[12px] gap-1 mt-2">
+                      Time in starts
+                      <em className="font-normal">
+                        {timeConverter(companyinfoTime.startingtime)}
+                      </em>{" "}
+                      | Time out ends{" "}
+                      <em className="font-normal">
+                        {timeConverter(companyinfoTime.endingtime)}
+                      </em>
+                    </div>
                     {companyinfo && (
-                      <div className="p-2 h-[355px] rounded-md overflow-y-auto">
+                      <div className="p-2 h-[335px] rounded-md overflow-y-auto">
                         {attendanceinfo
                           .sort((a, b) => (a.studDate < b.studDate ? 1 : -1))
                           .map((attendanceinfo) => (

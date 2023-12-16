@@ -47,46 +47,40 @@ function Navbar({ email }) {
       )
       .subscribe();
   }, []);
+
   const [counter, setCounter] = useState(0);
+
   async function fetchAnnouncemnt_INFO() {
     const { data: announce, count } = await supabase
       .from("AnnouncementTable")
       .select("*", { count: "exact" });
 
-    var mail3 = email;
+    var user_email = email;
+    let number_notif = 0;
 
-    let numberofNotif = 0;
+    const select = (itemsRead) => {
+      setCounter(count - itemsRead);
+
+      if (itemsRead !== count) {
+        setAnnouncement_NOTIF(true);
+      }
+      if (itemsRead === count) {
+        setAnnouncement_NOTIF(false);
+      }
+    };
+
     for (let index = 0; index < announce.length; index++) {
-      const a = [announce[index].readsBy];
-
-      if (a.length) {
-        for (let index1 = 0; index1 < a.length; index1++) {
-          var mail1 = a[index1];
-
-          if (mail1[index1] !== mail3) {
-            numberofNotif++;
+      var per_announce = [announce[index]];
+      for (let index1 = 0; index1 < per_announce.length; index1++) {
+        var reads_by = per_announce[index1].readsBy;
+        for (let index2 = 0; index2 < reads_by.length; index2++) {
+          if (reads_by[index2] === user_email) {
+            number_notif++;
           }
+          select(number_notif);
         }
       }
     }
-    setCounter(numberofNotif);
-
-    for (let index = 0; index < announce.length; index++) {
-      const a = [announce[index].readsBy];
-
-      if (a.length) {
-        for (let index1 = 0; index1 < a.length; index1++) {
-          var mail1 = a[index1];
-
-          if (mail1[index1] !== mail3) {
-            setAnnouncement_NOTIF(true);
-            return;
-          }
-        }
-      }
-    }
-    setAnnouncement_NOTIF(false);
-    return;
   }
 
   async function checkmessage() {

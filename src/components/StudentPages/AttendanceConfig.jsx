@@ -11,35 +11,46 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo }) => {
   const [Out, setOut] = useState(true);
 
   var currDateFull = moment().format("l");
-  var currTime;
-  var start;
-  var adjustedStart;
-  var end;
+  var currTime = moment();
   let [uuid, setUuid] = useState();
 
   useEffect(() => {
-    timeChecker();
+    datechecker();
 
-    const intervalId = setInterval(timeChecker, 60000);
+    const intervalId = setInterval(datechecker(), 60000);
     return () => clearInterval(intervalId);
   }, [attendanceinfo]);
 
   function datechecker() {
     var format = moment(attendanceinfo.studDate).format("l");
-    console.log(format + " " + currDateFull);
-    if (format === currDateFull) {
-      if (attendanceinfo.studin === null) {
-        if (start >= currTime <= adjustedStart) {
-          if (adjustedStart <= currTime) {
-            setIn(false);
+
+    for (let index = 0; index < companyinfo.length; index++) {
+      if (studinfo.companyname === companyinfo[index].companyname) {
+        if (format === currDateFull) {
+          if (attendanceinfo.studin === null) {
+            var compStart = moment(companyinfo[index].startingtime, "HH:mm:ss");
+            var compStartAdjustedBy_Minus_1Hour = compStart
+              .clone()
+              .subtract(1, "hours");
+            var compEnd = moment(companyinfo[index].endingtime, "HH:mm:ss");
+
+            if (
+              currTime.isSameOrAfter(compStartAdjustedBy_Minus_1Hour) &&
+              currTime.isBefore(compStart)
+            ) {
+              setIn(false);
+            } else {
+              setIn(true);
+            }
           } else {
-            setIn(true);
+            if (currTime.isAfter(compEnd)) {
+              setOut(true);
+            } else {
+              setOut(false);
+            }
           }
-        } else {
-          setIn(true);
         }
-      } else {
-        setOut(false);
+        return;
       }
     }
 
@@ -58,13 +69,11 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo }) => {
           const adjustedStartT = adjustStartingTime(startT);
           const currtimeT = moment().format("LTS");
 
-          start = timeToSeconds(startT);
-          adjustedStart = timeToSeconds(adjustedStartT);
-          end = timeToSeconds(endT);
+          // start = timeToSeconds(startT);
+          // adjustedStart = timeToSeconds(adjustedStartT);
+          // end = timeToSeconds(endT);
           currTime = timeToSeconds(currtimeT);
           // Perform the necessary operations with 'start', 'end', or other variables
-
-          datechecker();
 
           break;
         } else {
@@ -132,7 +141,7 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo }) => {
 
       // if hours greater than 9 set it to 9 hours
       if (hours > 9) {
-        hours = 9;
+        hours = 8;
       }
 
       studinfoData(hours);

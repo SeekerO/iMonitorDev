@@ -12,22 +12,6 @@ const Profile = ({ studemail }) => {
     // toHoursAndMinutes();
   }, []);
 
-  const [studName, setStudName] = useState();
-  const [studfullname, setStudFullName] = useState("");
-  const [studprogram, setStudProgram] = useState("");
-  const [ojtstart, setOjtStart] = useState("");
-  const [ojtend, setOjtEnd] = useState("");
-  const [studsection, setStudSection] = useState("");
-  const [studremarks, setStudRemarks] = useState("");
-  const [companyname, setCompanyname] = useState("");
-  const [companyaddress, setCompanyaddress] = useState("");
-  const [supervisorname, setSupervisorname] = useState("");
-  const [supervisorcontactnumber, setSupervisorcontactnumber] = useState("");
-  const [supervisorofficenumber, setSupervisorofficenumber] = useState("");
-  const [designation, setDesignation] = useState("");
-  const [companyemail, setCompanyemail] = useState("");
-  const [currprog, setCurrProg] = useState();
-  const [maxprog, setMaxProg] = useState();
   const [studinfo, setStudInfo] = useState();
 
   const fetchstudinfo = async () => {
@@ -37,8 +21,11 @@ const Profile = ({ studemail }) => {
       .eq("studemail", studemail)
       .single();
 
-    setStudInfo(data);
+    if (data) {
+      setStudInfo(data);
+    }
   };
+
   return (
     <div>
       <div className="flex  place-content-center  h-screen w-[100%] ">
@@ -88,6 +75,7 @@ const Profile = ({ studemail }) => {
                     </div>
                   </div>
                 </div>
+
                 <label className=" mt-4 md:text-md text-base font-semibold">
                   {studinfo.studprogram}
                 </label>

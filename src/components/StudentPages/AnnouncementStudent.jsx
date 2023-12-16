@@ -167,14 +167,14 @@ function AnnouncementStudent({ studemail }) {
         </div>
         <div className=" w-[90%] md:h-[75%] h-[60%]  gap-1 flex rounded-md">
           <div className="bg-slate-200 md:w-[25%] w-[30%] h-[100%]  rounded-l-md">
-            <div className="overflow-y-auto  rounded-md  h-[100%]">
+            <div className="overflow-y-auto overflow-x-hidden  rounded-md  h-[100%]">
               {announcementinfoState ? (
                 <div>
-                  <div className="mt-3 flex justify-center p-1">
+                  <div className="pt-2  pb-2 flex justify-center ">
                     <input
                       type="search"
                       placeholder="Search"
-                      className="pl-2 rounded-md"
+                      className="pl-2  text-center w-full p-1  focus:shadow-black shadow-sm outline-none"
                       value={search}
                       onChange={(e) => setSearch(e.target.value)}
                     ></input>
@@ -230,9 +230,13 @@ function AnnouncementStudent({ studemail }) {
           <div
             className={`${
               window.innerWidth <= 768
-                ? `${opensubmit ? `hidden` : `bg-slate-200  w-[100%] h-[100%]`}`
-                : `bg-slate-200  w-[100%] h-[100%]`
-            }`}
+                ? `${
+                    opensubmit
+                      ? `hidden`
+                      : `bg-slate-200  w-[100%] min-h-[100%] max-h-auto `
+                  }`
+                : `bg-slate-200  w-[100%] min-h-[100%] max-h-auto  `
+            } `}
           >
             {getId ? (
               <div id="announcement" className="pl-[2%] pt-3 pr-[2%] h-[90%]">
