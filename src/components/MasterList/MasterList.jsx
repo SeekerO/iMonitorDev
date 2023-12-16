@@ -248,9 +248,9 @@ const MasterList = ({ Data }) => {
 
             <button
               onClick={() => setOpenPrint(!openPrint)}
-              className=" hover:bg-[#449256] bg-[#58af6f] h-[26px] rounded-mdflex gap-1 items-center p-4 flex rounded-md "
+              className=" hover:bg-[#5885af5e] bg-[#5885AF] h-[26px] rounded-mdflex gap-1 items-center p-4 flex rounded-md "
             >
-              <MdLocalPrintshop /> PRINT
+              <MdLocalPrintshop className="text-[20px] h-fit " />
             </button>
           </div>
 

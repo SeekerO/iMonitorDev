@@ -190,16 +190,18 @@ function Analytics({ data }) {
             <div className="mt-2  h-screen ">
               {showdata ? (
                 <>
-                  <ReactToPrint
-                    trigger={() => (
-                      <button className="flex gap-1 items-center hover:bg-[#449256] bg-[#58af6f] p-0.5 px-2 rounded-md mb-1 text-white">
-                        <MdLocalPrintshop className="text-[20px] cursor-pointer" />
-                        <label className=" cursor-pointer">Print</label>
-                      </button>
-                    )}
-                    content={() => testRef.current}
-                    documentTitle="Test"
-                  />
+                  <div className="flex justify-end">
+                    <ReactToPrint
+                      trigger={() => (
+                        <button className="flex gap-1 items-center p-0.5 px-2 rounded-md mt-1 text-white -mb-6">
+                          <MdLocalPrintshop className="text-[20px] cursor-pointer" />
+                        </button>
+                      )}
+                      content={() => testRef.current}
+                      documentTitle="Test"
+                    />
+                  </div>
+
                   <div className="hidden">
                     <PdfLayout
                       data={data}
@@ -209,8 +211,8 @@ function Analytics({ data }) {
                     />
                   </div>
 
-                  <div className=" md:w-[100%]  w-[99%]  h-[33%] md:flex grid place-content-center items-center  inset-0 bg-[#6f97bcb3] text-black rounded-md shadow-md shadow-black">
-                    <div className=" h-[100%] flex items-center ">
+                  <div className=" md:w-[100%]  w-[99%]   h-auto md:flex grid place-content-center items-center  inset-0 bg-[#6f97bcb3] text-black rounded-md shadow-md shadow-black">
+                    <div className=" flex items-center ">
                       <div className="flex-col mb-2">
                         <p className="flex-col flex text-center font-bold text-lg text-white">
                           {analytics.length >= 2 && "Top 3 Companies"}
@@ -226,7 +228,7 @@ function Analytics({ data }) {
                         />
                       </div>
 
-                      <div className=" ml-10 md:gap-10 gap-5  text-white justify-start md:flex grid items-center ">
+                      <div className=" ml-10 md:gap-10 gap-5 text-white justify-start md:flex grid items-center ">
                         {analytics.map((data, index) => (
                           <div
                             key={data.id}

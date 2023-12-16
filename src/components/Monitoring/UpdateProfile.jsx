@@ -479,7 +479,7 @@ const UpdateProfile = () => {
           {/*First line*/}
           <form
             onSubmit={handlesubmit}
-            className="grid  w-[100%] bg-black bg-opacity-[1%] p-1 overflow-y-auto overflow-x-hidden  h-[70%]"
+            className="grid  w-[100%] bg-black bg-opacity-[1%] p-1 overflow-y-auto overflow-x-hidden  md:h-[80%] h-[70%] "
           >
             {/* Line 1 */}
             <div className="w-[100%] md:flex grid  gap-1 h-fit">
