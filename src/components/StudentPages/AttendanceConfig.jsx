@@ -3,7 +3,7 @@ import moment from "moment";
 import AttendanceSelectImageModal from "./AttendanceSelectImageModal";
 import supabase from "../iMonitorDBconfig";
 
-const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo }) => {
+const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo, index }) => {
   const [showmodaluploadimage, setShowModalUploadImage] = useState(false);
   const handlecloseuploadimage = () => setShowModalUploadImage(false);
 
@@ -177,7 +177,14 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo }) => {
 
   return (
     <div>
-      <div className="bg-white  rounded-md flex p-1 justify-between mb-2 z-0">
+      {/*  */}
+      <div
+        className={`${
+          index === 0
+            ? "p-2 duration-300 shadow-black shadow-md bg-white mb-4 "
+            : "bg-gray-400  mb-0.5"
+        }  rounded-md flex p-1 justify-between z-0`}
+      >
         <p className="text-left m-2 pl-2 font-semibold text-[17px]">
           {attendanceinfo.studDate + ""}
         </p>

@@ -152,6 +152,14 @@ const Attendance = ({ studemail }) => {
     return moment(time, "HH:mm").format("hh:mm A");
   };
 
+  const MinusAnHourConverter = (time) => {
+    const updatedTime = moment(time, "HH:mm")
+      .subtract(1, "hours")
+      .format("hh:mm A");
+
+    return updatedTime;
+  };
+
   return (
     <div className="h-screen">
       {attendanceinfo || ojtnotstarted || ojtfinished ? (
@@ -228,26 +236,33 @@ const Attendance = ({ studemail }) => {
                   ""
                 ) : (
                   <div>
-                    <div className="flex justify-center items-center font-thin text-[12px] gap-1 mt-2">
-                      Time in starts
-                      <em className="font-normal">
-                        {timeConverter(companyinfoTime.startingtime)}
-                      </em>{" "}
-                      | Time out ends{" "}
-                      <em className="font-normal">
-                        {timeConverter(companyinfoTime.endingtime)}
-                      </em>
+                    <div className="flex justify-center items-center font-thin text-[12px]">
+                      <div className="bg-green-100 w-full p-1 justify-center flex gap-1">
+                        Time in starts
+                        <em className="font-normal">
+                          {MinusAnHourConverter(companyinfoTime.startingtime)} -{" "}
+                          {timeConverter(companyinfoTime.startingtime)}
+                        </em>{" "}
+                        only
+                      </div>
+                      <div className="bg-red-100 w-full p-1 justify-center flex gap-1">
+                        Time out ends
+                        <em className="font-normal">
+                          {timeConverter(companyinfoTime.endingtime)}
+                        </em>
+                      </div>
                     </div>
                     {companyinfo && (
                       <div className="p-2 h-[335px] rounded-md overflow-y-auto">
                         {attendanceinfo
                           .sort((a, b) => (a.studDate < b.studDate ? 1 : -1))
-                          .map((attendanceinfo) => (
+                          .map((attendanceinfo, index) => (
                             <AttendanceConfig
                               key={attendanceinfo.id}
                               attendanceinfo={attendanceinfo}
                               studinfo={studinfo}
                               companyinfo={companyinfo}
+                              index={index}
                             />
                           ))}
                       </div>

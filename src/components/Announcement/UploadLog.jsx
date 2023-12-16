@@ -168,13 +168,15 @@ function UploadLog() {
                 <input
                   type="search"
                   placeholder="Search"
-                  className="pl-2 rounded-md  w-[230px] "
+                  className="pl-2 rounded-md  w-[245px] outline-none focus:shadow-sm   focus:shadow-black "
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                 ></input>
               </div>
               {announceinfo
-                .sort((a, b) => (a.announcementEndDate < b.announcementEndDate ? 1 : -1))
+                .sort((a, b) =>
+                  a.announcementEndDate < b.announcementEndDate ? 1 : -1
+                )
                 .filter((announce) => {
                   try {
                     var text = announce.announcementTitle

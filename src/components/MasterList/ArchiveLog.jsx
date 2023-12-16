@@ -56,30 +56,39 @@ function ArchiveLog({ archiveLog, setArchiveLog, Data }) {
               placeholder="Search"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="pl-2 p-1 mt-1 mb-1 rounded-md bg-slate-300 w-[90%]"
+              className="pl-2 p-1 mt-1 mb-1 rounded-md bg-slate-300 w-[90%] outline-none focus:shadow-md focus:shadow-black"
             ></input>
           </div>
-
-          {archiveData
-            ?.filter((val) => {
-              try {
-                if (search === "") {
-                  return val;
-                } else if (
-                  val.archivedBy.toLowerCase().includes(search.toLowerCase())
-                ) {
-                  return val;
-                } else if (
-                  val.archivedName.toLowerCase().includes(search.toLowerCase())
-                ) {
-                  return val;
-                } else {
-                }
-              } catch (error) {}
-            })
-            .map((data, index) => (
-              <ArchiveLogConfig data={data} key={index} />
-            ))}
+          {archiveData?.length === 0 ? (
+            <div className="flex justify-center font-semibold">NO DATA</div>
+          ) : (
+            <>
+              {archiveData
+                ?.filter((val) => {
+                  try {
+                    if (search === "") {
+                      return val;
+                    } else if (
+                      val.archivedBy
+                        .toLowerCase()
+                        .includes(search.toLowerCase())
+                    ) {
+                      return val;
+                    } else if (
+                      val.archivedName
+                        .toLowerCase()
+                        .includes(search.toLowerCase())
+                    ) {
+                      return val;
+                    } else {
+                    }
+                  } catch (error) {}
+                })
+                .map((data, index) => (
+                  <ArchiveLogConfig data={data} key={index} />
+                ))}
+            </>
+          )}
         </div>
         <div className="flex justify-center">
           <a
