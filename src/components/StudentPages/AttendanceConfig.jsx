@@ -167,19 +167,12 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo, index }) => {
               </button>
             </>
           ) : (
-            <div className="items-center flex h-full mr-5 gap-1 font-thin">
-              Total hours rendered:
-              <div className="font-thin ">
-                {attendanceinfo.studin !== null &&
-                attendanceinfo.studout !== null ? (
-                  <>
-                    {computeTotalHours(
-                      attendanceinfo.studin,
-                      attendanceinfo.studout
-                    )}
-                  </>
-                ) : (
-                  "0"
+            <div className="items-center flex h-full mr-5">
+              <div className="font-thin">
+                Total hours rendered:{" "}
+                {computeTotalHours(
+                  attendanceinfo.studin,
+                  attendanceinfo.studout
                 )}
               </div>
             </div>
