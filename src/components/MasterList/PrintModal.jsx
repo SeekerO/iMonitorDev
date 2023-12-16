@@ -257,12 +257,14 @@ function PrintModal({ openPrint, setOpenPrint, Data, saveAsPDF }) {
               </label>
               <div className="h-[500px] w-[600px] bg-gray-300 ml-2 p-2 overflow-y-auto overflow-x-hidden rounded-md ">
                 <div className="flex justify-end ">
-                  <button
-                    onClick={() => saveAsPDF(layout, sy)}
-                    className="text-right text-gray-600 -mb-6 mr-1"
-                  >
-                    <FaDownload />
-                  </button>
+                  {data.length > 0 && (
+                    <button
+                      onClick={() => saveAsPDF(layout, sy)}
+                      className="text-right text-gray-600 -mb-6 mr-1"
+                    >
+                      <FaDownload />
+                    </button>
+                  )}
                 </div>
 
                 <div className="bg-white rounded-md">

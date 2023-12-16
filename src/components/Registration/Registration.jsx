@@ -2,11 +2,6 @@ import React, { useState, useEffect } from "react";
 import RegisSuccessModal from "./RegisSuccessModal";
 import options from "../programoptions.json";
 import supabase from "../iMonitorDBconfig";
-import {
-  CountryDropdown,
-  RegionDropdown,
-  CountryRegionData,
-} from "react-country-region-selector";
 import { ToastContainer, toast } from "react-toastify";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -25,7 +20,6 @@ function Registration() {
 
   //MODAL VAR
   const [showmodalregis, setShowModalRegis] = useState(false);
-  const handleclosemodalregis = () => setShowModalRegis(false);
 
   //STUD INFO VAR
   const [studfname, setStudFName] = useState("");
@@ -111,6 +105,7 @@ function Registration() {
   // INSERT FUNCTION
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (
       studfname.trim().length === 0 ||
       studlname.trim().length === 0 ||
@@ -190,6 +185,7 @@ function Registration() {
       }
     }
     setIsRegistring(true);
+    setShowModalRegis(true);
     if (studmname === null) {
       setStudMName("");
     }
@@ -265,7 +261,6 @@ function Registration() {
       setFormSuccess(null);
     }
 
-    setShowModalRegis(true);
     clearfield();
     setIsRegistring(false);
   };
@@ -698,8 +693,10 @@ function Registration() {
           </form>
         </div>
         <RegisSuccessModal
-          onClose={handleclosemodalregis}
+          onClose={setShowModalRegis}
           visible={showmodalregis}
+          registring={registring}
+          
         />
         <ToastContainer
           position="top-right"

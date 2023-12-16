@@ -181,7 +181,7 @@ function AttendanceLog({ attendanceLog, setAttendanceLog, Data }) {
             <div className="flex justify-center">TIME OUT</div>
             <div className="flex justify-center">DATE</div>
           </div>
-          <div className=" h-[90%] w-[100%] overflow-y-scroll">
+          <div className=" h-[90%] w-[100%] overflow-y-auto">
             {data && data.length > 0 ? (
               <div className="h-fit w-[100%] bg-white grid ">
                 {data

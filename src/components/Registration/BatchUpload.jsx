@@ -7,6 +7,8 @@ import { ToastContainer, toast } from "react-toastify";
 import { BsFillCloudCheckFill } from "react-icons/bs";
 import NoteForBatchUpload from "./NoteForBatchUpload";
 import { AiOutlineClose } from "react-icons/ai";
+import Check from "../Monitoring/Check.json";
+import Lottie from "lottie-react";
 
 function BatchUpload({ visible, close, sy }) {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -414,14 +416,13 @@ function BatchUpload({ visible, close, sy }) {
   return (
     <>
       <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center">
-        {uploading ? (
+        {!uploading ? (
           <div className="">
             {succes ? (
-              <div className=" font-semibold h-[200px] w-[400px] text-white bg-[#5885AF] rounded p-2 flex flex-col place-content-center justify-center items-center">
+              <div className=" font-semibold h-[200px] w-[400px] text-white bg-[#b5dbff] rounded p-2 flex flex-col place-content-center justify-center items-center">
                 <label className="text-[20px] text-center mb-2 ">
-                  Uploaded Successfully
+                  <Lottie animationData={Check} className="h-[100px]" />{" "}
                 </label>
-                <BsFillCloudCheckFill className="text-[60px] " />
               </div>
             ) : (
               <div className="h-[200px] w-[400px] bg-[#5885AF] text-white rounded p-2 flex flex-col place-content-center justify-center items-center">
