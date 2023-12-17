@@ -74,10 +74,12 @@ function BatchUpload({ visible, close, sy }) {
   }
 
   function ExcelTimeReder(time) {
-    const startCompTime = time * 24 * 60 * 60 * 1000;
-    const date = new Date(startCompTime);
-    const formattedTime = moment(date).format("LTS");
-
+    const millisecondsInDay = 24 * 60 * 60 * 1000; // Total milliseconds in a day
+    const milliseconds = time * millisecondsInDay; // Convert Excel time to milliseconds
+    // Create a Moment.js object using milliseconds since Unix epoch
+    const momentObj = moment.utc(milliseconds);
+    // Format the time as HH:MM:SS or HH:MM AM/PM
+    const formattedTime = momentObj.format("hh:mm:ss A");
     return formattedTime;
   }
 
@@ -197,16 +199,16 @@ function BatchUpload({ visible, close, sy }) {
     // Check Email is already exist in DataBase
     for (let index = 0; index < studinfo.length; index++) {
       var name =
-        dataHolder[index].Firstname +
+        dataHolder[index]?.Firstname +
         `${
-          dataHolder[index].MiddleInitial
-            ? ` ${dataHolder[index].MiddleInitial} `
+          dataHolder[index]?.MiddleInitial
+            ? ` ${dataHolder[index]?.MiddleInitial} `
             : " "
         }` +
-        dataHolder[index].Lastname +
-        `${dataHolder[index].Suffix ? ` ${dataHolder[index].Suffix} ` : ""}`;
+        dataHolder[index]?.Lastname +
+        `${dataHolder[index]?.Suffix ? ` ${dataHolder[index]?.Suffix} ` : ""}`;
 
-      if (dataHolder[index].o365 === studinfo[index].studemail) {
+      if (dataHolder[index]?.o365 === studinfo[index]?.studemail) {
         toast.warn(`Input email is already registered`, {
           position: "top-right",
           autoClose: 1000,
