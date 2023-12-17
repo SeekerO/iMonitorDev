@@ -196,6 +196,50 @@ function BatchUpload({ visible, close, sy }) {
       }
     }
 
+    // Check Invalid Date
+    for (let index = 0; index < dataHolder.length; index++) {
+      const moment = require("moment"); // Import Moment.js library
+
+      // Check if the dateString represents a valid date
+      let isValidDateSTART = moment(
+        ExcelDateToJSDate(dataHolder[index].startingtime),
+        "HH:mm:ss A",
+        true
+      ).isValid();
+
+      let isValidDateEND = moment(
+        ExcelDateToJSDate(dataHolder[index].endingtime),
+        "HH:mm:ss A",
+        true
+      ).isValid();
+
+      if (!isValidDateSTART) {
+        toast.warn(`Invalid Start Time`, {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          progress: undefined,
+          theme: "light",
+        });
+        return;
+      }
+
+      if (!isValidDateEND) {
+        toast.warn(`Invalid End Time`, {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          progress: undefined,
+          theme: "light",
+        });
+        return;
+      }
+    }
+
     // Check Email is already exist in DataBase
     for (let index = 0; index < studinfo.length; index++) {
       var name =
