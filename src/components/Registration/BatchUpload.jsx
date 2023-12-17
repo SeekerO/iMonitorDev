@@ -207,7 +207,7 @@ function BatchUpload({ visible, close, sy }) {
         `${dataHolder[index].Suffix ? ` ${dataHolder[index].Suffix} ` : ""}`;
 
       if (dataHolder[index].o365 === studinfo[index].studemail) {
-        toast.warn(`Input email has already exist`, {
+        toast.warn(`Input email is already registered`, {
           position: "top-right",
           autoClose: 1000,
           hideProgressBar: false,

@@ -125,7 +125,7 @@ export default function ViewProfileModal({
               {avatar ? (
                 <img
                   src={displayAvatarConfig}
-                  className="h-[200px] w-[200px] rounded-full shadow-md shadow-black"
+                  className="h-[200px] w-[200px] rounded-full shadow-md shadow-black object-cover "
                 ></img>
               ) : (
                 avatarComponent(studinfos.studname)

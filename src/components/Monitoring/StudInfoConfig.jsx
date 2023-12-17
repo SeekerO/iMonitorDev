@@ -111,7 +111,7 @@ const StudInfoConfig = ({
                 {avatar ? (
                   <img
                     src={displayAvatarConfig}
-                    className="h-9 w-9 rounded-full"
+                    className="h-9 w-9 rounded-full object-cover "
                   ></img>
                 ) : (
                   avatarComponent(studinfos.studname)

@@ -286,7 +286,6 @@ function Navbar({ instance }) {
   //           },
   //         }
   //       );
-
   //       handleCallbackResponse(data.data);
   //     } catch (error) {}
   //   },

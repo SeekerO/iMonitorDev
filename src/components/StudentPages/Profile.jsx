@@ -1,9 +1,11 @@
 import React from "react";
 import supabase from "../iMonitorDBconfig";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { TailSpin } from "react-loader-spinner";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { set } from "react-hook-form";
+import { upload } from "@testing-library/user-event/dist/upload";
 
 const Profile = ({ studemail }) => {
   useEffect(() => {
@@ -25,6 +27,57 @@ const Profile = ({ studemail }) => {
       setStudInfo(data);
     }
   };
+  const fileInputRef = useRef();
+  const [newProfile, setNewProfile] = useState();
+  const [filename, setFileName] = useState();
+  const [uploading, setUploading] = useState(false);
+  const ChangeProfile = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleFileChange = (event) => {
+    if (event.target.files[0] !== undefined) {
+      const selectedFile = event.target.files[0];
+      setFileName(selectedFile.name);
+      setNewProfile(event.target.files[0]);
+    }
+  };
+
+  const UploadProfile = async () => {
+    setUploading(true);
+    var filepath = newProfile;
+    var filenamepath = filename;
+    setNewProfile();
+    setFileName();
+    
+    const parts = window.localStorage.getItem("profile").split("/");
+    const lastPart = parts[parts.length - 1];
+
+    await supabase.storage
+      .from("ProfilePic")
+      .remove([`${studinfo.studemail}/${lastPart}`]);
+
+    const { data: uploaded } = await supabase.storage
+      .from("ProfilePic")
+      .upload(studinfo.studemail + "/" + filenamepath, filepath);
+
+    if (uploaded) {
+      setTimeout(() => {
+        const fetchPic = async () => {
+          const { data: profilePic, error } = await supabase.storage
+            .from("ProfilePic")
+            .list(studinfo.studemail + "/", { limit: 1, offset: 0 });
+
+          if (profilePic) {
+            var profileURL = `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/ProfilePic/${studinfo.studemail}/${filename}`;
+            window.localStorage.setItem("profile", profileURL);
+            setUploading(false);
+          }
+        };
+        fetchPic();
+      }, 5000);
+    }
+  };
 
   return (
     <div>
@@ -32,10 +85,70 @@ const Profile = ({ studemail }) => {
         <div className="h-[88%] w-[100%]  overflow-auto">
           {studinfo ? (
             <div className="w-[100%]  flex flex-col items-center mt-[5%] text-white  ">
-              <img
-                className="md:ml-0 ml-3 h-[170px] w-[170px] rounded-full shadow-lg shadow-gray-900"
-                src={window.localStorage.getItem("profile")}
-              ></img>
+              <div className="  justify-center items-center flex flex-col ">
+                {!uploading ? (
+                  <div className="group">
+                    {newProfile ? (
+                      <img
+                        className="md:ml-0 ml-3 h-[170px] w-[170px] rounded-full shadow-lg shadow-gray-900 z-50"
+                        src={URL.createObjectURL(newProfile)}
+                      ></img>
+                    ) : (
+                      <img
+                        className="md:ml-0 ml-3 h-[170px] w-[170px] rounded-full shadow-lg shadow-gray-900 z-50"
+                        src={window.localStorage.getItem("profile")}
+                      ></img>
+                    )}
+                    <div
+                      onClick={() => ChangeProfile()}
+                      className="flex justify-center -mt-10  z-0 font-semibold group-hover:opacity-100 opacity-0 cursor-pointer text-white"
+                    >
+                      Change Profile
+                    </div>
+                  </div>
+                ) : (
+                  <TailSpin
+                    height="80"
+                    width="80"
+                    color="#0074B7"
+                    ariaLabel="tail-spin-loading"
+                    radius="0"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                    visible={true}
+                  />
+                )}
+
+                <input
+                  ref={fileInputRef}
+                  id="Profile"
+                  type="file"
+                  accept="image/png, image/gif, image/jpeg"
+                  className="hidden"
+                  onChange={handleFileChange}
+                ></input>
+              </div>
+
+              {!uploading && (
+                <>
+                  {newProfile && (
+                    <div className="flex gap-4 mt-6 ">
+                      <a
+                        onClick={() => setNewProfile()}
+                        className="flex justify-center text-whitecursor-pointer bg-red-500 p-1 rounded-md cursor-pointer"
+                      >
+                        Cancel
+                      </a>
+                      <a
+                        onClick={() => UploadProfile()}
+                        className="flex justify-center text-white bg-green-500 p-1 rounded-md cursor-pointer"
+                      >
+                        Upload
+                      </a>
+                    </div>
+                  )}
+                </>
+              )}
 
               <label className="mt-3  text-[30px] font-bold  flex">
                 {studinfo.studname.toUpperCase()}

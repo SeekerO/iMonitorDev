@@ -140,22 +140,15 @@ const AnnouncementConfig = ({
   return (
     <>
       <div>
-        {moment(announceDate).isBefore(date) && (
-          <FaHistory
-            className="-mb-2.5 -ml-1.5 bg-gray-400 rounded-full p-1 text-[25px]"
-            data-tooltip-id="History"
-          />
-        )}
-
         <div
           onClick={() => handleclick()}
           className={` ${
             moment(announceDate).isBefore(date)
-              ? "bg-gray-400 h-20 p-1 rounded-md "
+              ? "bg-gray-400 text-black h-20 p-1 rounded-md "
               : `${
                   state
                     ? "bg-black"
-                    : "   h-20 bg-gray-200 p-1 rounded-md  hover:bg-gray-300 hover:shadow-md hover:shadow-black hover:translate-x-1 duration-300"
+                    : " text-black h-24 p-1 rounded-md  hover:shadow-md hover:shadow-black hover:translate-x-1 duration-300"
                 }`
           } 
    `}
@@ -164,7 +157,13 @@ const AnnouncementConfig = ({
             {Announcement_Notif ? (
               <IoNotificationsCircleOutline className="text-red-600 text-[20px]" />
             ) : null}
-            <p className="font-bold md:text-[20px] text-[10px] line-clamp-1">
+            <p className="font-bold md:text-[20px] text-[10px] line-clamp-1 flex items-center">
+              {moment(announceDate).isBefore(date) && (
+                <FaHistory
+                  className=" bg-[#274472 rounded-full p-1 text-[25px] text-black"
+                  data-tooltip-id="History"
+                />
+              )}{" "}
               {removeUUIDtitle(announcementinfo.announcementTitle)}
             </p>
           </div>

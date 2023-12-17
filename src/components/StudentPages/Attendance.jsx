@@ -161,18 +161,18 @@ const Attendance = ({ studemail }) => {
   };
 
   return (
-    <div className="h-screen">
+    <div className=" ">
       {attendanceinfo || ojtnotstarted || ojtfinished ? (
-        <div className="">
+        <div className="flex md:w-[100%] w-full justify-center">
           <div
-            className="md:pt-[5%] pt-[10%]"
+            className="mt-[5%]"
             data-aos="fade-down"
             data-aos-duration="1000"
           >
-            <div className="font-bold text-white text-4xl flex md:ml-[30%] ml-[5%] md:mt-1 mt-5 mb-5">
+            <div className="font-bold text-white text-4xl flex ml-[5%] md:mt-1 mt-5 mb-5">
               ATTENDANCE
             </div>
-            <div className=" md:ml-[30%] ml-5 mr-5">
+            <div className=" w-fit ml-5 mr-5 shadow-md shadow-black">
               <div className="md:w-[500px] w-full h-[450px] rounded-t-md bg-slate-200 rounded-b-md">
                 <div className="w-full bg-[#274472] rounded-t-md p-2 flex-col md:gap-10 gap-1">
                   <div className="mt-3 mb-3 flex text-white">

@@ -29,6 +29,7 @@ export default function ViewProfileMasterModal({
   useEffect(() => {
     // Call the function to fetch files from a specific folder
     fetchFilesInFolder(studemail);
+    displayAvatar(studinfos.studemail);
   }, []);
 
   const fetchFilesInFolder = async (folderName) => {
@@ -58,6 +59,24 @@ export default function ViewProfileMasterModal({
     );
   }
 
+  async function displayAvatar(email) {
+    try {
+      const { data: profilePic } = await supabase.storage
+        .from("ProfilePic")
+        .list(email + "/", { limit: 1, offset: 0 });
+
+      if (profilePic) {
+        setAvatar(true);
+
+        setDisplayAvatar(
+          `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/ProfilePic/${email}/${profilePic[0].name}`
+        );
+      }
+    } catch (error) {
+      setAvatar(false);
+    }
+  }
+
   function removeCourseAcro(course) {
     const modifiedCourse = course.replace(/\([^()]*\)/g, "").trim();
     return `(${studinfos.studsection}) ` + modifiedCourse;
@@ -84,7 +103,7 @@ export default function ViewProfileMasterModal({
               {avatar ? (
                 <img
                   src={displayAvatarConfig}
-                  className="h-[200px] w-[200px] rounded-full"
+                  className="h-[200px] w-[200px] object-cover rounded-full"
                 ></img>
               ) : (
                 avatarComponent(studinfos.studname)

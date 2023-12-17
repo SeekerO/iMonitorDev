@@ -33,7 +33,7 @@ export default function PdfLayout({ data, analytics, avg, testRef }) {
             <p>
               The average number of student who didn't complete their on-the-job
               training in this{" "}
-              <em className="text-red-500 font-bold italic">{`${
+              <em className="text-red-700 font-bold italic">{`${
                 avgINCOM >= -0 ? `${avgINCOM}%` : "No Data"
               }`}</em>
             </p>
@@ -108,7 +108,7 @@ export default function PdfLayout({ data, analytics, avg, testRef }) {
                 <div className="flex  justify-between ">
                   {analytics.map((data, index) => (
                     <div key={data.id}>
-                      <div className="  p-3 mt-4 rounded text-black md:w-[100%] w-[102%]">
+                      <div className="  p-3 mt-2 rounded text-black md:w-[100%] w-[102%]">
                         <label className="text-xl font-thin flex items-center gap-1">
                           <span
                             style={{ background: data.color }}
@@ -141,7 +141,7 @@ export default function PdfLayout({ data, analytics, avg, testRef }) {
                   ))}
                 </div>
               )}
-              <div className=" p-3 mt-4 rounded  md:w-[100%]  w-[99%] text-black justify-center flex ">
+              <div className=" p-3 rounded  md:w-[100%]  w-[99%] text-black justify-center flex ">
                 <label className="font-thin text-lg text-center">
                   OVERALL COMPLETED AND INCOMPLETE IN EACH COURSE FOR THE TOP 3
                   MOST OJT ENROLLED AT THAT COMPANY
@@ -151,7 +151,7 @@ export default function PdfLayout({ data, analytics, avg, testRef }) {
                 <div className=" grid justify-between:w-[100%]">
                   {analytics.map((data, index) => (
                     <div key={data.id}>
-                      <div className="  p-3 mt-4 rounded w-[100%] text-black ">
+                      <div className="  p-3 rounded w-[100%] text-black ">
                         <label className="text-xl font-thin flex items-center gap-1">
                           <span
                             style={{ background: data.color }}
@@ -315,7 +315,7 @@ export default function PdfLayout({ data, analytics, avg, testRef }) {
             </div>
           </div>
         )}
-        <div className="h-[1px] bg-black w-[99%] mt-4 mb-4" />
+        <div className="h-[1px] bg-black w-[99%] mb-4" />
         <label className="flex justify-center text-[12px]">
           © 2023 STI College. All Rights Reserved.
         </label>

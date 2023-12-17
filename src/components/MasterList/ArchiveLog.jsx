@@ -62,7 +62,7 @@ function ArchiveLog({ archiveLog, setArchiveLog, Data }) {
           {archiveData?.length === 0 ? (
             <div className="flex justify-center font-semibold">NO DATA</div>
           ) : (
-            <>
+            <div className="overflow-y-auto h-[270px]">
               {archiveData
                 ?.filter((val) => {
                   try {
@@ -87,7 +87,7 @@ function ArchiveLog({ archiveLog, setArchiveLog, Data }) {
                 .map((data, index) => (
                   <ArchiveLogConfig data={data} key={index} />
                 ))}
-            </>
+            </div>
           )}
         </div>
         <div className="flex justify-center">

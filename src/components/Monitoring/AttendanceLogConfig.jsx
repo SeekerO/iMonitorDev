@@ -92,8 +92,21 @@ function AttendanceLogConfig({ data }) {
     }
   }
 
+  function secondsToHours(seconds) {
+    const hours = seconds / 3600; // There are 3600 seconds in an hour (60 seconds * 60 minutes)
+    return hours;
+  }
+
+  const computeTotalHours = (timeIN, timOUT) => {
+    const hours = secondsToHours(timOUT - timeIN);
+    if (timeIN !== null && timOUT !== null) {
+      return hours;
+    } else {
+      return 0;
+    }
+  };
   return (
-    <div className="grid items-center gap-1 h-fit bg-slate-300 p-1 grid-cols-4 font-thin hover:p-3 hover:m-1 hover:rounded-md duration-300" >
+    <div className="grid items-center gap-1 h-fit bg-slate-300 p-1 grid-cols-5 font-thin hover:p-3 hover:m-1 hover:rounded-md duration-300">
       <div className="flex items-center gap-1 ">
         {avatar && studData?.studname ? (
           <img src={displayAvatarConfig} className="h-9 w-9 rounded-full"></img>
@@ -120,6 +133,9 @@ function AttendanceLogConfig({ data }) {
         {secondConverter(data?.studout)}
       </div>
       <div className="flex justify-center">{data?.studDate}</div>
+      <div className="flex justify-center">
+        {computeTotalHours(data?.studin, data?.studout)}
+      </div>
     </div>
   );
 }

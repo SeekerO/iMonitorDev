@@ -3,13 +3,14 @@ import supabase from "../iMonitorDBconfig";
 import moment from "moment";
 import AttendanceLogConfig from "./AttendanceLogConfig";
 import { IoClose } from "react-icons/io5";
+import DatePicker from "react-multi-date-picker";
 
 function AttendanceLog({ attendanceLog, setAttendanceLog, Data }) {
   const [data, setData] = useState([]);
   const [course, setCourse] = useState("ALL");
   const [date, setDate] = useState("");
   const [search, setSearch] = useState("");
-
+  const [value, setValue] = useState(new Date());
   const currDate = moment(new Date()).format("L");
 
   useEffect(() => {
@@ -160,11 +161,11 @@ function AttendanceLog({ attendanceLog, setAttendanceLog, Data }) {
                 <option value={"BSCS"}>BSCS</option>
               </select>
             )}
-
             <input
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
+              multiple
               className="h-[25px] md:text-base text-sm rounded-md bg-slate-300 outline-none p-1 text-black"
             />
             <input
@@ -175,11 +176,12 @@ function AttendanceLog({ attendanceLog, setAttendanceLog, Data }) {
               className="h-[25px] p-1 pl-2 bg-slate-300  md:text-base text-sm rounded-md  outline-none"
             />
           </div>
-          <div className="grid grid-cols-4 h-fit w-full p-1 bg-[#274472] text-white font-semibold">
+          <div className="grid grid-cols-5 h-fit w-full p-1 bg-[#274472] text-white font-semibold">
             <div className="">NAME</div>
             <div className="flex justify-center">TIME IN</div>
             <div className="flex justify-center">TIME OUT</div>
             <div className="flex justify-center">DATE</div>
+            <div className="flex justify-center">RENDERED HOURS</div>
           </div>
           <div className=" h-[90%] w-[100%] overflow-y-auto">
             {data && data.length > 0 ? (

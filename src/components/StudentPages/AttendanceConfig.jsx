@@ -121,8 +121,11 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo, index }) => {
 
   const computeTotalHours = (timeIN, timOUT) => {
     const hours = secondsToHours(timOUT - timeIN);
-
-    return hours;
+    if (timeIN !== null && timOUT !== null) {
+      return hours;
+    } else {
+      return 0;
+    }
   };
 
   return (

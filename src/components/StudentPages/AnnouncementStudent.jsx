@@ -6,6 +6,8 @@ import { ToastContainer, toast } from "react-toastify";
 import { BeatLoader } from "react-spinners";
 import moment from "moment";
 import { Tooltip as ReactTooltip } from "react-tooltip";
+import { FaRectangleList } from "react-icons/fa6";
+import { FaFileCircleCheck } from "react-icons/fa6";
 function AnnouncementStudent({ studemail }) {
   const [announcementinfo, setAnnouncementInfo] = useState([]);
   const [announcementinfoState, setAnnouncementInfoState] = useState(false);
@@ -161,25 +163,27 @@ function AnnouncementStudent({ studemail }) {
   return (
     <>
       <ToastContainer limit={1} />
-      <div className=" flex items-center h-screen flex-col">
-        <div className="font-bold text-[30px] text-center h-[10%] text-white">
-          Announcements
-        </div>
-        <div className=" w-[90%] md:h-[75%] h-[60%]  gap-1 flex rounded-md">
-          <div className="bg-slate-200 md:w-[25%] w-[30%] h-[100%]  rounded-l-md">
-            <div className="overflow-y-auto overflow-x-hidden  rounded-md  h-[100%]">
+      <div className=" flex justify-center h-screen ">
+        <div className="mt-[5%] h-[70%] flex gap-2">
+          <div className="w-[240px] h-[100%] bg-slate-200 rounded-l-md shadow-md shadow-black">
+            <div className="flex items-center justify-center gap-1 text-[24px] bg-[#274472] text-white p-2 font-semibold">
+              <span>
+                <FaRectangleList className="text-[30px] h-fit " />
+              </span>
+              Announcement
+            </div>
+            <div className="grid justify-center mt-2 w-[100%]">
+              <input
+                type="search"
+                placeholder="Search"
+                className="pl-2  text-center rounded-md p-1  focus:shadow-black shadow-sm outline-none"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              ></input>
+            </div>
+            <div className="overflow-y-auto overflow-x-hidden  w-full md:h-[80%] h-[60%] ">
               {announcementinfoState ? (
-                <div>
-                  <div className="pt-2  pb-2 flex justify-center ">
-                    <input
-                      type="search"
-                      placeholder="Search"
-                      className="pl-2  text-center w-full p-1  focus:shadow-black shadow-sm outline-none"
-                      value={search}
-                      onChange={(e) => setSearch(e.target.value)}
-                    ></input>
-                  </div>
-
+                <div className="w-full">
                   {announcementinfo
 
                     .sort((a, b) =>
@@ -200,7 +204,7 @@ function AnnouncementStudent({ studemail }) {
                     .map((announcementinfo) => (
                       <div
                         key={announcementinfo.id}
-                        className="hover:cursor-pointer p-2 rounded-md "
+                        className="hover:cursor-pointer p-1 rounded-md "
                       >
                         <AnnouncementConfig
                           announcementinfo={announcementinfo}
@@ -226,7 +230,7 @@ function AnnouncementStudent({ studemail }) {
               )}
             </div>
           </div>
-          {/* Middle Display Announcement Here */}
+
           <div
             className={`${
               window.innerWidth <= 768
@@ -235,13 +239,13 @@ function AnnouncementStudent({ studemail }) {
                       ? `hidden`
                       : `bg-slate-200  w-[100%] min-h-[100%] max-h-auto `
                   }`
-                : `bg-slate-200  w-[100%] min-h-[100%] max-h-auto  `
+                : `w-[700px] h-[100%] bg-slate-200 rounded-r-md shadow-md shadow-black  `
             } `}
           >
             {getId ? (
               <div id="announcement" className="pl-[2%] pt-3 pr-[2%] h-[90%]">
                 <div className="flex justify-between items-start">
-                  <div className="font-bold text-[20px]  overflow-x-auto md:h-20 h-[10%] ">
+                  <div className="font-bold text-[20px]  overflow-x-auto md:min-h-10 md:max-h-20 h-[10%] ">
                     {removeUUIDtitle(getTitle)}
                   </div>
                   <a
@@ -258,7 +262,7 @@ function AnnouncementStudent({ studemail }) {
                 <div className="font-medium text-[10px] mb-10">
                   Posted on {getDate} | Until {moment(getEndDate).format("LL")}
                 </div>
-                <div className="p-2 font-sans font-medium text-[15px] pl-2 md:h-[50%] h-[50%] mb-2 text-start overflow-y-auto ">
+                <div className="p-2 font-sans font-medium text-[15px] pl-2 h-[50%] mb-2 text-start overflow-y-auto ">
                   {getMessage}
 
                   {getFiles && (
@@ -282,7 +286,7 @@ function AnnouncementStudent({ studemail }) {
                     <BeatLoader color="#3e4de1" size={12} />
                   </div>
                 ) : (
-                  <div>
+                  <div className="">
                     {getAllow === "true" && (
                       <div className="grid">
                         <div className="">
@@ -325,55 +329,51 @@ function AnnouncementStudent({ studemail }) {
 
           {opensubmit && (
             <div
-              className={`bg-slate-200 md:w-[35%] w-[100%] rounded-r-md h-[100%]`}
+              className={`bg-slate-200 md:w-[300px] w-[100%] rounded-md h-[100%] shadow-md shadow-black`}
             >
-              <div className="flex items-center md:justify-center grid-cols-2 bg-[#5885AF]">
+              <div className="flex items-center md:justify-center grid-cols-2 bg-[#274472]">
                 <a
                   onClick={() => setOpenSubmit(!opensubmit)}
                   className={`${
                     window.innerWidth >= 768
-                      ? "hidden"
+                      ? "hidden "
                       : `mr-[10%] text-white underline cursor-pointer ml-2 text-[13px]`
-                  }`}
+                  } duration-300 `}
                 >
                   Back
                 </a>
-                <div className="flex w-[100%] p-1 gap-1 items-center bg-[#5885AF] text-white rounded-tr-md">
+                <div className="flex w-[100%] p-1 gap-1 items-center justify-center bg-[#274472] text-white rounded-tr-md">
                   <label className="text-lg flex  font-semibold">
-                    Submitted:
-                  </label>
-                  <label className="text-lg flex  font-semibold truncate">
-                    {removeUUIDtitle(getTitle)}
+                    Submitted
                   </label>
                 </div>
               </div>
-              <div className="h-[2px] bg-black w-[100%]" />
+
               {studentFile && (
-                <div>
+                <div className=" w-full">
                   {studentFile
                     .sort((a, b) => (a.created_at < b.created_at ? 1 : -1))
                     .map((file) => (
                       <div
+                        onClick={() =>
+                          window.open(
+                            `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/StudentAnnouncementSubmit/${getTitle}/${studname1}/${file.name}`
+                          )
+                        }
                         key={file.id}
-                        className="cursor-pointer grid bg-[#274472] bg-opacity-70 text-white hover:p-3 p-2 hover:bg-opacity-90 duration-300 "
+                        className="flex items-center w-[300px] h-[60px] bg-slate-400 gap-1 mb-0.5 hover:shadow-md hover:shadow-black duration-300 hover:translate-x-1 cursor-pointer default:cursor-pointer"
                       >
-                        <a
-                          onClick={() =>
-                            window.open(
-                              `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/StudentAnnouncementSubmit/${getTitle}/${studname1}/${file.name}`
-                            )
-                          }
-                          className="cursor-pointer text-[13px] hover:text-blue-400 hover:underline"
-                        >
-                          Click to Open
-                        </a>
-                        <label className=" text-[13px] flex">
-                          File Submitted: {file.name}
-                        </label>
-                        <label className=" text-[10px] flex">
-                          Date Submitted:{" "}
-                          {moment(file.created_at).format("LLL")}
-                        </label>
+                        <div className="bg-slate-500 flex justify-center  h-[60px]  w-[50px] items-center text-white">
+                          <FaFileCircleCheck className="text-[20px] cursor-pointer " />
+                        </div>
+                        <div className="w-full h-[50px]  flex flex-col font-thin">
+                          <label className=" w-[250px] overflow-hidden truncate ... cursor-pointer">
+                            {file.name}
+                          </label>
+                          <label className="text-[12px] cursor-pointer">
+                            {moment(file.created_at).format("LLL")}
+                          </label>
+                        </div>
                       </div>
                     ))}
                 </div>

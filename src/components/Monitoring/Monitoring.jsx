@@ -19,6 +19,7 @@ import { BiSolidSelectMultiple } from "react-icons/bi";
 import { MdOutlineArrowDropDown } from "react-icons/md";
 import { MdOutlineArrowDropUp } from "react-icons/md";
 import { MdPermContactCalendar } from "react-icons/md";
+import { FaSort } from "react-icons/fa6";
 const Monitoring = ({ Data }) => {
   var curryear = moment().year();
   var nextyear = curryear + 1;
@@ -241,8 +242,7 @@ const Monitoring = ({ Data }) => {
                 <label className="md:mr-[120px] mr-[20px] flex items-center">
                   DURATION{" "}
                   <a className="grid" onClick={() => changeSort(top, below)}>
-                    <MdOutlineArrowDropUp className="h-fit cursor-pointer text-[15px]" />
-                    <MdOutlineArrowDropDown className="h-fit cursor-pointer text-[15px]" />
+                    <FaSort className="h-fit cursor-pointer text-[15px]" />
                   </a>
                 </label>
                 <svg
