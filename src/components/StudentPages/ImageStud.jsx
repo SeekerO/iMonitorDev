@@ -5,7 +5,7 @@ function ImageStud({ e, userInfo, ID, name, receivedmessages }) {
   const [url, setUrl] = useState();
   const [view, setView] = useState();
 
-  console.log(userInfo);
+  console.log(userInfo.beneName + " " + ID);
 
   var FILE_NAME;
   const imageRender = (filename) => {
@@ -14,7 +14,7 @@ function ImageStud({ e, userInfo, ID, name, receivedmessages }) {
       <>
         {receivedmessages.map((mess) => (
           <div>
-            {mess.name === userInfo.beneName && filename === mess.message && (
+            {mess.name === userInfo.studname && filename === mess.message && (
               <img
                 onClick={() => url1()}
                 className="w-[240px] h-[200px]"

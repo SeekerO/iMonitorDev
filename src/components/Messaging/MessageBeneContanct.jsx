@@ -13,7 +13,6 @@ function MessageBeneContanct({
   setGetID,
   read,
   run,
-  getFile,
   setGetEmail,
   setAvatarColor,
   setAvatarURL,
@@ -135,7 +134,6 @@ function MessageBeneContanct({
     setGetID(studinfo.id);
     setShowMessage(true);
     CheckIfReadMessage();
-    getFile(studinfo.id);
     setGetEmail(studinfo.beneEmail);
     readmessage(studinfo.beneEmail);
     setAvatarColor(displayColor);

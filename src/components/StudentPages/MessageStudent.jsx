@@ -134,6 +134,19 @@ const MessageStudent = ({ studemail }) => {
           messageEndRef.current?.scrollIntoView();
         }
       )
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "Messaging",
+          filter: `name=eq.${studName}`,
+        },
+        (payload) => {
+          MessageGetter();
+          messageEndRef.current?.scrollIntoView();
+        }
+      )
       .on("presence", { event: "sync", table: "Messaging" }, (newState) => {
         const insert = async () => {
           await supabase
@@ -181,30 +194,27 @@ const MessageStudent = ({ studemail }) => {
         .from("Messaging")
         .select()
         .order("created_at", { ascending: false })
-        .limit(10)
         .match({ name: studName, contactwith: getbeneName });
       const { data: stud } = await supabase
         .from("Messaging")
         .select()
         .order("created_at", { ascending: false })
-        .limit(10)
         .match({ name: getbeneName, contactwith: studName });
       await setReceivedMessages(bene.concat(stud));
-
-      const { data: allbene } = await supabase
-        .from("Messaging")
-        .select()
-        .order("created_at", { ascending: false })
-        .match({ name: studName, contactwith: getbeneName });
-
-      const { data: allstud } = await supabase
-        .from("Messaging")
-        .select()
-        .order("created_at", { ascending: false })
-        .match({ name: getbeneName, contactwith: studName });
-
-      setAllMess(allbene.concat(allstud));
       messageEndRef.current?.scrollIntoView();
+      // const { data: allbene } = await supabase
+      //   .from("Messaging")
+      //   .select()
+      //   .order("created_at", { ascending: false })
+      //   .match({ name: studName, contactwith: getbeneName });
+
+      // const { data: allstud } = await supabase
+      //   .from("Messaging")
+      //   .select()
+      //   .order("created_at", { ascending: false })
+      //   .match({ name: getbeneName, contactwith: studName });
+
+      // setAllMess(allbene.concat(allstud));
     } catch (error) {}
   };
 
@@ -340,6 +350,7 @@ const MessageStudent = ({ studemail }) => {
 
   function closeMessage() {
     setOpenFile(!openfile);
+    getFile(getID);
 
     if (window.innerWidth <= 768) {
       if (!openfile) {
@@ -443,6 +454,7 @@ const MessageStudent = ({ studemail }) => {
       for (let index = 0; index < allmess.length; index++) {
         if (receivedmessages[index].id !== allmess[index].id) {
           setMessLoad(true);
+
           const { data: recentMessages } = await supabase
             .from("Messaging")
             .select()
@@ -458,7 +470,7 @@ const MessageStudent = ({ studemail }) => {
             .lt(
               "created_at",
               recentMessages[recentMessages.length - 1].created_at
-            ) // Fetch messages older than the last message in recentMessages
+            )
             .match({ name: studName, contactwith: getbeneName });
 
           const { data: recentMessagesSTUD } = await supabase
@@ -520,16 +532,32 @@ const MessageStudent = ({ studemail }) => {
   const [backToScroll, setBackToScroll] = useState(false);
 
   const handleScroll = () => {
-    const { scrollTop, clientHeight, scrollHeight } = myMessageDiv.current;
-    if (scrollTop === 0 && scrollHeight >= clientHeight) {
-      setBackToScroll(true);
-    }
-    if (scrollTop === 0 && scrollHeight > clientHeight) {
-      fetchAnother();
-    } else {
-      setBackToScroll(false);
+    // const { scrollTop, clientHeight, scrollHeight } = myMessageDiv.current;
+    // if (scrollTop === 0 && scrollHeight >= clientHeight) {
+    //   setBackToScroll(true);
+    // }
+    // if (scrollTop === 0 && scrollHeight > clientHeight) {
+    //   fetchAnother();
+    // } else {
+    //   setBackToScroll(false);
+    // }
+  };
+
+  const divRef = useRef(null);
+
+  const handleClickOutside = (event) => {
+    if (divRef.current && !divRef.current.contains(event.target)) {
+      closeMessage(false);
     }
   };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <>
@@ -612,7 +640,6 @@ const MessageStudent = ({ studemail }) => {
                       message={receivedmessages}
                       studName={studName}
                       setGetID={setGetID}
-                      getFile={getFile}
                       setAvatarColor={setAvatarColor}
                       setAvatarURL={setAvatarURL}
                       setOnlineStatus={setOnlineStatus}
@@ -658,13 +685,13 @@ const MessageStudent = ({ studemail }) => {
                   ) : (
                     avatarComponent(getbeneName)
                   )}
-                  <p
+                  <div
                     onClick={() => closeMessage()}
-                    className=" flex items-center p-1 pl-[1%] mt-0.5 text-[15px] w-[100%] font-semibold text-white cursor-pointer 
+                    className=" flex items-center p-1 pl-[1%] mt-0.5 text-[15px] font-semibold text-white cursor-pointer 
                     hover:underline hover:text-blue-500 capitalize"
                   >
                     {getbeneName}
-                  </p>
+                  </div>
                 </div>
 
                 {/* Message Container Design */}
@@ -674,7 +701,7 @@ const MessageStudent = ({ studemail }) => {
                     onScroll={handleScroll}
                     className={` md:h-[76%] h-[80%] w-[100%] bg-[#bfd7eddc]  p-3 overflow-y-auto`}
                   >
-                    {backToScroll && !messLoad && (
+                    {/* {backToScroll && !messLoad && (
                       <div
                         onClick={() => messageEndRef.current?.scrollIntoView()}
                         className="  justify-center flex"
@@ -692,7 +719,7 @@ const MessageStudent = ({ studemail }) => {
                           color="#274472"
                         ></l-tailspin>
                       </div>
-                    )}
+                    )} */}
                     {receivedmessages
                       .sort((a, b) => (a.created_at < b.created_at ? -1 : 1))
                       .map((message) => (
@@ -845,8 +872,9 @@ const MessageStudent = ({ studemail }) => {
           </div>
           {/* File Uploaded */}
           {openfile ? (
-            <div className="">
+            <div ref={divRef} className="">
               <div
+                ref={divRef}
                 className={`${
                   window.innerWidth <= 768
                     ? `${
@@ -885,30 +913,36 @@ const MessageStudent = ({ studemail }) => {
                   </div>
                 </div>
                 <div className="flex flex-col items-center justify-center p-1 mt-2 text-[10px] font-semibold">
-                  <p>File Uploaded By: </p>
+                  <p>File Uploaded </p>
                 </div>
 
                 {showFile ? (
                   <div className="">
                     <div className="md:w-[100%] p-2">
-                      {file.map((e) => (
-                        <div>
-                          {checker(e.name) === false && (
-                            <DownloadFileSTUD
-                              e={e}
-                              ID={getID}
-                              userInfo={studinfo}
-                            />
-                          )}
-                        </div>
-                      ))}
+                      {file
+                        ?.sort((a, b) =>
+                          a.created_at <= b.created_at ? 1 : -1
+                        )
+                        .map((e) => (
+                          <div>
+                            {checker(e.name) === false && (
+                              <DownloadFileSTUD
+                                e={e}
+                                ID={getID}
+                                userInfo={studinfo}
+                              />
+                            )}
+                          </div>
+                        ))}
                     </div>
                   </div>
                 ) : (
                   <div className="">
                     <div className="w-[100%] p-1">
                       {file
-                        .sort((a, b) => (a.created_at <= b.created_at ? 1 : -1))
+                        ?.sort((a, b) =>
+                          a.created_at <= b.created_at ? 1 : -1
+                        )
                         .map((e) => (
                           <div className="mt-0.5 rounded-md bg-gray-300">
                             {checker(e.name) === true && (

@@ -126,7 +126,6 @@ function MessagingConfig({
     setGetBeneName(beneinfo.beneName);
     setGetID(beneinfo.id);
     setShowMessage(true);
-    getFile(beneinfo.id);
     readmessage();
     setAvatarColor(displayColor);
     setAvatarURL(displayURL);

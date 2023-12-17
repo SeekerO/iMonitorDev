@@ -240,92 +240,91 @@ const Message = ({ beneemail }) => {
         .from("Messaging")
         .select()
         .order("created_at", { ascending: false })
-        .limit(10)
         .match({ name: beneName, contactwith: getstudname });
+
       const { data: stud } = await supabase
         .from("Messaging")
         .select()
         .order("created_at", { ascending: false })
-        .limit(10)
         .match({ name: getstudname, contactwith: beneName });
       await setReceivedMessages(bene.concat(stud));
 
-      messageEndRef.current?.scrollIntoView();
-      const { data: allbene } = await supabase
-        .from("Messaging")
-        .select()
-        .order("created_at", { ascending: false })
-        .match({ name: beneName, contactwith: getstudname });
+      // messageEndRef.current?.scrollIntoView();
+      // const { data: allbene } = await supabase
+      //   .from("Messaging")
+      //   .select()
+      //   .order("created_at", { ascending: false })
+      //   .match({ name: beneName, contactwith: getstudname });
 
-      const { data: allstud } = await supabase
-        .from("Messaging")
-        .select()
-        .order("created_at", { ascending: false })
-        .match({ name: getstudname, contactwith: beneName });
+      // const { data: allstud } = await supabase
+      //   .from("Messaging")
+      //   .select()
+      //   .order("created_at", { ascending: false })
+      //   .match({ name: getstudname, contactwith: beneName });
 
-      await setAllMess(allbene.concat(allstud));
+      // await setAllMess(allbene.concat(allstud));
     } catch (error) {}
   };
 
-  const fetchAnother = async () => {
-    try {
-      for (let index = 0; index < allmess.length; index++) {
-        if (receivedmessages[index].id !== allmess[index].id) {
-          setMessLoad(true);
-          const { data: recentMessages } = await supabase
-            .from("Messaging")
-            .select()
-            .order("created_at", { ascending: false })
-            .limit(10)
-            .match({ name: beneName, contactwith: getstudname });
+  // const fetchAnother = async () => {
+  //   try {
+  //     for (let index = 0; index < allmess.length; index++) {
+  //       if (receivedmessages[index].id !== allmess[index].id) {
+  //         setMessLoad(true);
 
-          const { data: olderMessages } = await supabase
-            .from("Messaging")
-            .select()
-            .order("created_at", { ascending: false })
-            .limit(10)
-            .lt(
-              "created_at",
-              recentMessages[recentMessages.length - 1].created_at
-            ) // Fetch messages older than the last message in recentMessages
-            .match({ name: beneName, contactwith: getstudname });
+  //         const { data: recentMessages } = await supabase
+  //           .from("Messaging")
+  //           .select()
+  //           .order("created_at", { ascending: false })
+  //           .limit(10)
+  //           .match({ name: beneName, contactwith: getstudname });
 
-          const { data: recentMessagesSTUD } = await supabase
-            .from("Messaging")
-            .select()
-            .order("created_at", { ascending: false })
-            .limit(10)
-            .match({ name: getstudname, contactwith: beneName });
+  //         const { data: olderMessages } = await supabase
+  //           .from("Messaging")
+  //           .select()
+  //           .order("created_at", { ascending: false })
+  //           .limit(10)
+  //           .lt(
+  //             "created_at",
+  //             recentMessages[recentMessages.length - 1].created_at
+  //           )
+  //           .match({ name: beneName, contactwith: getstudname });
 
-          const { data: olderMessagesSTUD } = await supabase
-            .from("Messaging")
-            .select()
-            .order("created_at", { ascending: false })
-            .limit(10)
-            .lt(
-              "created_at",
-              recentMessagesSTUD[recentMessagesSTUD.length - 1].created_at
-            ) // Fetch messages older than the last message in recentMessages
-            .match({ name: getstudname, contactwith: beneName });
+  //         const { data: recentMessagesSTUD } = await supabase
+  //           .from("Messaging")
+  //           .select()
+  //           .order("created_at", { ascending: false })
+  //           .limit(10)
+  //           .match({ name: getstudname, contactwith: beneName });
 
-          // Combine the older messages with the recent messages
+  //         const { data: olderMessagesSTUD } = await supabase
+  //           .from("Messaging")
+  //           .select()
+  //           .order("created_at", { ascending: false })
+  //           .limit(10)
+  //           .lt(
+  //             "created_at",
+  //             recentMessagesSTUD[recentMessagesSTUD.length - 1].created_at
+  //           ) // Fetch messages older than the last message in recentMessages
+  //           .match({ name: getstudname, contactwith: beneName });
 
-          const combinedMessagesBENE = recentMessages.concat(olderMessages);
-          const combinedMessagesSTUD =
-            recentMessagesSTUD.concat(olderMessagesSTUD);
+  //         // Combine the older messages with the recent messages
 
-          const combine2user =
-            combinedMessagesBENE.concat(combinedMessagesSTUD);
-          // Update receivedMessages state with the combined messages
-          setReceivedMessages(combine2user);
-          setMessLoad(false);
-          return;
-        }
-      }
-    } catch (error) {
-      console.error("Error fetching messages:", error);
-    }
-  };
+  //         const combinedMessagesBENE = recentMessages.concat(olderMessages);
+  //         const combinedMessagesSTUD =
+  //           recentMessagesSTUD.concat(olderMessagesSTUD);
+
+  //         setReceivedMessages(
+  //           combinedMessagesBENE.concat(combinedMessagesSTUD)
+  //         );
+  //         setMessLoad(false);
+  //         return;
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching messages:", error);
+  //   }
+  // };
 
   // Message Opener
   function openmessage() {
@@ -446,6 +445,7 @@ const Message = ({ beneemail }) => {
   }
 
   function closeMessage() {
+    getFile(getID);
     setOpenFile(!openfile);
 
     if (window.innerWidth <= 768) {
@@ -543,7 +543,9 @@ const Message = ({ beneemail }) => {
         offset: 0,
         sortBy: { column: "name", order: "asc" },
       });
+
     setFile(stud.concat(bene));
+    return true;
   }
 
   const checker = (e) => {
@@ -572,18 +574,34 @@ const Message = ({ beneemail }) => {
   const [backToScroll, setBackToScroll] = useState(false);
 
   const handleScroll = () => {
-    const { scrollTop, clientHeight, scrollHeight } = myMessageDiv.current;
-    if (scrollTop === 0 && scrollHeight >= clientHeight) {
-      setBackToScroll(true);
-    }
-    if (scrollTop === 0 && scrollHeight > clientHeight) {
-      fetchAnother();
-    } else if (scrollTop === 0 && scrollHeight > clientHeight) {
-      fetchAnother();
-    } else {
-      setBackToScroll(false);
+    // const { scrollTop, clientHeight, scrollHeight } = myMessageDiv.current;
+    // if (scrollTop === 0 && scrollHeight >= clientHeight) {
+    //   setBackToScroll(true);
+    // }
+    // if (scrollTop === 0 && scrollHeight > clientHeight) {
+    //   fetchAnother();
+    // } else if (scrollTop === 0 && scrollHeight > clientHeight) {
+    //   fetchAnother();
+    // } else {
+    //   setBackToScroll(false);
+    // }
+  };
+
+  const divRef = useRef(null);
+
+  const handleClickOutside = (event) => {
+    if (divRef.current && !divRef.current.contains(event.target)) {
+      closeMessage(false);
     }
   };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <>
@@ -692,7 +710,6 @@ const Message = ({ beneemail }) => {
                                   beneName={beneName}
                                   read={seen}
                                   run={run}
-                                  getFile={getFile}
                                   index={index}
                                   setGetEmail={setGetEmail}
                                   setAvatarColor={setAvatarColor}
@@ -755,7 +772,6 @@ const Message = ({ beneemail }) => {
                                       beneName={beneName}
                                       read={seen}
                                       run={run}
-                                      getFile={getFile}
                                       index={index}
                                       setGetEmail={setGetEmail}
                                       setAvatarColor={setAvatarColor}
@@ -850,9 +866,8 @@ const Message = ({ beneemail }) => {
                   )}
                   <>
                     <div
-                      onClick={() => closeMessage()}
                       className=" flex items-center pl-[1%] mt-0.5 text-[15px] w-[100%] gap-1
-                       font-semibold text-white cursor-pointer  "
+                       font-semibold text-white"
                     >
                       {avatarURL ? (
                         <div className="flex items-end">
@@ -869,7 +884,10 @@ const Message = ({ beneemail }) => {
                       ) : (
                         avatarComponent(getstudname)
                       )}
-                      <label className="hover:text-blue-500 hover:underline capitalize">
+                      <label
+                        onClick={() => closeMessage()}
+                        className="hover:text-blue-500 hover:underline capitalize"
+                      >
                         {getstudname}
                       </label>
                     </div>
@@ -883,7 +901,7 @@ const Message = ({ beneemail }) => {
                     onScroll={handleScroll}
                     className={`w-[100%] bg-[#bfd7eddc] p-3 overflow-y-auto overflow-x-hidden md:h-[78%] h-[80%]`}
                   >
-                    {backToScroll && !messLoad && (
+                    {/* {backToScroll && !messLoad && (
                       <div
                         onClick={() => messageEndRef.current?.scrollIntoView()}
                         className="  justify-center flex "
@@ -900,7 +918,7 @@ const Message = ({ beneemail }) => {
                           color="#274472"
                         ></l-tailspin>
                       </div>
-                    )}
+                    )} */}
                     {receivedmessages
                       .sort((a, b) => (a.created_at <= b.created_at ? -1 : 1))
                       .map((message, index) => (
@@ -1059,8 +1077,9 @@ const Message = ({ beneemail }) => {
 
           {/* File Uploaded */}
           {openfile && isRole === "" ? (
-            <div className="h-[100%]">
+            <div ref={divRef} className="h-[100%] ">
               <div
+                ref={divRef}
                 className={`${
                   window.innerWidth <= 768
                     ? `${
@@ -1105,25 +1124,31 @@ const Message = ({ beneemail }) => {
                 {showFile ? (
                   <div className="">
                     <div className="md:w-[100%] p-2">
-                      {file.map((e, index) => (
-                        <div key={index}>
-                          {checker(e.name) === false && (
-                            <DownloadFIle
-                              e={e}
-                              userInfo={beneinfo}
-                              ID={getID}
-                              receivedmessages={receivedmessages}
-                            />
-                          )}
-                        </div>
-                      ))}
+                      {file
+                        ?.sort((a, b) =>
+                          a.created_at <= b.created_at ? 1 : -1
+                        )
+                        .map((e, index) => (
+                          <div key={index}>
+                            {checker(e.name) === false && (
+                              <DownloadFIle
+                                e={e}
+                                userInfo={beneinfo}
+                                ID={getID}
+                                receivedmessages={receivedmessages}
+                              />
+                            )}
+                          </div>
+                        ))}
                     </div>
                   </div>
                 ) : (
                   <div className="">
                     <div className="w-[100%] p-1">
                       {file
-                        .sort((a, b) => (a.created_at <= b.created_at ? 1 : -1))
+                        ?.sort((a, b) =>
+                          a.created_at <= b.created_at ? 1 : -1
+                        )
                         .map((e, index) => (
                           <div
                             key={index}

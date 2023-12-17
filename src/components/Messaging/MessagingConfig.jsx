@@ -13,7 +13,6 @@ function MessagingConfig({
   beneName,
   setGetID,
   read,
-  getFile,
   setGetEmail,
   setAvatarColor,
   setAvatarURL,
@@ -36,7 +35,7 @@ function MessagingConfig({
   useEffect(() => {
     CheckNotification();
   }, [studinfo]);
-  
+
   useEffect(() => {
     displayAvatar(studinfo.studemail);
   }, []);
@@ -134,7 +133,6 @@ function MessagingConfig({
     setGetID(studinfo.id);
     setShowMessage(true);
     CheckIfReadMessage();
-    getFile(studinfo.id);
     setGetEmail(studinfo.studemail);
     readmessage();
     setAvatarColor(displayColor);
