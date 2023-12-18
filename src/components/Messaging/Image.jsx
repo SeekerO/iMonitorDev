@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import ViewImage from "../Monitoring/ViewImage";
 
-function Image({ e, userInfo, ID, name, receivedmessages }) {
+function Image({ e, userInfo, ID, name, receivedmessages, allbeneinfo }) {
   const [url, setUrl] = useState();
   const [view, setView] = useState();
-
+  console.log(receivedmessages);
   var FILE_NAME;
   const imageRender = (filename) => {
     FILE_NAME = filename;
@@ -26,6 +26,14 @@ function Image({ e, userInfo, ID, name, receivedmessages }) {
                 src={`https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${ID}_${userInfo.id}/${ID}/${filename}`}
               ></img>
             )}
+            {mess.name === userInfo.beneName && filename === mess.message && (
+              <img
+                onClick={() => url3()}
+                className="w-[240px] h-[200px]"
+                src={`https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${userInfo.id}_${ID}/${ID}/${filename}`}
+                // https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/108_121/121/56209992.EasterEgg.png
+              ></img>
+            )}
           </div>
         ))}
       </>
@@ -40,6 +48,13 @@ function Image({ e, userInfo, ID, name, receivedmessages }) {
   }
 
   function url2() {
+    setView(!view);
+    setUrl(
+      `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${ID}_${userInfo.id}/${ID}/${FILE_NAME}`
+    );
+  }
+
+  function url3() {
     setView(!view);
     setUrl(
       `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${ID}_${userInfo.id}/${ID}/${FILE_NAME}`

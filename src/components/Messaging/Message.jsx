@@ -522,16 +522,22 @@ const Message = ({ beneemail }) => {
     setMessage("");
     setHaveMessage(true);
 
-    if (isRole === "") {
-      sendingFile();
-      return;
-    }
+    sendingFile();
+    return;
   }
 
   async function getFile(id) {
     const { data: bene } = await supabase.storage
       .from("MessageFileUpload")
       .list(`${id + "_" + beneinfo.id}` + "/" + beneinfo.id, {
+        limit: 50,
+        offset: 0,
+        sortBy: { column: "name", order: "asc" },
+      });
+
+    const { data: bene1 } = await supabase.storage
+      .from("MessageFileUpload")
+      .list(`${beneinfo.id + "_" + id}` + "/" + beneinfo.id, {
         limit: 50,
         offset: 0,
         sortBy: { column: "name", order: "asc" },
@@ -545,7 +551,7 @@ const Message = ({ beneemail }) => {
         sortBy: { column: "name", order: "asc" },
       });
 
-    setFile(stud.concat(bene));
+    setFile(stud.concat(bene.concat(bene1)));
     return true;
   }
 
@@ -939,6 +945,7 @@ const Message = ({ beneemail }) => {
                             avatarURL={avatarURL}
                             isRole={isRole}
                             receivedmessages={receivedmessages}
+                            allbeneinfo={allbeneinfo}
                           />
                         </div>
                       ))}
@@ -969,14 +976,12 @@ const Message = ({ beneemail }) => {
                     style={{ display: "none" }} // Make the file input element invisible
                   />
                   <div className="flex w-[100%] h-[100%] ">
-                    {isRole === "" && (
-                      <button
-                        className="button-upload ml-1 mt-4 hover:bg-slate-300 bg-white p-2 rounded-full h-fit items-center justify-center "
-                        onClick={handleClick}
-                      >
-                        <GrAttachment className="" />
-                      </button>
-                    )}
+                    <button
+                      className="button-upload ml-1 mt-4 hover:bg-slate-300 bg-white p-2 rounded-full h-fit items-center justify-center "
+                      onClick={handleClick}
+                    >
+                      <GrAttachment className="" />
+                    </button>
 
                     {showUpload ? (
                       <div className={`absolute -mt-[35px] ml-[2%] `}>
@@ -1078,7 +1083,7 @@ const Message = ({ beneemail }) => {
           </div>
 
           {/* File Uploaded */}
-          {openfile && isRole === "" ? (
+          {openfile ? (
             <div ref={divRef} className="h-[100%] ">
               <div
                 ref={divRef}
@@ -1092,13 +1097,16 @@ const Message = ({ beneemail }) => {
                     : "  w-[250px] bg-slate-200 h-[100%] overflow-auto shadow-md shadow-black rounded-r-md "
                 }  `}
               >
-                <div   ref={divRef} className="bg-[#274472] p-3 flex text-[15px] gap-1 text-white font-bold rounded-tr-md">
+                <div
+                  ref={divRef}
+                  className="bg-[#274472] p-3 flex text-[15px] gap-1 text-white font-bold rounded-tr-md"
+                >
                   {isMobile && (
                     <div onClick={() => closeMessage()} className=" pt-1 group">
                       <MdArrowBackIos className="text-[25px] text-white group-hover:text-slate-400 " />
                     </div>
                   )}
-                  <div className="grid grid-cols-2 w-[100%] ">
+                  <div  ref={divRef} className="grid grid-cols-2 w-[100%] ">
                     <a
                       onClick={() => setShowFile(!showFile)}
                       className={`${
@@ -1139,6 +1147,7 @@ const Message = ({ beneemail }) => {
                                 ID={getID}
                                 receivedmessages={receivedmessages}
                                 index={index}
+                                allbeneinfo={allbeneinfo}
                               />
                             )}
                           </div>
@@ -1165,6 +1174,7 @@ const Message = ({ beneemail }) => {
                                 ID={getID}
                                 name={getstudname}
                                 receivedmessages={receivedmessages}
+                                allbeneinfo={allbeneinfo}
                               />
                             )}
                           </div>

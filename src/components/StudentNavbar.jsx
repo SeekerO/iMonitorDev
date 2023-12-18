@@ -77,10 +77,10 @@ function Navbar({ email }) {
           if (reads_by[index2] === user_email) {
             number_notif++;
           }
-          select(number_notif);
         }
       }
     }
+    select(number_notif);
   }
 
   async function checkmessage() {

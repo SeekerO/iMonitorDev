@@ -16,6 +16,7 @@ function UserMessagesDisplay({
   avatarURL,
   isRole,
   receivedmessages,
+  allbeneinfo,
 }) {
   const [seen, setSeen] = useState(false);
   const [imagebroken, setImageBroken] = useState();
@@ -29,6 +30,13 @@ function UserMessagesDisplay({
 
   useEffect(() => {
     seenChecker();
+    for (let index = 0; index < allbeneinfo.length; index++) {
+      if (getstudname === allbeneinfo[index].beneName) {
+        setCurrentUserImage(
+          `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/MessageFileUpload/${beneinfo.id}_${studID}/${studID}/${message.message}`
+        );
+      }
+    }
   }, [message]);
 
   useEffect(() => {

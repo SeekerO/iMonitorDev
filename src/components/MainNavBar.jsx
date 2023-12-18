@@ -432,8 +432,7 @@ function Navbar({ instance }) {
         .select()
         .eq("accessToken", window.localStorage.getItem("token"))
         .single();
-
-      const { data: insertactlog } = await supabase
+      await supabase
         .from("ActivityLog")
         .insert([{ name: studinfo.studname, button: "Sign Out", time: date }]);
 
@@ -449,6 +448,7 @@ function Navbar({ instance }) {
       setAdminPassword("");
       setEmail();
       navigate("/");
+      instance.logout()
       window.location.reload();
     } catch (error) {
       window.localStorage.removeItem("token");

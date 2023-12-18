@@ -734,6 +734,7 @@ const MessageStudent = ({ studemail }) => {
                           file={file}
                           displayfile={displayfile}
                           avatarURL={avatarURL}
+                          allbeneinfo={beneinfo}
                         />
                       ))}
                     <div ref={messageEndRef} />
