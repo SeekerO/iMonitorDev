@@ -221,7 +221,7 @@ export default function ViewProfileModal({
                   </label>
                 </label>
                 <label className=" mt-4 md:text-lg text-base font-thin">
-                  SUPERVISOR OFFICER #: {studinfos.supervisorofficenumber}
+                  SUPERVISOR OFFICE #: {studinfos.supervisorofficenumber}
                 </label>
                 <label className=" mt-4 md:text-lg text-base font-thin">
                   COMPANY DESIGNATION: {studinfos.companydesignation}
