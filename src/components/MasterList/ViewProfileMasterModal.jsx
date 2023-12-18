@@ -183,7 +183,7 @@ export default function ViewProfileMasterModal({
                   SUPERVISOR CONTACT #: {studinfos.supervisorcontactnumber}
                 </label>
                 <label className=" mt-4 md:text-lg text-base ">
-                  SUPERVISOR OFFICER #: {studinfos.supervisorofficenumber}
+                  SUPERVISOR OFFICE #: {studinfos.supervisorofficenumber}
                 </label>
                 <label className=" mt-4 md:text-lg text-base ">
                   COMPANY DESIGNATION: {studinfos.companydesignation}
