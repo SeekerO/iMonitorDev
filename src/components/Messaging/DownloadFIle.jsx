@@ -21,12 +21,16 @@ function DownloadFIle({ e, userInfo, ID }) {
       );
     }
   }
-
+  var title;
+  const removeUUIDtitle = (title) => {
+    var text = title.split(".")[1];
+    title = text;
+    return text;
+  };
   return (
     <>
       <div
         onClick={() => SaveFile()}
-        data-tooltip-id="Tip"
         className="flex items-center mt-1 cursor-default"
       >
         <div className="h-[60px] w-[60px] p-2 bg-slate-400 flex place-content-center items-center rounded-l-md">
@@ -34,10 +38,11 @@ function DownloadFIle({ e, userInfo, ID }) {
         </div>
 
         <div className="h-[60px] p-2  bg-blue-900 w-[100%] flex items-center rounded-r-md  text-white font-light  ">
-          <label className="w-[160px]  truncate"> {e.name}</label>
+          <label className="w-[160px]  truncate">
+            {removeUUIDtitle(e.name)}{" "}
+          </label>
         </div>
       </div>
-      <ReactTooltip id="Tip" place="left" variant="info" content={e.name} />
     </>
   );
 }

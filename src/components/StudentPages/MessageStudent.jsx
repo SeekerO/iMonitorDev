@@ -223,6 +223,7 @@ const MessageStudent = ({ studemail }) => {
     setShowMessage(!showMessage);
     if (showContact === false) {
       setShowContacts(true);
+      getFile(getID);
     } else {
       setShowContacts(false);
     }
@@ -870,22 +871,28 @@ const MessageStudent = ({ studemail }) => {
               </div>
             )}
           </div>
+
+
+
           {/* File Uploaded */}
           {openfile ? (
-            <div ref={divRef} className="">
+            <div ref={divRef} className="h-[100%] w-full">
               <div
                 ref={divRef}
                 className={`${
                   window.innerWidth <= 768
                     ? `${
                         openfile
-                          ? " w-screen  bg-slate-200 h-[100%] overflow-auto shadow-md shadow-black rounded-r-md "
+                          ? " w-full  bg-slate-200 h-[100%] overflow-auto shadow-md shadow-black rounded-r-md "
                           : "hidden "
                       }`
                     : "  w-[250px] bg-slate-200 h-[100%] overflow-auto shadow-md shadow-black rounded-r-md "
                 }  `}
               >
-                <div className="bg-[#274472] p-3 flex text-[15px] gap-1 text-white font-bold rounded-tr-md">
+                <div
+                  ref={divRef}
+                  className="bg-[#274472] p-3 flex text-[15px] gap-1 text-white font-bold rounded-tr-md"
+                >
                   {isMobile && (
                     <div onClick={() => closeMessage()} className=" pt-1 group">
                       <MdArrowBackIos className="text-[25px] text-white group-hover:text-slate-400 " />

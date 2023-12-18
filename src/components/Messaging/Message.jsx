@@ -331,6 +331,7 @@ const Message = ({ beneemail }) => {
     setShowMessage(!showMessage);
     if (showContact === false) {
       setShowContacts(true);
+      getFile(getID);
     } else {
       setShowContacts(false);
     }
@@ -844,11 +845,12 @@ const Message = ({ beneemail }) => {
           </div>
           {/* Message */}
           <div
+            id="message"
             className={`${
               window.innerWidth <= 768
                 ? `${
                     showMessage || openfile
-                      ? " w-[100%] md:h-[100%] h-[90%] bg-[#274472] "
+                      ? " w-[100%] md:h-[100%] h-[90%] -mt-16 bg-[#274472] "
                       : "hidden"
                   }`
                 : "w-[100%] md:h-[100%] h-[90%] bg-[#274472]   shadow-md shadow-black"
@@ -1084,13 +1086,13 @@ const Message = ({ beneemail }) => {
                   window.innerWidth <= 768
                     ? `${
                         openfile
-                          ? " w-screen  bg-slate-200 h-[100%] overflow-auto shadow-md shadow-black rounded-r-md "
+                          ? " w-screen  bg-slate-200 h-[100%] overflow-auto shadow-md shadow-black rounded-r-md  "
                           : "hidden "
                       }`
                     : "  w-[250px] bg-slate-200 h-[100%] overflow-auto shadow-md shadow-black rounded-r-md "
                 }  `}
               >
-                <div className="bg-[#274472] p-3 flex text-[15px] gap-1 text-white font-bold rounded-tr-md">
+                <div   ref={divRef} className="bg-[#274472] p-3 flex text-[15px] gap-1 text-white font-bold rounded-tr-md">
                   {isMobile && (
                     <div onClick={() => closeMessage()} className=" pt-1 group">
                       <MdArrowBackIos className="text-[25px] text-white group-hover:text-slate-400 " />
@@ -1136,6 +1138,7 @@ const Message = ({ beneemail }) => {
                                 userInfo={beneinfo}
                                 ID={getID}
                                 receivedmessages={receivedmessages}
+                                index={index}
                               />
                             )}
                           </div>

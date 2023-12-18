@@ -164,11 +164,12 @@ function AnnouncementStudent({ studemail }) {
     <>
       <ToastContainer limit={1} />
       <div className=" flex justify-center h-screen ">
-        <div className="mt-[5%] h-[70%] flex gap-2">
-          <div className="w-[240px] h-[100%] bg-slate-200 rounded-l-md shadow-md shadow-black">
-            <div className="flex items-center justify-center gap-1 text-[24px] bg-[#274472] text-white p-2 font-semibold">
+        <div className="mt-[5%] h-[70%] flex gap-2 md:p-1 p-10">
+
+          <div className="md:w-[240px] w-[140px] h-[100%] bg-slate-200 rounded-l-md shadow-md shadow-black">
+            <div className="flex items-center justify-center gap-1 md:text-[24px] text-[12px] bg-[#274472] text-white p-2 font-semibold">
               <span>
-                <FaRectangleList className="text-[30px] h-fit " />
+                <FaRectangleList className="md:text-[30px] text-[12px] h-fit " />
               </span>
               Announcement
             </div>
@@ -176,7 +177,7 @@ function AnnouncementStudent({ studemail }) {
               <input
                 type="search"
                 placeholder="Search"
-                className="pl-2  text-center rounded-md p-1  focus:shadow-black shadow-sm outline-none"
+                className="pl-2  text-center rounded-md p-1 w-full focus:shadow-black shadow-sm outline-none"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               ></input>
@@ -329,7 +330,7 @@ function AnnouncementStudent({ studemail }) {
 
           {opensubmit && (
             <div
-              className={`bg-slate-200 md:w-[300px] w-[100%] rounded-md h-[100%] shadow-md shadow-black`}
+              className={`bg-slate-200 md:w-[300px] w-[200px] rounded-md h-[100%] shadow-md shadow-black`}
             >
               <div className="flex items-center md:justify-center grid-cols-2 bg-[#274472]">
                 <a
