@@ -11,6 +11,7 @@ const AttendanceSelectImageModal = ({
   onClose,
   uuid,
   setIn,
+  companyTime,
 }) => {
   const [file, setFile] = useState([]);
   const [uploading, setUploading] = useState(false);
@@ -21,9 +22,10 @@ const AttendanceSelectImageModal = ({
   const [isEmpty, setIsEmpty] = useState(false);
   const [uploadProgress, setUploadProgress] = useState();
 
+  console.log(companyTime);
   const Run = async () => {
     if (image === false) {
-      toast.warn("No File Detected", {
+      toast.warn("No Image Detected", {
         position: "top-right",
         autoClose: 1000,
         hideProgressBar: false,
@@ -86,10 +88,28 @@ const AttendanceSelectImageModal = ({
     attendance();
   }
 
+  var currTime = moment();
+
   const attendance = async () => {
+    var compStart = moment(companyTime.startingtime, "HH:mm:ss");
+    var compStartAdjustedBy_Minus_1Hour = compStart
+      .clone()
+      .subtract(1, "hours");
+
+    var status;
+
+    if (
+      currTime.isSameOrAfter(compStartAdjustedBy_Minus_1Hour) &&
+      currTime.isBefore(compStart)
+    ) {
+      status = "ON TIME";
+    } else {
+      status = "LATE";
+    }
+
     const { data, error } = await supabase
       .from("AttendanceTable")
-      .update({ studin: IN })
+      .update({ studin: IN, status: status })
       .eq("id", attendanceinfo.id);
 
     if (data) {

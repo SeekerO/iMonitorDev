@@ -176,12 +176,13 @@ function AttendanceLog({ attendanceLog, setAttendanceLog, Data }) {
               className="h-[25px] p-1 pl-2 bg-slate-300  md:text-base text-sm rounded-md  outline-none"
             />
           </div>
-          <div className="grid grid-cols-5 h-fit w-full p-1 bg-[#274472] text-white font-semibold">
+          <div className="grid grid-cols-6 h-fit w-full p-1 bg-[#274472] text-white font-semibold items-center">
             <div className="">NAME</div>
             <div className="flex justify-center">TIME IN</div>
             <div className="flex justify-center">TIME OUT</div>
             <div className="flex justify-center">DATE</div>
-            <div className="flex justify-center">RENDERED HOURS</div>
+            <div className="flex justify-center text-sm">RENDERED HOURS</div>
+            <div className="flex justify-center">STATUS</div>
           </div>
           <div className=" h-[90%] w-[100%] overflow-y-auto">
             {data && data.length > 0 ? (

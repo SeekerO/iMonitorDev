@@ -10,6 +10,8 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo, index }) => {
   const [In, setIn] = useState(true);
   const [Out, setOut] = useState(true);
 
+  const [companyTime, setCompanyTime] = useState();
+
   var currDateFull = moment().format("l");
   var currTime = moment();
   let [uuid, setUuid] = useState();
@@ -26,21 +28,18 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo, index }) => {
 
     for (let index = 0; index < companyinfo.length; index++) {
       if (studinfo.companyname === companyinfo[index].companyname) {
+        setCompanyTime({
+          startimgtime: companyinfo[index].startingtime,
+          endingtime: companyinfo[index].endingtime,
+        });
+        var compEnd = moment(companyinfo[index].endingtime, "HH:mm:ss");
         if (format === currDateFull) {
           if (attendanceinfo.studin === null) {
-            var compStart = moment(companyinfo[index].startingtime, "HH:mm:ss");
-            var compStartAdjustedBy_Minus_1Hour = compStart
-              .clone()
-              .subtract(1, "hours");
-            var compEnd = moment(companyinfo[index].endingtime, "HH:mm:ss");
-
-            if (
-              currTime.isSameOrAfter(compStartAdjustedBy_Minus_1Hour) &&
-              currTime.isBefore(compStart)
-            ) {
-              setIn(false);
+            if (currTime.isAfter(compEnd)) {
+              setOut(true);
+              return;
             } else {
-              setIn(true);
+              setIn(false);
             }
           } else {
             if (currTime.isAfter(compEnd)) {
@@ -188,6 +187,7 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo, index }) => {
         visible={showmodaluploadimage}
         uuid={uuid}
         setIn={setIn}
+        companyTime={companyTime}
       />
     </div>
   );
