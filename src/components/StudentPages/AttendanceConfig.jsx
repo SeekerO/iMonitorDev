@@ -36,7 +36,7 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo, index }) => {
         if (format === currDateFull) {
           if (attendanceinfo.studin === null) {
             if (currTime.isAfter(compEnd)) {
-              setOut(true);
+              setIn(true);
               return;
             } else {
               setIn(false);
