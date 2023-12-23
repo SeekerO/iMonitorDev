@@ -95,7 +95,7 @@ function Navbar({ email, Data }) {
         } absolute flex w-52 h-screen bg-[#5885AF]  text-[#B1D4E0] transition-transform -translate-x-full md:translate-x-0`}
       >
         <div
-          className="pl-[208px] pt-[10px] absolute"
+          className="ml-[208px] pt-[10px] absolute"
           onClick={() => toggleDiv()}
         >
           <svg
