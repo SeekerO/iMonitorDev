@@ -13,11 +13,6 @@ function AttendanceLogConfig({ data }) {
     displayAvatar(data.studemail);
   }, [data]);
 
-  const checkTimeInAndTimeOut = (time) => {
-    if (time !== null) return true;
-    else return false;
-  };
-
   const AvatarFetch = async () => {
     const { data: student } = await supabase
       .from("StudentInformation")
@@ -32,13 +27,10 @@ function AttendanceLogConfig({ data }) {
     if (totalSeconds === null) {
       return "";
     } else {
-      const duration = moment.duration(totalSeconds, "seconds");
-
-      // Format the duration as a time string
-      const formattedTime = moment
+      var duration = moment.duration(totalSeconds, "seconds");
+      var formattedTime = moment
         .utc(duration.asMilliseconds())
-        .format("hh:mm:ss A");
-
+        .format("HH:mm:ss");
       return formattedTime;
     }
   };
@@ -98,12 +90,18 @@ function AttendanceLogConfig({ data }) {
   }
 
   const computeTotalHours = (timeIN, timOUT) => {
-    const hours = secondsToHours(timOUT - timeIN);
+    const hours = Math.floor(secondsToHours(timOUT - timeIN));
+
     if (timeIN !== null && timOUT !== null) {
       return hours;
     } else {
       return 0;
     }
+  };
+
+  const checkTimeInAndTimeOut = (time) => {
+    if (time !== null) return true;
+    else return false;
   };
   return (
     <div className="grid items-center gap-1 h-fit bg-slate-300 p-1 grid-cols-6 font-thin hover:p-3 hover:m-1 hover:rounded-md duration-300">
@@ -136,7 +134,13 @@ function AttendanceLogConfig({ data }) {
       <div className="flex justify-center">
         {computeTotalHours(data?.studin, data?.studout)}
       </div>
-      <div className="flex justify-center">{data?.status}</div>
+      <div
+        className={`${
+          data?.status === "LATE" ? "text-yellow-500" : "text-green-500"
+        } flex justify-center font-bold`}
+      >
+        {data?.status}
+      </div>
     </div>
   );
 }

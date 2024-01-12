@@ -6,7 +6,6 @@ import profileDisplay from "./images/profile.png";
 //Components
 import supabase from "./iMonitorDBconfig";
 import Footer from "./Footer";
-
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 // Design Animation
@@ -24,7 +23,7 @@ import iMonitorLogo from "../components/images/iMonitor.png";
 import { Backdrop } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import LoginComponent from "./LoginComponent";
-// import { Auth } from "./Auth";
+
 const BeneNavbar = lazy(() => import("./BeneNavbar"));
 const BeneRoutes = lazy(() => import("./BeneRoutes"));
 const StudentNavbar = lazy(() => import("./StudentNavbar"));

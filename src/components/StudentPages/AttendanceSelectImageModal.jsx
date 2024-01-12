@@ -22,7 +22,6 @@ const AttendanceSelectImageModal = ({
   const [isEmpty, setIsEmpty] = useState(false);
   const [uploadProgress, setUploadProgress] = useState();
 
-  console.log(companyTime);
   const Run = async () => {
     if (image === false) {
       toast.warn("No Image Detected", {
@@ -81,17 +80,17 @@ const AttendanceSelectImageModal = ({
 
   // apply this to onlick IN Button
   function timein() {
-    const timeStringIN = moment().format("H:M"); // input string
-    const arr = timeStringIN.split(":"); // splitting the string by colon
-    const secondsIN = arr[0] * 3600 + arr[1] * 60; // converting //store this in datebase
-    IN = secondsIN;
+    var momentTime = moment();
+    var seconds = momentTime.hours() * 3600 + momentTime.minutes() * 60;
+
+    IN = seconds;
     attendance();
   }
 
   var currTime = moment();
 
   const attendance = async () => {
-    var compStart = moment(companyTime.startingtime, "HH:mm:ss");
+    var compStart = moment(companyTime.startimgtime, "HH:mm:ss");
     var compStartAdjustedBy_Minus_1Hour = compStart
       .clone()
       .subtract(1, "hours");
@@ -99,7 +98,7 @@ const AttendanceSelectImageModal = ({
     var status;
 
     if (
-      currTime.isSameOrAfter(compStartAdjustedBy_Minus_1Hour) &&
+      compStart.isSameOrAfter(compStartAdjustedBy_Minus_1Hour) &&
       currTime.isBefore(compStart)
     ) {
       status = "ON TIME";

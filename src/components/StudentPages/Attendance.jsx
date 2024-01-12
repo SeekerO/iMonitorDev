@@ -11,12 +11,12 @@ import FaceDetector from "./FaceDetector";
 const Attendance = ({ studemail }) => {
   // CONDITIONAL VARIABLES
   var starter = false;
-  var a = false;
+
   const [ojtfinished, setojtfinished] = useState(false);
   const [ojtnotstarted, setojtnotstarted] = useState(false);
 
   // DATA VARIABLES
-  const [attendanceinfo, setAttendanceinfo] = useState();
+  const [attendanceinfo, setAttendanceinfo] = useState([]);
   const [studprog, setStudProg] = useState("");
   const [studmaxprog, setStudMaxProg] = useState("");
 
@@ -77,14 +77,17 @@ const Attendance = ({ studemail }) => {
       // Output the results
       if (hasStarted) {
         FetchAttendanceInfo();
+
         starter = true;
       }
       if (hasEnded) {
         setojtfinished(true);
-        a = false;
+        starter = false;
+        console.log("2");
       }
       // Output the result
       if (hasNotStarted) {
+        console.log("3");
         setojtnotstarted(true);
       }
       fetchcompanyinfo();
@@ -128,14 +131,14 @@ const Attendance = ({ studemail }) => {
         .select()
         .eq("companyname", info.companyname)
         .single();
-      setCompanyInfoTime(compInfo);
+      setCompanyInfoTime(await compInfo);
+      setAttendanceinfo(await attenInfo);
 
-      if (info && attenInfo.length === 0) {
+      if (attenInfo.length === 0) {
         DataInsertInAttendance(info);
-        setAttendanceinfo(attenInfo);
-      } else if (info && attenInfo.length > 0) {
+      } else {
         for (let index = 0; index < attenInfo.length; index++) {
-          var date = moment(attenInfo[index].studDate).format("L");
+          var date = moment(attenInfo[index].studDate).format("l");
 
           if (currDateFull === date) {
             setAttendanceinfo(attenInfo);
@@ -160,9 +163,53 @@ const Attendance = ({ studemail }) => {
     return updatedTime;
   };
 
+  const test = () => {
+    function fillMissingDates(dates) {
+      // Convert date strings to Date objects
+      const dateObjects = dates.map((dateString) => new Date(dateString));
+
+      // Get the latest date in the provided array
+      const latestDate = new Date(Math.max(...dateObjects));
+
+      // Set the latest date to the beginning of the day
+      latestDate.setHours(0, 0, 0, 0);
+
+      // Get today's date
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      // Create an array to store the filled dates
+      const filledDates = [];
+
+      // Loop from the latest date until today, adding each day to the array
+      for (
+        let currentDate = latestDate;
+        currentDate <= today;
+        currentDate.setDate(currentDate.getDate() + 1)
+      ) {
+        filledDates.push(new Date(currentDate));
+      }
+
+      // Convert the filled dates back to date strings if needed
+      const filledDateStrings = filledDates.map((date) => date.toDateString());
+
+      return filledDateStrings;
+    }
+
+    // Example usage with your provided dates
+    const inputDates = [
+      "January 10, 2024",
+      "January 13, 2024",
+      "January 14, 2024",
+    ];
+    const result = fillMissingDates(inputDates);
+
+    console.log(result);
+  };
+
   return (
     <div className=" ">
-      {attendanceinfo || ojtnotstarted || ojtfinished ? (
+      {attendanceinfo && companyinfo ? (
         <div className="flex md:w-[100%] w-full justify-center">
           <div
             className="mt-[5%]"
@@ -240,15 +287,15 @@ const Attendance = ({ studemail }) => {
                       <div className="bg-green-100 w-full p-1 justify-center flex gap-1">
                         Time in starts
                         <em className="font-normal">
-                          {MinusAnHourConverter(companyinfoTime.startingtime)} -{" "}
-                          {timeConverter(companyinfoTime.startingtime)}
+                          {MinusAnHourConverter(companyinfoTime?.startingtime)}{" "}
+                          - {timeConverter(companyinfoTime?.startingtime)}
                         </em>{" "}
                         only
                       </div>
                       <div className="bg-red-100 w-full p-1 justify-center flex gap-1">
                         Time out ends
                         <em className="font-normal">
-                          {timeConverter(companyinfoTime.endingtime)}
+                          {timeConverter(companyinfoTime?.endingtime)}
                         </em>
                       </div>
                     </div>

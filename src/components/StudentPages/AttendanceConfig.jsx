@@ -62,10 +62,9 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo, index }) => {
   let OUT;
   // apply this to onlick OUT Button
   function timeout() {
-    const timeStringOUT = moment().format("H:M");
-    const arr1 = timeStringOUT.split(":"); // splitting the string by colon
-    const secondsOUT = arr1[0] * 3600 + arr1[1] * 60; // converting // input string //store this in datebase
-    OUT = secondsOUT;
+    var momentTime = moment();
+    var seconds = momentTime.hours() * 3600 + momentTime.minutes() * 60;
+    OUT = seconds;
     toHoursAndMinutes();
   }
 
@@ -80,7 +79,6 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo, index }) => {
       if (hours > 9) {
         hours = 8;
       }
-
       studinfoData(hours);
     }
   }
@@ -140,7 +138,7 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo, index }) => {
           {attendanceinfo.studDate + ""}
         </p>
         <div className="">
-          {currDateFull === moment(attendanceinfo.studDate).format("L") ? (
+          {currDateFull === moment(attendanceinfo.studDate).format("l") ? (
             <>
               <button
                 disabled={In}
