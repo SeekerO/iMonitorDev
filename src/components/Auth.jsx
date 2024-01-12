@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import supabase from "./iMonitorDBconfig";
 
-export default async function Auth(
+export const Auth = async (
   token,
   user,
   beneChecker,
@@ -12,7 +12,7 @@ export default async function Auth(
   beneInfoGetter,
   studInfoGetter,
   setEmail
-) {
+) => {
   const { data: bene } = await supabase.from("BeneAccount").select();
   var check = false;
   var deactivated = false;
@@ -49,7 +49,7 @@ export default async function Auth(
         } else {
           deactivated = true;
         }
-       }
+      }
     }
   }
 
@@ -121,4 +121,4 @@ export default async function Auth(
   } else {
     await greetings(false, deactivated);
   }
-}
+};

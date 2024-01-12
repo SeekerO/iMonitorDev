@@ -1,17 +1,20 @@
-import React, { useLocation } from "react";
+import React, { Suspense, lazy, useLocation } from "react";
 import { Routes, Route } from "react-router-dom";
 
-import AdminAccounts from "./AdminPages/AdminAccounts";
-import BeneficiaryCreator from "./AdminPages/BeneficiaryCreator";
+const AdminAccounts = lazy(() => import("./AdminPages/AdminAccounts"));
+const BeneficiaryCreator = lazy(() =>
+  import("./AdminPages/BeneficiaryCreator")
+);
+
 const AdminRoutes = () => {
-
-
   return (
     <div>
-      <Routes>
-        <Route path="/" element={<BeneficiaryCreator />} />
-        <Route path="/AdminAccount" element={<AdminAccounts />} />
-      </Routes>
+      <Suspense fallback={<h1>Loading...</h1>}>
+        <Routes>
+          <Route path="/" element={<BeneficiaryCreator />} />
+          <Route path="/AdminAccount" element={<AdminAccounts />} />
+        </Routes>
+      </Suspense>
     </div>
   );
 };

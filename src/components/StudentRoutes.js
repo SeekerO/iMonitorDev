@@ -1,11 +1,13 @@
-import React, { useEffect } from "react";
-import Attendance from "./StudentPages/Attendance";
+import React from "react";
 import { Routes, Route } from "react-router-dom";
-import AnnouncementStudent from "./StudentPages/AnnouncementStudent";
-import MessageStudent from "./StudentPages/MessageStudent";
-import Profile from "./StudentPages/Profile";
-import supabase from "./iMonitorDBconfig";
+import { lazy } from "react";
 
+const Profile = lazy(() => import("./StudentPages/Profile"));
+const MessageStudent = lazy(() => import("./StudentPages/MessageStudent"));
+const Attendance = lazy(() => import("./StudentPages/Attendance"));
+const AnnouncementStudent = lazy(() =>
+  import("./StudentPages/AnnouncementStudent")
+);
 function StudentRoutes({ studemail }) {
   return (
     <div>

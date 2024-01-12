@@ -1,21 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, Suspense, lazy } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-
 //Picture
 import stilogo from "./images/STILOGO4.png";
-
 import profileDisplay from "./images/profile.png";
 //Components
-import jwt_decode from "jwt-decode";
 import supabase from "./iMonitorDBconfig";
 import Footer from "./Footer";
-import BeneNavbar from "./BeneNavbar";
-import BeneRoutes from "./BeneRoutes";
-import StudentNavbar from "./StudentNavbar";
-import StudentRoutes from "./StudentRoutes";
-import AdminRoutes from "./AdminRoutes";
-import AdminPage from "./AdminNavbar";
-import Auth from "./Auth";
+
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 // Design Animation
@@ -29,12 +20,17 @@ import { Test, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import iMonitorLogo from "../components/images/iMonitor.png";
 // AZURE
-import { loginRequest } from "./authHere";
-
 // Loading
 import { Backdrop } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import LoginComponent from "./LoginComponent";
+// import { Auth } from "./Auth";
+const BeneNavbar = lazy(() => import("./BeneNavbar"));
+const BeneRoutes = lazy(() => import("./BeneRoutes"));
+const StudentNavbar = lazy(() => import("./StudentNavbar"));
+const StudentRoutes = lazy(() => import("./StudentRoutes"));
+const AdminRoutes = lazy(() => import("./AdminRoutes"));
+const AdminPage = lazy(() => import("./AdminNavbar"));
 
 function Navbar({ instance }) {
   // AOS ANIMATION
@@ -113,7 +109,9 @@ function Navbar({ instance }) {
   var loginResponse;
   const loginAZURE = async () => {
     try {
-      loginResponse = await instance.loginPopup(loginRequest);
+      loginResponse = await instance.loginPopup(() =>
+        import("./authHere").then((module) => module.loginRequest)
+      );
 
       handleCallbackResponse(loginResponse.account);
     } catch (error) {
@@ -126,18 +124,22 @@ function Navbar({ instance }) {
     setEmail(response.username);
 
     setRes(response);
-    Auth(
-      generatedToken,
-      response,
-      setBeneChecker,
-      setStudentChecker,
-      remove,
-      setUserName,
-      greetings,
-      studInfoGetter,
-      beneInfoGetter,
-      setEmail
-    );
+
+    import("./Auth").then((module) => {
+      module.Auth(
+        generatedToken,
+        response,
+        setBeneChecker,
+        setStudentChecker,
+        remove,
+        setUserName,
+        greetings,
+        studInfoGetter,
+        beneInfoGetter,
+        setEmail
+      );
+    });
+
     await getUserProfile(loginResponse);
   }
 
@@ -448,7 +450,7 @@ function Navbar({ instance }) {
       setAdminPassword("");
       setEmail();
       navigate("/");
-      instance.logout()
+      instance.logout();
       window.location.reload();
     } catch (error) {
       window.localStorage.removeItem("token");
@@ -766,36 +768,37 @@ function Navbar({ instance }) {
           </div>
         </div>
 
-        {load && (
-          <Backdrop
-            sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-            open
-          >
-            <CircularProgress color="inherit" />
-          </Backdrop>
-        )}
-        {benechecker && (
-          <div className="relative left-0">
-            <BeneNavbar email={email} Data={dataBene} />
-          </div>
-        )}
-        {studentchecker && (
-          <div className="relative left-0">
-            <StudentNavbar email={email} />
-          </div>
-        )}
-        {adminverify && (
-          <div className="relative left-0">
-            <AdminPage />
-          </div>
-        )}
-        <main className="flex-grow md:pl-52 bg-[#1e455d] bg-opacity-[60%] h-screen">
-          {/* content here */}
-          {benechecker && <BeneRoutes beneemail={email} data={dataBene} />}
-          {studentchecker && <StudentRoutes studemail={email} />}
-          {adminverify && <AdminRoutes studemail={email} />}
-        </main>
-
+        <Suspense fallback={<h1>Loading...</h1>}>
+          {load && (
+            <Backdrop
+              sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+              open
+            >
+              <CircularProgress color="inherit" />
+            </Backdrop>
+          )}
+          {benechecker && (
+            <div className="relative left-0">
+              <BeneNavbar email={email} Data={dataBene} />
+            </div>
+          )}
+          {studentchecker && (
+            <div className="relative left-0">
+              <StudentNavbar email={email} />
+            </div>
+          )}
+          {adminverify && (
+            <div className="relative left-0">
+              <AdminPage />
+            </div>
+          )}
+          <main className="flex-grow md:pl-52 bg-[#1e455d] bg-opacity-[60%] h-screen">
+            {/* content here */}
+            {benechecker && <BeneRoutes beneemail={email} data={dataBene} />}
+            {studentchecker && <StudentRoutes studemail={email} />}
+            {adminverify && <AdminRoutes studemail={email} />}
+          </main>
+        </Suspense>
         {/* Main Div End*/}
 
         {/* Footer */}

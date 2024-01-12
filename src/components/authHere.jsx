@@ -1,7 +1,8 @@
 // msalConfig.js
+const Id = process.env.REACT_APP_AZURE_CLIENT_ID;
 export const msalConfig = {
   auth: {
-    clientId: "0ba355cc-d023-478b-84dd-5e716f734b64",
+    clientId: Id,
     authority: "https://login.microsoftonline.com/stamaria.sti.edu.ph",
   },
   cache: {
