@@ -7,9 +7,8 @@ import CreateAnnouncement from "./Announcement/CreateAnnouncement";
 import UpdateProfile from "./Monitoring/UpdateProfile";
 import UploadLog from "./Announcement/UploadLog";
 import ActivityLog from "../components/Announcement/ActivityLog";
-import { Routes, Route, Navigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import supabase from "./iMonitorDBconfig";
+import { Routes, Route } from "react-router-dom";
+import { lazy } from "react";
 
 function BeneRoutes({ beneemail, data }) {
   return (
@@ -25,7 +24,7 @@ function BeneRoutes({ beneemail, data }) {
               <Route path="/Company" element={<Company Data={data} />} />
               <Route
                 path="/Message"
-                element={<Message beneemail={beneemail} />}
+                element={<Message beneemail={beneemail} user={data} />}
               />
               <Route
                 path="/Announcement/CreateAnnouncement"

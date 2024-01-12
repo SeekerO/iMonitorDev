@@ -623,7 +623,7 @@ const Message = ({ beneemail }) => {
         ) : (
           ""
         )}
-        <div className="  h-[87%] w-[100%] md:p-5 p-0 flex md:gap-3 gap-1 rounded-md bg-[#90bbdf] bg-opacity-40 shadow-2xl items-center">
+        <div className="  h-[87%] w-[100%] md:p-5  flex md:gap-3 gap-1 rounded-md  bg-[#90bbdf] bg-opacity-40 shadow-2xl items-center">
           {/* Contact */}
           <div
             id="contact"
@@ -636,7 +636,7 @@ const Message = ({ beneemail }) => {
                   }`
                 : ""
             }
-            md:w-[250px] w-[100%] h-[100%] md:flex-col bg-white rounded-l-md  shadow-md shadow-black`}
+            md:w-[250px] w-[100%] md:h-[100%] h-[98%] md:flex-col bg-white rounded-l-md  shadow-md shadow-black`}
           >
             <div className="font-bold text-[25px] h-[51px] text-center pt-1 text-white rounded-tl-md bg-[#274472] flex items-center justify-center ">
               <IoMdContacts className="text-[25px] text-white mr-0.5  mt-1" />
@@ -661,10 +661,10 @@ const Message = ({ beneemail }) => {
               </div>
             </center>
 
-            <div className="h-[96%]">
+            <div className="md:h-[96%] h-[70%]">
               {studinfo && allbeneinfo ? (
                 <>
-                  <div className="h-[85%] md:max-h-[80%]  rounded-bl-md overflow-y-auto scroll-smooth">
+                  <div className="max-h-[85%] md:max-h-[80%]  rounded-bl-md overflow-y-auto scroll-smooth">
                     {studinfo.length >= 0 ? (
                       <>
                         {allbeneinfo.length === 1 ? (
@@ -856,10 +856,10 @@ const Message = ({ beneemail }) => {
               window.innerWidth <= 768
                 ? `${
                     showMessage || openfile
-                      ? " w-[100%] md:h-[100%] h-[90%] -mt-16 bg-[#274472] "
+                      ? " w-[100%] md:h-[100%] h-[95%]  "
                       : "hidden"
-                  }`
-                : "w-[100%] md:h-[100%] h-[90%] bg-[#274472]   shadow-md shadow-black"
+                  } bg-[#274472] -mt-10`
+                : " w-[100%] md:h-[100%] h-[90%] bg-[#274472] flex flex-col  shadow-md shadow-black"
             }`}
           >
             {getstudname && receivedmessages ? (
@@ -907,7 +907,7 @@ const Message = ({ beneemail }) => {
                   <div
                     ref={myMessageDiv}
                     onScroll={handleScroll}
-                    className={`w-[100%] bg-[#bfd7eddc] p-3 overflow-y-auto overflow-x-hidden md:h-[78%] h-[80%]`}
+                    className={`w-[100%] bg-[#bfd7eddc] p-3 overflow-y-auto overflow-x-hidden md:min-h-[79%] min-h-[65%]`}
                   >
                     {/* {backToScroll && !messLoad && (
                       <div
@@ -967,7 +967,7 @@ const Message = ({ beneemail }) => {
                   <div>No Messages Found</div>
                 )}
 
-                <div className="flex flex-col w-[100%] h-[50%] ">
+                <div className="flex flex-col w-[100%] h-auto">
                   <input
                     accept="e.g:.jpg,.jpeg,.png,.gif,.bmp,.docx,.pdf,.ods,.pptx,.xlsx"
                     type="file"
@@ -1106,7 +1106,7 @@ const Message = ({ beneemail }) => {
                       <MdArrowBackIos className="text-[25px] text-white group-hover:text-slate-400 " />
                     </div>
                   )}
-                  <div  ref={divRef} className="grid grid-cols-2 w-[100%] ">
+                  <div ref={divRef} className="grid grid-cols-2 w-[100%] ">
                     <a
                       onClick={() => setShowFile(!showFile)}
                       className={`${

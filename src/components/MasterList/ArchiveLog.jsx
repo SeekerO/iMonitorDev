@@ -9,7 +9,6 @@ function ArchiveLog({ archiveLog, setArchiveLog, Data }) {
     ArchiveLogGetter();
   }, []);
 
-  console.log(Data);
   const ArchiveLogGetter = async () => {
     if (Data.position !== "ADVISER") {
       const { data: archive } = await supabase.from("ArchiveLog").select();

@@ -170,7 +170,7 @@ const MasterList = ({ Data }) => {
       >
         <header className="font-bold text-4xl mb-2">MASTER LIST</header>
 
-        <div className="flex justify-between">
+        <div className="flex justify-between gap-1">
           <div className="flex gap-4 max-h-[50px]">
             <div
               className={`${
@@ -256,9 +256,9 @@ const MasterList = ({ Data }) => {
 
           <a
             onClick={() => setArchiveLog(!archiveLog)}
-            className="bg-[#FAF305] hover:bg-[#faf20586] h-[26px] rounded-mdflex gap-1 items-center p-4 flex rounded-md text-black "
+            className="bg-[#FAF305] hover:bg-[#faf20586] h-[26px] md:text-[17px] text-[9px] rounded-mdflex gap-1 items-center p-4 flex rounded-md text-black "
           >
-            <FaClipboardList className="text-[17px] " />
+            <FaClipboardList className="text-[17px]" />
             ARCHIVE LOG
           </a>
         </div>
