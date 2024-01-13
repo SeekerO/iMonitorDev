@@ -63,7 +63,8 @@ function ArchiveLog({ archiveLog, setArchiveLog, Data }) {
           ) : (
             <div className="overflow-y-auto h-[270px]">
               {archiveData
-                ?.filter((val) => {
+                ?.sort((a, b) => (a.created_at < b.created_at ? 1 : -1))
+                .filter((val) => {
                   try {
                     if (search === "") {
                       return val;
