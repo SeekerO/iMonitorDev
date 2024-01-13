@@ -137,16 +137,30 @@ const Attendance = ({ studemail }) => {
       if (attenInfo.length === 0) {
         DataInsertInAttendance(info);
       } else {
+        // for (let index = 0; index < attenInfo.length; index++) {
+        //   var date = moment(attenInfo[index].studDate).format("l");
+
+        //   if (currDateFull === date) {
+        //     return setAttendanceinfo(attenInfo);
+        //   }
+        // }
+        // DataInsertInAttendance(info);
+
+        let isCurrDateExisting = false;
+
         for (let index = 0; index < attenInfo.length; index++) {
           var date = moment(attenInfo[index].studDate).format("l");
 
           if (currDateFull === date) {
             setAttendanceinfo(attenInfo);
-            return;
+            isCurrDateExisting = true;
+            break; // No need to continue checking, we found a match
           }
         }
-        DataInsertInAttendance(info);
-        return;
+
+        if (!isCurrDateExisting) {
+          DataInsertInAttendance(info);
+        }
       }
     } catch (error) {}
   };
@@ -164,47 +178,39 @@ const Attendance = ({ studemail }) => {
   };
 
   const test = () => {
-    function fillMissingDates(dates) {
-      // Convert date strings to Date objects
-      const dateObjects = dates.map((dateString) => new Date(dateString));
+    function fillMissingDates(startDate, endDate) {
+      const startMoment = moment(startDate, "MMMM D, YYYY");
+      const endMoment = moment(endDate, "MMMM D, YYYY");
+      const today = moment().startOf("day");
 
-      // Get the latest date in the provided array
-      const latestDate = new Date(Math.max(...dateObjects));
-
-      // Set the latest date to the beginning of the day
-      latestDate.setHours(0, 0, 0, 0);
-
-      // Get today's date
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-
-      // Create an array to store the filled dates
       const filledDates = [];
+      let currentDate = moment(startMoment);
 
-      // Loop from the latest date until today, adding each day to the array
-      for (
-        let currentDate = latestDate;
-        currentDate <= today;
-        currentDate.setDate(currentDate.getDate() + 1)
+      while (
+        currentDate.isSameOrBefore(today) &&
+        currentDate.isSameOrBefore(endMoment)
       ) {
-        filledDates.push(new Date(currentDate));
+        filledDates.push(currentDate.format("MMMM D, YYYY"));
+        currentDate.add(1, "day");
       }
 
-      // Convert the filled dates back to date strings if needed
-      const filledDateStrings = filledDates.map((date) => date.toDateString());
-
-      return filledDateStrings;
+      return filledDates;
     }
 
-    // Example usage with your provided dates
-    const inputDates = [
-      "January 10, 2024",
-      "January 13, 2024",
-      "January 14, 2024",
-    ];
-    const result = fillMissingDates(inputDates);
+    const parsedDates = attendanceinfo.map((date) => moment(date.studDate));
 
-    console.log(result);
+    // Find the oldest date using the spread operator and Math.min
+    const oldestDate = moment.min(...parsedDates);
+
+    const today = moment();
+    const startDate = moment().startOf("month").format("MMMM D, YYYY");
+
+    const endDate = moment(attendanceinfo.studDate).format("MMMM D, YYYY");
+    console.log(startDate);
+    console.log(oldestDate.format("MMMM D, YYYY"));
+    const newArray = fillMissingDates(startDate, endDate);
+
+    console.log(newArray);
   };
 
   return (
@@ -216,7 +222,10 @@ const Attendance = ({ studemail }) => {
             data-aos="fade-down"
             data-aos-duration="1000"
           >
-            <div className="font-bold text-white text-4xl flex ml-[5%] md:mt-1 mt-5 mb-5">
+            <div
+              onClick={() => test()}
+              className="font-bold text-white text-4xl flex ml-[5%] md:mt-1 mt-5 mb-5"
+            >
               ATTENDANCE
             </div>
             <div className=" w-fit ml-5 mr-5 shadow-md shadow-black">
