@@ -108,6 +108,7 @@ function Navbar({ instance }) {
   var loginResponse;
   const loginAZURE = async () => {
     try {
+      console.log(true);
       loginResponse = await instance.loginPopup(() =>
         import("./authHere").then((module) => module.loginRequest)
       );

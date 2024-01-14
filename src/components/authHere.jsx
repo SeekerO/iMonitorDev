@@ -4,9 +4,10 @@ export const msalConfig = {
   auth: {
     clientId: Id,
     authority: "https://login.microsoftonline.com/stamaria.sti.edu.ph",
+    redirectUri: "http://localhost:3000/iMonitorDev",
   },
   cache: {
-    cacheLocation: "sessionStorage", // or 'localStorage'
+    cacheLocation: "localStorage",
   },
 };
 
