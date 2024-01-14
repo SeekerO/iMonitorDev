@@ -108,7 +108,6 @@ function Navbar({ instance }) {
   var loginResponse;
   const loginAZURE = async () => {
     try {
-      console.log(true);
       loginResponse = await instance.loginPopup(() =>
         import("./authHere").then((module) => module.loginRequest)
       );
@@ -118,7 +117,7 @@ function Navbar({ instance }) {
       console.error("Authentication error", error);
     }
   };
-
+  
   async function handleCallbackResponse(response) {
     const generatedToken = uuidv4();
     setEmail(response.username);
