@@ -4,7 +4,6 @@ export const msalConfig = {
   auth: {
     clientId: Id,
     authority: "https://login.microsoftonline.com/stamaria.sti.edu.ph",
-    redirectUri: "/",
   },
   cache: {
     cacheLocation: "localStorage",
