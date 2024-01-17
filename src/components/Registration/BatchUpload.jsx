@@ -10,13 +10,12 @@ import { AiOutlineClose } from "react-icons/ai";
 import Check from "../Monitoring/Check.json";
 import Lottie from "lottie-react";
 
-function BatchUpload({ visible, close, sy }) {
+function BatchUpload({ visible, close, sy, dataUser }) {
   const [selectedFile, setSelectedFile] = useState(null);
   const [dataHolder, setDataHolder] = useState();
   const [displayData, setDisplayData] = useState(false);
   const [buttonUpload, setButtonUpload] = useState(true);
   const [uploading, setUploading] = useState(false);
-  const [checking, setChecking] = useState(false);
 
   const [load, setLoad] = useState(0);
   const [maxload, setMaxLoad] = useState();
@@ -393,6 +392,7 @@ function BatchUpload({ visible, close, sy }) {
             studprogress: 0,
             studcourse: dataHolder[index].Program,
             studSY: sy,
+            created_by: dataUser.beneName,
           },
         ]);
       if (error) {

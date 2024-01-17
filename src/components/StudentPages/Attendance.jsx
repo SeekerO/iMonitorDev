@@ -137,15 +137,6 @@ const Attendance = ({ studemail }) => {
       if (attenInfo.length === 0) {
         DataInsertInAttendance(info);
       } else {
-        // for (let index = 0; index < attenInfo.length; index++) {
-        //   var date = moment(attenInfo[index].studDate).format("l");
-
-        //   if (currDateFull === date) {
-        //     return setAttendanceinfo(attenInfo);
-        //   }
-        // }
-        // DataInsertInAttendance(info);
-
         let isCurrDateExisting = false;
 
         for (let index = 0; index < attenInfo.length; index++) {

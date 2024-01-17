@@ -259,6 +259,9 @@ export default function ViewProfileModal({
             </div>
           </form>
         </div>{" "}
+        <div className="font-thin text-[11px] pt-1 flex justify-end">
+          Added By: {studinfos.created_by}
+        </div>
       </div>
       <ReactTooltip
         id="Preview"

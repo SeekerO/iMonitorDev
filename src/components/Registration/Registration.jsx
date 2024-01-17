@@ -9,7 +9,7 @@ import BatchUpload from "./BatchUpload";
 import { BsFiles } from "react-icons/bs";
 import moment from "moment";
 
-function Registration() {
+function Registration({ dataUser }) {
   useEffect(() => {
     fetchcompanyinfo();
     getStudentInfo();
@@ -254,6 +254,7 @@ function Registration() {
         studprogress: studprogress,
         studcourse: studcourse,
         studSY: sy,
+        created_by: dataUser.beneName,
       },
     ]);
 
@@ -710,7 +711,7 @@ function Registration() {
           pauseOnHover
           theme="light"
         />
-        <BatchUpload visible={batchupload} close={setBatchUpload} sy={sy} />
+        <BatchUpload visible={batchupload} close={setBatchUpload} sy={sy} dataUser={dataUser} />
       </div>
     </>
   );

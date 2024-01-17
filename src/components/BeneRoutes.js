@@ -9,6 +9,8 @@
 // import ActivityLog from "../components/Announcement/ActivityLog";
 import { Routes, Route } from "react-router-dom";
 import { Suspense, lazy } from "react";
+import { Backdrop } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const UpdateProfile = lazy(() => import("./Monitoring/UpdateProfile"));
 const UploadLog = lazy(() => import("./Announcement/UploadLog"));
@@ -29,13 +31,25 @@ const Registration = lazy(() =>
 function BeneRoutes({ beneemail, data }) {
   return (
     <>
-      <Suspense fallback={<h1>Loading...</h1>}>
+      <Suspense
+        fallback={
+          <Backdrop
+            sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open
+          >
+            <CircularProgress color="inherit" />
+          </Backdrop>
+        }
+      >
         {data && (
           <div>
             {data.filterby === "ALL" ? (
               <Routes>
                 <Route path="/UpdateProfile/:id" element={<UpdateProfile />} />
-                <Route path="/Registration" element={<Registration />} />
+                <Route
+                  path="/Registration"
+                  element={<Registration dataUser={data} />}
+                />
 
                 <Route
                   path="/Masterlist"

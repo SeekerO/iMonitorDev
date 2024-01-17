@@ -48,7 +48,7 @@ function StudentUploadedFileConfig({ studname, announcementTitle }) {
       <div
         ref={divRef}
         onClick={() => test()}
-        className="bg-slate-200 hover:bg-slate-400 hover:translate-x-2 hover:shadow-md hover:shadow-black duration-500 cursor-pointer  p-2 mt-2 rounded-md"
+        className="bg-slate-200  hover:translate-x-2 hover:shadow-md hover:shadow-black duration-500 cursor-pointer  p-2 mt-2 rounded-md"
       >
         <p className="font-semibold"> {studname}</p>
 
@@ -56,24 +56,33 @@ function StudentUploadedFileConfig({ studname, announcementTitle }) {
           <div>
             <div className="font-semibold text-[14px] h-[100px] overflow-y-auto">
               File Submitted:
-              {file.map((file) => (
-                <div key={file.name} className="mt-2">
-                  <div className="flex">
-                    Submitted: <DateConverter date={file.created_at} />
-                  </div>
-                  Donwload File:
-                  <a
-                    onClick={() =>
-                      window.open(
-                        `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/StudentAnnouncementSubmit/${announcementTitle}/${studname}/${file.name}`
-                      )
-                    }
-                    className="hover:underline text-blue-700 w-fit ml-1"
+              {file
+                .sort((a, b) => (a.created_at < b.created_at ? 1 : -1))
+                .map((file, index) => (
+                  <div
+                    key={file.name}
+                    className={`${
+                      index === 0
+                        ? " text-[14px] shadow-[0_0px_20px_-15px_rgba(0,0,0,2)] p-3"
+                        : "text-[10px] bg-slate-300 p-2"
+                    } rounded-md mt-2`}
                   >
-                    {file.name}
-                  </a>
-                </div>
-              ))}
+                    <div className="flex">
+                      Submitted: <DateConverter date={file.created_at} />
+                    </div>
+                    Donwload File:
+                    <a
+                      onClick={() =>
+                        window.open(
+                          `https://ouraqybsyczzrrlbvenz.supabase.co/storage/v1/object/public/StudentAnnouncementSubmit/${announcementTitle}/${studname}/${file.name}`
+                        )
+                      }
+                      className="hover:underline text-blue-700 w-fit ml-1"
+                    >
+                      {file.name}
+                    </a>
+                  </div>
+                ))}
             </div>
           </div>
         )}
