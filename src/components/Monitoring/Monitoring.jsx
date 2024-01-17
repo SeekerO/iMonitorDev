@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useLayoutEffect } from "react";
 import supabase from "../iMonitorDBconfig";
 import StudInfoConfig from "./StudInfoConfig";
 
@@ -42,10 +42,12 @@ const Monitoring = ({ Data }) => {
     setPageNumber(selected);
   };
   const [archive_all_completed, setArchive_all_completed] = useState(false);
-
+useLayoutEffecr(()=>{
+  fetchstudinfo();
+},[])
   useEffect(() => {
-    fetchstudinfo();
-
+    if(studinfos.length=== 0) fetchstudinfo();
+    
     supabase
       .channel("table-db-changes")
       .on(
