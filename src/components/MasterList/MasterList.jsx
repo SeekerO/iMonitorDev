@@ -248,19 +248,19 @@ const MasterList = ({ Data }) => {
 
             <button
               onClick={() => setOpenPrint(!openPrint)}
-              className=" hover:bg-[#5885af5e] bg-[#5885AF] h-[26px] rounded-mdflex gap-1 items-center p-4 flex rounded-md "
+              className=" hover:bg-[#5885af5e] bg-[#5885AF]  h-[25px] rounded-mdflex gap-1 items-center p-3 flex rounded-md "
             >
               <MdLocalPrintshop className="text-[20px] h-fit " />
             </button>
           </div>
 
-          <a
+          <button
             onClick={() => setArchiveLog(!archiveLog)}
-            className="bg-[#FAF305] hover:bg-[#faf20586] h-[26px] md:text-[17px] text-[9px] rounded-mdflex gap-1 items-center p-4 flex rounded-md text-black "
+            className="bg-[#FAF305] hover:bg-[#faf20586]  h-[25px] md:text-[17px] text-[9px] rounded-mdflex gap-1 items-center px-5  flex rounded-md text-black "
           >
-            <FaClipboardList className="text-[17px]" />
-            ARCHIVE LOG
-          </a>
+            <FaClipboardList className="text-[15px]" />
+            <span className=""> ARCHIVE LOG</span>
+          </button>
         </div>
 
         {studinfos === null ? (
