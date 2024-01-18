@@ -42,12 +42,13 @@ const Monitoring = ({ Data }) => {
     setPageNumber(selected);
   };
   const [archive_all_completed, setArchive_all_completed] = useState(false);
+  
   useLayoutEffect(() => {
     fetchstudinfo();
   }, []);
 
   useEffect(() => {
-    if (studinfos.length === 0) fetchstudinfo();
+    fetchstudinfo();
 
     supabase
       .channel("table-db-changes")

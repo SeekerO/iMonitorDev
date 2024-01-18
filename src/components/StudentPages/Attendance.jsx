@@ -187,21 +187,6 @@ const Attendance = ({ studemail }) => {
 
       return filledDates;
     }
-
-    const parsedDates = attendanceinfo.map((date) => moment(date.studDate));
-
-    // Find the oldest date using the spread operator and Math.min
-    const oldestDate = moment.min(...parsedDates);
-
-    const today = moment();
-    const startDate = moment().startOf("month").format("MMMM D, YYYY");
-
-    const endDate = moment(attendanceinfo.studDate).format("MMMM D, YYYY");
-    console.log(startDate);
-    console.log(oldestDate.format("MMMM D, YYYY"));
-    const newArray = fillMissingDates(startDate, endDate);
-
-    console.log(newArray);
   };
 
   return (

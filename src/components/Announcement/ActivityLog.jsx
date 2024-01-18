@@ -73,7 +73,7 @@ function ActivityLog() {
                   No Data
                 </div>
               )}
-              <div className="overflow-y-auto overflow-hidden w-[100%] md:h-[80%] h-[82%] ">
+              <div className="overflow-y-auto overflow-hidden w-[100%] md:h-[80%] h-[76%] ">
                 {ActivityLog.sort((a, b) =>
                   a.created_at < b.created_at ? 1 : -1
                 )
@@ -108,7 +108,7 @@ function ActivityLog() {
               </div>
               <div className="mt-[1%] w-[100%] justify-between flex">
                 <div className="flex justify-center items-center  gap-2 ">
-                  <label>Filter By Name</label>
+                  <label className="md:flex hidden ">Filter By Name</label>
                   <input
                     onChange={(e) => setFilter(e.target.value)}
                     type="text"

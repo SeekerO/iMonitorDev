@@ -13,7 +13,7 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo, index }) => {
   const [companyTime, setCompanyTime] = useState();
 
   var currDateFull = moment().format("l");
-  var currTime = moment();
+  var currTime = moment().format("hh:mm A");
   let [uuid, setUuid] = useState();
 
   useEffect(() => {
@@ -29,27 +29,23 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo, index }) => {
     for (let index = 0; index < companyinfo.length; index++) {
       if (studinfo.companyname === companyinfo[index].companyname) {
         setCompanyTime({
-          startimgtime: companyinfo[index].startingtime,
+          startingtime: companyinfo[index].startingtime,
           endingtime: companyinfo[index].endingtime,
         });
-        var compEnd = moment(companyinfo[index].endingtime, "HH:mm:ss");
+
+        var compStartAfter = MinusAnHourConverter(
+          companyinfo[index].startingtime
+        );
+
         if (format === currDateFull) {
           if (attendanceinfo.studin === null) {
-            if (currTime.isAfter(compEnd)) {
-              setIn(true);
-              return;
-            }
-            setIn(false);
+            return currTime > compStartAfter && setIn(false);
           } else {
-            if (currTime.isAfter(compEnd)) {
-              setOut(false);
-              return;
-            }
-            if (attendanceinfo.studout !== null) {
-              setOut(true);
-              return;
-            }
-            setOut(false);
+            return (
+              attendanceinfo.studout === null &&
+              attendanceinfo.studin !== null &&
+              setOut(false)
+            );
           }
         }
         return;
@@ -117,11 +113,28 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo, index }) => {
 
   const computeTotalHours = (timeIN, timOUT) => {
     const hours = Math.floor(secondsToHours(timOUT - timeIN));
-    if (timeIN !== null && timOUT !== null) {
+    if (
+      timeIN !== null &&
+      timOUT !== null &&
+      currDateFull === moment(attendanceinfo.studDate).format("l")
+    ) {
       return hours;
     } else {
       return 0;
     }
+  };
+
+  const MinusAnHourConverter = (time) => {
+    const updatedTime = moment(time, "HH:mm")
+      .subtract(1, "hours")
+      .format("hh:mm A");
+
+    return updatedTime;
+  };
+
+  const checkBothTimeIsNotNull = (timeIN, timeOUT) => {
+    if (timeIN !== null && timeOUT !== null) return false;
+    else return true;
   };
 
   return (
@@ -140,30 +153,48 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo, index }) => {
         <div className="">
           {currDateFull === moment(attendanceinfo.studDate).format("l") ? (
             <>
-              <button
-                disabled={In}
-                onClick={() => setShowModalUploadImage(true)}
-                className={`${
-                  In
-                    ? `h-10 w-24 rounded-md  bg-gray-600 text-center mr-2 hover:cursor-not-allowed`
-                    : "h-10 w-24 rounded-md hover:bg-green-400 bg-green-600 text-center mr-2 hover:cursor-pointer"
-                }`}
-              >
-                {/* h-10 w-24 rounded-md  bg-gray-600 text-center mr-2 hover:cursor-not-allowed */}
-                TIME IN
-              </button>
-
-              <button
-                disabled={Out}
-                onClick={() => timeout()}
-                className={`${
-                  Out
-                    ? "h-10 w-24 rounded-md  bg-gray-600 text-center mr-2 hover:cursor-not-allowed"
-                    : "h-10 w-24 rounded-md hover:bg-red-400 bg-red-600 text-center mr-2 hover:cursor-pointer"
-                }`}
-              >
-                TIME OUT
-              </button>
+              {checkBothTimeIsNotNull(
+                attendanceinfo.studin,
+                attendanceinfo.studout
+              ) ? (
+                <>
+                  <button
+                    disabled={In}
+                    onClick={() => setShowModalUploadImage(true)}
+                    className={`${
+                      In
+                        ? `h-10 w-24 rounded-md  bg-gray-600 text-center mr-2 hover:cursor-not-allowed`
+                        : "h-10 w-24 rounded-md hover:bg-green-400 bg-green-600 text-center mr-2 hover:cursor-pointer"
+                    }`}
+                  >
+                    {/* h-10 w-24 rounded-md  bg-gray-600 text-center mr-2 hover:cursor-not-allowed */}
+                    TIME IN
+                  </button>
+                  <button
+                    disabled={Out}
+                    onClick={() => timeout()}
+                    className={`${
+                      Out
+                        ? "h-10 w-24 rounded-md  bg-gray-600 text-center mr-2 hover:cursor-not-allowed"
+                        : "h-10 w-24 rounded-md hover:bg-red-400 bg-red-600 text-center mr-2 hover:cursor-pointer"
+                    }`}
+                  >
+                    TIME OUT
+                  </button>{" "}
+                </>
+              ) : (
+                <div className="flex items-center h-full ">
+                  <div className="items-center flex h-full mr-5 font-thin gap-1">
+                    Total hours rendered:
+                    <div className="font-bold ">
+                      {computeTotalHours(
+                        attendanceinfo.studin,
+                        attendanceinfo.studout
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
             </>
           ) : (
             <div className="items-center flex h-full mr-5 font-thin gap-1">

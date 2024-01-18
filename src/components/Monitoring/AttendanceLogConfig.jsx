@@ -30,7 +30,8 @@ function AttendanceLogConfig({ data }) {
       var duration = moment.duration(totalSeconds, "seconds");
       var formattedTime = moment
         .utc(duration.asMilliseconds())
-        .format("HH:mm:ss");
+        .format("hh:mm:ss A");
+
       return formattedTime;
     }
   };

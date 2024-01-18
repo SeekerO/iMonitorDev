@@ -87,20 +87,14 @@ const AttendanceSelectImageModal = ({
     attendance();
   }
 
-  var currTime = moment();
+  var currTime = moment().format("hh:mm:ss A");
 
   const attendance = async () => {
-    var compStart = moment(companyTime.startimgtime, "HH:mm:ss");
-    var compStartAdjustedBy_Minus_1Hour = compStart
-      .clone()
-      .subtract(1, "hours");
-
     var status;
+    const compTime = moment(companyTime.startingtime, "hh:mm:ss A");
+    const compTime1 = moment(currTime, "hh:mm:ss A");
 
-    if (
-      compStart.isSameOrAfter(compStartAdjustedBy_Minus_1Hour) &&
-      currTime.isBefore(compStart)
-    ) {
+    if (compTime.isAfter(compTime1)) {
       status = "ON TIME";
     } else {
       status = "LATE";
