@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import moment from "moment";
 import AttendanceSelectImageModal from "./AttendanceSelectImageModal";
 import supabase from "../iMonitorDBconfig";
+import ConfirmTimeOut from "./ConfirmTimeOut";
 
 const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo, index }) => {
   const [showmodaluploadimage, setShowModalUploadImage] = useState(false);
@@ -15,6 +16,8 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo, index }) => {
   var currDateFull = moment().format("l");
   var currTime = moment().format("hh:mm A");
   let [uuid, setUuid] = useState();
+
+  const [TimeOutConfirmation, setTimeOutConfirmation] = useState(false);
 
   useEffect(() => {
     datechecker();
@@ -57,11 +60,12 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo, index }) => {
 
   let OUT;
   // apply this to onlick OUT Button
+
   function timeout() {
     var momentTime = moment();
     var seconds = momentTime.hours() * 3600 + momentTime.minutes() * 60;
     OUT = seconds;
-    toHoursAndMinutes();
+    if (toHoursAndMinutes()) return true;
   }
 
   // add the date to the current in studentinforamtion studprgoress + hours
@@ -75,7 +79,7 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo, index }) => {
       if (hours > 9) {
         hours = 8;
       }
-      studinfoData(hours);
+      if (studinfoData(hours)) return true;
     }
   }
 
@@ -93,7 +97,7 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo, index }) => {
         .update({ studprogress: result })
         .eq("studemail", attendanceinfo.studemail);
 
-      attendance();
+      if (attendance()) return true;
     }
   };
 
@@ -104,6 +108,7 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo, index }) => {
       .eq("id", attendanceinfo.id);
 
     setOut(true);
+    return true;
   };
 
   function secondsToHours(seconds) {
@@ -172,7 +177,7 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo, index }) => {
                   </button>
                   <button
                     disabled={Out}
-                    onClick={() => timeout()}
+                    onClick={() => setTimeOutConfirmation(!TimeOutConfirmation)}
                     className={`${
                       Out
                         ? "h-10 w-24 rounded-md  bg-gray-600 text-center mr-2 hover:cursor-not-allowed"
@@ -217,6 +222,11 @@ const AttendanceConfig = ({ attendanceinfo, companyinfo, studinfo, index }) => {
         setIn={setIn}
         companyTime={companyTime}
       />
+      <ConfirmTimeOut
+        TimeOutConfirmation={TimeOutConfirmation}
+        setTimeOutConfirmation={setTimeOutConfirmation}
+        timeout={timeout}
+      />{" "}
     </div>
   );
 };

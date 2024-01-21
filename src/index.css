@@ -49,3 +49,12 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #80c2ff;
 }
+ 
+.TOConfirmButton {
+  @apply px-10 py-1 
+     rounded-md 
+     hover:shadow-md
+   hover:shadow-black
+     duration-100
+   text-white;
+}
