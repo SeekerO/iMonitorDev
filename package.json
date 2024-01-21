@@ -1,5 +1,4 @@
 {
-  "homepage": "https://SeekerO.github.io/iMonitorDev",
   "name": "imonitor",
   "version": "0.1.0",
   "private": true,
@@ -37,6 +36,7 @@
     "lottie-react": "^2.4.0",
     "moment": "^2.29.4",
     "msal": "^1.4.18",
+    "netlify-cli": "^17.15.1",
     "react": "^18.2.0",
     "react-copy-to-clipboard": "^5.1.0",
     "react-country-region-selector": "^3.6.1",
