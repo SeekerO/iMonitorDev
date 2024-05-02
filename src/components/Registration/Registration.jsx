@@ -460,7 +460,7 @@ function Registration({ dataUser }) {
                 OJT STARTING
               </label>
               <input
-                min={disablePastDate()}
+           
                 required
                 value={ojtstart}
                 type="date"
